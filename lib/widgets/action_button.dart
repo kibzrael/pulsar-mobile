@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+
+class ActionButton extends StatelessWidget {
+  final String title;
+  final Color? backgroundColor;
+  final Color? titleColor;
+  final Function? onPressed;
+  final double height;
+
+  ActionButton(
+      {this.backgroundColor,
+      this.height = 50,
+      this.onPressed,
+      required this.title,
+      this.titleColor});
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(30),
+      onTap: onPressed as void Function()?,
+      child: Container(
+        height: height,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            gradient: backgroundColor != null
+                ? null
+                : LinearGradient(colors: [
+                    Theme.of(context).colorScheme.primary,
+                    Theme.of(context).buttonColor
+                  ]),
+            color: backgroundColor ?? Theme.of(context).buttonColor),
+        child: Center(
+            child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            title,
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: titleColor ?? Colors.white),
+          ),
+        )),
+      ),
+    );
+  }
+}

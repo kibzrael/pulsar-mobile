@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/models/profile_stats.dart';
+import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
+import 'package:pulsar/secondary_pages.dart/photo_view.dart';
+import 'package:pulsar/widgets/route.dart';
+
+class Profile extends StatefulWidget {
+  final User user;
+  final ScrollController scrollController;
+  Profile(this.user, {required this.scrollController});
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  bool isPinned = false;
+
+  late User user;
+
+  @override
+  void initState() {
+    user = widget.user;
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(children: [
+        Container(
+          margin: EdgeInsets.only(top: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 6),
+                child: InkWell(
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                          MaterialPageRoute(
+                              builder: (context) => PhotoView(user.profilePic,
+                                  tag: '${user.id}ProfilePic')));
+                    },
+                    child: Hero(
+                      tag: '${user.id}ProfilePic',
+                      child: Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).dividerColor,
+                            image: DecorationImage(
+                                image: AssetImage(user.profilePic),
+                                fit: BoxFit.cover)),
+                      ),
+                    )
+
+                    // MyAvatar(user.profilePic, 45.0)
+                    ),
+              ),
+              Text(
+                '${user.username}',
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle1!
+                    .copyWith(fontSize: 21),
+              ),
+              Text(
+                '${user.category}',
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2!
+                    .copyWith(fontSize: 18),
+              ),
+            ],
+          ),
+        ),
+        ProfileStats(
+            pins: 53730,
+            pinsOnPressed: () {
+              Navigator.of(context).push(myPageRoute(
+                  builder: (context) => InteractionScreen(
+                        user: user,
+                      )));
+            },
+            postOnPressed: () {
+              widget.scrollController.animateTo(
+                  widget.scrollController.position.maxScrollExtent,
+                  duration: Duration(milliseconds: 700),
+                  curve: Curves.ease);
+            },
+            posts: 7),
+        //if (user.bio != null)
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 30.0),
+          child: Text(
+            'It\'s just love\n@fletcher',
+            textAlign: TextAlign.center,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        //if (user.portfolio != null)
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 5),
+          child: Text(
+            'https://www.mefletcher.com',
+            style:
+                TextStyle(color: Theme.of(context).buttonColor, fontSize: 14),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ]),
+    );
+  }
+}

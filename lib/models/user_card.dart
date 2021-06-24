@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/secondary_pages.dart/profile_page.dart';
+import 'package:pulsar/widgets/follow_button.dart';
+import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/route.dart';
+
+class UserCard extends StatefulWidget {
+  final User user;
+
+  UserCard(this.user);
+
+  @override
+  _UserCardState createState() => _UserCardState();
+}
+
+class _UserCardState extends State<UserCard> {
+  late User user;
+  bool isFollowing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MyListTile(
+      leading: CircleAvatar(
+        radius: 24,
+        backgroundColor: Theme.of(context).dividerColor,
+        backgroundImage: AssetImage(user.profilePic),
+      ),
+      onPressed: () {
+        Navigator.of(context)
+            .push(myPageRoute(builder: (context) => ProfilePage(user)));
+      },
+      title: '@${user.username}',
+      subtitle: user.category,
+      trailingArrow: false,
+      trailing: FollowButton(
+        width: 75,
+        height: 30,
+        isFollowing: isFollowing,
+        onPressed: () {
+          setState(() {
+            isFollowing = !isFollowing;
+          });
+        },
+      ),
+    );
+  }
+}

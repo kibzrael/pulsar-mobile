@@ -1,0 +1,72 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:pulsar/classes/post.dart';
+import 'package:pulsar/models/post_layout.dart';
+
+class PostsView extends StatefulWidget {
+  final List<Post> initialPosts;
+  final int postInView;
+  final CarouselController? controller;
+
+  PostsView(
+      {this.initialPosts = const [], this.postInView = 0, this.controller});
+
+  @override
+  _PostsViewState createState() => _PostsViewState();
+}
+
+class _PostsViewState extends State<PostsView> {
+  late List<Post> posts;
+  int initialPage = 0;
+
+  late int pageIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    posts = widget.initialPosts;
+    initialPage = posts.length > widget.postInView ? widget.postInView : 0;
+    pageIndex = initialPage;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
+        children: [
+          SizedBox(
+            height: 36,
+          ),
+          CarouselSlider.builder(
+              itemCount: posts.length,
+              carouselController: widget.controller,
+              itemBuilder: (context, index, _) {
+                return PostLayout(posts[index], isInView: pageIndex == index);
+              },
+              options: CarouselOptions(
+                  height: constraints.maxHeight - (kToolbarHeight + 36 + 5),
+                  scrollDirection: Axis.vertical,
+                  viewportFraction: 1,
+                  initialPage: initialPage,
+                  onPageChanged: (index, _) {
+                    setState(() {
+                      pageIndex = index;
+                    });
+                  },
+                  enableInfiniteScroll: false)),
+          SizedBox(
+            height: 2,
+          ),
+          Container(
+            height: 3,
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15), color: Colors.white54),
+          ),
+          SizedBox(height: kToolbarHeight)
+        ],
+      );
+    });
+  }
+}
