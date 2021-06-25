@@ -20,26 +20,6 @@ class _LatestChallengesState extends State<LatestChallenges> {
   Widget build(BuildContext context) {
     return Section(
       title: 'Latest Challenges',
-      trailing: InkWell(
-        onTap: () {},
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Text(
-              //   'more',
-              //   style: Theme.of(context).textTheme.subtitle2,
-              // ),
-              Icon(
-                MyIcons.trailingArrow,
-                color: Theme.of(context).textTheme.subtitle2!.color,
-                size: 18,
-              ),
-            ],
-          ),
-        ),
-      ),
       child: ListView.builder(
           itemCount: challenges.length,
           physics: NeverScrollableScrollPhysics(),

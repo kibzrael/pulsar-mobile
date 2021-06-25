@@ -93,7 +93,7 @@ class _MessagingCardState extends State<MessagingCard> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     child: Text(
-                      '${message.time.hour}:${message.time.minute}',
+                      '${message.time.hour}:${message.time.minute < 10 ? '0' : ''}${message.time.minute}',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2!

@@ -181,6 +181,7 @@ class _BillingState extends State<Billing> {
                       subtitle: 'Trans Date',
                       trailingText: '\$2.1K',
                       trailingArrow: false,
+                      flexRatio: [3, 1],
                       leading: Container(
                         height: 60,
                         width: 60,

@@ -55,6 +55,7 @@ class _EditProfileState extends State<EditProfile> {
                                 builder: (context) => ProfileInfo('Username',
                                     maxCharacters: 12)));
                           },
+                          flexRatio: [2, 3],
                           trailingText: '@${user.username}'),
                       MyListTile(
                           title: 'Full name',
@@ -63,6 +64,7 @@ class _EditProfileState extends State<EditProfile> {
                                 builder: (context) => ProfileInfo('Full name',
                                     maxCharacters: 15)));
                           },
+                          flexRatio: [2, 3],
                           trailingText: '${user.username}'),
                       MyListTile(
                           title: 'Category',
@@ -71,6 +73,7 @@ class _EditProfileState extends State<EditProfile> {
                                 builder: (context) => ProfileInfo('Category',
                                     maxCharacters: 12)));
                           },
+                          flexRatio: [2, 3],
                           trailingText: '${user.category}'),
                       MyListTile(
                           title: 'Bio',
@@ -79,6 +82,7 @@ class _EditProfileState extends State<EditProfile> {
                                 builder: (context) => ProfileInfo('Bio',
                                     multiline: true, maxCharacters: 80)));
                           },
+                          flexRatio: [2, 3],
                           trailingText: ''),
                       MyListTile(
                           title: 'Portfolio',
@@ -87,6 +91,7 @@ class _EditProfileState extends State<EditProfile> {
                                 builder: (context) => ProfileInfo('Portfolio',
                                     maxCharacters: 12)));
                           },
+                          flexRatio: [2, 3],
                           trailingText: ''),
                     ],
                   )),
@@ -101,22 +106,16 @@ class _EditProfileState extends State<EditProfile> {
                       title: 'Email',
                       leading: Icon(MyIcons.email),
                       trailingArrow: false,
-                      trailing:
-                          Switch.adaptive(value: false, onChanged: (value) {}),
                     ),
                     MyListTile(
                       title: 'Phone',
                       leading: Icon(MyIcons.phone),
                       trailingArrow: false,
-                      trailing:
-                          Switch.adaptive(value: false, onChanged: (value) {}),
                     ),
                     MyListTile(
                       title: 'Facebook',
                       leading: Icon(MyIcons.facebook),
                       trailingArrow: false,
-                      trailing:
-                          Switch.adaptive(value: false, onChanged: (value) {}),
                     )
                   ],
                 ),

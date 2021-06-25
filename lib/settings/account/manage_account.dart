@@ -60,14 +60,17 @@ class _ManageAccountState extends State<ManageAccount> {
               MyListTile(
                 title: 'Email',
                 trailingText: 'kibr******7@gmail.com',
+                flexRatio: [2, 3],
               ),
               MyListTile(
                 title: 'Phone',
                 trailingText: '07******68',
+                flexRatio: [2, 3],
               ),
               MyListTile(
                 title: 'Password',
                 trailingText: '********',
+                flexRatio: [2, 3],
               ),
               SizedBox(
                 height: 30,

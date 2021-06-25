@@ -9,9 +9,11 @@ class MyListTile extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final Function? onPressed;
+  final List<int> flexRatio;
 
   MyListTile(
-      {this.leading,
+      {this.flexRatio = const [10, 1],
+      this.leading,
       this.onPressed,
       this.subtitle,
       required this.title,
@@ -33,7 +35,7 @@ class MyListTile extends StatelessWidget {
                 child: leading,
               ),
             Expanded(
-              flex: 2,
+              flex: flexRatio[0],
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -55,6 +57,7 @@ class MyListTile extends StatelessWidget {
             SizedBox(width: 15),
             if (trailingText != null)
               Expanded(
+                flex: flexRatio[1],
                 child: Text(trailingText!,
                     textAlign: TextAlign.end,
                     maxLines: 1,
