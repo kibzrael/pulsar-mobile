@@ -1,16 +1,16 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 
+import 'package:animations/animations.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/basic_root.dart';
 
+import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/models/discover_challenges.dart';
 import 'package:pulsar/models/discover_galaxy.dart';
 import 'package:pulsar/models/discover_galaxy_tags.dart';
 import 'package:pulsar/models/followed_tags.dart';
-import 'package:pulsar/models/latest_challenges.dart';
 import 'package:pulsar/models/pinned_challenges.dart';
+import 'package:pulsar/models/recommended_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/widgets/ads.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -78,9 +78,6 @@ class _RootGalaxyState extends State<RootGalaxy>
     rootPageProvider.pageScrollControllers
         .putIfAbsent(1, () => scrollController);
 
-    Widget space = SizedBox(
-      height: 8,
-    );
     return Scaffold(
         appBar: AppBar(
           title: Padding(
@@ -106,6 +103,9 @@ class _RootGalaxyState extends State<RootGalaxy>
         body: NestedScrollView(
           controller: scrollController,
           headerSliverBuilder: (context, f) {
+            Widget space = SizedBox(
+              height: 8,
+            );
             return [
               SliverList(
                   delegate: SliverChildListDelegate(
@@ -116,7 +116,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                   space,
                   DiscoverChallenges(),
                   NativeAd(),
-                  LatestChallenges(),
+                  RecommendedChallenges(),
                   space,
                   SectionTitle(title: 'Discover'),
                 ],

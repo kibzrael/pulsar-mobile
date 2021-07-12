@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
@@ -92,28 +91,30 @@ class _PostLayoutState extends State<PostLayout> {
             isInView: widget.isInView,
           ),
           Column(children: [
-            // Container(
-            //   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       Icon(MyIcons.music),
-            //       SizedBox(width: 15),
-            //       SizedBox(
-            //         height: 20,
-            //         width: MediaQuery.of(context).size.width / 2,
-            //         child: Marquee(
-            //           text: 'Keith Urban - Parallel line ',
-            //           blankSpace: 100,
-            //           startAfter: Duration(seconds: 2),
-            //         ),
-            //       )
-            //     ],
+            // SafeArea(
+            //   child: Container(
+            //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Icon(MyIcons.music),
+            //         SizedBox(width: 15),
+            //         SizedBox(
+            //           height: 20,
+            //           width: MediaQuery.of(context).size.width / 2,
+            //           child: Marquee(
+            //             text: 'Calum Scott - Biblical',
+            //             blankSpace: 100,
+            //             startAfter: Duration(seconds: 2),
+            //           ),
+            //         )
+            //       ],
+            //     ),
             //   ),
             // ),
             Spacer(),
             Container(
-              margin: EdgeInsets.only(bottom: 5, left: 30),
+              margin: EdgeInsets.only(bottom: 5, left: 21),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -201,60 +202,13 @@ class _PostLayoutState extends State<PostLayout> {
                                       ],
                                     ),
                                     SizedBox(height: 2.5),
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          flex: 1,
-                                          child: Text('Challenge',
-                                              maxLines: 1,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2!
-                                                  .copyWith(
-                                                      color: Colors.white)),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: Colors.white12,
-                                                border: Border.all(
-                                                    color: Colors.white,
-                                                    width: 1)),
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  MyIcons.repost,
-                                                  size: 18,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Flexible(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        bottom: 1.5),
-                                                    child: Text(
-                                                      '@username',
-                                                      maxLines: 1,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
+                                    Flexible(
+                                      child: Text('Challenge',
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .copyWith(color: Colors.white)),
                                     ),
                                   ]),
                             )

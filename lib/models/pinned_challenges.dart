@@ -46,6 +46,7 @@ class _PinnedChallengesState extends State<PinnedChallenges>
       title: "Challenges",
       child: Container(
         height: 125,
+        margin: EdgeInsets.only(top: 5),
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),

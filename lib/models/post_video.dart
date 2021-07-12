@@ -63,10 +63,11 @@ class _PostVideoState extends State<PostVideo> {
 
     Widget thumbnail = Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).inputDecorationTheme.fillColor,
-          image: DecorationImage(
-              image: AssetImage(video.thumbnail), fit: BoxFit.cover),
-          borderRadius: BorderRadius.circular(15)),
+        color: Theme.of(context).inputDecorationTheme.fillColor,
+        image: DecorationImage(
+            image: AssetImage(video.thumbnail), fit: BoxFit.cover),
+        // borderRadius: BorderRadius.circular(15)
+      ),
     );
 
     return thumbnail;

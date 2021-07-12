@@ -11,7 +11,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        padding: EdgeInsets.symmetric(horizontal: 9, vertical: 3),
         width: width,
         height: height,
         alignment: Alignment.center,
@@ -22,12 +22,12 @@ class SecondaryButton extends StatelessWidget {
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white
                 : Theme.of(context).dividerColor,
-            width: 2,
+            width: 1.2,
           ),
         ),
         child: Text(
           text,
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.subtitle2,
         ));
   }
 }

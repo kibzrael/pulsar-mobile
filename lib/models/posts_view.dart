@@ -32,39 +32,48 @@ class _PostsViewState extends State<PostsView> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Column(
+      double aspectRatio = constraints.maxWidth / constraints.maxHeight;
+      bool stretch = aspectRatio > 0.5;
+      return Stack(
         children: [
-          SizedBox(
-            height: 36,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: CarouselSlider.builder(
+                itemCount: posts.length,
+                carouselController: widget.controller,
+                itemBuilder: (context, index, _) {
+                  return PostLayout(posts[index], isInView: pageIndex == index);
+                },
+                options: CarouselOptions(
+                    height: constraints.maxHeight -
+                        (stretch ? 0 : (kToolbarHeight + 5)),
+                    scrollDirection: Axis.vertical,
+                    viewportFraction: 1,
+                    initialPage: initialPage,
+                    onPageChanged: (index, _) {
+                      setState(() {
+                        pageIndex = index;
+                      });
+                    },
+                    enableInfiniteScroll: false)),
           ),
-          CarouselSlider.builder(
-              itemCount: posts.length,
-              carouselController: widget.controller,
-              itemBuilder: (context, index, _) {
-                return PostLayout(posts[index], isInView: pageIndex == index);
-              },
-              options: CarouselOptions(
-                  height: constraints.maxHeight - (kToolbarHeight + 36 + 5),
-                  scrollDirection: Axis.vertical,
-                  viewportFraction: 1,
-                  initialPage: initialPage,
-                  onPageChanged: (index, _) {
-                    setState(() {
-                      pageIndex = index;
-                    });
-                  },
-                  enableInfiniteScroll: false)),
-          SizedBox(
-            height: 2,
-          ),
-          Container(
-            height: 3,
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: 30),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15), color: Colors.white54),
-          ),
-          SizedBox(height: kToolbarHeight)
+          Column(
+            children: [
+              Spacer(),
+              SizedBox(
+                height: 2,
+              ),
+              Container(
+                height: 3,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white54),
+              ),
+              SizedBox(height: kToolbarHeight)
+            ],
+          )
         ],
       );
     });

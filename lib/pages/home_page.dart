@@ -75,19 +75,29 @@ class _RootHomePageState extends State<RootHomePage>
     openBottomSheet(context, (context) => PostOptions(lynn1));
   }
 
-  Widget segmentObject(String text) {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-        alignment: Alignment.center,
-        height: 37.5 - 4,
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            text,
-            maxLines: 1,
-            style: TextStyle(color: Colors.white, fontSize: 16.5),
-          ),
-        ));
+  Widget segmentObject(String text, int index) {
+    return Expanded(
+      child: InkWell(
+        onTap: () => onPageChanged(index),
+        child: Container(
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+            alignment:
+                index == 0 ? Alignment.centerRight : Alignment.centerLeft,
+            height: 37.5 - 4,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                text,
+                maxLines: 1,
+                style: TextStyle(
+                    color: pageIndex == index ? Colors.white : Colors.white70,
+                    fontWeight:
+                        pageIndex == index ? FontWeight.w800 : FontWeight.w600,
+                    fontSize: pageIndex == index ? 18.5 : 16.5),
+              ),
+            )),
+      ),
+    );
   }
 
   @override
@@ -112,16 +122,33 @@ class _RootHomePageState extends State<RootHomePage>
                 icon: Icon(MyIcons.notifications),
                 onPressed: openNotifications,
               ),
-              title: CupertinoSlidingSegmentedControl(
-                onValueChanged: onPageChanged,
-                groupValue: pageIndex,
-                thumbColor: Colors.white30,
-                backgroundColor: Colors.white12,
-                children: {
-                  0: segmentObject('Following'),
-                  1: segmentObject('Discover')
-                },
+              title: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    segmentObject('Following', 0),
+                    Container(
+                      width: 0.75,
+                      height: 12,
+                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      color: Colors.white54,
+                    ),
+                    segmentObject('Discover', 1)
+                  ],
+                ),
               ),
+
+              //to remove
+              //  CupertinoSlidingSegmentedControl(
+              //   onValueChanged: onPageChanged,
+              //   groupValue: pageIndex,
+              //   thumbColor: Colors.white30,
+              //   backgroundColor: Colors.white12,
+              //   children: {
+              //     0: segmentObject('Following'),
+              //     1: segmentObject('Discover')
+              //   },
+              // ),
               actions: [
                 IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
               ],
