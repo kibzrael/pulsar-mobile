@@ -51,6 +51,7 @@ class _CountryCodesState extends State<CountryCodes> {
                 leading: Icon(Icons.flag_outlined),
                 title: codes[index]['country'],
                 trailingText: codes[index]['code'],
+                flexRatio: [3, 1],
               );
             }),
       ),

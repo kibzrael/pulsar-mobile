@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/country_code.dart';
 import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/sign_info/info_verification.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -22,33 +23,32 @@ class _SignupPageState extends State<SignupPage>
   @override
   bool get wantKeepAlive => true;
 
-  int? signIndex = 1;
+  int signIndex = 1;
 
   bool isSubmitting = false;
   bool isSubmitted = false;
 
-  FocusNode? userNode;
-  late FocusNode passwordNode;
+  late FocusNode userNode;
 
-  TextEditingController? userController;
-  TextEditingController? passwordController;
+  late TextEditingController userController;
+  String countryCode = '+254';
 
   @override
   void initState() {
     super.initState();
     userNode = FocusNode();
-    passwordNode = FocusNode();
     userController = TextEditingController();
-    passwordController = TextEditingController();
   }
 
   void selectCountryCode() {
     openBottomSheet(context, (context) => CountryCodes());
   }
 
-  void signup() async {
-    Navigator.of(context)
-        .pushReplacement(myPageRoute(builder: (context) => SignInfo()));
+  void signup() {
+    bool phone = signIndex == 1;
+    String account = '${phone ? countryCode : ''}' + userController.text;
+    Navigator.of(context).push(
+        myPageRoute(builder: (context) => InfoVerification(account: account)));
   }
 
   void onIndexChange(index) {
@@ -62,6 +62,8 @@ class _SignupPageState extends State<SignupPage>
     super.build(context);
     double size =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+
+    List<String> inputs = [userController.text];
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -108,10 +110,17 @@ class _SignupPageState extends State<SignupPage>
                           hintText: signIndex == 0 ? 'Email' : 'Phone',
                           controller: userController,
                           focusNode: userNode,
+                          onChanged: (_) {
+                            setState(() {});
+                          },
                           onFieldSubmitted: (_) {
-                            passwordNode.requestFocus();
+                            if (!isSubmitting &&
+                                !inputs.any((element) => element.length < 1)) {
+                              signup();
+                            }
                           },
                           prefix: SelectCountry(
+                            code: countryCode,
                             show: signIndex == 1,
                             onPressed: selectCountryCode,
                           ),
@@ -122,10 +131,10 @@ class _SignupPageState extends State<SignupPage>
                       margin: EdgeInsets.symmetric(horizontal: 15),
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         AuthButton(
-                          isSubmitted: isSubmitted,
                           isSubmitting: isSubmitting,
                           isLogin: false,
                           onPressed: signup,
+                          inputs: inputs,
                         ),
                         ToggleAuthScreen(
                           isLogin: false,
@@ -150,8 +159,10 @@ class _SignupPageState extends State<SignupPage>
 
 class SelectCountry extends StatefulWidget {
   final Function() onPressed;
+  final String code;
   final bool show;
-  SelectCountry({required this.show, required this.onPressed});
+  SelectCountry(
+      {required this.code, required this.show, required this.onPressed});
 
   @override
   _SelectCountryState createState() => _SelectCountryState();
@@ -203,7 +214,7 @@ class _SelectCountryState extends State<SelectCountry>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '+254',
+                          widget.code,
                           style: TextStyle(
                               fontSize: 16.5, fontWeight: FontWeight.w500),
                         ),

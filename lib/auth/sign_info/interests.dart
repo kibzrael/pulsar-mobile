@@ -44,7 +44,7 @@ class _InterestsPageState extends State<InterestsPage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).buttonColor,
           onPressed: () {
-            loginProvider.login();
+            // loginProvider.login();
           },
           child: Icon(MyIcons.check, size: 30),
         ),

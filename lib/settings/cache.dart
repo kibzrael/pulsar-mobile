@@ -18,6 +18,7 @@ class _CacheState extends State<Cache> {
       ),
       trailingArrow: false,
       trailingText: '24mb',
+      flexRatio: [2, 1],
     );
   }
 }

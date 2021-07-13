@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -25,13 +28,12 @@ class _LoginPageState extends State<LoginPage>
   int? maxHeight;
 
   bool isSubmitting = false;
-  bool isSubmitted = false;
 
-  FocusNode? userNode;
-  FocusNode? passwordNode;
+  late FocusNode userNode;
+  late FocusNode passwordNode;
 
-  TextEditingController? userController;
-  TextEditingController? passwordController;
+  late TextEditingController userController;
+  late TextEditingController passwordController;
 
   @override
   void initState() {
@@ -43,12 +45,39 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void login() async {
-    loginProvider.login();
+    String info = userController.text;
+    String password = passwordController.text;
+    setState(() {
+      isSubmitting = true;
+    });
+    LoginResponse response = await loginProvider.login(info, password);
+    setState(() {
+      isSubmitting = false;
+    });
+    if (response.statusCode == 200) return;
+
+    openDialog(
+      context,
+      (context) => MyDialog(
+        title: statusCodes[response.statusCode]!,
+        body: response.body!['message'],
+        actions: ['Ok'],
+      ),
+    );
   }
 
   void onForgotPassword() {
     Navigator.of(context)
         .push(myPageRoute(builder: (context) => RecoverAccountScreen()));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNode.dispose();
+    passwordNode.dispose();
+    userController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -58,15 +87,9 @@ class _LoginPageState extends State<LoginPage>
 
     double size =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    //
-    //
-    // get totalHeight of widgets:
-    // if maxHeight < height then:
-    //    height = totalHeight
-    // else:
-    //    height = maxHeight
-    //
-    //
+
+    List<String> inputs = [userController.text, passwordController.text];
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -91,9 +114,11 @@ class _LoginPageState extends State<LoginPage>
                           controller: userController,
                           focusNode: userNode,
                           onFieldSubmitted: (_) {
-                            passwordNode!.requestFocus();
+                            passwordNode.requestFocus();
                           },
-                          onChanged: (_) {},
+                          onChanged: (_) {
+                            setState(() {});
+                          },
                         ),
                         SizedBox(height: 15),
                         LogTextInput(
@@ -103,8 +128,15 @@ class _LoginPageState extends State<LoginPage>
                           controller: passwordController,
                           focusNode: passwordNode,
                           keyboardType: TextInputType.visiblePassword,
-                          onFieldSubmitted: (_) {},
-                          onChanged: (_) {},
+                          onFieldSubmitted: (_) {
+                            if (!isSubmitting &&
+                                !inputs.any((element) => element.length < 1)) {
+                              login();
+                            }
+                          },
+                          onChanged: (_) {
+                            setState(() {});
+                          },
                         ),
                         Align(
                             alignment: Alignment.centerRight,
@@ -128,9 +160,9 @@ class _LoginPageState extends State<LoginPage>
                       margin: EdgeInsets.symmetric(horizontal: 15),
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
                         AuthButton(
-                          isSubmitted: isSubmitted,
                           isSubmitting: isSubmitting,
                           onPressed: login,
+                          inputs: inputs,
                         ),
                         ToggleAuthScreen(
                           isLogin: true,

@@ -162,32 +162,36 @@ class ToggleAuthScreen extends StatelessWidget {
 
 class AuthButton extends StatelessWidget {
   final bool? isSubmitting;
-  final bool? isSubmitted;
-  final Function? onPressed;
+  final Function onPressed;
   final List<String> inputs;
 
   ///Default is true
   final bool isLogin;
   AuthButton({
-    this.isSubmitted,
     this.isSubmitting,
     this.inputs = const [],
     this.isLogin = true,
-    this.onPressed,
+    required this.onPressed,
   });
   @override
   Widget build(BuildContext context) {
+    bool enabled =
+        !isSubmitting! && !inputs.any((element) => element.length < 1);
     return InkWell(
-      onTap: onPressed as void Function()?,
+      onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
         width: double.infinity,
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
+        foregroundDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: !enabled
+                ? Theme.of(context).brightness == Brightness.light
+                    ? Colors.white38
+                    : Colors.black38
+                : Colors.transparent),
         decoration: BoxDecoration(
-          // color: isSubmitting! || inputs.any((element) => element.length < 1)
-          //     ? Theme.of(context).disabledColor
-          //     : Theme.of(context).buttonColor,
           gradient: LinearGradient(colors: [
             Theme.of(context).colorScheme.primary,
             Theme.of(context).buttonColor
@@ -195,23 +199,22 @@ class AuthButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
         child: isSubmitting!
-            ? CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            ? SizedBox(
+                height: 25,
+                width: 25,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  strokeWidth: 3,
+                ),
               )
-            : isSubmitted!
-                ? Icon(
-                    Icons.check,
-                    size: 35,
-                    color: Colors.white,
-                  )
-                : Text(
-                    isLogin ? 'Login' : 'Signup',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+            : Text(
+                isLogin ? 'Login' : 'Signup',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
       ),
     );
   }
