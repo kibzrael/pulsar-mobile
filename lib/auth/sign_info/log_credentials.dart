@@ -52,6 +52,8 @@ class _LogCredentialsState extends State<LogCredentials> {
       });
       await Future.delayed(Duration(milliseconds: 300));
       provider.nextPage();
+      provider.user.username = username;
+      provider.user.password = password;
       return;
     }
 

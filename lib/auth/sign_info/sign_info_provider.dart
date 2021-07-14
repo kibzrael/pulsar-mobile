@@ -17,11 +17,14 @@ class SignInfoProvider extends ChangeNotifier {
 
   SignupInfo info;
 
+  late SignUserInfo user;
+
   late String _signupUrl;
 
   SignInfoProvider(this.info) {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
+    user = SignUserInfo();
   }
 
   Future<SignupResponse> signup(String username, String password) async {
@@ -64,4 +67,10 @@ class SignInfoProvider extends ChangeNotifier {
 class SignupResponse {
   int? statusCode;
   Map? body;
+}
+
+class SignUserInfo {
+  DateTime? birthday;
+  String? username;
+  String? password;
 }

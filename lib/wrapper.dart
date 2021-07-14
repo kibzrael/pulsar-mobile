@@ -12,21 +12,23 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
-  late bool loggedIn;
+  bool? loggedIn;
 
   @override
   Widget build(BuildContext context) {
     LoginProvider provider = Provider.of<LoginProvider>(context);
-    if (loggedIn != provider.loggedIn) {
-      if (provider.loggedIn == false) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => IntroPage()));
-      } else if (provider.loggedIn == true) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => BasicRoot()));
-      }
-    }
-    loggedIn = provider.loggedIn!;
+    // if (loggedIn != null) {
+    //   if (loggedIn != provider.loggedIn) {
+    //     if (provider.loggedIn == false) {
+    //       Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (context) => IntroPage()));
+    //     } else if (provider.loggedIn == true) {
+    //       Navigator.of(context).pushReplacement(
+    //           MaterialPageRoute(builder: (context) => BasicRoot()));
+    //     }
+    //   }
+    // }
+    // loggedIn = provider.loggedIn!;
     return widget.child;
   }
 }

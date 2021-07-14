@@ -15,6 +15,8 @@ class _BirthdayPageState extends State<BirthdayPage> {
 
   late TextEditingController textController;
 
+  DateTime selectedDate = DateTime.utc(DateTime.now().year - 13);
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +41,7 @@ class _BirthdayPageState extends State<BirthdayPage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).buttonColor,
           onPressed: () {
+            provider.user.birthday = selectedDate;
             provider.nextPage();
           },
           child: Icon(MyIcons.forward, size: 30),
@@ -72,12 +75,13 @@ class _BirthdayPageState extends State<BirthdayPage> {
                     height: 150,
                     child: CupertinoDatePicker(
                         maximumDate: DateTime.now(),
-                        initialDateTime: DateTime.utc(DateTime.now().year - 13),
+                        initialDateTime: selectedDate,
                         minimumYear: DateTime.now().year - 100,
                         mode: CupertinoDatePickerMode.date,
                         onDateTimeChanged: (DateTime date) {
                           setState(() {
                             textController.text = timeBirthday(date);
+                            selectedDate = date;
                           });
                         })),
               ),

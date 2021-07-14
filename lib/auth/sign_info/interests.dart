@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
 
 class InterestsPage extends StatefulWidget {
   @override
@@ -14,6 +17,8 @@ class _InterestsPageState extends State<InterestsPage> {
 
   late SignInfoProvider provider;
 
+  bool isSubmitting = false;
+
   List<Map<String, dynamic>> interests = [
     {'name': 'Art', 'icon': MyIcons.palette},
     {'name': 'Music', 'icon': MyIcons.music},
@@ -24,6 +29,27 @@ class _InterestsPageState extends State<InterestsPage> {
   ];
 
   List<Map<String, dynamic>> selected = [];
+
+  void login() async {
+    setState(() {
+      isSubmitting = true;
+    });
+    LoginResponse response = await loginProvider.login(
+        provider.user.username, provider.user.password);
+    setState(() {
+      isSubmitting = false;
+    });
+    if (response.statusCode == 200) return;
+
+    openDialog(
+      context,
+      (context) => MyDialog(
+        title: statusCodes[response.statusCode]!,
+        body: response.body!['message'],
+        actions: ['Ok'],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +70,16 @@ class _InterestsPageState extends State<InterestsPage> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).buttonColor,
           onPressed: () {
-            // loginProvider.login();
+            login();
           },
-          child: Icon(MyIcons.check, size: 30),
+          child: isSubmitting
+              ? Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : Icon(MyIcons.check, size: 30),
         ),
         body: SingleChildScrollView(
           child: Container(
