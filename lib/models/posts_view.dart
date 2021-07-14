@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/models/post_layout.dart';
+import 'package:pulsar/models/video_progress.dart';
 
 class PostsView extends StatefulWidget {
   final List<Post> initialPosts;
@@ -63,14 +64,7 @@ class _PostsViewState extends State<PostsView> {
               SizedBox(
                 height: 2,
               ),
-              Container(
-                height: 3,
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white54),
-              ),
+              VideoProgress(),
               SizedBox(height: kToolbarHeight)
             ],
           )

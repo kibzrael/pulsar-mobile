@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/auth/country_code.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/sign_info/info_verification.dart';
-import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/widgets/divider.dart';
