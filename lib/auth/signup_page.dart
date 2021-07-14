@@ -44,16 +44,30 @@ class _SignupPageState extends State<SignupPage>
   }
 
   void signup() {
+    SignupInfo info = SignupInfo();
+
     bool phone = signIndex == 1;
     String account = '${phone ? countryCode : ''}' + userController.text;
-    Navigator.of(context).push(
-        myPageRoute(builder: (context) => InfoVerification(account: account)));
+    if (phone) {
+      info.phone = account;
+    } else {
+      info.email = account;
+    }
+    Navigator.of(context)
+        .push(myPageRoute(builder: (context) => InfoVerification(info: info)));
   }
 
   void onIndexChange(index) {
     setState(() {
       signIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    userNode.dispose();
+    userController.dispose();
   }
 
   @override
@@ -231,4 +245,13 @@ class _SelectCountryState extends State<SelectCountry>
             widget.show ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         duration: Duration(milliseconds: 300));
   }
+}
+
+class SignupInfo {
+  String? email;
+  String? phone;
+
+  String? get account => email ?? phone;
+
+  SignupInfo({this.email, this.phone});
 }

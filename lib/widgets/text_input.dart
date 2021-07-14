@@ -8,6 +8,7 @@ class MyTextInput extends StatefulWidget {
   final Function(String text) onSubmitted;
 
   final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   final int maxLines;
   final EdgeInsetsGeometry padding;
@@ -17,6 +18,7 @@ class MyTextInput extends StatefulWidget {
 
   MyTextInput(
       {this.controller,
+      this.focusNode,
       this.height = 50,
       this.hintText = '',
       this.maxLines = 1,
@@ -31,12 +33,12 @@ class MyTextInput extends StatefulWidget {
 }
 
 class _MyTextInputState extends State<MyTextInput> {
-  FocusNode? focusNode;
+  late FocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
-    focusNode = FocusNode();
+    focusNode = widget.focusNode ?? FocusNode();
   }
 
   @override
@@ -44,7 +46,7 @@ class _MyTextInputState extends State<MyTextInput> {
     return InkWell(
       borderRadius: BorderRadius.circular(30),
       onTap: () {
-        focusNode!.requestFocus();
+        focusNode.requestFocus();
       },
       child: Container(
         width: double.infinity,

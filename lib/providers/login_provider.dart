@@ -35,8 +35,6 @@ class LoginProvider extends ChangeNotifier {
     if (body is Map) {
       response.body = body;
     }
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 200) {
       Future.delayed(Duration(milliseconds: 300)).then((value) {
         _loggedIn = true;

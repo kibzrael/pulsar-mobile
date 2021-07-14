@@ -33,13 +33,6 @@ class _BirthdayPageState extends State<BirthdayPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(
-                MyIcons.back,
-              ),
-              onPressed: () {
-                provider.previousPage();
-              }),
           title: Text('Birthday'),
           centerTitle: true,
         ),

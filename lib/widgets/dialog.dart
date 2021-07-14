@@ -21,11 +21,14 @@ class MyDialog extends StatelessWidget {
       ),
       actions: [
         for (String action in actions)
-          CupertinoDialogAction(
-            child: Text(action),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          Container(
+            color: Theme.of(context).colorScheme.surface,
+            child: CupertinoDialogAction(
+              child: Text(action),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           )
       ],
     );

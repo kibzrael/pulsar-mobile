@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
+import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/auth/verify_code.dart';
 import 'package:pulsar/classes/user.dart';
 
@@ -12,8 +13,6 @@ class RecoveryCode extends StatefulWidget {
 class _RecoveryCodeState extends State<RecoveryCode> {
   late RecoverAccountProvider recoverAccountProvider;
 
-  String account = 'kib*******7@gmail.com';
-
   late User user;
 
   @override
@@ -23,8 +22,10 @@ class _RecoveryCodeState extends State<RecoveryCode> {
 
     user = recoverAccountProvider.user!;
 
+    SignupInfo account = SignupInfo(email: 'kib*******7@gmail.com');
+
     return VerifyCode(
-      account: account,
+      info: account,
       onBack: recoverAccountProvider.previousPage,
       onDone: recoverAccountProvider.nextPage,
       leading: Container(
