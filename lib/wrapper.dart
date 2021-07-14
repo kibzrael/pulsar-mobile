@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/intro/intro.dart';
+import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/providers/login_provider.dart';
 
 class Wrapper extends StatefulWidget {
