@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/ads/banner_ad.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/user_card.dart';
-import 'package:pulsar/widgets/ads.dart';
 
 class UserResults extends StatefulWidget {
   @override
@@ -33,7 +33,7 @@ class _UserResultsState extends State<UserResults> {
       itemBuilder: (context, index) {
         if (results.isNotEmpty) {
           if (index == 5) {
-            return BannerAd();
+            return MyBannerAd();
           }
           if (index > 5) {
             return UserCard(results[index - 1]);

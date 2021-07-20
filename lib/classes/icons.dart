@@ -93,6 +93,8 @@ class MyIcons {
 
   static IconData language = myIcon(Icons.language, Icons.language);
 
+  static IconData leaderboard = myIcon(Icons.emoji_events, Icons.emoji_events);
+
   static IconData like = myIcon(Icons.favorite, Icons.favorite);
 
   static IconData likeOutline =
@@ -134,6 +136,8 @@ class MyIcons {
 
   static IconData privacy = myIcon(Icons.shield, Icons.shield);
 
+  static IconData prize = myIcon(SvgIcons.award, SvgIcons.award);
+
   static IconData reply = myIcon(Icons.reply, Icons.reply);
 
   static IconData report = myIcon(Icons.report, Icons.report);
@@ -141,6 +145,8 @@ class MyIcons {
   static IconData repost = myIcon(Icons.repeat, Icons.repeat);
 
   static IconData reposted = myIcon(Icons.repeat_one, Icons.repeat_one);
+
+  static IconData rules = myIcon(Icons.gavel, Icons.gavel);
 
   static IconData search = myIcon(Icons.search, Icons.search);
 

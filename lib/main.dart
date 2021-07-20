@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/basic_root.dart';
+import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
@@ -11,6 +13,7 @@ import 'package:pulsar/providers/video_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(Pulsar());
 }
 
@@ -20,6 +23,14 @@ class Pulsar extends StatefulWidget {
 }
 
 class _PulsarState extends State<Pulsar> {
+  late Future<InitializationStatus> adFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    adFuture = MobileAds.instance.initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(
@@ -42,6 +53,7 @@ class _PulsarState extends State<Pulsar> {
         ChangeNotifierProvider<CameraProvider>(
           create: (_) => CameraProvider(),
         ),
+        Provider.value(value: AdProvider(adFuture)),
       ],
       builder: (context, child) {
         return Consumer<LoginProvider>(

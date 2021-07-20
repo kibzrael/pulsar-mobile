@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/ads/banner_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/user_card.dart';
-import 'package:pulsar/widgets/ads.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class InteractionScreen extends StatefulWidget {
@@ -65,7 +65,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
                 itemBuilder: (context, index) {
                   if (interactions.isNotEmpty) {
                     if (index == 5) {
-                      return BannerAd();
+                      return MyBannerAd();
                     }
                     if (index > 5) {
                       return UserCard(interactions[index - 1]);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:pulsar/ads/banner_ad.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
@@ -58,6 +60,38 @@ class _ChallengePageState extends State<ChallengePage>
 
   @override
   Widget build(BuildContext context) {
+    Widget option(
+            {required IconData icon,
+            required String text,
+            required Function() onPressed}) =>
+        Container(
+          width: (MediaQuery.of(context).size.width / 3) - 30,
+          child: InkWell(
+            onTap: onPressed,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).inputDecorationTheme.fillColor),
+                  child: Icon(icon, size: 36),
+                ),
+                SizedBox(height: 5),
+                FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      text,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 15),
+                    )),
+              ],
+            ),
+          ),
+        );
+
     return Scaffold(
         body: NestedScrollView(
       floatHeaderSlivers: true,
@@ -130,7 +164,10 @@ class _ChallengePageState extends State<ChallengePage>
           SliverList(
               delegate: SliverChildListDelegate(
             [
-              SizedBox(height: 9),
+              Padding(
+                padding: EdgeInsets.only(top: 4),
+                child: MyBannerAd(),
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
                 child: ProfileStats(
@@ -178,7 +215,23 @@ class _ChallengePageState extends State<ChallengePage>
                     setState(() {
                       isFollowed = !isFollowed;
                     });
-                  })
+                  }),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    option(
+                        icon: MyIcons.rules, text: 'Rules', onPressed: () {}),
+                    option(
+                        icon: MyIcons.prize, text: 'Prizes', onPressed: () {}),
+                    option(
+                        icon: MyIcons.leaderboard,
+                        text: 'Leaderboard',
+                        onPressed: () {}),
+                  ],
+                ),
+              ),
             ],
           ))
         ];

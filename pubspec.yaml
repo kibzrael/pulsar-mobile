@@ -30,6 +30,8 @@ dependencies:
   cupertino_icons: ^1.0.3
 
   http:
+  
+  google_mobile_ads: ^0.13.2
   shared_preferences:
 
   provider: ^5.0.0

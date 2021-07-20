@@ -6,6 +6,8 @@
    <application
         android:label="pulsar"
         android:icon="@mipmap/ic_launcher">
+
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -41,5 +43,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9604738881391509~1066290924"/>
     </application>
 </manifest>
