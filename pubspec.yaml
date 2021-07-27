@@ -34,6 +34,15 @@ dependencies:
   google_mobile_ads: ^0.13.2
   shared_preferences:
 
+  path: ^1.8.0
+  sqflite:
+
+  json_serializable:
+
+  patterns_canvas: ^0.3.5
+
+  visibility_detector: ^0.2.0
+
   provider: ^5.0.0
 
   pin_code_fields: ^7.1.0

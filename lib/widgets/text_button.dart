@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class MyTextButton extends StatelessWidget {
   final String text;
   final Function onPressed;
+  final Color? color;
   final bool enabled;
 
   MyTextButton(
-      {this.enabled = true, required this.text, required this.onPressed});
+      {this.enabled = true,
+      required this.text,
+      required this.onPressed,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class MyTextButton extends StatelessWidget {
         text,
         style: Theme.of(context).textTheme.bodyText1!.copyWith(
             color: enabled
-                ? Theme.of(context).buttonColor
+                ? color ?? Theme.of(context).buttonColor
                 : Theme.of(context).disabledColor),
       ),
       onPressed: enabled ? onPressed as void Function()? : null,

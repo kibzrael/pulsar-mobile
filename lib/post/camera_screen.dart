@@ -18,8 +18,26 @@ class CameraScreen extends StatefulWidget {
   _CameraScreenState createState() => _CameraScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenState extends State<CameraScreen>
+    with SingleTickerProviderStateMixin {
   late CameraProvider provider;
+  double cameraPreviewScale = 1;
+  double cameraSecondaryScale = 1;
+
+  late AnimationController _switchAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _switchAnimationController = AnimationController(
+        vsync: this, duration: Duration(seconds: 1), value: 0);
+  }
+
+  @override
+  void dispose() {
+    _switchAnimationController.dispose();
+    super.dispose();
+  }
 
   onCapture() {
     Navigator.of(context)
@@ -48,149 +66,177 @@ class _CameraScreenState extends State<CameraScreen> {
             Container(
               width: 100,
               alignment: Alignment.center,
-              child: IconButton(
-                icon: Icon(
-                  MyIcons.switchCamera,
-                  size: 30,
+              child: RotationTransition(
+                alignment: Alignment.center,
+                turns: _switchAnimationController.view,
+                child: IconButton(
+                  icon: Icon(
+                    MyIcons.switchCamera,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    provider.switchLens();
+                    cameraPreviewScale = 1;
+                    cameraSecondaryScale = 1;
+                    double value =
+                        _switchAnimationController.value == 0 ? 0.5 : 0;
+                    _switchAnimationController.animateTo(value);
+                  },
                 ),
-                onPressed: () {
-                  provider.switchLens();
-                },
               ),
             ),
           ],
         ),
-        body: Stack(
-          children: [
-            CameraView(provider),
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).padding.top + kToolbarHeight),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 100,
-                      child: Column(children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  MyIcons.flashlight,
-                                  size: 30,
+        body: GestureDetector(
+          onScaleUpdate: ((touch) {
+            setState(() {
+              if ((cameraSecondaryScale * touch.scale) >= 1) {
+                if ((cameraSecondaryScale * touch.scale) <= 3) {
+                  cameraPreviewScale = (cameraSecondaryScale * touch.scale);
+                } else {
+                  cameraPreviewScale = 3;
+                }
+              } else {
+                cameraPreviewScale = 1;
+              }
+            });
+          }),
+          onScaleEnd: (_) {
+            setState(() {
+              cameraSecondaryScale = cameraPreviewScale;
+            });
+          },
+          child: Stack(
+            children: [
+              CameraView(provider, scale: cameraPreviewScale),
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).padding.top + kToolbarHeight),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        width: 100,
+                        child: Column(children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    MyIcons.flashlight,
+                                    size: 30,
+                                  ),
                                 ),
-                              ),
-                              Text('Flash'),
-                              Text('on'),
-                            ],
+                                Text('Flash'),
+                                Text('on'),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        InkWell(
-                          onTap: () {
-                            openBottomSheet(
-                                context, (context) => CaptureSpeed());
-                          },
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  MyIcons.speed,
-                                  size: 30,
+                          SizedBox(height: 5),
+                          InkWell(
+                            onTap: () {
+                              openBottomSheet(
+                                  context, (context) => CaptureSpeed());
+                            },
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    MyIcons.speed,
+                                    size: 30,
+                                  ),
                                 ),
-                              ),
-                              Text('Speed'),
-                            ],
+                                Text('Speed'),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                        InkWell(
-                          onTap: () {
-                            openBottomSheet(context, (context) => Filters());
-                          },
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  MyIcons.filters,
-                                  size: 30,
+                          SizedBox(height: 5),
+                          InkWell(
+                            onTap: () {
+                              openBottomSheet(context, (context) => Filters());
+                            },
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    MyIcons.filters,
+                                    size: 30,
+                                  ),
                                 ),
-                              ),
-                              Text('Filters'),
-                            ],
+                                Text('Filters'),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 5),
-                      ]),
+                          SizedBox(height: 5),
+                        ]),
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                              myPageRoute(builder: (context) => Gallery()));
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).dividerColor,
-                              borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
-                                  image: AssetImage('assets/users/melissa.jpg'),
-                                  fit: BoxFit.cover),
-                              border:
-                                  Border.all(width: 2, color: Colors.white)),
+                    Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            openBottomSheet(context, (context) => Gallery());
+                          },
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).dividerColor,
+                                borderRadius: BorderRadius.circular(12),
+                                image: DecorationImage(
+                                    image:
+                                        AssetImage('assets/users/melissa.jpg'),
+                                    fit: BoxFit.cover),
+                                border:
+                                    Border.all(width: 2, color: Colors.white)),
+                          ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: onCapture,
-                        child: Container(
-                          margin: EdgeInsets.all(12),
-                          constraints:
-                              BoxConstraints(maxHeight: 100, maxWidth: 100),
-                          decoration: BoxDecoration(
-                              color: Colors.white10,
-                              shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.white, width: 3)),
-                          child: AnimatedContainer(
-                              margin: EdgeInsets.all(6),
-                              padding: EdgeInsets.all(12),
-                              duration: Duration(milliseconds: 700),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).accentColor,
+                        InkWell(
+                          onTap: onCapture,
+                          child: Container(
+                            margin: EdgeInsets.all(12),
+                            constraints:
+                                BoxConstraints(maxHeight: 100, maxWidth: 100),
+                            decoration: BoxDecoration(
+                                color: Colors.white10,
                                 shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                MyIcons.camera,
-                                color: Colors.white,
-                                size: 35,
-                              )),
+                                border:
+                                    Border.all(color: Colors.white, width: 3)),
+                            child: Container(
+                                margin: EdgeInsets.all(6),
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  MyIcons.camera,
+                                  color: Colors.white,
+                                  size: 35,
+                                )),
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: 60,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: kToolbarHeight + 12)
-                ],
+                        Container(
+                          width: 60,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: kToolbarHeight + 12)
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -199,7 +245,8 @@ class _CameraScreenState extends State<CameraScreen> {
 
 class CameraView extends StatefulWidget {
   final CameraProvider provider;
-  CameraView(this.provider);
+  final double scale;
+  CameraView(this.provider, {required this.scale});
 
   @override
   _CameraViewState createState() => _CameraViewState();
@@ -250,7 +297,23 @@ class _CameraViewState extends State<CameraView> {
           color: darkTheme.inputDecorationTheme.fillColor,
           child: controller != null
               ? controller!.value.isInitialized
-                  ? CameraPreview(controller!)
+                  ? SizedBox.expand(
+                      child: Transform.scale(
+                        scale: widget.scale,
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width *
+                                controller!.value.aspectRatio,
+                            child: CameraPreview(
+                              controller!,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  // CameraPreview(controller!)
                   : Container()
               : Container(),
         ),

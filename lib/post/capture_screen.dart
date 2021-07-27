@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/post/edit_screen.dart';
+import 'package:pulsar/post/trim.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
@@ -12,25 +13,46 @@ class _CaptureScreenState extends State<CaptureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        actions: [
-          MyTextButton(
-              text: 'Next',
-              onPressed: () {
-                Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => EditScreen()));
-              })
-        ],
+      body: Padding(
+        padding: EdgeInsets.only(top: 36),
+        child: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(15)),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: TrimVideo(),
+            )
+          ],
+        ),
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        margin: EdgeInsets.only(top: 36, bottom: kToolbarHeight),
-        decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(15)),
+      bottomNavigationBar: PreferredSize(
+        preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              MyTextButton(
+                  text: 'Delete',
+                  color: Theme.of(context).colorScheme.error,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+              MyTextButton(
+                  text: 'Next',
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(myPageRoute(builder: (context) => EditScreen()));
+                  })
+            ],
+          ),
+        ),
       ),
     );
   }

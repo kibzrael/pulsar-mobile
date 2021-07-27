@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       isSubmitting = true;
     });
-    LoginResponse response = await loginProvider.login(info, password);
+    LoginResponse response = await loginProvider.login(context, info, password);
     setState(() {
       isSubmitting = false;
     });

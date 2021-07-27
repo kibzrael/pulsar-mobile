@@ -6,7 +6,7 @@ import 'package:pulsar/classes/svg_icons.dart';
 class MyIcons {
   MyIcons._();
 
-  static IconData account = myIcon(Icons.person, Icons.person_outline);
+  static IconData account = myIcon(SvgIcons.user, SvgIcons.user_outline);
 
   static IconData acting = myIcon(Icons.people, Icons.people);
 
@@ -82,7 +82,7 @@ class MyIcons {
 
   static IconData help = myIcon(Icons.help_outline, Icons.help_outline);
 
-  static IconData home = myIcon(Icons.home, Icons.home_outlined);
+  static IconData home = myIcon(SvgIcons.home, SvgIcons.home);
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
 
@@ -146,7 +146,7 @@ class MyIcons {
 
   static IconData reposted = myIcon(Icons.repeat_one, Icons.repeat_one);
 
-  static IconData rules = myIcon(Icons.gavel, Icons.gavel);
+  static IconData rules = myIcon(Icons.dashboard, Icons.dashboard);
 
   static IconData search = myIcon(Icons.search, Icons.search);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/basic_root.dart';
@@ -9,15 +10,35 @@ import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(Pulsar());
+  String dbPath = join(await getDatabasesPath(), 'pulsar.db');
+
+  Database db = await openDatabase(dbPath, version: 1, onCreate: (db, version) {
+    return db.execute(
+        'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT UNIQUE, category TEXT, fullname TEXT, email TEXT, phone TEXT, bio TEXT, portfolio TEXT, token TEXT)');
+  });
+
+  List<Map<String, dynamic>> users = await db.query('users');
+  bool loggedIn = users.length > 0;
+  Map<String, dynamic>? user = loggedIn ? users[0] : null;
+  runApp(Pulsar(
+    loggedIn: loggedIn,
+    user: user,
+  ));
 }
 
 class Pulsar extends StatefulWidget {
+  final bool loggedIn;
+  final Map<String, dynamic>? user;
+
+  Pulsar({required this.loggedIn, this.user});
+
   @override
   _PulsarState createState() => _PulsarState();
 }
@@ -25,10 +46,13 @@ class Pulsar extends StatefulWidget {
 class _PulsarState extends State<Pulsar> {
   late Future<InitializationStatus> adFuture;
 
+  late bool loggedIn;
+
   @override
   void initState() {
     super.initState();
     adFuture = MobileAds.instance.initialize();
+    loggedIn = widget.loggedIn;
   }
 
   @override
@@ -38,8 +62,11 @@ class _PulsarState extends State<Pulsar> {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<UserProvider>(
+          create: (_) => UserProvider(widget.user),
+        ),
         ChangeNotifierProvider<LoginProvider>(
-          create: (_) => LoginProvider(),
+          create: (_) => LoginProvider(widget.loggedIn),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(),

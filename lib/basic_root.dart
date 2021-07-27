@@ -115,10 +115,19 @@ class _BasicRootState extends State<BasicRoot> {
                       .bottomNavigationBarTheme
                       .unselectedItemColor!,
                   onTap: navigationChange,
+                  iconSize: 27,
                   currentIndex: currentIndex,
                   items: [
-                    BottomNavigationBarItem(icon: Icon(MyIcons.home)),
-                    BottomNavigationBarItem(icon: Icon(MyIcons.explore)),
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                      MyIcons.home,
+                      size: 25,
+                    )),
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                      MyIcons.explore,
+                      size: 30,
+                    )),
                     BottomNavigationBarItem(
                       icon: Padding(
                         padding: EdgeInsets.only(top: 5),
@@ -161,7 +170,11 @@ class _BasicRootState extends State<BasicRoot> {
                       ),
                     ),
                     BottomNavigationBarItem(icon: Icon(MyIcons.message)),
-                    BottomNavigationBarItem(icon: Icon(MyIcons.account)),
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                      MyIcons.account,
+                      size: 24,
+                    )),
                   ],
                 ),
               );

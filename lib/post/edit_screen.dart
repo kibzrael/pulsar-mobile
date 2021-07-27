@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/post/audio.dart';
+import 'package:pulsar/post/cover.dart';
+import 'package:pulsar/post/edits.dart';
 import 'package:pulsar/post/upload_screen.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -15,6 +18,7 @@ class _EditScreenState extends State<EditScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           actions: [
@@ -26,8 +30,29 @@ class _EditScreenState extends State<EditScreen> {
                 })
           ],
         ),
-        body: Container(
-          color: Theme.of(context).colorScheme.surface,
+        body: Padding(
+          padding: EdgeInsets.only(top: 36),
+          child: Stack(
+            children: [
+              Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: TabBarView(
+                    physics: NeverScrollableScrollPhysics(),
+                    children: [
+                      VideoEdits(),
+                      PostAudio(),
+                      PostCover(),
+                    ]),
+              )
+            ],
+          ),
         ),
         bottomNavigationBar: TabBar(
           indicator: BoxDecoration(),

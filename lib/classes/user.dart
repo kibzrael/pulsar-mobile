@@ -59,39 +59,29 @@ class User {
   //
   // map should contain id and username fields
 
-  // User.fromJson(Map<String, dynamic> info)
-  //     : assert(info['id'] != null),
-  //       assert(info['id'] is int),
-  //       assert(info['username'] != null),
-  //       assert(info['username'] is String),
-  //       id = info['id'] is int ? info['id'] : int.tryParse(info['id']),
-  //       username = info['username'],
-  //       bio = info['bio'],
-  //       category = info['category'],
-  //       dateJoined = DateTime.tryParse(info['dateJoined'] ?? ''),
-  //       dateOfBirth = DateTime.tryParse(info['dateOfBirth'] ?? ''),
-  //       email = info['email'],
-  //       fullname = info['fullname'],
-  //       interests = info['interests']?.map((i) => Interest.fromJson(i)),
-  //       isBlocked = info['isBlocked'],
-  //       isFavorite = info['isFavorite'],
-  //       isMuted = info['isMuted'],
-  //       isPinned = info['isPinned'],
-  //       linkedAccounts =
-  //           info['linkedAccounts']?.map((i) => LinkedAccount.fromJson(i)),
-  //       location = info['location'] == null
-  //           ? null
-  //           : Location.fromJson(info['location']),
-  //       phone = info['phone'],
-  //       pinned = info['pinned'],
-  //       pins = info['pins'],
-  //       portfolio = info['portfolio'],
-  //       posts = info['posts'],
-  //       privacy = info['privacy'] == null
-  //           ? null
-  //           : UserPrivacy.fromJson(info['privacy']),
-  //       profilePic = info['profilePic'],
-  //       profileUrl = info['profileUrl'];
+  User.fromJson(Map<String, dynamic> info)
+      : assert(info['id'] != null),
+        assert(info['id'] is int),
+        assert(info['username'] != null),
+        assert(info['username'] is String),
+        id = info['id'] is int ? info['id'] : int.tryParse(info['id']),
+        username = info['username'],
+        bio = info['bio'],
+        category = info['category'],
+        dateJoined = DateTime.tryParse(info['dateJoined'] ?? ''),
+        dateOfBirth = DateTime.tryParse(info['dateOfBirth'] ?? ''),
+        email = info['email'],
+        fullname = info['fullname'],
+        isBlocked = info['isBlocked'],
+        isFavorite = info['isFavorite'],
+        isMuted = info['isMuted'],
+        isPinned = info['isPinned'],
+        phone = info['phone'],
+        pinned = info['pinned'],
+        pins = info['pins'],
+        portfolio = info['portfolio'],
+        posts = info['posts'],
+        profilePic = info['profilePic'];
 
   toJson(BuildContext context) {}
 

@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool? _loggedIn;
@@ -15,13 +18,12 @@ class LoginProvider extends ChangeNotifier {
 
   late String _loginUrl;
 
-  LoginProvider() {
-    _loggedIn = false;
-    getState();
+  LoginProvider(bool isLoggedIn) {
+    _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
   }
 
-  Future<LoginResponse> login(info, password) async {
+  Future<LoginResponse> login(BuildContext context, info, password) async {
     Uri url = Uri.parse(_loginUrl);
     http.Response requestResponse = await http.post(url, body: {
       'info': info,
@@ -41,28 +43,50 @@ class LoginProvider extends ChangeNotifier {
       Future.delayed(Duration(milliseconds: 300)).then((value) {
         _loggedIn = true;
         notifyListeners();
-        saveLogin();
+
+        saveLogin(context,
+            token: response.body!['jwtToken'], user: response.body!['user']);
       });
     }
     return response;
   }
 
-  getState() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _loggedIn = prefs.getBool('loggedIn') ?? false;
+  signup(BuildContext context,
+      {required String token, required Map<String, dynamic> user}) {
+    _loggedIn = true;
     notifyListeners();
+    saveLogin(context, token: token, user: user);
   }
 
-  saveLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('loggedIn', true);
+  saveLogin(BuildContext context,
+      {required String token, required Map<String, dynamic> user}) async {
+    Database db =
+        await openDatabase(join(await getDatabasesPath(), 'pulsar.db'));
+
+    await db.delete('users');
+
+    db.insert('users', {
+      'id': user['id'],
+      'username': user['username'],
+      'category': user['category'],
+      'fullname': user['fullname'],
+      'email': user['email'],
+      'phone': user['phone'],
+      'bio': user['bio'],
+      'portfolio': user['portfolio'],
+      'token': token
+    });
+
+    Provider.of<UserProvider>(context, listen: false).setUser(user);
   }
 
-  logout() async {
+  logout(BuildContext context) async {
     _loggedIn = false;
+    Database db =
+        await openDatabase(join(await getDatabasesPath(), 'pulsar.db'));
+
+    await db.delete('users');
     notifyListeners();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('loggedIn', false);
   }
 }
 

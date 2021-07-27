@@ -4,6 +4,7 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -14,6 +15,8 @@ class LogCredentials extends StatefulWidget {
 
 class _LogCredentialsState extends State<LogCredentials> {
   late SignInfoProvider provider;
+
+  late LoginProvider loginProvider;
 
   bool passwordObscure = true;
 
@@ -52,8 +55,8 @@ class _LogCredentialsState extends State<LogCredentials> {
       });
       await Future.delayed(Duration(milliseconds: 300));
       provider.nextPage();
-      provider.user.username = username;
-      provider.user.password = password;
+      loginProvider.signup(context,
+          token: response.body!['jwtToken'], user: response.body!['user']);
       return;
     }
 
@@ -79,6 +82,7 @@ class _LogCredentialsState extends State<LogCredentials> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<SignInfoProvider>(context);
+    loginProvider = Provider.of<LoginProvider>(context);
 
     double size = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).padding.top + kToolbarHeight);

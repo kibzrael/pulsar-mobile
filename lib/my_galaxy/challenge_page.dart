@@ -6,6 +6,7 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile_stats.dart';
+import 'package:pulsar/my_galaxy/leaderboard.dart';
 import 'package:pulsar/options/challenge_options.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -217,7 +218,7 @@ class _ChallengePageState extends State<ChallengePage>
                     });
                   }),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 4.0),
+                padding: EdgeInsets.only(top: 8, bottom: 4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -228,7 +229,10 @@ class _ChallengePageState extends State<ChallengePage>
                     option(
                         icon: MyIcons.leaderboard,
                         text: 'Leaderboard',
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                              myPageRoute(builder: (context) => Leaderboard()));
+                        }),
                   ],
                 ),
               ),

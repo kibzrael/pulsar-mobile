@@ -18,7 +18,7 @@ class _LogOutState extends State<LogOut> {
       margin: EdgeInsets.symmetric(vertical: 15),
       child: InkWell(
           onTap: () {
-            loginProvider!.logout();
+            loginProvider!.logout(context);
             Navigator.pop(context);
           },
           child: MyListTile(

@@ -6,6 +6,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/profile.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/edit_profile.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/settings/settings_page.dart';
@@ -48,6 +49,8 @@ class _RootProfilePageState extends State<RootProfilePage>
   TabController? tabController;
   late ScrollController scrollController;
 
+  late UserProvider provider;
+
   late User user;
 
   @override
@@ -88,6 +91,9 @@ class _RootProfilePageState extends State<RootProfilePage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    provider = Provider.of<UserProvider>(context);
+
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
     rootPageProvider.pageScrollControllers

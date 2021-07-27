@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/status_codes.dart';
-import 'package:pulsar/functions/dialog.dart';
-import 'package:pulsar/providers/login_provider.dart';
-import 'package:pulsar/widgets/dialog.dart';
 
 class InterestsPage extends StatefulWidget {
   @override
@@ -13,8 +9,6 @@ class InterestsPage extends StatefulWidget {
 }
 
 class _InterestsPageState extends State<InterestsPage> {
-  late LoginProvider loginProvider;
-
   late SignInfoProvider provider;
 
   bool isSubmitting = false;
@@ -34,27 +28,16 @@ class _InterestsPageState extends State<InterestsPage> {
     setState(() {
       isSubmitting = true;
     });
-    LoginResponse response = await loginProvider.login(
-        provider.user.username, provider.user.password);
+    await Future.delayed(Duration(seconds: 2));
     setState(() {
       isSubmitting = false;
     });
-    if (response.statusCode == 200) return;
-
-    openDialog(
-      context,
-      (context) => MyDialog(
-        title: statusCodes[response.statusCode]!,
-        body: response.body!['message'],
-        actions: ['Ok'],
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/');
+    return;
   }
 
   @override
   Widget build(BuildContext context) {
-    loginProvider = Provider.of<LoginProvider>(context);
-
     provider = Provider.of<SignInfoProvider>(context);
 
     return Scaffold(
