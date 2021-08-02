@@ -104,8 +104,8 @@ class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
             myPageRoute(builder: (context) => ChallengePage(widget.challenge)));
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 7.5, vertical: 5),
-        elevation: 2,
+        margin: EdgeInsets.fromLTRB(7.5, 0, 7.5, 10),
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(15),

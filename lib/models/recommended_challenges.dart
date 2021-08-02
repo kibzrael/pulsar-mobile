@@ -29,12 +29,11 @@ class _RecommendedChallengesState extends State<RecommendedChallenges> {
       child: Container(
         height: 180,
         margin: EdgeInsets.only(top: 5),
-        child: ListView.separated(
+        child: ListView.builder(
           itemCount: challenges.length,
           scrollDirection: Axis.horizontal,
           physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          separatorBuilder: (context, index) => SizedBox(width: 15),
+          padding: EdgeInsets.symmetric(horizontal: 7.5),
           itemBuilder: (context, index) {
             Challenge challenge = challenges[index];
             return InkWell(
@@ -42,38 +41,44 @@ class _RecommendedChallengesState extends State<RecommendedChallenges> {
                 Navigator.of(context).push(myPageRoute(
                     builder: (context) => ChallengePage(challenge)));
               },
-              child: Container(
-                width: 150,
-                padding: EdgeInsets.only(bottom: 5),
-                decoration: BoxDecoration(
+              child: Card(
+                margin: EdgeInsets.fromLTRB(
+                    7.5, 0, 7.5, 10), //symmetric(horizontal: 7.5, vertical: 5),
+                elevation: 4,
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
                 ),
-                child: Column(
-                  children: [
-                    Expanded(
-                        child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(12)),
-                          image: DecorationImage(
-                              image: AssetImage(challenge.coverPhoto!),
-                              fit: BoxFit.cover)),
-                    )),
-                    Text(
-                      challenge.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(fontSize: 16.5),
-                      maxLines: 1,
-                    ),
-                    Text(
-                      'Category',
-                      style: Theme.of(context).textTheme.subtitle2,
-                    )
-                  ],
+                child: Container(
+                  width: 150,
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: Column(
+                    children: [
+                      Expanded(
+                          child: Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(12)),
+                            image: DecorationImage(
+                                image: AssetImage(challenge.coverPhoto!),
+                                fit: BoxFit.cover)),
+                      )),
+                      Text(
+                        challenge.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(fontSize: 16.5),
+                        maxLines: 1,
+                      ),
+                      Text(
+                        'Category',
+                        style: Theme.of(context).textTheme.subtitle2,
+                        maxLines: 1,
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

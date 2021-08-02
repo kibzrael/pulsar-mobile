@@ -35,6 +35,14 @@ dependencies:
   shared_preferences:
 
   path: ^1.8.0
+
+  path_provider: ^2.0.2
+
+  video_compress: ^3.1.0
+  
+  flutter_video_info: ^1.2.0
+
+  permission_handler: ^8.1.4+2
   sqflite:
 
   json_serializable:

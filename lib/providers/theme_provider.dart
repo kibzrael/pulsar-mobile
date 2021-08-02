@@ -13,6 +13,7 @@ ThemeData lightTheme = ThemeData(
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
   indicatorColor: Colors.deepOrangeAccent,
+  iconTheme: IconThemeData(color: Colors.grey[500]),
   textSelectionTheme:
       TextSelectionThemeData(cursorColor: Colors.deepOrangeAccent),
   inputDecorationTheme: InputDecorationTheme(
@@ -63,7 +64,7 @@ ThemeData darkTheme = ThemeData(
       hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey[400])),
   appBarTheme: AppBarTheme(color: Colors.grey[900], elevation: 0.0),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.grey[900],
       elevation: 0.0,
       selectedItemColor: Colors.deepPurpleAccent,
       unselectedItemColor: Colors.grey),

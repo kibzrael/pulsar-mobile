@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:pulsar/auth/signup_page.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 
@@ -70,7 +71,10 @@ class SignupResponse {
 }
 
 class SignUserInfo {
-  DateTime? birthday;
+  int? id;
   String? username;
-  String? password;
+  DateTime? birthday;
+  Interest? category;
+  String? profilePic;
+  List<Interest>? interests;
 }

@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
         body: Navigator(
       key: key,
       initialRoute: '/',
+      observers: [MyRouteObserver(context, 0)],
       onGenerateRoute: (settings) {
         return myPageRoute(
             settings: settings, builder: (context) => RootHomePage());
@@ -105,7 +106,9 @@ class _RootHomePageState extends State<RootHomePage>
     super.build(context);
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
+
     rootPageProvider.pageScrollControllers.putIfAbsent(0, () => pageController);
+
     return Theme(
       data: darkTheme,
       child: Builder(builder: (
@@ -137,18 +140,6 @@ class _RootHomePageState extends State<RootHomePage>
                   ],
                 ),
               ),
-
-              //to remove
-              //  CupertinoSlidingSegmentedControl(
-              //   onValueChanged: onPageChanged,
-              //   groupValue: pageIndex,
-              //   thumbColor: Colors.white30,
-              //   backgroundColor: Colors.white12,
-              //   children: {
-              //     0: segmentObject('Following'),
-              //     1: segmentObject('Discover')
-              //   },
-              // ),
               actions: [
                 IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
               ],
@@ -156,5 +147,45 @@ class _RootHomePageState extends State<RootHomePage>
             body: PostsView(initialPosts: posts, controller: pageController));
       }),
     );
+  }
+}
+
+class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
+  BuildContext context;
+  int index;
+
+  MyRouteObserver(this.context, this.index);
+
+  void _sendScreenView(PageRoute<dynamic> route) {
+    String? screenName = route.settings.name;
+    BasicRootProvider provider =
+        Provider.of<BasicRootProvider>(context, listen: false);
+    provider.navigatorsTop.update(index, (value) => '$screenName');
+    provider.notify();
+    print('${provider.navigatorsTop}');
+  }
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    if (route is PageRoute) {
+      _sendScreenView(route);
+    }
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    if (newRoute is PageRoute) {
+      _sendScreenView(newRoute);
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    if (previousRoute is PageRoute && route is PageRoute) {
+      _sendScreenView(previousRoute);
+    }
   }
 }

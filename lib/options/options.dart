@@ -18,8 +18,7 @@ class Options extends StatelessWidget {
             Option option = options[index];
             return MyListTile(
               title: option.name,
-              leading: Icon(option.icon,
-                  color: Theme.of(context).textTheme.subtitle2!.color),
+              leading: Icon(option.icon),
               onPressed: option.onPressed,
             );
           }),

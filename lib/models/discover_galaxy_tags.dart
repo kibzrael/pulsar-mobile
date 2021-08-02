@@ -35,7 +35,7 @@ class _DiscoverGalaxyTagsState extends State<DiscoverGalaxyTags> {
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            String name = index == 0 ? 'Trending' : tags[index - 1].name!;
+            String name = index == 0 ? 'Trending' : tags[index - 1].name;
             return GalaxyTag(
                 text: name, isSelected: selected == name, onPressed: select);
           }),

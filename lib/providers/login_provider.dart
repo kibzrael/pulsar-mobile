@@ -40,22 +40,21 @@ class LoginProvider extends ChangeNotifier {
     print(response.statusCode);
     print(response.body);
     if (response.statusCode == 200) {
+      await saveLogin(context,
+          token: response.body!['jwtToken'], user: response.body!['user']);
       Future.delayed(Duration(milliseconds: 300)).then((value) {
         _loggedIn = true;
         notifyListeners();
-
-        saveLogin(context,
-            token: response.body!['jwtToken'], user: response.body!['user']);
       });
     }
     return response;
   }
 
   signup(BuildContext context,
-      {required String token, required Map<String, dynamic> user}) {
+      {required String token, required Map<String, dynamic> user}) async {
+    await saveLogin(context, token: token, user: user);
     _loggedIn = true;
     notifyListeners();
-    saveLogin(context, token: token, user: user);
   }
 
   saveLogin(BuildContext context,
@@ -78,6 +77,7 @@ class LoginProvider extends ChangeNotifier {
     });
 
     Provider.of<UserProvider>(context, listen: false).setUser(user);
+    return;
   }
 
   logout(BuildContext context) async {

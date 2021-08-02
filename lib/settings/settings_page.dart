@@ -65,7 +65,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: subKey,
                       leading: Icon(
                         settings[key]![subKey]!['icon'],
-                        color: Theme.of(context).textTheme.subtitle2!.color,
                       ),
                     )
                 ],

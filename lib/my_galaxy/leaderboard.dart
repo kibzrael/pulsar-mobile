@@ -1,78 +1,131 @@
-import 'package:flutter/material.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:pulsar/ads/banner_ad.dart';
+import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/section.dart';
 
 class Leaderboard extends StatefulWidget {
+  final Challenge challenge;
+  Leaderboard(this.challenge);
   @override
   _LeaderboardState createState() => _LeaderboardState();
 }
 
 class _LeaderboardState extends State<Leaderboard> {
+  late Challenge challenge;
+
+  late ScrollController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    challenge = widget.challenge;
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Leaderboard'),
-        actions: [IconButton(onPressed: () {}, icon: Icon(MyIcons.info))],
-      ),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                winnersProfile(2, lynn),
-                winnersProfile(1, tahlia),
-                winnersProfile(3, kinjaz),
-              ],
-            ),
-          ),
-          MyListTile(
-            title: 'You',
-            subtitle: 'Current Position',
-            leading: CircleAvatar(
-              backgroundImage: AssetImage('assets/logo.jpg'),
-              radius: 21,
-            ),
-            trailingText: 'N/A',
-            flexRatio: [4, 1],
-          ),
-          Flexible(
-            child: Container(
-              color: Theme.of(context).colorScheme.surface,
-              child: ListView.builder(
-                  itemCount: allUsers.length,
-                  itemBuilder: (context, index) {
-                    User user = allUsers[index];
-                    return MyListTile(
-                      title: '@${user.username}',
-                      subtitle: user.category,
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(user.profilePic),
-                        radius: 21,
+        extendBody: true,
+        appBar: AppBar(
+          title: Text('Leaderboard'),
+          actions: [IconButton(onPressed: () {}, icon: Icon(MyIcons.info))],
+        ),
+        body: NestedScrollView(
+          controller: controller,
+          headerSliverBuilder: (context, f) {
+            return [
+              SliverList(
+                  delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        winnersProfile(2, lynn),
+                        winnersProfile(1, tahlia),
+                        winnersProfile(3, kinjaz),
+                      ],
+                    ),
+                  ),
+                  MyBannerAd(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 4),
+                    child: SectionTitle(
+                      title: '${challenge.name}',
+                      trailing: Text(
+                        '12K posts',
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
-                      trailing: Card(
-                        shape: CircleBorder(),
-                        child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              '${index + 4}',
-                              style: Theme.of(context).textTheme.bodyText1,
-                            )),
-                      ),
-                      trailingArrow: false,
-                      flexRatio: [4, 1],
-                    );
-                  }),
-            ),
-          )
-        ],
-      ),
-    );
+                    ),
+                  ),
+                ],
+              )),
+            ];
+          },
+          innerScrollPositionKeyBuilder: () {
+            return Key('Scroll1');
+          },
+          body: Column(
+            children: [
+              MyListTile(
+                title: 'You',
+                subtitle: 'Current Position',
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage('assets/old_logo.jpg'),
+                  radius: 21,
+                ),
+                trailingText: 'N/A',
+                flexRatio: [4, 1],
+              ),
+              Expanded(
+                child: Container(
+                    color: Theme.of(context).colorScheme.surface,
+                    child: NestedScrollViewInnerScrollPositionKeyWidget(
+                        Key('Scroll1'),
+                        ListView.builder(
+                            itemCount: allUsers.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              User user = allUsers[index];
+                              return MyListTile(
+                                title: '@${user.username}',
+                                subtitle: user.category,
+                                leading: CircleAvatar(
+                                  backgroundImage: AssetImage(user.profilePic),
+                                  radius: 21,
+                                ),
+                                trailing: Card(
+                                  shape: CircleBorder(),
+                                  child: Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text(
+                                        '${index + 4}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1,
+                                      )),
+                                ),
+                                trailingArrow: false,
+                                flexRatio: [4, 1],
+                              );
+                            }))),
+              ),
+            ],
+          ),
+        ));
   }
 
   Widget winnersProfile(int pos, User user) {

@@ -4,7 +4,6 @@ import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
-import 'package:pulsar/widgets/route.dart';
 
 class DiscoverGalaxy extends StatefulWidget {
   @override
@@ -38,7 +37,8 @@ class _DiscoverGalaxyState extends State<DiscoverGalaxy> {
             Post post = posts[index];
             return InkWell(
               onTap: () {
-                Navigator.of(context).push(myPageRoute(
+                Navigator.of(context).push(MaterialPageRoute(
+                    settings: RouteSettings(name: 'postView'),
                     builder: (context) => PostScreen(
                           initialPosts: posts,
                           postInView: index,

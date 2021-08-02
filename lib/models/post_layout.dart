@@ -14,7 +14,8 @@ import 'package:pulsar/models/post_video.dart';
 class PostLayout extends StatefulWidget {
   final Post post;
   final bool isInView;
-  PostLayout(this.post, {this.isInView = false});
+  final bool stretch;
+  PostLayout(this.post, {this.isInView = false, required this.stretch});
 
   @override
   _PostLayoutState createState() => _PostLayoutState();
@@ -119,102 +120,119 @@ class _PostLayoutState extends State<PostLayout> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(myPageRoute(
-                            builder: (context) => ProfilePage(post.user)));
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircleAvatar(
-                                backgroundColor: Theme.of(context).dividerColor,
-                                backgroundImage:
-                                    AssetImage('${post.user.profilePic}'),
-                                radius: 21),
-                            SizedBox(width: 5),
-                            Flexible(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Caption of the post\nHas soft wrap\nOccupies max of four lines\nno read more...',
+                          maxLines: 4,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(myPageRoute(
+                                builder: (context) => ProfilePage(post.user)));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2, vertical: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                    backgroundColor:
+                                        Theme.of(context).dividerColor,
+                                    backgroundImage:
+                                        AssetImage('${post.user.profilePic}'),
+                                    radius: 21),
+                                SizedBox(width: 5),
+                                Flexible(
+                                  child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Flexible(
-                                          child: Text('@${post.user.username}',
-                                              maxLines: 1,
-                                              overflow: TextOverflow.clip,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1!
-                                                  .copyWith(fontSize: 16.5)),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Padding(
-                                          padding: EdgeInsets.only(bottom: 2.0),
-                                          child: Text(
-                                            '2min',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2!
-                                                .copyWith(
-                                                    fontSize: 12,
-                                                    color: Colors.white),
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        InkWell(
-                                          onTap: () {},
-                                          child: Container(
-                                            padding: EdgeInsets.all(1.5),
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  width: 5,
-                                                  height: 5,
-                                                  margin: EdgeInsets.only(
-                                                      right: 2.5),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: Theme.of(context)
-                                                          .buttonColor),
-                                                ),
-                                                Text(
-                                                  'Follow',
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                  '@${post.user.username}',
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.clip,
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .bodyText1!
+                                                      .subtitle1!
                                                       .copyWith(
-                                                          fontSize: 13.5,
+                                                          fontSize: 16.5)),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(bottom: 2.0),
+                                              child: Text(
+                                                '2min',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2!
+                                                    .copyWith(
+                                                        fontSize: 12,
+                                                        color: Colors.white),
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            InkWell(
+                                              onTap: () {},
+                                              child: Container(
+                                                padding: EdgeInsets.all(1.5),
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      width: 5,
+                                                      height: 5,
+                                                      margin: EdgeInsets.only(
+                                                          right: 2.5),
+                                                      decoration: BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
                                                           color:
                                                               Theme.of(context)
                                                                   .buttonColor),
+                                                    ),
+                                                    Text(
+                                                      'Follow',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .copyWith(
+                                                              fontSize: 13.5,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .buttonColor),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(height: 2.5),
-                                    Flexible(
-                                      child: Text('Challenge',
-                                          maxLines: 1,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle2!
-                                              .copyWith(color: Colors.white)),
-                                    ),
-                                  ]),
-                            )
-                          ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 2.5),
+                                        Flexible(
+                                          child: Text('Challenge',
+                                              maxLines: 1,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2!
+                                                  .copyWith(
+                                                      color: Colors.white)),
+                                        ),
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                   Container(
@@ -277,6 +295,7 @@ class _PostLayoutState extends State<PostLayout> {
                 ],
               ),
             ),
+            if (widget.stretch) SizedBox(height: kToolbarHeight)
           ])
         ],
       ),

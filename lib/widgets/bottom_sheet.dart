@@ -59,7 +59,7 @@ class MyBottomSheet extends StatelessWidget {
                     ),
                   if (fullDialog)
                     Container(
-                      color: Colors.red,
+                      color: Theme.of(context).colorScheme.primary,
                       height: 36,
                     ),
                   if (title != null) title!,

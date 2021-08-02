@@ -91,6 +91,7 @@ class _GridPostsState extends State<GridPosts>
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
+                              settings: RouteSettings(name: 'postView'),
                               builder: (context) => PostScreen(
                                     initialPosts: posts,
                                     postInView: index,

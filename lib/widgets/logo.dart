@@ -12,7 +12,7 @@ class PulsarLogo extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: ColorFiltered(
-        colorFilter: Theme.of(context).brightness == Brightness.light
+        colorFilter: Theme.of(context).brightness == Brightness.dark
             ? ColorFilter.matrix(<double>[
                 1,
                 0,
@@ -59,7 +59,7 @@ class PulsarLogo extends StatelessWidget {
               ]),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
-          child: Image.asset('assets/logo.jpg',
+          child: Image.asset('assets/logo.png',
               width: size, height: size, fit: BoxFit.cover),
         ),
       ),

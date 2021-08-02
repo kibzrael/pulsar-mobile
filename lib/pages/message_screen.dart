@@ -9,6 +9,7 @@ import 'package:pulsar/messaging/highlight_users.dart';
 import 'package:pulsar/messaging/search_messages.dart';
 import 'package:pulsar/messaging/spam/spam_inbox.dart';
 import 'package:pulsar/options/message_options.dart';
+import 'package:pulsar/pages/home_page.dart';
 import 'package:pulsar/providers/messages_provider.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
@@ -30,6 +31,7 @@ class _MessageScreenState extends State<MessageScreen> {
       body: Navigator(
         key: key,
         initialRoute: '/',
+        observers: [MyRouteObserver(context, 3)],
         onGenerateRoute: (settings) {
           return myPageRoute(
               settings: settings, builder: (context) => RootMessageScreen());

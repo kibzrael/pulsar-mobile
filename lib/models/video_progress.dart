@@ -33,20 +33,31 @@ class _VideoProgressState extends State<VideoProgress> {
     // }
 
     return Container(
-        height: 3,
-        width: double.infinity,
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: Colors.white54),
-        child: LinearProgressIndicator(
-          color: Theme.of(context).accentColor,
-          backgroundColor: Colors.transparent,
-        )
+      height: 5,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 30),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Theme.of(context).dividerColor,
+                Theme.of(context).scaffoldBackgroundColor,
+                Theme.of(context).dividerColor
+              ]),
+          border: Border.all(
+            color: Theme.of(context).dividerColor,
+          )),
+      // child: LinearProgressIndicator(
+      //   color: Theme.of(context).accentColor,
+      //   backgroundColor: Colors.transparent,
+      // )
 
-        // StreamBuilder(stream: controller!.position.asStream(),
-        // builder: (context,snapshot){
-        //   return
-        // }),
-        );
+      // StreamBuilder(stream: controller!.position.asStream(),
+      // builder: (context,snapshot){
+      //   return
+      // }),
+    );
   }
 }

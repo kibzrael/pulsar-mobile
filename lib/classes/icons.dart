@@ -19,6 +19,9 @@ class MyIcons {
   static IconData addOutlined =
       myIcon(Icons.add_circle_outline, Icons.add_circle_outline);
 
+  static IconData arrowDown =
+      myIcon(Icons.keyboard_arrow_down, Icons.keyboard_arrow_down_outlined);
+
   static IconData attatchment =
       myIcon(Icons.attachment, Icons.attachment_outlined);
 
@@ -46,7 +49,7 @@ class MyIcons {
 
   static IconData dataSaver = myIcon(Icons.data_usage, Icons.data_usage);
 
-  static IconData delete = myIcon(Icons.delete, Icons.delete);
+  static IconData delete = myIcon(Icons.delete_outline, Icons.delete_outline);
 
   static IconData email = myIcon(Icons.email, Icons.email_outlined);
 
@@ -77,6 +80,8 @@ class MyIcons {
 
   static IconData forward =
       myIcon(Icons.arrow_forward, Icons.arrow_forward_ios);
+
+  static IconData gallery = myIcon(Icons.photo, Icons.photo);
 
   static IconData google = myIcon(SvgIcons.google, SvgIcons.google);
 
@@ -162,6 +167,8 @@ class MyIcons {
 
   static IconData switchCamera = myIcon(Icons.autorenew, Icons.autorenew);
 
+  static IconData tag = myIcon(Icons.tag, Icons.tag);
+
   static IconData terms = myIcon(Icons.book, Icons.book);
 
   static IconData theme =
@@ -173,6 +180,8 @@ class MyIcons {
   static IconData tune = myIcon(Icons.tune, Icons.tune);
 
   static IconData twitter = myIcon(SvgIcons.twitter, SvgIcons.twitter);
+
+  static IconData volume = myIcon(Icons.volume_up, Icons.volume_up_outlined);
 
   //
   // ios and android checkup

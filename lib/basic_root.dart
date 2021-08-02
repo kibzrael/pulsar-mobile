@@ -16,8 +16,6 @@ class BasicRoot extends StatefulWidget {
 }
 
 class _BasicRootState extends State<BasicRoot> {
-  late bool themeIsDark;
-
   PageController? pageController;
   int currentIndex = 0;
 
@@ -68,8 +66,6 @@ class _BasicRootState extends State<BasicRoot> {
 
   @override
   Widget build(BuildContext context) {
-    themeIsDark =
-        currentIndex == 0 || Theme.of(context).brightness == Brightness.dark;
     return WillPopScope(
       onWillPop: () async {
         bool response;
@@ -82,12 +78,31 @@ class _BasicRootState extends State<BasicRoot> {
         }
         return response;
       },
-      child: Provider<BasicRootProvider>(
+      child: ChangeNotifierProvider<BasicRootProvider>(
           create: (_) => BasicRootProvider(),
           builder: (context, child) {
             return Consumer<BasicRootProvider>(
                 builder: (context, provider, child) {
               basicRootProvider = provider;
+              Map<int, String> navigatorTop = provider.navigatorsTop;
+              bool barTransparent() {
+                bool transparent = false;
+
+                if (navigatorTop[0] == '/' && currentIndex == 0) {
+                  transparent = true;
+                }
+                navigatorTop.forEach((key, value) {
+                  if (value == 'postView' && currentIndex == key) {
+                    transparent = true;
+                  }
+                });
+                print(transparent);
+                return transparent;
+              }
+
+              bool themeIsDark = barTransparent() ||
+                  Theme.of(context).brightness == Brightness.dark;
+
               return Scaffold(
                 extendBody: true,
                 resizeToAvoidBottomInset: false,
@@ -103,79 +118,95 @@ class _BasicRootState extends State<BasicRoot> {
                     MyProfilePage(),
                   ],
                 ),
-                bottomNavigationBar: CupertinoTabBar(
-                  border: Border(
-                    top: BorderSide(color: Colors.transparent),
-                  ),
-                  backgroundColor: Colors.transparent,
-                  activeColor: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .selectedItemColor,
-                  inactiveColor: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .unselectedItemColor!,
-                  onTap: navigationChange,
-                  iconSize: 27,
-                  currentIndex: currentIndex,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                      MyIcons.home,
-                      size: 25,
-                    )),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                      MyIcons.explore,
-                      size: 30,
-                    )),
-                    BottomNavigationBarItem(
-                      icon: Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Transform.rotate(
-                          angle: 45,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 5),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                colors: [
-                                  Theme.of(context).accentColor,
-                                  themeIsDark
-                                      ? Colors.transparent
-                                      : Colors.white,
-                                  Theme.of(context).buttonColor,
-                                ],
-                              ),
-                            ),
-                            child: Transform.rotate(
-                              angle: -45,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: themeIsDark
-                                      ? Colors.black45
-                                      : Colors.white54,
-                                  shape: BoxShape.circle,
+                bottomNavigationBar: BottomAppBar(
+                  elevation: barTransparent() ? 0 : 16,
+                  color: barTransparent()
+                      ? Colors.transparent
+                      : Theme.of(context)
+                          .bottomNavigationBarTheme
+                          .backgroundColor,
+                  child: CupertinoTabBar(
+                    border: Border(
+                      top: BorderSide(
+                          color: barTransparent()
+                              ? Colors.transparent
+                              : Theme.of(context).colorScheme.surface),
+                    ),
+                    backgroundColor: barTransparent()
+                        ? Colors.transparent
+                        : Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .backgroundColor,
+                    activeColor: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .selectedItemColor,
+                    inactiveColor: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .unselectedItemColor!,
+                    onTap: navigationChange,
+                    iconSize: 27,
+                    currentIndex: currentIndex,
+                    items: [
+                      BottomNavigationBarItem(
+                          icon: Icon(
+                        MyIcons.home,
+                        size: 25,
+                      )),
+                      BottomNavigationBarItem(
+                          icon: Icon(
+                        MyIcons.explore,
+                        size: 30,
+                      )),
+                      BottomNavigationBarItem(
+                        icon: Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Transform.rotate(
+                            angle: 45,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context).accentColor,
+                                    themeIsDark
+                                        ? Colors.transparent
+                                        : Colors.white,
+                                    Theme.of(context).buttonColor,
+                                  ],
                                 ),
-                                child: Icon(
-                                  MyIcons.add,
-                                  size: 30,
-                                  color:
-                                      themeIsDark ? Colors.white : Colors.black,
+                              ),
+                              child: Transform.rotate(
+                                angle: -45,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: themeIsDark
+                                        ? Colors.black45
+                                        : Colors.white54,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    MyIcons.add,
+                                    size: 30,
+                                    color: themeIsDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    BottomNavigationBarItem(icon: Icon(MyIcons.message)),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                      MyIcons.account,
-                      size: 24,
-                    )),
-                  ],
+                      BottomNavigationBarItem(icon: Icon(MyIcons.message)),
+                      BottomNavigationBarItem(
+                          icon: Icon(
+                        MyIcons.account,
+                        size: 24,
+                      )),
+                    ],
+                  ),
                 ),
               );
             });
@@ -184,9 +215,21 @@ class _BasicRootState extends State<BasicRoot> {
   }
 }
 
-class BasicRootProvider {
+class BasicRootProvider extends ChangeNotifier {
   double bottomPadding = kToolbarHeight;
 
   Map<int, dynamic> pageScrollControllers = {};
   Map<int, GlobalKey<NavigatorState>> pageNavigators = {};
+
+  Map<int, String> navigatorsTop = {
+    0: '/',
+    1: '/',
+    2: '/',
+    3: '/',
+    4: '/',
+  };
+
+  notify() {
+    notifyListeners();
+  }
 }

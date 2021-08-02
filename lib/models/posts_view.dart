@@ -43,7 +43,8 @@ class _PostsViewState extends State<PostsView> {
                 itemCount: posts.length,
                 carouselController: widget.controller,
                 itemBuilder: (context, index, _) {
-                  return PostLayout(posts[index], isInView: pageIndex == index);
+                  return PostLayout(posts[index],
+                      isInView: pageIndex == index, stretch: stretch);
                 },
                 options: CarouselOptions(
                     height: constraints.maxHeight -
@@ -65,7 +66,7 @@ class _PostsViewState extends State<PostsView> {
                 height: 2,
               ),
               VideoProgress(),
-              SizedBox(height: kToolbarHeight)
+              SizedBox(height: kToolbarHeight - 2.5)
             ],
           )
         ],

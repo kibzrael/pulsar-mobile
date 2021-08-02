@@ -37,7 +37,7 @@ class _TrimVideoState extends State<TrimVideo> {
                         height: 100,
                         decoration: BoxDecoration(
                             border:
-                                Border.all(color: Colors.white12, width: 2)),
+                                Border.all(color: Colors.white12, width: 1)),
                       );
                     }),
               ),
@@ -56,41 +56,85 @@ class _TrimVideoState extends State<TrimVideo> {
                 child: Text('1:13'),
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
+            Positioned(
+              right: 0,
               child: Container(
                 width: 24,
                 height: 100,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    gradient:
+                        LinearGradient(begin: Alignment.topCenter, colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Theme.of(context).buttonColor,
+                    ]),
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(15))),
                 child: ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(right: Radius.circular(15)),
                   child: CustomPaint(
-                    size: Size(24, 100),
-                    painter: HandlePainter(),
-                  ),
+                      size: Size(24, 100),
+                      painter: HandlePainter(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 3,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: Colors.white60,
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                          Container(
+                            width: 3,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.centerLeft,
+            Positioned(
+              left: 0,
               child: Container(
                 width: 24,
                 height: 100,
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    gradient:
+                        LinearGradient(begin: Alignment.topCenter, colors: [
+                      Theme.of(context).colorScheme.primary,
+                      Theme.of(context).buttonColor,
+                    ]),
                     borderRadius:
                         BorderRadius.horizontal(left: Radius.circular(15))),
                 child: ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(left: Radius.circular(15)),
                   child: CustomPaint(
-                    size: Size(24, 100),
-                    painter: HandlePainter(),
-                  ),
+                      size: Size(24, 100),
+                      painter: HandlePainter(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 3,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: Colors.white60,
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                          Container(
+                            width: 3,
+                            height: 25,
+                            decoration: BoxDecoration(
+                                color: Colors.white54,
+                                borderRadius: BorderRadius.circular(3)),
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ),
@@ -124,7 +168,7 @@ class HandlePainter extends CustomPainter {
     // Create a Pattern object of diagonal stripes with the colors we want.
     final Pattern pattern = DiagonalStripesThick(
         bgColor: Colors.transparent,
-        fgColor: Colors.grey[850]!,
+        fgColor: Colors.white54,
         featuresCount: 20);
 
     // Paint the pattern on the rectangle.

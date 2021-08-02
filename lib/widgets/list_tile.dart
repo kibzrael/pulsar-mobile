@@ -28,6 +28,7 @@ class MyListTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (leading != null)
               Padding(
@@ -67,15 +68,23 @@ class MyListTile extends StatelessWidget {
             else
               Spacer(),
             if (trailing != null) trailing!,
-            if (trailingArrow)
-              Icon(
-                MyIcons.trailingArrow,
-                color: Theme.of(context).textTheme.subtitle2!.color,
-                size: 18,
-              )
+            if (trailingArrow) TraillingArrow()
           ],
         ),
       ),
+    );
+  }
+}
+
+class TraillingArrow extends StatelessWidget {
+  final double size;
+  TraillingArrow({this.size = 18});
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      MyIcons.trailingArrow,
+      color: Theme.of(context).textTheme.subtitle2!.color,
+      size: size,
     );
   }
 }

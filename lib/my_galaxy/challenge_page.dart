@@ -7,6 +7,8 @@ import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile_stats.dart';
 import 'package:pulsar/my_galaxy/leaderboard.dart';
+import 'package:pulsar/my_galaxy/prizes.dart';
+import 'package:pulsar/my_galaxy/rules.dart';
 import 'package:pulsar/options/challenge_options.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -223,15 +225,31 @@ class _ChallengePageState extends State<ChallengePage>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     option(
-                        icon: MyIcons.rules, text: 'Rules', onPressed: () {}),
+                        icon: MyIcons.rules,
+                        text: 'Rules',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              myPageRoute(
+                                  builder: (context) => ChallengeRules(
+                                      challenge,
+                                      rules: challenge.description ?? '')));
+                        }),
                     option(
-                        icon: MyIcons.prize, text: 'Prizes', onPressed: () {}),
+                        icon: MyIcons.prize,
+                        text: 'Prizes',
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              myPageRoute(
+                                  builder: (context) => ChallengePrizes()));
+                        }),
                     option(
                         icon: MyIcons.leaderboard,
                         text: 'Leaderboard',
                         onPressed: () {
-                          Navigator.of(context).push(
-                              myPageRoute(builder: (context) => Leaderboard()));
+                          Navigator.of(context).push(myPageRoute(
+                              builder: (context) => Leaderboard(challenge)));
                         }),
                   ],
                 ),
