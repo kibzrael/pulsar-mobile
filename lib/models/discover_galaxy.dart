@@ -41,6 +41,7 @@ class _DiscoverGalaxyState extends State<DiscoverGalaxy> {
                     settings: RouteSettings(name: 'postView'),
                     builder: (context) => PostScreen(
                           initialPosts: posts,
+                          title: 'Discover',
                           postInView: index,
                         )));
               },

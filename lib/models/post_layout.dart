@@ -7,6 +7,7 @@ import 'package:pulsar/models/share_post.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
+import 'package:pulsar/secondary_pages.dart/tag_page.dart';
 import 'package:pulsar/widgets/interactions.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/models/post_video.dart';
@@ -98,7 +99,10 @@ class _PostLayoutState extends State<PostLayout> {
             //     child: Row(
             //       mainAxisAlignment: MainAxisAlignment.center,
             //       children: [
-            //         Icon(MyIcons.music),
+            //         Icon(
+            //           MyIcons.music,
+            //           size: 21,
+            //         ),
             //         SizedBox(width: 15),
             //         SizedBox(
             //           height: 20,
@@ -119,14 +123,10 @@ class _PostLayoutState extends State<PostLayout> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Expanded(
+                  Flexible(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Caption of the post\nHas soft wrap\nOccupies max of four lines\nno read more...',
-                          maxLines: 4,
-                        ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(myPageRoute(
@@ -232,6 +232,33 @@ class _PostLayoutState extends State<PostLayout> {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          child: Text(
+                            'Caption of the post. Has soft wrap\nOccupies max of three lines\nno read more...',
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 8,
+                            runSpacing: 7.5,
+                            alignment: WrapAlignment.start,
+                            runAlignment: WrapAlignment.start,
+                            children: [
+                              Tag('#photography'),
+                              Tag('#music'),
+                              Tag('#dance'),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -315,6 +342,37 @@ class ThemeBugFix extends StatelessWidget {
       data: provider.theme!,
       child: Builder(
         builder: (context) => child,
+      ),
+    );
+  }
+}
+
+class Tag extends StatelessWidget {
+  final String text;
+  Tag(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          myPageRoute(
+            builder: (context)=> TagPage()
+          )
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+            border: Border.all(
+                width: 1.5, color: Colors.white70, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(15)),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white70,
+          ),
+        ),
       ),
     );
   }

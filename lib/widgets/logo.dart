@@ -7,61 +7,19 @@ class PulsarLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      child: ColorFiltered(
-        colorFilter: Theme.of(context).brightness == Brightness.dark
-            ? ColorFilter.matrix(<double>[
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                1,
-                0
-              ])
-            : ColorFilter.matrix(<double>[
-                -1,
-                0,
-                0,
-                0,
-                255,
-                0,
-                -1,
-                0,
-                0,
-                255,
-                0,
-                0,
-                -1,
-                0,
-                255,
-                0,
-                0,
-                0,
-                1,
-                0
-              ]),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Image.asset('assets/logo.png',
-              width: size, height: size, fit: BoxFit.cover),
-        ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: Image.asset(
+            Theme.of(context).brightness == Brightness.dark
+                ? 'assets/logo.png'
+                : 'assets/logo 1.png',
+            width: size,
+            height: size,
+            fit: BoxFit.cover),
       ),
     );
   }

@@ -31,22 +31,32 @@ class _MyNativeAdState extends State<MyNativeAd> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8),
-      height: 250,
-      color: Theme.of(context).cardColor,
-      child: banner == null
-          ? Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                child: Text(
-                  'Ad.',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-            )
-          : AdWidget(ad: banner!),
-    );
+        width: double.infinity,
+        margin: EdgeInsets.symmetric(vertical: 8),
+        height: 250,
+        color: Theme.of(context).cardColor,
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: Text(
+              'Native Ad.',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+        )
+        //  banner == null
+        //     ? Align(
+        //         alignment: Alignment.centerLeft,
+        //         child: Padding(
+        //           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        //           child: Text(
+        //             'Ad.',
+        //             style: Theme.of(context).textTheme.bodyText1,
+        //           ),
+        //         ),
+        //       )
+        //     : AdWidget(ad: banner!),
+        );
   }
 }

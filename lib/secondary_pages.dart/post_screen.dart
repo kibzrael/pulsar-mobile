@@ -9,9 +9,11 @@ import 'package:pulsar/providers/theme_provider.dart';
 class PostScreen extends StatefulWidget {
   final List<Post> initialPosts;
   final int postInView;
+  final String title;
 
   PostScreen(
       {required this.initialPosts, // = const [],
+      required this.title,
       this.postInView = 0});
 
   @override
@@ -30,9 +32,13 @@ class _PostScreenState extends State<PostScreen> {
       data: darkTheme,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent, actions: [
-          IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
-        ]),
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            centerTitle: true,
+            title: Text(widget.title),
+            actions: [
+              IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
+            ]),
         body: PostsView(
           initialPosts: widget.initialPosts,
           postInView: widget.postInView,

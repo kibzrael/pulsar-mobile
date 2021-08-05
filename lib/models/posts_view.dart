@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/models/post_layout.dart';
-import 'package:pulsar/models/video_progress.dart';
 
 class PostsView extends StatefulWidget {
   final List<Post> initialPosts;
@@ -48,7 +47,7 @@ class _PostsViewState extends State<PostsView> {
                 },
                 options: CarouselOptions(
                     height: constraints.maxHeight -
-                        (stretch ? 0 : (kToolbarHeight + 5)),
+                        (stretch ? 0 : (kToolbarHeight)),
                     scrollDirection: Axis.vertical,
                     viewportFraction: 1,
                     initialPage: initialPage,
@@ -59,16 +58,16 @@ class _PostsViewState extends State<PostsView> {
                     },
                     enableInfiniteScroll: false)),
           ),
-          Column(
-            children: [
-              Spacer(),
-              SizedBox(
-                height: 2,
-              ),
-              VideoProgress(),
-              SizedBox(height: kToolbarHeight - 2.5)
-            ],
-          )
+          // Column(
+          //   children: [
+          //     Spacer(),
+          //     SizedBox(
+          //       height: 2,
+          //     ),
+          //     VideoProgress(),
+          //     SizedBox(height: kToolbarHeight - 2.5)
+          //   ],
+          // )
         ],
       );
     });

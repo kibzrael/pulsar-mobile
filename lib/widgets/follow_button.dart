@@ -9,11 +9,14 @@ class FollowButton extends StatelessWidget {
   final double height;
   final double width;
 
+  final Color? border;
+
   FollowButton(
       {this.height = 45,
       this.isFollowing = false,
       this.onPressed,
       this.text = const {true: 'Following', false: 'Follow'},
+      this.border,
       this.width = double.infinity});
 
   @override
@@ -38,7 +41,7 @@ class FollowButton extends StatelessWidget {
             border: isFollowing
                 ? Border.all(
                     width: 1.5,
-                    color: Theme.of(context).dividerColor,
+                    color: border ?? Theme.of(context).dividerColor,
                   )
                 : Border.all(width: 0, style: BorderStyle.none)),
         child: FittedBox(

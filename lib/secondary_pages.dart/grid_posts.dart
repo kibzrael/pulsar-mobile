@@ -94,6 +94,7 @@ class _GridPostsState extends State<GridPosts>
                               settings: RouteSettings(name: 'postView'),
                               builder: (context) => PostScreen(
                                     initialPosts: posts,
+                                    title: '@${user.username}',
                                     postInView: index,
                                   )));
                         },

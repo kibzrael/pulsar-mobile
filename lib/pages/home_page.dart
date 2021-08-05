@@ -4,13 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/models/posts_view.dart';
 import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/options/post_options.dart';
+import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/secondary_pages.dart/following_posts.dart';
+import 'package:pulsar/secondary_pages.dart/posts_for_you.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,22 +49,25 @@ class _RootHomePageState extends State<RootHomePage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  late CarouselController pageController;
+  late CarouselController followingController;
+  late CarouselController forYouController;
 
-  int pageIndex = 0;
-
-  List<Post> posts = allPosts;
+  int pageIndex = 1;
+  late PageController controller;
 
   @override
   void initState() {
     super.initState();
-    posts.shuffle();
-    pageController = CarouselController();
+    controller = PageController(initialPage: pageIndex);
+
+    followingController = CarouselController();
+    forYouController = CarouselController();
   }
 
-  void onPageChanged(int? index) {
+  void onPageChanged(int index) {
+    controller.jumpToPage(index);
     setState(() {
-      pageIndex = index ?? 0;
+      pageIndex = index;
     });
   }
 
@@ -76,38 +80,18 @@ class _RootHomePageState extends State<RootHomePage>
     openBottomSheet(context, (context) => PostOptions(lynn1));
   }
 
-  Widget segmentObject(String text, int index) {
-    return Expanded(
-      child: InkWell(
-        onTap: () => onPageChanged(index),
-        child: Container(
-            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-            alignment:
-                index == 0 ? Alignment.centerRight : Alignment.centerLeft,
-            height: 37.5 - 4,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                text,
-                maxLines: 1,
-                style: TextStyle(
-                    color: pageIndex == index ? Colors.white : Colors.white70,
-                    fontWeight:
-                        pageIndex == index ? FontWeight.w800 : FontWeight.w600,
-                    fontSize: pageIndex == index ? 18.5 : 16.5),
-              ),
-            )),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
 
-    rootPageProvider.pageScrollControllers.putIfAbsent(0, () => pageController);
+    rootPageProvider.pageScrollControllers.update(
+        0, (value) => pageIndex == 0 ? followingController : forYouController,
+        ifAbsent: () {
+      rootPageProvider.pageScrollControllers.putIfAbsent(
+          0, () => pageIndex == 0 ? followingController : forYouController);
+    });
 
     return Theme(
       data: darkTheme,
@@ -129,14 +113,24 @@ class _RootHomePageState extends State<RootHomePage>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    segmentObject('Following', 0),
+                    SegmentObject(
+                      'Following',
+                      0,
+                      pageIndex: pageIndex,
+                      onPressed: onPageChanged,
+                    ),
                     Container(
                       width: 0.75,
                       height: 12,
                       margin: EdgeInsets.symmetric(horizontal: 4),
                       color: Colors.white54,
                     ),
-                    segmentObject('Discover', 1)
+                    SegmentObject(
+                      'For you',
+                      1,
+                      pageIndex: pageIndex,
+                      onPressed: onPageChanged,
+                    )
                   ],
                 ),
               ),
@@ -144,48 +138,68 @@ class _RootHomePageState extends State<RootHomePage>
                 IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
               ],
             ),
-            body: PostsView(initialPosts: posts, controller: pageController));
+            body: PageView(
+              controller: controller,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                FollowingPosts(),
+                PostsForYou(controller: forYouController)
+              ],
+            ));
       }),
     );
   }
 }
 
-class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
-  BuildContext context;
-  int index;
+class SegmentObject extends StatefulWidget {
+  final String text;
+  final int index;
 
-  MyRouteObserver(this.context, this.index);
+  final int pageIndex;
+  final Function(int index) onPressed;
 
-  void _sendScreenView(PageRoute<dynamic> route) {
-    String? screenName = route.settings.name;
-    BasicRootProvider provider =
-        Provider.of<BasicRootProvider>(context, listen: false);
-    provider.navigatorsTop.update(index, (value) => '$screenName');
-    provider.notify();
-    print('${provider.navigatorsTop}');
-  }
+  SegmentObject(this.text, this.index,
+      {required this.pageIndex, required this.onPressed});
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didPush(route, previousRoute);
-    if (route is PageRoute) {
-      _sendScreenView(route);
-    }
-  }
+  _SegmentObjectState createState() => _SegmentObjectState();
+}
+
+class _SegmentObjectState extends State<SegmentObject> {
+  int? oldIndex;
+
+  TextStyle active = TextStyle(
+      color: Colors.white, fontWeight: FontWeight.w800, fontSize: 18.5);
+
+  TextStyle inactive = TextStyle(
+      color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 16.5);
 
   @override
-  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
-    if (newRoute is PageRoute) {
-      _sendScreenView(newRoute);
-    }
-  }
+  Widget build(BuildContext context) {
+    TextStyleTween tween = widget.index == widget.pageIndex
+        ? TextStyleTween(begin: inactive, end: active)
+        : TextStyleTween(begin: active, end: inactive);
 
-  @override
-  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    super.didPop(route, previousRoute);
-    if (previousRoute is PageRoute && route is PageRoute) {
-      _sendScreenView(previousRoute);
-    }
+    return Expanded(
+      child: InkWell(
+        onTap: () => widget.onPressed(widget.index),
+        child: Container(
+            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+            alignment: widget.index == 0
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            height: 37.5 - 4,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: TweenAnimationBuilder<TextStyle>(
+                  tween: tween,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInCirc,
+                  builder: (context, style, _) {
+                    return Text(widget.text, maxLines: 1, style: style);
+                  }),
+            )),
+      ),
+    );
   }
 }

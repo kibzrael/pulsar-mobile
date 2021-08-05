@@ -26,7 +26,9 @@ class FollowLayout extends StatelessWidget {
         children: <Widget>[
           FollowButton(
             isFollowing: isFollowed,
-            text: {true: 'Pinned', false: 'Pin'},
+            text: isPin
+                ? {true: 'Pinned', false: 'Pin'}
+                : {true: 'Following', false: 'Follow'},
             onPressed: onFollow,
             height: 35,
             width: MediaQuery.of(context).size.width / 2,

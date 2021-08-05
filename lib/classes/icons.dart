@@ -112,6 +112,9 @@ class MyIcons {
 
   static IconData message = myIcon(SvgIcons.chat, SvgIcons.chat);
 
+  static IconData messageOutline =
+      myIcon(SvgIcons.chat_outline, SvgIcons.chat_outline);
+
   static IconData mic = myIcon(Icons.mic, Icons.mic);
 
   static IconData more = myIcon(Icons.more_horiz, Icons.more_horiz);

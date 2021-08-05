@@ -6,7 +6,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/profile.dart';
-import 'package:pulsar/pages/home_page.dart';
+import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/edit_profile.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';

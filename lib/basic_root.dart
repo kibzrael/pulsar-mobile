@@ -150,7 +150,7 @@ class _BasicRootState extends State<BasicRoot> {
                       BottomNavigationBarItem(
                           icon: Icon(
                         MyIcons.home,
-                        size: 25,
+                        size: 30,
                       )),
                       BottomNavigationBarItem(
                           icon: Icon(
@@ -199,7 +199,8 @@ class _BasicRootState extends State<BasicRoot> {
                           ),
                         ),
                       ),
-                      BottomNavigationBarItem(icon: Icon(MyIcons.message)),
+                      BottomNavigationBarItem(
+                          icon: Icon(MyIcons.messageOutline)),
                       BottomNavigationBarItem(
                           icon: Icon(
                         MyIcons.account,

@@ -177,6 +177,7 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool enabled =
         !isSubmitting! && !inputs.any((element) => element.length < 1);
+    bool colored = !inputs.any((element) => element.length < 1);
     return InkWell(
       onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
@@ -184,20 +185,24 @@ class AuthButton extends StatelessWidget {
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
-        foregroundDecoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: !enabled
-                ? Theme.of(context).brightness == Brightness.light
-                    ? Colors.white38
-                    : Colors.black38
-                : Colors.transparent),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).buttonColor
-          ]),
-          borderRadius: BorderRadius.circular(30),
-        ),
+        // foregroundDecoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(30),
+        //     color: !enabled
+        //         ? Theme.of(context).brightness == Brightness.light
+        //             ? Colors.white38
+        //             : Colors.black38
+        //         : Colors.transparent),
+        decoration: colored
+            ? BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Theme.of(context).colorScheme.primary,
+                  Theme.of(context).buttonColor
+                ]),
+                borderRadius: BorderRadius.circular(30),
+              )
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Theme.of(context).disabledColor),
         child: isSubmitting!
             ? SizedBox(
                 height: 25,

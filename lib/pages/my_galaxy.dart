@@ -13,7 +13,7 @@ import 'package:pulsar/models/followed_tags.dart';
 import 'package:pulsar/models/pinned_challenges.dart';
 import 'package:pulsar/models/recommended_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
-import 'package:pulsar/pages/home_page.dart';
+import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 import 'package:pulsar/widgets/section.dart';
