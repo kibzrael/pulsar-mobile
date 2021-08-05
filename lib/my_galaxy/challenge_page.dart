@@ -73,12 +73,16 @@ class _ChallengePageState extends State<ChallengePage>
             onTap: onPressed,
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
+                Card(
+                  elevation: 4,
+                  shape: CircleBorder(),
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Theme.of(context).inputDecorationTheme.fillColor),
-                  child: Icon(icon, size: 36),
+                    ),
+                    child: Icon(icon, size: 36),
+                  ),
                 ),
                 SizedBox(height: 5),
                 FittedBox(
@@ -220,7 +224,7 @@ class _ChallengePageState extends State<ChallengePage>
                     });
                   }),
               Padding(
-                padding: EdgeInsets.only(top: 8, bottom: 4.0),
+                padding: EdgeInsets.symmetric(vertical: 4),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

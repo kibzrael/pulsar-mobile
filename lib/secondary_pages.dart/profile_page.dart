@@ -90,6 +90,7 @@ class _ProfilePageState extends State<ProfilePage>
                       FollowLayout(
                           child: Icon(
                             MyIcons.send,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
                           ),
                           isFollowed: isFollowed,
                           onChildPressed: () {

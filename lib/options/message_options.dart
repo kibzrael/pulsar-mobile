@@ -4,16 +4,24 @@ import 'package:pulsar/classes/option.dart';
 import 'package:pulsar/options/options.dart';
 
 class MessageOptions extends StatelessWidget {
-  final List<Option> options = [
-    Option(name: 'Favorite', icon: MyIcons.favorite, onPressed: () {}),
-    Option(name: 'Mute', icon: MyIcons.mute, onPressed: () {}),
-    Option(name: 'Block', icon: MyIcons.block, onPressed: () {}),
-    Option(name: 'Report', icon: MyIcons.report, onPressed: () {}),
-    Option(name: 'Delete Chat', icon: MyIcons.delete, onPressed: () {})
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Options(options);
+    Option favorite =
+        Option(name: 'Favorite', icon: MyIcons.favorite, onPressed: () {});
+    Option mute = Option(name: 'Mute', icon: MyIcons.mute, onPressed: () {});
+    Option block = Option(name: 'Block', icon: MyIcons.block, onPressed: () {});
+    Option report = Option(
+        name: 'Report',
+        color: Theme.of(context).colorScheme.error,
+        icon: MyIcons.report,
+        onPressed: () {});
+    Option delete = Option(
+        name: 'Delete Chat',
+        color: Theme.of(context).colorScheme.error,
+        icon: MyIcons.delete,
+        onPressed: () {});
+
+    List<Option> options = [favorite, mute, block, report, delete];
+    return Options(options, share: false);
   }
 }

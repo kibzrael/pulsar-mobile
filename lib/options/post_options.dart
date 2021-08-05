@@ -9,16 +9,24 @@ class PostOptions extends StatelessWidget {
 
   PostOptions(this.post);
 
-  final List<Option> options = [
-    Option(
-        name: 'Notifications', icon: MyIcons.notifications, onPressed: () {}),
-    Option(name: 'Block', icon: MyIcons.block, onPressed: () {}),
-    Option(name: 'Report', icon: MyIcons.report, onPressed: () {}),
-    Option(name: 'Share', icon: MyIcons.share, onPressed: () {}),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Options(options);
+    Option notification = Option(
+        name: 'Post Notifications',
+        icon: MyIcons.notifications,
+        onPressed: () {});
+    Option block = Option(name: 'Block', icon: MyIcons.block, onPressed: () {});
+    Option report = Option(
+        name: 'Report',
+        icon: MyIcons.report,
+        color: Theme.of(context).colorScheme.error,
+        onPressed: () {});
+
+    Option download =
+        Option(name: 'Download', icon: MyIcons.download, onPressed: () {});
+
+    List<Option> options = [notification, download, block, report];
+
+    return Options(options, share: true, shareText: 'post');
   }
 }

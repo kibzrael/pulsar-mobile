@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
-import 'package:pulsar/models/share_post.dart';
+import 'package:pulsar/options/post_options.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
@@ -93,30 +94,31 @@ class _PostLayoutState extends State<PostLayout> {
             isInView: widget.isInView,
           ),
           Column(children: [
-            // SafeArea(
-            //   child: Container(
-            //     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Icon(
-            //           MyIcons.music,
-            //           size: 21,
-            //         ),
-            //         SizedBox(width: 15),
-            //         SizedBox(
-            //           height: 20,
-            //           width: MediaQuery.of(context).size.width / 2,
-            //           child: Marquee(
-            //             text: 'Calum Scott - Biblical',
-            //             blankSpace: 100,
-            //             startAfter: Duration(seconds: 2),
-            //           ),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            SafeArea(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          color: Colors.white12, shape: BoxShape.circle),
+                      child: Icon(
+                        MyIcons.music,
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      'Calum Scott - Biblical',
+                      maxLines: 1,
+                    )
+                  ],
+                ),
+              ),
+            ),
             Spacer(),
             Container(
               margin: EdgeInsets.only(bottom: 5, left: 21),
@@ -311,7 +313,8 @@ class _PostLayoutState extends State<PostLayout> {
                                 child: ShareButton(
                                   size: 30,
                                   onPressed: () {
-                                    openBottomSheet(_, (_) => SharePost());
+                                    openBottomSheet(
+                                        _, (_) => PostOptions(post));
                                   },
                                 ),
                               );
@@ -355,11 +358,8 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          myPageRoute(
-            builder: (context)=> TagPage()
-          )
-        );
+        Navigator.of(context)
+            .push(myPageRoute(builder: (context) => TagPage()));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),

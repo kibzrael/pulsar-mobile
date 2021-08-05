@@ -4,10 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/data/posts.dart';
-import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/notifications/notifications_page.dart';
-import 'package:pulsar/options/post_options.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/following_posts.dart';
@@ -76,9 +73,9 @@ class _RootHomePageState extends State<RootHomePage>
         .push(myPageRoute(builder: (context) => NotificationsPage()));
   }
 
-  void moreOnPost() {
-    openBottomSheet(context, (context) => PostOptions(lynn1));
-  }
+  // void moreOnPost() {
+  //   openBottomSheet(context, (context) => PostOptions(lynn1));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +131,7 @@ class _RootHomePageState extends State<RootHomePage>
                   ],
                 ),
               ),
-              actions: [
-                IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
-              ],
+              actions: [IconButton(icon: Icon(MyIcons.more), onPressed: () {})],
             ),
             body: PageView(
               controller: controller,

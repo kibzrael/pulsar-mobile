@@ -51,6 +51,8 @@ class MyIcons {
 
   static IconData delete = myIcon(Icons.delete_outline, Icons.delete_outline);
 
+  static IconData download = myIcon(Icons.download, Icons.download);
+
   static IconData email = myIcon(Icons.email, Icons.email_outlined);
 
   static IconData expand = myIcon(
@@ -91,6 +93,8 @@ class MyIcons {
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
 
+  static IconData instagram = myIcon(SvgIcons.instagram, SvgIcons.instagram);
+
   static IconData interactions = myIcon(Icons.favorite, Icons.favorite);
 
   static IconData keyboardUp =
@@ -104,6 +108,8 @@ class MyIcons {
 
   static IconData likeOutline =
       myIcon(Icons.favorite_outline, Icons.favorite_outline);
+
+  static IconData link = myIcon(Icons.link, Icons.link);
 
   static IconData location =
       myIcon(Icons.location_on, Icons.location_on_outlined);
@@ -154,7 +160,7 @@ class MyIcons {
 
   static IconData reposted = myIcon(Icons.repeat_one, Icons.repeat_one);
 
-  static IconData rules = myIcon(Icons.dashboard, Icons.dashboard);
+  static IconData rules = myIcon(Icons.rule, Icons.rule);
 
   static IconData search = myIcon(Icons.search, Icons.search);
 
@@ -185,6 +191,8 @@ class MyIcons {
   static IconData twitter = myIcon(SvgIcons.twitter, SvgIcons.twitter);
 
   static IconData volume = myIcon(Icons.volume_up, Icons.volume_up_outlined);
+
+  static IconData youtube = myIcon(SvgIcons.youtube, SvgIcons.youtube);
 
   //
   // ios and android checkup

@@ -59,12 +59,12 @@ class _ManageAccountState extends State<ManageAccount> {
               ),
               MyListTile(
                 title: 'Email',
-                trailingText: 'kibr******7@gmail.com',
+                trailingText: 'kibraphael7@gmail.com',
                 flexRatio: [2, 3],
               ),
               MyListTile(
                 title: 'Phone',
-                trailingText: '07******68',
+                trailingText: '0723573568',
                 flexRatio: [2, 3],
               ),
               MyListTile(
@@ -92,6 +92,11 @@ class _ManageAccountState extends State<ManageAccount> {
                   MyListTile(
                     title: 'Twitter',
                     leading: Icon(MyIcons.twitter, size: 36),
+                    subtitle: '@${user.username}',
+                  ),
+                  MyListTile(
+                    title: 'Instagram',
+                    leading: Icon(MyIcons.instagram, size: 36),
                     subtitle: '@${user.username}',
                   ),
                 ]),

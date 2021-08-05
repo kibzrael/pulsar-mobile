@@ -4,7 +4,7 @@ class Section extends StatelessWidget {
   final String title;
   final Widget child;
   final Widget? trailing;
-  Section({required this.child, required this.title, this.trailing});
+  Section({required this.title, required this.child, this.trailing});
   @override
   Widget build(BuildContext context) {
     return Container(
