@@ -7,7 +7,9 @@ class FollowButton extends StatelessWidget {
   final Map<bool, String> text;
 
   final double height;
-  final double width;
+  final double? width;
+
+  final EdgeInsets padding;
 
   final Color? border;
 
@@ -16,17 +18,20 @@ class FollowButton extends StatelessWidget {
       this.isFollowing = false,
       this.onPressed,
       this.text = const {true: 'Following', false: 'Follow'},
+      this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       this.border,
-      this.width = double.infinity});
+      this.width});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed as void Function()?,
-      child: Container(
+      child: AnimatedContainer(
         width: width,
         height: height,
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        alignment: Alignment.center,
+        padding: padding,
+        duration: Duration(milliseconds: 300),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: isFollowing

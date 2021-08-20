@@ -3,6 +3,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/compose/compose_message.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 enum HighlightMode {
@@ -95,11 +96,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                     Stack(
                       alignment: Alignment.bottomRight,
                       children: <Widget>[
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Theme.of(context).dividerColor,
-                          backgroundImage: AssetImage(users[index].profilePic),
-                        ),
+                        ProfilePic(users[index].profilePic, radius: 30),
                         // if (online)
                         //   Container(
                         //     padding: EdgeInsets.all(2.5),

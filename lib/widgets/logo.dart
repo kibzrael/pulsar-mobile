@@ -13,13 +13,55 @@ class PulsarLogo extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
-        child: Image.asset(
-            Theme.of(context).brightness == Brightness.dark
-                ? 'assets/logo.png'
-                : 'assets/logo 1.png',
-            width: size,
-            height: size,
-            fit: BoxFit.cover),
+        child: ColorFiltered(
+          colorFilter: Theme.of(context).brightness == Brightness.dark
+              ? ColorFilter.matrix(<double>[
+                  -1,
+                  0,
+                  0,
+                  0,
+                  255,
+                  0,
+                  -1,
+                  0,
+                  0,
+                  255,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  255,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                ])
+              : ColorFilter.matrix(<double>[
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                ]),
+          child: Image.asset('assets/old_logo.jpg',
+              width: size, height: size, fit: BoxFit.cover),
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/post.dart';
@@ -7,6 +6,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 
 class GridPosts extends StatefulWidget {
   final User user;
@@ -63,15 +63,7 @@ class _GridPostsState extends State<GridPosts>
     return isLoading
         ? Align(
             alignment: Alignment.topCenter,
-            child: SizedBox(
-              height: 100,
-              width: 100,
-              child: SpinKitCircle(
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.grey[350]
-                    : Colors.white54,
-              ),
-            ),
+            child: MyProgressIndicator(),
           )
         : posts.isEmpty
             ? NoPosts()

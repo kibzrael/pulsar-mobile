@@ -15,12 +15,31 @@ class MyTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-            color: enabled
-                ? color ?? Theme.of(context).buttonColor
-                : Theme.of(context).disabledColor),
+      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
+      child: ShaderMask(
+        shaderCallback: (rect) {
+          return LinearGradient(
+                  begin: Alignment.centerLeft,
+                  colors: enabled
+                      ? color == null
+                          ? [
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).buttonColor
+                            ]
+                          : [color!, color!]
+                      : [
+                          Theme.of(context).disabledColor,
+                          Theme.of(context).disabledColor
+                        ])
+              .createShader(rect);
+        },
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
+              .copyWith(color: Colors.white),
+        ),
       ),
       onPressed: enabled ? onPressed as void Function()? : null,
     );

@@ -4,6 +4,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/profile_stats.dart';
 import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/photo_view.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class Profile extends StatefulWidget {
@@ -46,18 +47,11 @@ class _ProfileState extends State<Profile> {
                               builder: (context) => PhotoView(user.profilePic,
                                   tag: '${user.id}ProfilePic')));
                     },
-                    child: Hero(
-                      tag: '${user.id}ProfilePic',
-                      child: Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Theme.of(context).dividerColor,
-                            image: DecorationImage(
-                                image: AssetImage(user.profilePic),
-                                fit: BoxFit.cover)),
-                      ),
+                    child: HeroMode(
+                      enabled: true,
+                      child: Hero(
+                          tag: '${user.id}ProfilePic',
+                          child: ProfilePic(user.profilePic, radius: 60)),
                     )
 
                     // MyAvatar(user.profilePic, 45.0)

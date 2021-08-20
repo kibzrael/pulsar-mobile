@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class UploadScreen extends StatefulWidget {
-  const UploadScreen({Key? key}) : super(key: key);
+  final String caption;
+  UploadScreen({required this.caption});
 
   @override
   _UploadScreenState createState() => _UploadScreenState();
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  String caption = '';
+  late PostProvider provider;
+
+  late TextEditingController captionController;
 
   bool location = false;
 
   @override
+  void initState() {
+    super.initState();
+    captionController = TextEditingController(text: widget.caption);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    provider = Provider.of<PostProvider>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -107,7 +119,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                         SizedBox(width: 12),
                                         Expanded(
                                           child: Text(
-                                            'Challenge',
+                                            provider.challenge?.name ??
+                                                'Challenge',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2,
@@ -127,13 +140,14 @@ class _UploadScreenState extends State<UploadScreen> {
                           child: TextField(
                             decoration: InputDecoration(
                                 hintText: 'Caption',
-                                counterText: '${80 - caption.length}'),
+                                counterText: '${80 - provider.caption.length}'),
                             maxLength: 80,
                             maxLines: 4,
                             minLines: 1,
+                            controller: captionController,
                             onChanged: (text) {
                               setState(() {
-                                caption = text;
+                                provider.caption = text;
                               });
                             },
                           ),
@@ -143,10 +157,10 @@ class _UploadScreenState extends State<UploadScreen> {
                           subtitle: 'LA, California',
                           trailingArrow: false,
                           trailing: Switch.adaptive(
-                              value: location,
+                              value: provider.location,
                               onChanged: (value) {
                                 setState(() {
-                                  location = value;
+                                  provider.location = value;
                                 });
                               }),
                         ),

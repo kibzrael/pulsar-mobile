@@ -9,24 +9,17 @@ class ChallengeOptions extends StatelessWidget {
 
   ChallengeOptions(this.challenge);
 
-  final List<Option> options = [
-    Option(
-        name: 'Notifications', icon: MyIcons.notifications, onPressed: () {}),
-    Option(name: 'Report', icon: MyIcons.report, onPressed: () {}),
-    Option(name: 'Share', icon: MyIcons.share, onPressed: () {})
-  ];
-
   @override
   Widget build(BuildContext context) {
     Option notification = Option(
         name: 'Post Notifications',
         icon: MyIcons.notifications,
-        onPressed: () {});
+        onPressed: (context) {});
     Option report = Option(
         name: 'Report',
         icon: MyIcons.report,
         color: Theme.of(context).colorScheme.error,
-        onPressed: () {});
+        onPressed: (context) {});
 
     List<Option> options = [notification, report];
     return Options(options, share: true, shareText: 'challenge');

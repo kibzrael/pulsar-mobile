@@ -100,6 +100,10 @@ class _SignupPageState extends State<SignupPage>
                           alignment: Alignment.center,
                           child: CupertinoSlidingSegmentedControl(
                               groupValue: signIndex,
+                              thumbColor: Theme.of(context).cardColor,
+                              backgroundColor: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .fillColor!,
                               children: {
                                 0: Padding(
                                     padding: EdgeInsets.symmetric(

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+Color kBackgroundColor = Color(0xFF131313);
+Color kCardColor = Color(0xFF242424);
+Color kInputColor = Color(0xFF202020);
+Color kSurfaceColor = Color(0xFF181818);
+Color kDividerColor = Color(0xFF424242);
+
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.grey,
@@ -23,7 +29,7 @@ ThemeData lightTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       elevation: 0.0,
-      selectedItemColor: Colors.deepPurpleAccent,
+      selectedItemColor: Colors.black,
       unselectedItemColor: Colors.grey),
   textTheme: textTheme(Brightness.light),
   visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -50,9 +56,9 @@ ThemeData darkTheme = ThemeData(
   buttonColor: Colors.deepPurpleAccent,
   accentColor: Colors.deepOrangeAccent,
   toggleableActiveColor: Colors.deepOrangeAccent,
-  disabledColor: Colors.grey[850],
-  dividerColor: Colors.grey[600],
-  cardColor: Colors.grey[850],
+  disabledColor: kCardColor,
+  dividerColor: kDividerColor,
+  cardColor: kCardColor,
   chipTheme: chipTheme(Brightness.dark),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
@@ -60,25 +66,25 @@ ThemeData darkTheme = ThemeData(
   textSelectionTheme:
       TextSelectionThemeData(cursorColor: Colors.deepOrangeAccent),
   inputDecorationTheme: InputDecorationTheme(
-      fillColor: Colors.grey[850],
+      fillColor: kInputColor,
       hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey[400])),
-  appBarTheme: AppBarTheme(color: Colors.grey[900], elevation: 0.0),
+  appBarTheme: AppBarTheme(color: kBackgroundColor, elevation: 0.0),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: kBackgroundColor,
       elevation: 0.0,
-      selectedItemColor: Colors.deepPurpleAccent,
+      selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey),
   textTheme: textTheme(Brightness.dark),
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  scaffoldBackgroundColor: Colors.grey[900],
+  scaffoldBackgroundColor: kBackgroundColor,
   colorScheme: ColorScheme(
       primary: Colors.blue,
       primaryVariant: Colors.deepPurpleAccent,
       secondary: Colors.deepOrangeAccent,
       secondaryVariant: Colors.deepOrange,
-      surface: Colors.grey[850]!.withOpacity(0.25),
+      surface: kSurfaceColor,
       background: Colors.grey.shade900,
-      error: Colors.red,
+      error: Colors.redAccent,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.white,
@@ -130,6 +136,8 @@ class ThemeProvider extends ChangeNotifier {
   ThemeData? _theme;
   ThemeData? get theme => _theme;
 
+  double topPadding = 0;
+
   ThemeProvider() {
     _theme = darkTheme;
     // check system theme and shared preferences
@@ -146,7 +154,7 @@ class ThemeProvider extends ChangeNotifier {
             systemNavigationBarIconBrightness: Brightness.dark)
         : SystemUiOverlayStyle.light.copyWith(
             statusBarColor: Colors.transparent,
-            systemNavigationBarColor: Colors.grey[900],
+            systemNavigationBarColor: kBackgroundColor,
             systemNavigationBarIconBrightness: Brightness.light));
   }
 

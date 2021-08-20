@@ -4,6 +4,7 @@ import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class DiscoverGalaxy extends StatefulWidget {
   @override
@@ -21,8 +22,6 @@ class _DiscoverGalaxyState extends State<DiscoverGalaxy> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       constraints: BoxConstraints(minHeight: 100),
@@ -69,14 +68,12 @@ class _DiscoverGalaxyState extends State<DiscoverGalaxy> {
                           padding: EdgeInsets.all(5),
                           alignment: Alignment.bottomCenter,
                           height: 50,
-                          color: Colors.black26,
                           child: Row(
                             children: [
-                              CircleAvatar(
-                                backgroundColor: theme.dividerColor,
+                              ProfilePic(
+                                post.user.profilePic,
                                 radius: 18,
-                                backgroundImage:
-                                    AssetImage(post.user.profilePic),
+                                onMedia: true,
                               ),
                               SizedBox(width: 2.5),
                               Expanded(

@@ -6,6 +6,10 @@ class CameraProvider extends ChangeNotifier {
 
   int index = 0;
 
+  bool flash = false;
+
+  double maxZoom = 1.0;
+
   CameraController? controller;
 
   bool error = false;
@@ -35,7 +39,6 @@ class CameraProvider extends ChangeNotifier {
       snapshot.error = CameraError.notAvailable;
       // No Available Cameras
     }
-
     notifyListeners();
     return snapshot;
   }
@@ -50,6 +53,7 @@ class CameraProvider extends ChangeNotifier {
       CameraController newController =
           CameraController(camera, ResolutionPreset.max, enableAudio: true);
       await newController.initialize();
+      maxZoom = await newController.getMaxZoomLevel();
       controller = newController;
       notifyListeners();
     } on CameraException {
@@ -58,9 +62,55 @@ class CameraProvider extends ChangeNotifier {
     return true;
   }
 
+  Future<VideoSnapshot?> recordVideo() async {
+    if (controller == null) return null;
+
+    if (!controller!.value.isInitialized) return null;
+
+    if (controller!.value.isRecordingVideo) return null;
+
+    VideoSnapshot snapshot = VideoSnapshot();
+    try {
+      await controller!.startVideoRecording();
+      return snapshot;
+    } on CameraException catch (e) {
+      snapshot.error = e;
+      return snapshot;
+    }
+  }
+
+  Future<VideoSnapshot?> stopVideoRecording() async {
+    if (controller == null) return null;
+
+    if (!controller!.value.isInitialized) return null;
+
+    if (!controller!.value.isRecordingVideo) return null;
+
+    VideoSnapshot snapshot = VideoSnapshot();
+
+    try {
+      snapshot.video = await controller!.stopVideoRecording();
+      return snapshot;
+    } on CameraException catch (e) {
+      snapshot.error = e;
+      return snapshot;
+    }
+  }
+
   switchLens() async {
     index = cameras.length - index > 1 ? index + 1 : 0;
     await initCamera(cameras[index]);
+  }
+
+  switchFlash() async {
+    if (flash) {
+      controller!.setFlashMode(FlashMode.off);
+      flash = false;
+    } else {
+      controller!.setFlashMode(FlashMode.torch);
+      flash = true;
+    }
+    notifyListeners();
   }
 
   noCameraError() {
@@ -89,4 +139,12 @@ enum CameraError { access, init, notAvailable, photo, video }
 
 String cameraErrorDescription(CameraError? error) {
   return 'Failed to access the cameras.';
+}
+
+class VideoSnapshot {
+  XFile? video;
+
+  CameraException? error;
+
+  bool get hasError => error != null;
 }

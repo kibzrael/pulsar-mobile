@@ -6,10 +6,12 @@ class ActionButton extends StatelessWidget {
   final Color? titleColor;
   final Function? onPressed;
   final double height;
+  final double width;
 
   ActionButton(
       {this.backgroundColor,
       this.height = 50,
+      this.width = double.infinity,
       this.onPressed,
       required this.title,
       this.titleColor});
@@ -20,7 +22,7 @@ class ActionButton extends StatelessWidget {
       onTap: onPressed as void Function()?,
       child: Container(
         height: height,
-        width: double.infinity,
+        width: width,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),

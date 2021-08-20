@@ -5,6 +5,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class FollowingPosts extends StatefulWidget {
@@ -140,16 +141,12 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Theme.of(context).dividerColor,
-                      image: DecorationImage(
-                          image: AssetImage(user.profilePic),
-                          fit: BoxFit.cover)),
+                ProfilePic(
+                  user.profilePic,
+                  radius: 30,
+                  onMedia: true,
                 ),
+
                 SizedBox(height: 6),
                 Text(
                   '${user.username}',
@@ -171,13 +168,14 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                   padding: EdgeInsets.fromLTRB(8, 4, 8, 2),
                   child: FollowButton(
                     height: 32,
+                    width: double.infinity,
                     isFollowing: isFollowing,
                     border: Colors.white70,
                     onPressed: () {
                       setState(() {
                         isFollowing = !isFollowing;
                       });
-                      widget.onPinned();
+                      if (isFollowing) widget.onPinned();
                     },
                   ),
                 ),

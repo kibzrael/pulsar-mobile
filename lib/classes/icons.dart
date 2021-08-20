@@ -77,8 +77,14 @@ class MyIcons {
   static IconData filters =
       myIcon(Icons.filter_vintage, Icons.filter_vintage_outlined);
 
-  static IconData flashlight =
+  static IconData flash =
       myIcon(Icons.flash_on_rounded, Icons.flash_on_rounded);
+
+  static IconData flashOff =
+      myIcon(Icons.flash_off_rounded, Icons.flash_off_rounded);
+
+  static IconData flashAuto =
+      myIcon(Icons.flash_auto_rounded, Icons.flash_auto_rounded);
 
   static IconData forward =
       myIcon(Icons.arrow_forward, Icons.arrow_forward_ios);
@@ -89,7 +95,7 @@ class MyIcons {
 
   static IconData help = myIcon(Icons.help_outline, Icons.help_outline);
 
-  static IconData home = myIcon(SvgIcons.home, SvgIcons.home);
+  static IconData home = myIcon(Icons.home, Icons.home);
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
 
@@ -135,6 +141,9 @@ class MyIcons {
   static IconData notifications =
       myIcon(SvgIcons.notifications, SvgIcons.notifications);
 
+  static IconData notInterested =
+      myIcon(Icons.remove_circle_outline, Icons.remove_circle_outline);
+
   static IconData palette = myIcon(Icons.palette, Icons.palette_outlined);
 
   static IconData phone = myIcon(Icons.phone, Icons.phone_outlined);
@@ -172,8 +181,6 @@ class MyIcons {
 
   static IconData spam = myIcon(Icons.inbox, Icons.inbox_outlined);
 
-  static IconData speed = myIcon(Icons.shutter_speed, Icons.shutter_speed);
-
   static IconData switchCamera = myIcon(Icons.autorenew, Icons.autorenew);
 
   static IconData tag = myIcon(Icons.tag, Icons.tag);
@@ -183,8 +190,15 @@ class MyIcons {
   static IconData theme =
       myIcon(Icons.star_half_rounded, Icons.star_half_rounded);
 
+  static IconData thumbnail =
+      myIcon(Icons.photo_album, Icons.photo_album_outlined);
+
+  static IconData timer = myIcon(Icons.shutter_speed, Icons.shutter_speed);
+
   static IconData trailingArrow =
       myIcon(Icons.arrow_forward_ios, Icons.arrow_forward_ios);
+
+  static IconData trim = myIcon(Icons.cut_rounded, Icons.cut_rounded);
 
   static IconData tune = myIcon(Icons.tune, Icons.tune);
 

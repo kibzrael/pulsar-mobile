@@ -22,7 +22,7 @@ class _CommentPageState extends State<CommentPage> {
             child: ListView.builder(
                 itemCount: 12,
                 itemBuilder: (context, index) {
-                  return CommentCard();
+                  return CommentCard(attachment: index.isEven);
                 }),
           ),
           Container(

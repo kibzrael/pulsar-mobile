@@ -9,6 +9,7 @@ import 'package:pulsar/messaging/messaging_card.dart';
 import 'package:pulsar/options/chat.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -148,10 +149,7 @@ class _MessagingScreenState extends State<MessagingScreen>
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 if (isSearching && messagesList.length < 1)
-                  Padding(
-                    padding: EdgeInsets.all(30.0),
-                    child: CircularProgressIndicator(),
-                  ),
+                  MyProgressIndicator(),
                 Flexible(
                   child: ListView.builder(
                     controller: scrollController,
@@ -175,11 +173,9 @@ class _MessagingScreenState extends State<MessagingScreen>
                               shape: CircleBorder(),
                               margin: EdgeInsets.zero,
                               color: Theme.of(context).canvasColor,
-                              child: Container(
-                                padding: EdgeInsets.all(7.5),
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 1.8,
-                                ),
+                              child: MyProgressIndicator(
+                                size: 20,
+                                margin: EdgeInsets.all(5),
                               ),
                             ),
                           ),

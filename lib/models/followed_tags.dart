@@ -8,13 +8,7 @@ class FollowedTags extends StatefulWidget {
 }
 
 class _FollowedTagsState extends State<FollowedTags> {
-  List<String> tags = [
-    'Celebrity',
-    'Music',
-    'Sarcasm',
-    'Photography',
-    'Karaoke'
-  ];
+  List<String> tags = ['Music', 'Art', 'Photography', 'Dance', 'Gymnastics'];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,27 +19,42 @@ class _FollowedTagsState extends State<FollowedTags> {
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 8),
             shrinkWrap: true,
             itemCount: tags.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2.5),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 child: InkWell(
-                  borderRadius: BorderRadius.circular(30),
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(myPageRoute(builder: (context) => TagPage()));
-                  },
-                  child: Chip(
-                    backgroundColor: Theme.of(context).cardColor,
-                    //: Colors.grey[100],
-                    elevation: 1,
-                    label: Text(
-                      '${tags[index]}',
-                      style: Theme.of(context).textTheme.bodyText2,
+                    borderRadius: BorderRadius.circular(30),
+                    onTap: () {
+                      Navigator.of(context).push(myPageRoute(
+                          builder: (context) => TagPage(tags[index])));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      margin: EdgeInsets.symmetric(vertical: 2),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1.2,
+                              color: Theme.of(context).dividerColor,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Text(
+                        '#${tags[index]}',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                    )
+                    // Chip(
+                    //   backgroundColor: Theme.of(context).cardColor,
+                    //   //: Colors.grey[100],
+                    //   elevation: 1,p
+                    //   label: Text(
+                    //     '#${tags[index]}',
+                    //     style: Theme.of(context).textTheme.bodyText2,
+                    //   ),
+                    // ),
                     ),
-                  ),
-                ),
               );
             }));
   }

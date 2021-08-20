@@ -3,6 +3,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class ManageAccount extends StatefulWidget {
@@ -29,10 +30,7 @@ class _ManageAccountState extends State<ManageAccount> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                        backgroundColor: Theme.of(context).dividerColor,
-                        backgroundImage: AssetImage(user.profilePic),
-                        radius: 36),
+                    ProfilePic(user.profilePic, radius: 36),
                     SizedBox(width: 15),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

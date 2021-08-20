@@ -68,3 +68,12 @@ String timeBirthday(DateTime time) {
 
   return response;
 }
+
+String videoDuration(int seconds) {
+  int minutes = seconds ~/ 60;
+  seconds = seconds - (minutes * 60);
+
+  int hours = minutes ~/ 60;
+  minutes = minutes - (hours * 60);
+  return '${hours > 0 ? '$hours:' : ''}${(minutes < 10) && (hours > 0) ? '0' : ''}$minutes:${seconds < 10 ? '0' : ''}$seconds';
+}

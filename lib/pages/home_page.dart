@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
-import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/following_posts.dart';
@@ -68,11 +66,6 @@ class _RootHomePageState extends State<RootHomePage>
     });
   }
 
-  void openNotifications() {
-    Navigator.of(context)
-        .push(myPageRoute(builder: (context) => NotificationsPage()));
-  }
-
   // void moreOnPost() {
   //   openBottomSheet(context, (context) => PostOptions(lynn1));
   // }
@@ -102,10 +95,6 @@ class _RootHomePageState extends State<RootHomePage>
               titleSpacing: 0.0,
               elevation: 0.0,
               backgroundColor: Colors.transparent,
-              leading: IconButton(
-                icon: Icon(MyIcons.notifications),
-                onPressed: openNotifications,
-              ),
               title: Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -131,7 +120,6 @@ class _RootHomePageState extends State<RootHomePage>
                   ],
                 ),
               ),
-              actions: [IconButton(icon: Icon(MyIcons.more), onPressed: () {})],
             ),
             body: PageView(
               controller: controller,
@@ -189,7 +177,7 @@ class _SegmentObjectState extends State<SegmentObject> {
               child: TweenAnimationBuilder<TextStyle>(
                   tween: tween,
                   duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInCirc,
+                  curve: Curves.decelerate,
                   builder: (context, style, _) {
                     return Text(widget.text, maxLines: 1, style: style);
                   }),

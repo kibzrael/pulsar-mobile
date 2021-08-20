@@ -39,8 +39,8 @@ class _ConfigureGroupState extends State<ConfigureGroup> {
                 builder: (context) => MessagingScreen(
                   Chat(members,
                       category: 'Music',
-                      name: 'Karoke lads',
-                      description: 'No bio\nKaraoke',
+                      name: 'Group',
+                      description: 'No bio\nGroup',
                       dateFormed: DateTime.now()),
                   isNew: true,
                 ),

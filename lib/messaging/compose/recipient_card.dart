@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class RecipientCard extends StatelessWidget {
   final User receipient;
@@ -12,10 +13,9 @@ class RecipientCard extends StatelessWidget {
     return MyListTile(
       title: '@${receipient.username}',
       subtitle: receipient.category,
-      leading: CircleAvatar(
+      leading: ProfilePic(
+        receipient.profilePic,
         radius: 27,
-        backgroundColor: Theme.of(context).dividerColor,
-        backgroundImage: AssetImage(receipient.profilePic),
       ),
       trailingArrow: false,
       trailing: Container(

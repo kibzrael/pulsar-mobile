@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/widgets/follow_button.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class InteractionNotificationCard extends StatefulWidget {
   final User user;
@@ -33,10 +34,9 @@ class _InteractionNotificationCardState
           children: [
             Padding(
               padding: EdgeInsets.only(right: 15),
-              child: CircleAvatar(
+              child: ProfilePic(
+                user.profilePic,
                 radius: 24,
-                backgroundColor: Theme.of(context).dividerColor,
-                backgroundImage: AssetImage(user.profilePic),
               ),
             ),
             Expanded(
@@ -67,8 +67,8 @@ class _InteractionNotificationCardState
                   ]),
             ),
             FollowButton(
-              width: 75,
               height: 30,
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               isFollowing: isFollowing,
               onPressed: () {
                 setState(() {

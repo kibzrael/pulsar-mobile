@@ -25,7 +25,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(45),
-            border: Border.all(color: Theme.of(context).dividerColor, width: 1),
+            border: Border.all(color: Theme.of(context).cardColor, width: 1),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

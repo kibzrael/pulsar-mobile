@@ -6,6 +6,7 @@ import 'package:pulsar/classes/message.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/providers/messages_provider.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class MessagesCard extends StatefulWidget {
@@ -63,11 +64,7 @@ class _MessagesCardState extends State<MessagesCard> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).dividerColor,
-                  radius: 30,
-                  backgroundImage: AssetImage(message.user.profilePic),
-                ),
+                ProfilePic(message.user.profilePic, radius: 30),
                 if (isSelected!)
                   Container(
                     decoration: BoxDecoration(

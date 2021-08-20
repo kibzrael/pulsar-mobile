@@ -10,6 +10,7 @@ import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/secondary_pages.dart/tag_page.dart';
 import 'package:pulsar/widgets/interactions.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/models/post_video.dart';
 
@@ -140,12 +141,11 @@ class _PostLayoutState extends State<PostLayout> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                CircleAvatar(
-                                    backgroundColor:
-                                        Theme.of(context).dividerColor,
-                                    backgroundImage:
-                                        AssetImage('${post.user.profilePic}'),
-                                    radius: 21),
+                                ProfilePic(
+                                  post.user.profilePic,
+                                  radius: 21,
+                                  onMedia: true,
+                                ),
                                 SizedBox(width: 5),
                                 Flexible(
                                   child: Column(
@@ -187,32 +187,43 @@ class _PostLayoutState extends State<PostLayout> {
                                               onTap: () {},
                                               child: Container(
                                                 padding: EdgeInsets.all(1.5),
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      width: 5,
-                                                      height: 5,
-                                                      margin: EdgeInsets.only(
-                                                          right: 2.5),
-                                                      decoration: BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .buttonColor),
-                                                    ),
-                                                    Text(
-                                                      'Follow',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .copyWith(
-                                                              fontSize: 13.5,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .buttonColor),
-                                                    ),
-                                                  ],
+                                                child: ShaderMask(
+                                                  shaderCallback: (rect) {
+                                                    return LinearGradient(
+                                                        begin: Alignment
+                                                            .centerLeft,
+                                                        colors: [
+                                                          Theme.of(context)
+                                                              .colorScheme
+                                                              .primary,
+                                                          Theme.of(context)
+                                                              .buttonColor
+                                                        ]).createShader(rect);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 5,
+                                                        height: 5,
+                                                        margin: EdgeInsets.only(
+                                                            right: 2.5),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                      Text(
+                                                        'Follow',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                                fontSize: 13.5),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             )
@@ -255,9 +266,9 @@ class _PostLayoutState extends State<PostLayout> {
                             alignment: WrapAlignment.start,
                             runAlignment: WrapAlignment.start,
                             children: [
-                              Tag('#photography'),
-                              Tag('#music'),
-                              Tag('#dance'),
+                              Tag('photography'),
+                              Tag('music'),
+                              Tag('dance'),
                             ],
                           ),
                         )
@@ -359,7 +370,7 @@ class Tag extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.of(context)
-            .push(myPageRoute(builder: (context) => TagPage()));
+            .push(myPageRoute(builder: (context) => TagPage(text)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -368,7 +379,7 @@ class Tag extends StatelessWidget {
                 width: 1.5, color: Colors.white70, style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(15)),
         child: Text(
-          text,
+          '#$text',
           style: TextStyle(
             color: Colors.white70,
           ),

@@ -16,15 +16,16 @@ class _MyBannerAdState extends State<MyBannerAd> {
     super.didChangeDependencies();
     AdProvider provider = Provider.of<AdProvider>(context);
     provider.initialization.then((value) {
-      setState(() {
-        banner = BannerAd(
-            adUnitId: provider.bannerAd,
-            size: AdSize(
-                width: MediaQuery.of(context).size.width.floor(), height: 60),
-            listener: provider.bannerAdListener,
-            request: AdRequest())
-          ..load();
-      });
+      if (mounted)
+        setState(() {
+          banner = BannerAd(
+              adUnitId: provider.bannerAd,
+              size: AdSize(
+                  width: MediaQuery.of(context).size.width.floor(), height: 60),
+              listener: provider.bannerAdListener,
+              request: AdRequest())
+            ..load();
+        });
     });
   }
 

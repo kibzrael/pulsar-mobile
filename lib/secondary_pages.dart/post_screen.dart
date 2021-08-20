@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
-import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/posts_view.dart';
-import 'package:pulsar/options/post_options.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 
 class PostScreen extends StatefulWidget {
@@ -21,11 +19,6 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  void moreOnPost() {
-    openBottomSheet(context,
-        (context) => PostOptions(widget.initialPosts[widget.postInView]));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -37,7 +30,9 @@ class _PostScreenState extends State<PostScreen> {
             centerTitle: true,
             title: Text(widget.title),
             actions: [
-              IconButton(icon: Icon(MyIcons.more), onPressed: moreOnPost)
+              Opacity(
+                  opacity: 0,
+                  child: IconButton(icon: Icon(MyIcons.more), onPressed: () {}))
             ]),
         body: PostsView(
           initialPosts: widget.initialPosts,

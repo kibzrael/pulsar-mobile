@@ -202,6 +202,9 @@ class Snapshot {
   bool get errorLoadingMore => data.length > 0 && error != null;
 
   bool get noData => error == ApiError.noData;
+
+  bool get isLoadingMore =>
+      data.isNotEmpty && (isLoading ?? false) && error == null;
 }
 
 enum ApiError { connection, noData }

@@ -76,9 +76,10 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
 
 class DiscoverChallengesCard extends StatefulWidget {
   final Challenge challenge;
-  final double? cardWidth;
-  final Function? onPinned;
-  DiscoverChallengesCard(this.challenge, {this.cardWidth, this.onPinned});
+  final double cardWidth;
+  final Function onPinned;
+  DiscoverChallengesCard(this.challenge,
+      {required this.cardWidth, required this.onPinned});
   @override
   _DiscoverChallengesCardState createState() => _DiscoverChallengesCardState();
 }
@@ -97,7 +98,7 @@ class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double cardWidth = widget.cardWidth!;
+    double cardWidth = widget.cardWidth;
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -172,18 +173,18 @@ class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7.5),
                 child: FollowButton(
-                    isFollowing: isPinned,
-                    text: {true: 'Pinned', false: 'Pin'},
-                    onPressed: () {
-                      setState(() {
-                        isPinned = !isPinned;
-                      });
+                  height: 37.5,
+                  width: double.infinity,
+                  isFollowing: isPinned,
+                  text: {true: 'Pinned', false: 'Pin'},
+                  onPressed: () {
+                    setState(() {
+                      isPinned = !isPinned;
+                    });
 
-                      if (isPinned) {
-                        widget.onPinned!();
-                      }
-                    },
-                    height: 37.5),
+                    if (isPinned) widget.onPinned();
+                  },
+                ),
               ),
             ],
           ),

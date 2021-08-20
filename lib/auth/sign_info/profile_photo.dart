@@ -4,6 +4,7 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class ProfilePhoto extends StatefulWidget {
   @override
@@ -58,11 +59,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
               Stack(
                 alignment: Alignment.bottomRight,
                 children: [
-                  CircleAvatar(
-                      radius: 75,
-                      backgroundColor: Theme.of(context).dividerColor,
-                      child:
-                          Icon(MyIcons.account, color: Colors.white, size: 90)),
+                  ProfilePic(profilePic, radius: 75),
                   InkWell(
                     onTap: () {
                       openBottomSheet(context, (context) => PickImageSheet());

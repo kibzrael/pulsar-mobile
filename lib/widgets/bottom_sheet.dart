@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class MyBottomSheet extends StatelessWidget {
   final Widget child;
@@ -13,6 +15,7 @@ class MyBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double topPadding = Provider.of<ThemeProvider>(context).topPadding;
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         constraints: fullDialog
@@ -24,15 +27,15 @@ class MyBottomSheet extends StatelessWidget {
                                 kToolbarHeight)) +
                     6),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          if (!fullDialog)
-            Container(
-              width: 180,
-              height: 6,
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              ),
-            ),
+          // if (!fullDialog)
+          //   Container(
+          //     width: 180,
+          //     height: 6,
+          //     decoration: BoxDecoration(
+          //       color: Theme.of(context).scaffoldBackgroundColor,
+          //       borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+          //     ),
+          //   ),
           Flexible(
             child: Container(
               padding: EdgeInsets.only(top: fullDialog ? 0 : 10),
@@ -59,8 +62,8 @@ class MyBottomSheet extends StatelessWidget {
                     ),
                   if (fullDialog)
                     Container(
-                      color: Theme.of(context).colorScheme.primary,
-                      height: 36,
+                      color: Theme.of(context).appBarTheme.backgroundColor,
+                      height: topPadding,
                     ),
                   if (title != null) title!,
                   myFlex(

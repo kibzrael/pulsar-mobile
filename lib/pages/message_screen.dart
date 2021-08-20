@@ -8,6 +8,7 @@ import 'package:pulsar/messaging/chats.dart';
 import 'package:pulsar/messaging/highlight_users.dart';
 import 'package:pulsar/messaging/search_messages.dart';
 import 'package:pulsar/messaging/spam/spam_inbox.dart';
+import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/options/message_options.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/messages_provider.dart';
@@ -64,6 +65,11 @@ class _RootMessageScreenState extends State<RootMessageScreen>
     openBottomSheet(context, (context) => MessageOptions());
   }
 
+  void openNotifications() {
+    Navigator.of(context)
+        .push(myPageRoute(builder: (context) => NotificationsPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -85,11 +91,8 @@ class _RootMessageScreenState extends State<RootMessageScreen>
                 onPressed: messagesProvider.clearMessages,
               )
             : IconButton(
-                icon: Icon(MyIcons.spam),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(myPageRoute(builder: (context) => SpamInbox()));
-                },
+                icon: Icon(MyIcons.notifications),
+                onPressed: openNotifications,
               ),
         titleSpacing: 0.0,
         centerTitle: true,
@@ -114,7 +117,14 @@ class _RootMessageScreenState extends State<RootMessageScreen>
         actions: [
           selectMode
               ? IconButton(icon: Icon(MyIcons.more), onPressed: moreOnMessages)
-              : IconButton(icon: Icon(MyIcons.sort), onPressed: () {})
+              : IconButton(
+                  icon: Icon(MyIcons.spam),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(myPageRoute(builder: (context) => SpamInbox()));
+                  },
+                ),
+          // : IconButton(icon: Icon(MyIcons.sort), onPressed: () {})
         ],
         bottom: PreferredSize(
             child: HighlightUsers(),

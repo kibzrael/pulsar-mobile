@@ -92,6 +92,7 @@ class _PulsarState extends State<Pulsar> {
               debugShowCheckedModeBanner: false,
               initialRoute: '/',
               theme: themeProvider.theme,
+              scrollBehavior: MyScrollBehavior(),
               routes: {
                 '/': (context) =>
                     loginProvider.loggedIn! ? BasicRoot() : IntroPage(),
@@ -100,6 +101,24 @@ class _PulsarState extends State<Pulsar> {
           });
         });
       },
+    );
+  }
+}
+
+class MyScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return GlowingOverscrollIndicator(
+      child: child,
+      axisDirection: details.direction,
+      color: Theme.of(context).cardColor.withOpacity(0.15),
     );
   }
 }

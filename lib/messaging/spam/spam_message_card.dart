@@ -5,6 +5,7 @@ import 'package:pulsar/classes/message.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class SpamMessagesCard extends StatefulWidget {
@@ -33,10 +34,9 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).dividerColor,
+                ProfilePic(
+                  widget.message.user.profilePic,
                   radius: 30,
-                  backgroundImage: AssetImage(widget.message.user.profilePic),
                 ),
                 if (isSelected)
                   Container(

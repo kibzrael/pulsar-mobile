@@ -4,7 +4,7 @@ class Option {
   String name;
   IconData icon;
   Color? color;
-  void Function() onPressed;
+  void Function(BuildContext context) onPressed;
 
   Option(
       {required this.name,

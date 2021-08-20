@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 
@@ -22,9 +23,9 @@ class PhotoView extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  color: Theme.of(context).dividerColor,
+                  color: Theme.of(context).cardColor,
                   image: DecorationImage(
-                    image: AssetImage(photo),
+                    image: CachedNetworkImageProvider(photo),
                     fit: BoxFit.cover,
                   )),
             ),

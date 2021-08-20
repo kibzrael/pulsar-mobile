@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
 import 'package:pulsar/widgets/interactions.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class CommentCard extends StatefulWidget {
-  const CommentCard({Key? key}) : super(key: key);
+  final bool attachment;
+
+  CommentCard({required this.attachment});
 
   @override
   _CommentCardState createState() => _CommentCardState();
@@ -15,16 +18,13 @@ class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
     Widget stat(int number, Function() onPressed) => Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 5),
-            child: InkWell(
-              onTap: onPressed,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                child: Text(
-                  '${roundCount(number)}',
-                  style: TextStyle(fontSize: 12),
-                ),
+          child: InkWell(
+            onTap: onPressed,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              child: Text(
+                '${roundCount(number)}',
+                style: TextStyle(fontSize: 12),
               ),
             ),
           ),
@@ -35,41 +35,39 @@ class _CommentCardState extends State<CommentCard> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-              backgroundColor: Theme.of(context).dividerColor, radius: 18),
+          ProfilePic(null, radius: 18),
           SizedBox(width: 5),
           Expanded(
-              child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('@username',
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text('@username',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(fontSize: 16.5)),
+                    SizedBox(width: 5),
+                    Text(
+                      '2min',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1!
-                          .copyWith(fontSize: 16.5)),
-                  SizedBox(width: 5),
-                  Text(
-                    '2min',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .copyWith(fontSize: 12),
-                  )
-                ],
-              ),
-              Text(
-                'Comment on the post which occupies multiple lines. The minimum number of lines that can appear at once is three but the comment can be expanded to view more.',
-                maxLines: 3,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.start,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
+                          .subtitle2!
+                          .copyWith(fontSize: 12),
+                    )
+                  ],
+                ),
+                Text(
+                  'Comment on the post which occupies multiple lines. The minimum number of lines that can appear at once is three or seven if with attachment but the comment can be expanded to view more.',
+                  maxLines: widget.attachment ? 7 : 3,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     LikeButton(
                       liked: false,
@@ -82,9 +80,18 @@ class _CommentCardState extends State<CommentCard> {
                     stat(1300, () {}),
                   ],
                 ),
-              ),
-            ],
-          )),
+              ],
+            ),
+          ),
+          if (widget.attachment)
+            Container(
+              width: 100,
+              height: 150,
+              margin: EdgeInsets.only(left: 5, top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12)),
+            )
         ],
       ),
     );

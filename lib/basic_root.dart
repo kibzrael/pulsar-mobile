@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/pages/home_page.dart';
@@ -8,6 +9,7 @@ import 'package:pulsar/pages/message_screen.dart';
 import 'package:pulsar/pages/my_galaxy.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class BasicRoot extends StatefulWidget {
@@ -66,6 +68,8 @@ class _BasicRootState extends State<BasicRoot> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ThemeProvider>(context).topPadding =
+        MediaQuery.of(context).viewPadding.top;
     return WillPopScope(
       onWillPop: () async {
         bool response;
@@ -126,20 +130,24 @@ class _BasicRootState extends State<BasicRoot> {
                           .bottomNavigationBarTheme
                           .backgroundColor,
                   child: CupertinoTabBar(
-                    border: Border(
-                      top: BorderSide(
-                          color: barTransparent()
-                              ? Colors.transparent
-                              : Theme.of(context).colorScheme.surface),
-                    ),
+                    border: Border.all(style: BorderStyle.none),
+                    //  Border(
+                    //   top:
+                    //    BorderSide(
+                    //       color: barTransparent()
+                    //           ? Colors.transparent
+                    //           : Theme.of(context).colorScheme.surface),
+                    // ),
                     backgroundColor: barTransparent()
                         ? Colors.transparent
                         : Theme.of(context)
                             .bottomNavigationBarTheme
                             .backgroundColor,
-                    activeColor: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .selectedItemColor,
+                    activeColor: barTransparent()
+                        ? Colors.white
+                        : Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .selectedItemColor,
                     inactiveColor: Theme.of(context)
                         .bottomNavigationBarTheme
                         .unselectedItemColor!,
@@ -148,15 +156,15 @@ class _BasicRootState extends State<BasicRoot> {
                     currentIndex: currentIndex,
                     items: [
                       BottomNavigationBarItem(
+                          label: 'Home',
                           icon: Icon(
-                        MyIcons.home,
-                        size: 30,
-                      )),
+                            MyIcons.home,
+                          )),
                       BottomNavigationBarItem(
+                          label: 'My Galaxy',
                           icon: Icon(
-                        MyIcons.explore,
-                        size: 30,
-                      )),
+                            MyIcons.explore,
+                          )),
                       BottomNavigationBarItem(
                         icon: Padding(
                           padding: EdgeInsets.only(top: 5),
@@ -200,12 +208,17 @@ class _BasicRootState extends State<BasicRoot> {
                         ),
                       ),
                       BottomNavigationBarItem(
-                          icon: Icon(MyIcons.messageOutline)),
-                      BottomNavigationBarItem(
+                          label: 'Inbox',
                           icon: Icon(
-                        MyIcons.account,
-                        size: 24,
-                      )),
+                            MyIcons.messageOutline,
+                            size: 24,
+                          )),
+                      BottomNavigationBarItem(
+                          label: 'Account',
+                          icon: Icon(
+                            MyIcons.account,
+                            size: 21,
+                          )),
                     ],
                   ),
                 ),
@@ -229,6 +242,8 @@ class BasicRootProvider extends ChangeNotifier {
     3: '/',
     4: '/',
   };
+
+  BasicRootProvider();
 
   notify() {
     notifyListeners();

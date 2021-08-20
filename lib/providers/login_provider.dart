@@ -59,6 +59,7 @@ class LoginProvider extends ChangeNotifier {
 
   saveLogin(BuildContext context,
       {required String token, required Map<String, dynamic> user}) async {
+    Provider.of<UserProvider>(context, listen: false).setUser(user);
     Database db =
         await openDatabase(join(await getDatabasesPath(), 'pulsar.db'));
 
@@ -76,7 +77,6 @@ class LoginProvider extends ChangeNotifier {
       'token': token
     });
 
-    Provider.of<UserProvider>(context, listen: false).setUser(user);
     return;
   }
 

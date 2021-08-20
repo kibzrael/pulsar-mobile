@@ -96,7 +96,6 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                         Container(
                           height: 60,
                           width: 175,
-                          color: Colors.black26,
                           alignment: Alignment.bottomCenter,
                           padding: EdgeInsets.symmetric(
                             horizontal: 4,

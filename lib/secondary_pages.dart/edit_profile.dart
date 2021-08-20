@@ -4,6 +4,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/secondary_pages.dart/profile_info.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -42,10 +43,9 @@ class _EditProfileState extends State<EditProfile> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      CircleAvatar(
+                      ProfilePic(
+                        user.profilePic,
                         radius: 60,
-                        backgroundColor: Theme.of(context).dividerColor,
-                        backgroundImage: AssetImage(user.profilePic),
                       ),
                       SizedBox(height: 30),
                       MyListTile(

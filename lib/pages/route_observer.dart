@@ -20,7 +20,7 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
-    if (route is PageRoute) {
+    if (route is PageRoute && route.settings.name != '/') {
       _sendScreenView(route);
     }
   }

@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:pulsar/data/users.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 
 class Filters extends StatefulWidget {
@@ -42,7 +44,7 @@ class FilterWidget extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: Theme.of(context).dividerColor,
-              backgroundImage: AssetImage('assets/users/beth.jpg'),
+              backgroundImage: CachedNetworkImageProvider(beth.profilePic),
             ),
             Text(
               'Filter',

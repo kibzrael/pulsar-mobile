@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:pulsar/ads/banner_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/user_card.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/section.dart';
 
@@ -60,13 +60,17 @@ class _InteractionScreenState extends State<InteractionScreen> {
       appBar: AppBar(
         title: Text('@${isUser ? user!.username : challenge!.name}'),
       ),
-      body: Section(
-        title: isUser ? 'Followers' : 'Pins',
-        trailing: Text(
-          '22K',
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
-        child: Flexible(
+      body: Padding(
+        padding: EdgeInsets.only(top: 4),
+        child: Section(
+          title: isUser ? 'Followers' : 'Pins',
+          trailing: Text(
+            '22K',
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          child: Flexible(
+              child: Padding(
+            padding: EdgeInsets.only(top: 8),
             child: RecyclerView(
                 target: fetchData,
                 itemBuilder: (context, snapshot) {
@@ -75,13 +79,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
                   return data.isEmpty
                       ? snapshot.errorLoading
                           ? Text('${snapshot.error} $data')
-                          : Center(
-                              child: SpinKitCircle(
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? Colors.grey[350]
-                                  : Colors.white54,
-                            ))
+                          : Center(child: MyProgressIndicator())
                       : ListView.builder(
                           itemCount: data.length + 1,
                           itemBuilder: (context, index) {
@@ -96,7 +94,9 @@ class _InteractionScreenState extends State<InteractionScreen> {
                             }
                             return Container();
                           });
-                })),
+                }),
+          )),
+        ),
       ),
     );
   }

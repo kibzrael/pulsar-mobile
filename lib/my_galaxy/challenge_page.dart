@@ -16,7 +16,6 @@ import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/secondary_button.dart';
 import 'package:pulsar/classes/challenge.dart';
 
 class ChallengePage extends StatefulWidget {
@@ -125,11 +124,11 @@ class _ChallengePageState extends State<ChallengePage>
                   .withOpacity(opacity < 1 ? opacity : 1),
               expandedHeight: 200,
               actions: [
-                Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: (kToolbarHeight - 30) / 2),
-                  child: SecondaryButton(text: 'Tutorial'),
-                ),
+                // Container(
+                //   margin:
+                //       EdgeInsets.symmetric(vertical: (kToolbarHeight - 30) / 2),
+                //   child: SecondaryButton(text: 'Tutorial'),
+                // ),
                 IconButton(
                   icon: Icon(Icons.more_horiz),
                   iconSize: 30,
@@ -197,7 +196,7 @@ class _ChallengePageState extends State<ChallengePage>
               ),
               if (challenge.description != null)
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30.0),
+                  padding: EdgeInsets.fromLTRB(30, 0, 30, 5),
                   child: Text(
                     challenge.description!,
                     textAlign: TextAlign.center,
@@ -215,8 +214,9 @@ class _ChallengePageState extends State<ChallengePage>
                   isFollowed: isFollowed,
                   isPin: true,
                   onChildPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .push(myPageRoute(builder: (context) => PostProcess()));
+                    Navigator.of(context, rootNavigator: true).push(myPageRoute(
+                        builder: (context) =>
+                            PostProcess(challenge: challenge)));
                   },
                   onFollow: () {
                     setState(() {

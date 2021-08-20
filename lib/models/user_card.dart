@@ -3,6 +3,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class UserCard extends StatefulWidget {
@@ -27,10 +28,9 @@ class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     return MyListTile(
-      leading: CircleAvatar(
+      leading: ProfilePic(
+        user.profilePic,
         radius: 24,
-        backgroundColor: Theme.of(context).dividerColor,
-        backgroundImage: AssetImage(user.profilePic),
       ),
       onPressed: () {
         Navigator.of(context)
@@ -40,8 +40,8 @@ class _UserCardState extends State<UserCard> {
       subtitle: user.category,
       trailingArrow: false,
       trailing: FollowButton(
-        width: 75,
         height: 30,
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         isFollowing: isFollowing,
         onPressed: () {
           setState(() {

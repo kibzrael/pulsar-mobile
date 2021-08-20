@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/post/capture_screen.dart';
+import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
+import 'package:pulsar/widgets/route.dart';
 
 import 'package:video_compress/video_compress.dart';
 
@@ -93,31 +97,33 @@ class _GalleryState extends State<Gallery> {
                 int seconds = video.duration == null
                     ? 0.toInt()
                     : (video.duration! ~/ 1000);
-                int minutes = seconds ~/ 60;
-                seconds = seconds - (minutes * 60);
-
-                int hours = minutes ~/ 60;
-                minutes = minutes - (hours * 60);
-                return '${hours > 0 ? '$hours:' : ''}${(minutes < 10) && (hours > 0) ? '0' : ''}$minutes:${seconds < 10 ? '0' : ''}$seconds';
+                return videoDuration(seconds);
               }
 
-              return Container(
-                alignment: Alignment.bottomCenter,
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).inputDecorationTheme.fillColor,
-                    image: video.thumbnail != null
-                        ? DecorationImage(
-                            image: MemoryImage(video.thumbnail!),
-                            fit: BoxFit.cover)
-                        : null,
-                    borderRadius: BorderRadius.circular(8)),
-                child: Row(
-                  children: [
-                    Icon(MyIcons.play),
-                    SizedBox(width: 3),
-                    Text('${duration()}'),
-                  ],
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).push(myPageRoute(
+                      builder: (context) => CaptureScreen(
+                          VideoCapture(File(video.path), camera: false))));
+                },
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).inputDecorationTheme.fillColor,
+                      image: video.thumbnail != null
+                          ? DecorationImage(
+                              image: MemoryImage(video.thumbnail!),
+                              fit: BoxFit.cover)
+                          : null,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Row(
+                    children: [
+                      Icon(MyIcons.play),
+                      SizedBox(width: 3),
+                      Text('${duration()}'),
+                    ],
+                  ),
                 ),
               );
             }));

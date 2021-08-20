@@ -1,15 +1,20 @@
-import 'package:camera/camera.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/post/capture_speed.dart';
+import 'package:pulsar/post/camera_view.dart';
+import 'package:pulsar/post/capture_button.dart';
+import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/gallery.dart';
+import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/post/capture_screen.dart';
 
 class CameraScreen extends StatefulWidget {
   final Function onPop;
@@ -19,8 +24,20 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
+  late final Ticker _ticker;
+
   late CameraProvider provider;
+
+  bool get isRecording => provider.controller?.value.isRecordingVideo ?? false;
+
+  double speed = 1;
+
+  double get max => 90 * speed;
+
+  RecordingDurationNotifier recordingDurationNotifier =
+      RecordingDurationNotifier();
+
   double cameraPreviewScale = 1;
   double cameraSecondaryScale = 1;
 
@@ -29,76 +46,150 @@ class _CameraScreenState extends State<CameraScreen>
   @override
   void initState() {
     super.initState();
+    _ticker = this.createTicker((elapsed) {
+      recordingDurationNotifier.setDuration(elapsed.inMilliseconds.toDouble());
+    });
     _switchAnimationController = AnimationController(
         vsync: this, duration: Duration(seconds: 1), value: 0);
   }
 
   @override
   void dispose() {
+    _ticker.dispose();
     _switchAnimationController.dispose();
     super.dispose();
   }
 
-  onCapture() {
-    Navigator.of(context)
-        .push(myPageRoute(builder: (context) => CaptureScreen()));
+  onCapture() async {
+    VideoSnapshot? snapshot = await provider.recordVideo();
+
+    if (snapshot == null) return;
+
+    if (snapshot.hasError)
+      Fluttertoast.showToast(msg: '${snapshot.error!.description}');
+    else
+      _ticker.start();
+
+    setState(() {});
+  }
+
+  stopRecording() async {
+    if (!isRecording) return;
+    VideoSnapshot? snapshot = await provider.stopVideoRecording();
+    if (snapshot == null) {
+      Fluttertoast.showToast(msg: '$snapshot');
+      return;
+    }
+    if (snapshot.hasError)
+      Fluttertoast.showToast(msg: '${snapshot.error!.description}');
+
+    if (snapshot.video != null) {
+      _ticker.stop();
+      setState(() {});
+      Navigator.of(context).push(myPageRoute(
+          builder: (context) => EditScreen(VideoCapture(
+                File(snapshot.video!.path),
+                camera: true,
+              ))));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<CameraProvider>(context);
+
+    Widget captureButton() {
+      return ValueListenableBuilder(
+        valueListenable: recordingDurationNotifier.notifier,
+        builder: (context, double duration, child) {
+          if ((duration / 1000) >= max && isRecording) {
+            stopRecording();
+          }
+          return CaptureButton(
+            isRecording: isRecording,
+            onPressed: () {
+              if (provider.controller != null) {
+                if (isRecording)
+                  stopRecording();
+                else
+                  onCapture();
+              }
+            },
+            position: duration,
+            max: max * 1000,
+          );
+        },
+      );
+    }
+
+    // setSpeed(int index) {
+    //   setState(() {
+    //     speed = speeds[index] ?? 1;
+    //   });
+    // }
+
     return Theme(
       data: darkTheme,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: Icon(
-              MyIcons.back,
-              size: 30,
-            ),
-            onPressed: () {
-              widget.onPop();
-            },
-          ),
-          actions: [
-            Container(
-              width: 100,
-              alignment: Alignment.center,
-              child: RotationTransition(
-                alignment: Alignment.center,
-                turns: _switchAnimationController.view,
-                child: IconButton(
+        appBar: isRecording
+            ? null
+            : AppBar(
+                backgroundColor: Colors.transparent,
+                leading: IconButton(
                   icon: Icon(
-                    MyIcons.switchCamera,
+                    MyIcons.back,
                     size: 30,
                   ),
                   onPressed: () {
-                    provider.switchLens();
-                    cameraPreviewScale = 1;
-                    cameraSecondaryScale = 1;
-                    double value =
-                        _switchAnimationController.value == 0 ? 0.5 : 0;
-                    _switchAnimationController.animateTo(value);
+                    if (provider.controller != null) {
+                      if (!isRecording) {
+                        widget.onPop();
+                      }
+                    } else {
+                      widget.onPop();
+                    }
                   },
                 ),
+                actions: [
+                  Container(
+                    width: 100,
+                    alignment: Alignment.center,
+                    child: RotationTransition(
+                      alignment: Alignment.center,
+                      turns: _switchAnimationController.view,
+                      child: IconButton(
+                        icon: Icon(
+                          MyIcons.switchCamera,
+                          size: 30,
+                        ),
+                        onPressed: () {
+                          provider.switchLens();
+                          cameraPreviewScale = 1;
+                          cameraSecondaryScale = 1;
+                          double value =
+                              _switchAnimationController.value == 0 ? 0.5 : 0;
+                          _switchAnimationController.animateTo(value);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
         body: GestureDetector(
           onScaleUpdate: ((touch) {
+            double max = provider.maxZoom;
             setState(() {
               if ((cameraSecondaryScale * touch.scale) >= 1) {
-                if ((cameraSecondaryScale * touch.scale) <= 3) {
+                if ((cameraSecondaryScale * touch.scale) <= max) {
                   cameraPreviewScale = (cameraSecondaryScale * touch.scale);
                 } else {
-                  cameraPreviewScale = 3;
+                  cameraPreviewScale = max;
                 }
               } else {
                 cameraPreviewScale = 1;
               }
+              provider.controller!.setZoomLevel(cameraPreviewScale);
             });
           }),
           onScaleEnd: (_) {
@@ -108,133 +199,137 @@ class _CameraScreenState extends State<CameraScreen>
           },
           child: Stack(
             children: [
-              CameraView(provider, scale: cameraPreviewScale),
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + kToolbarHeight),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        width: 100,
-                        child: Column(children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.flashlight,
-                                    size: 30,
-                                  ),
-                                ),
-                                Text('Flash'),
-                                Text('on'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          InkWell(
-                            onTap: () {
-                              openBottomSheet(
-                                  context, (context) => CaptureSpeed());
-                            },
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.speed,
-                                    size: 30,
-                                  ),
-                                ),
-                                Text('Speed'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          InkWell(
-                            onTap: () {
-                              openBottomSheet(context, (context) => Filters());
-                            },
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.filters,
-                                    size: 30,
-                                  ),
-                                ),
-                                Text('Filters'),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                        ]),
-                      ),
-                    ),
-                    Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              CameraView(provider),
+              if (!isRecording)
+                SafeArea(
+                  child: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            openBottomSheet(context, (context) => Gallery());
-                          },
+                        Align(
+                          alignment: Alignment.centerRight,
                           child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).dividerColor,
-                                borderRadius: BorderRadius.circular(12),
-                                image: DecorationImage(
-                                    image:
-                                        AssetImage('assets/users/melissa.jpg'),
-                                    fit: BoxFit.cover),
-                                border:
-                                    Border.all(width: 2, color: Colors.white)),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: onCapture,
-                          child: Container(
-                            margin: EdgeInsets.all(12),
-                            constraints:
-                                BoxConstraints(maxHeight: 100, maxWidth: 100),
-                            decoration: BoxDecoration(
-                                color: Colors.white10,
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.white, width: 3)),
-                            child: Container(
-                                margin: EdgeInsets.all(6),
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).accentColor,
-                                  shape: BoxShape.circle,
+                            width: 100,
+                            child: Column(children: [
+                              InkWell(
+                                onTap: () {
+                                  provider.switchFlash();
+                                },
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        provider.flash
+                                            ? MyIcons.flash
+                                            : MyIcons.flashOff,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    Text('Flash'),
+                                    Text(provider.flash ? 'on' : 'off'),
+                                  ],
                                 ),
-                                child: Icon(
-                                  MyIcons.camera,
-                                  color: Colors.white,
-                                  size: 35,
-                                )),
+                              ),
+                              SizedBox(height: 5),
+                              InkWell(
+                                onTap: () {},
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        MyIcons.timer,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    Text('Timer'),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              InkWell(
+                                onTap: () {
+                                  openBottomSheet(
+                                      context, (context) => Filters());
+                                },
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        MyIcons.filters,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    Text('Filters'),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              InkWell(
+                                onTap: () {},
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        MyIcons.music,
+                                        size: 30,
+                                      ),
+                                    ),
+                                    Text('Audio'),
+                                  ],
+                                ),
+                              ),
+                            ]),
                           ),
                         ),
-                        Container(
-                          width: 60,
+                        Spacer(),
+                        // if (showSpeed)
+                        //   CaptureSpeed(initial: speed, onPressed: setSpeed),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                openBottomSheet(context, (context) => Gallery(),
+                                    root: false);
+                              },
+                              child: Container(
+                                height: 60,
+                                width: 60,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).dividerColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: DecorationImage(
+                                        image:
+                                            AssetImage('assets/old_logo.jpg'),
+                                        fit: BoxFit.cover),
+                                    border: Border.all(
+                                        width: 2, color: Colors.white)),
+                              ),
+                            ),
+                            captureButton(),
+                            Container(
+                              width: 60,
+                            ),
+                          ],
                         ),
+                        SizedBox(height: kToolbarHeight + 12)
                       ],
                     ),
-                    SizedBox(height: kToolbarHeight + 12)
-                  ],
+                  ),
                 ),
-              ),
+              if (isRecording)
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: kToolbarHeight + 12),
+                      child: captureButton(),
+                    ))
             ],
           ),
         ),
@@ -243,81 +338,10 @@ class _CameraScreenState extends State<CameraScreen>
   }
 }
 
-class CameraView extends StatefulWidget {
-  final CameraProvider provider;
-  final double scale;
-  CameraView(this.provider, {required this.scale});
+class RecordingDurationNotifier {
+  ValueNotifier<double> notifier = ValueNotifier<double>(0.0);
 
-  @override
-  _CameraViewState createState() => _CameraViewState();
-}
-
-class _CameraViewState extends State<CameraView> {
-  late CameraProvider provider;
-  CameraController? controller;
-
-  @override
-  void initState() {
-    super.initState();
-    provider = widget.provider;
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      initCamera();
-    });
-  }
-
-  initCamera() {
-    provider.initialize().then((value) {
-      if (mounted) {
-        setState(() {
-          controller = provider.controller;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    provider.disposeCamera();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    controller = provider.controller;
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: kToolbarHeight,
-        top: 36,
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: darkTheme.inputDecorationTheme.fillColor,
-          child: controller != null
-              ? controller!.value.isInitialized
-                  ? SizedBox.expand(
-                      child: Transform.scale(
-                        scale: widget.scale,
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.width *
-                                controller!.value.aspectRatio,
-                            child: CameraPreview(
-                              controller!,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  // CameraPreview(controller!)
-                  : Container()
-              : Container(),
-        ),
-      ),
-    );
+  setDuration(double duration) {
+    notifier.value = duration;
   }
 }

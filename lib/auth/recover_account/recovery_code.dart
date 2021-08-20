@@ -4,6 +4,7 @@ import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/auth/verify_code.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class RecoveryCode extends StatefulWidget {
   @override
@@ -34,10 +35,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-                backgroundColor: Theme.of(context).dividerColor,
-                backgroundImage: AssetImage('${user.profilePic}'),
-                radius: 36),
+            ProfilePic(user.profilePic, radius: 36),
             SizedBox(width: 15),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('@${user.username}',

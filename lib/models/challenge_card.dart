@@ -40,7 +40,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
       subtitle: '24K posts',
       trailingArrow: false,
       trailing: FollowButton(
-        width: 75,
+        width: 72,
         height: 30,
         isFollowing: isPinned,
         text: {true: 'Pinned', false: 'Pin'},

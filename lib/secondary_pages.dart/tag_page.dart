@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/data/users.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
+import 'package:pulsar/options/tag_options.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/secondary_pages.dart/photo_view.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class TagPage extends StatefulWidget {
+  final String tag;
+  TagPage(this.tag);
+
   @override
   _TagPageState createState() => _TagPageState();
 }
@@ -18,6 +24,8 @@ class _TagPageState extends State<TagPage>
   TabController? tabController;
   ScrollController? scrollController;
 
+  late String tag;
+
   bool isFollowed = false;
 
   @override
@@ -25,6 +33,7 @@ class _TagPageState extends State<TagPage>
 
   @override
   void initState() {
+    tag = widget.tag;
     tabController = TabController(length: 2, vsync: this);
     tabController!.addListener(tabControlerListener);
     scrollController = ScrollController();
@@ -46,6 +55,10 @@ class _TagPageState extends State<TagPage>
     }
   }
 
+  moreOnTag() {
+    openBottomSheet(context, (context) => TagOptions(tag));
+  }
+
   Future<bool> onRefresh() async {
     await Future.delayed(Duration(seconds: 2));
     return true;
@@ -55,10 +68,10 @@ class _TagPageState extends State<TagPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(title: Text('#Tag'), actions: [
+      appBar: AppBar(title: Text('#$tag'), actions: [
         IconButton(
           icon: Icon(MyIcons.more),
-          onPressed: () {},
+          onPressed: moreOnTag,
         )
       ]),
       body: RefreshIndicator(
@@ -80,29 +93,19 @@ class _TagPageState extends State<TagPage>
                                     Navigator.of(context, rootNavigator: true)
                                         .push(MaterialPageRoute(
                                             builder: (context) => PhotoView(
-                                                'assets/users/rael.jpg',
+                                                rael.profilePic,
                                                 tag: 'tagPic')));
                                   },
                                   child: Hero(
-                                    tag: 'tagPic',
-                                    child: Container(
-                                      height: 120,
-                                      width: 120,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Theme.of(context).dividerColor,
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/users/rael.jpg'),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                  )
+                                      tag: 'tagPic',
+                                      child: ProfilePic(rael.profilePic,
+                                          radius: 60))
 
                                   // MyAvatar(user.tagPic, 45.0)
                                   ),
                             ),
                             Text(
-                              '#Tag',
+                              '#$tag',
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme
@@ -140,7 +143,8 @@ class _TagPageState extends State<TagPage>
                                 onChildPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
-                                          builder: (context) => PostProcess()));
+                                          builder: (context) =>
+                                              PostProcess(tag: tag)));
                                 },
                                 onFollow: () {
                                   setState(() {

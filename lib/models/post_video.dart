@@ -4,6 +4,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/video.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class PostVideo extends StatefulWidget {
   final Video video;
@@ -113,9 +114,12 @@ class _PostVideoState extends State<PostVideo> {
 
   bool isPaused = false;
 
+  late Key visibilityKey;
+
   @override
   void initState() {
     super.initState();
+    visibilityKey = Key(DateTime.now().toString());
     video = widget.video;
   }
 
@@ -159,8 +163,6 @@ class _PostVideoState extends State<PostVideo> {
       ),
     );
 
-    // return thumbnail;
-
     return InkWell(
       onTap: () {
         setState(() {
@@ -175,39 +177,46 @@ class _PostVideoState extends State<PostVideo> {
           }
         });
       },
-      child: Stack(
-        children: [
-          controller != null
-              ? controller!.dataSource == video.source &&
-                      controller!.value.isInitialized
-                  ? SizedBox.expand(
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: SizedBox(
-                            width: controller?.value.size.width ?? 0,
-                            height: controller?.value.size.height ?? 0,
-                            child: VideoPlayer(controller!)),
-                      ),
-                    )
-                  : thumbnail
-              : thumbnail,
-          // Center(
-          //   child: Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       Text('isPlaying: $isPlaying '),
-          //       Text('inView : ${widget.isInView}'),
-          //       Text(
-          //           'controllerPlaying : ${controller == null ? 'null' : controller!.value.isPlaying}'),
-          //       Text(
-          //           'controllerInitialized : ${controller == null ? 'null' : controller!.value.isInitialized}'),
-          //       Text(
-          //           'controllersource : ${controller == null ? 'null' : controller!.dataSource}'),
-          //     ],
-          //   ),
-          // ),
-          PausePlay(isPaused)
-        ],
+      child: VisibilityDetector(
+        onVisibilityChanged: (info) {
+          print(info.visibleFraction);
+          if (info.visibleFraction < 0.5) {
+            if (controller != null) {
+              if (video.source == controller!.dataSource) {
+                isPlaying = false;
+                controller!.pause();
+              }
+            }
+          }
+          if (info.visibleFraction > 0.5 && !isPlaying) {
+            if (controller != null) {
+              if (video.source == controller!.dataSource) {
+                controller?.play();
+                isPlaying = true;
+              }
+            }
+          }
+        },
+        key: visibilityKey,
+        child: Stack(
+          children: [
+            controller != null
+                ? controller!.dataSource == video.source &&
+                        controller!.value.isInitialized
+                    ? SizedBox.expand(
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                              width: controller?.value.size.width ?? 0,
+                              height: controller?.value.size.height ?? 0,
+                              child: VideoPlayer(controller!)),
+                        ),
+                      )
+                    : thumbnail
+                : thumbnail,
+            PausePlay(isPaused)
+          ],
+        ),
       ),
     );
   }

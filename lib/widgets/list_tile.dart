@@ -55,7 +55,7 @@ class MyListTile extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle2)
                   ]),
             ),
-            SizedBox(width: 15),
+            SizedBox(width: 12),
             if (trailingText != null)
               Expanded(
                 flex: flexRatio[1],

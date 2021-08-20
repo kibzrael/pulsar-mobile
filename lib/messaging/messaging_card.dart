@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/message.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 
 class MessagingCard extends StatefulWidget {
   /// to be removed
@@ -37,11 +38,7 @@ class _MessagingCardState extends State<MessagingCard> {
             child: received
                 ? Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
-                    child: CircleAvatar(
-                      radius: 16.5,
-                      backgroundColor: Theme.of(context).dividerColor,
-                      backgroundImage: AssetImage(message.user.profilePic),
-                    ),
+                    child: ProfilePic(message.user.profilePic, radius: 16.5),
                   )
                 : Container(),
           ),

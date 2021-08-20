@@ -56,9 +56,10 @@ class _LogCredentialsState extends State<LogCredentials> {
       await Future.delayed(Duration(milliseconds: 300));
       provider.user.id = response.body!['user']['id'];
       provider.user.username = response.body!['user']['username'];
-      provider.nextPage();
-      loginProvider.signup(context,
+
+      await loginProvider.signup(context,
           token: response.body!['jwtToken'], user: response.body!['user']);
+      provider.nextPage();
       return;
     }
 
