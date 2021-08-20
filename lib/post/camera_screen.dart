@@ -98,6 +98,8 @@ class _CameraScreenState extends State<CameraScreen>
   Widget build(BuildContext context) {
     provider = Provider.of<CameraProvider>(context);
 
+    // trial kibzrael contribution
+
     Widget captureButton() {
       return ValueListenableBuilder(
         valueListenable: recordingDurationNotifier.notifier,
