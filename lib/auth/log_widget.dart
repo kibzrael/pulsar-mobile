@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/widgets/text_button.dart';
 
 class LogTextDecoration extends InputDecoration {
   final String hintText;
@@ -142,18 +144,11 @@ class ToggleAuthScreen extends StatelessWidget {
             isLogin ? "Don't have an account?" : 'Already have an account?',
             style: TextStyle(fontSize: 16.5),
           ),
-          InkWell(
-              onTap: () {
+          MyTextButton(
+              text: isLogin ? 'Signup' : 'Login',
+              onPressed: () {
                 onChange(isLogin ? 1 : 0);
-              },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  isLogin ? 'Signup' : 'Login',
-                  style: TextStyle(
-                      fontSize: 16.5, color: Theme.of(context).buttonColor),
-                ),
-              ))
+              })
         ],
       ),
     );
@@ -185,13 +180,6 @@ class AuthButton extends StatelessWidget {
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
-        // foregroundDecoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(30),
-        //     color: !enabled
-        //         ? Theme.of(context).brightness == Brightness.light
-        //             ? Colors.white38
-        //             : Colors.black38
-        //         : Colors.transparent),
         decoration: colored
             ? BoxDecoration(
                 gradient: LinearGradient(colors: [
@@ -205,13 +193,12 @@ class AuthButton extends StatelessWidget {
                 color: Theme.of(context).disabledColor),
         child: isSubmitting!
             ? SizedBox(
-                height: 25,
-                width: 25,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  strokeWidth: 3,
-                ),
-              )
+                height: 32,
+                width: 32,
+                child: MyProgressIndicator(
+                  size: 32,
+                  margin: EdgeInsets.zero,
+                ))
             : Text(
                 isLogin ? 'Login' : 'Signup',
                 style: TextStyle(

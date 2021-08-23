@@ -10,6 +10,7 @@ import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/select_language.dart';
+import 'package:pulsar/widgets/text_button.dart';
 
 class LoginPage extends StatefulWidget {
   final Function(int page) onChange;
@@ -143,14 +144,8 @@ class _LoginPageState extends State<LoginPage>
                             child: Container(
                               height: 50,
                               alignment: Alignment.topRight,
-                              child: TextButton(
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(
-                                    color: Theme.of(context).buttonColor,
-                                    fontSize: 16.5,
-                                  ),
-                                ),
+                              child: MyTextButton(
+                                text: 'Forgot Password?',
                                 onPressed: onForgotPassword,
                               ),
                             ))

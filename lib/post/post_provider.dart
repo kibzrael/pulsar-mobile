@@ -33,6 +33,18 @@ class VideoCapture {
   });
 }
 
-class Audio {}
+class Audio {
+  int id;
+  String coverPhoto;
+  String name;
+  String artist;
+
+  Audio(
+    this.id, {
+    required this.coverPhoto,
+    required this.name,
+    required this.artist,
+  });
+}
 
 class Filter {}

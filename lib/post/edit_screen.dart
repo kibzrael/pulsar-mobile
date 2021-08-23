@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/post_video.dart';
+import 'package:pulsar/post/audio/audio.dart';
+import 'package:pulsar/post/cover.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/upload_screen.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:pulsar/widgets/transitions.dart';
 import 'package:video_player/video_player.dart';
 
 class EditScreen extends StatefulWidget {
@@ -25,6 +27,10 @@ class _EditScreenState extends State<EditScreen> {
   late PostProvider provider;
 
   bool isPaused = false;
+
+  bool showFilters = false;
+
+  Widget? overlay;
 
   @override
   void initState() {
@@ -49,36 +55,11 @@ class _EditScreenState extends State<EditScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
+
+    PostProvider postProvider = Provider.of<PostProvider>(context);
+
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              MyIcons.close,
-              size: 30,
-            )),
-        actions: [
-          Container(
-            width: 100,
-            alignment: Alignment.center,
-            child: ActionButton(
-                title: 'Next',
-                width: 70,
-                height: 30,
-                onPressed: () {
-                  provider.video = video;
-                  Navigator.of(context).push(myPageRoute(
-                      builder: (context) => UploadScreen(
-                            caption: provider.caption,
-                          )));
-                }),
-          )
-        ],
-      ),
+      resizeToAvoidBottomInset: false,
       body: InkWell(
         onTap: () {
           setState(() {
@@ -110,91 +91,167 @@ class _EditScreenState extends State<EditScreen> {
                           ),
                         )
                       : Container(),
+                  AnimatedOpacity(
+                      duration: Duration(milliseconds: 300),
+                      opacity: overlay == null ? 1 : 0,
+                      child: PausePlay(isPaused)),
                   Container(
                     color: Colors.black12,
-                    child: SafeArea(
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              width: 100,
-                              child: Column(children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          MyIcons.trim,
-                                          size: 30,
+                    child: ScaledTransition(
+                      reverse: overlay == null,
+                      child: overlay != null
+                          ? overlay!
+                          : Column(
+                              children: [
+                                AppBar(
+                                  backgroundColor: Colors.transparent,
+                                  leading: IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        MyIcons.close,
+                                        size: 30,
+                                      )),
+                                  actions: [
+                                    Container(
+                                      width: 100,
+                                      alignment: Alignment.center,
+                                      child: ActionButton(
+                                          title: 'Next',
+                                          width: 70,
+                                          height: 30,
+                                          onPressed: () {
+                                            provider.video = video;
+                                            Navigator.of(context).push(
+                                                myPageRoute(
+                                                    builder: (context) =>
+                                                        UploadScreen(
+                                                          caption:
+                                                              provider.caption,
+                                                        )));
+                                          }),
+                                    )
+                                  ],
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    width: 100,
+                                    child: Column(children: [
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                MyIcons.trim,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            Text('Trim'),
+                                          ],
                                         ),
                                       ),
-                                      Text('Trim'),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                InkWell(
-                                  onTap: () {
-                                    openBottomSheet(
-                                        context, (context) => Filters());
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          MyIcons.filters,
-                                          size: 30,
+                                      SizedBox(height: 5),
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            showFilters = !showFilters;
+                                          });
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                MyIcons.filters,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            Text('Filters'),
+                                          ],
                                         ),
                                       ),
-                                      Text('Filters'),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          MyIcons.thumbnail,
-                                          size: 30,
+                                      SizedBox(height: 5),
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            overlay = PostCover(pop: () {
+                                              setState(() {
+                                                overlay = null;
+                                              });
+                                            });
+                                          });
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                MyIcons.thumbnail,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            Text('Cover'),
+                                          ],
                                         ),
                                       ),
-                                      Text('Cover'),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(
-                                          MyIcons.music,
-                                          size: 30,
+                                      SizedBox(height: 5),
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            overlay = PostAudio(pop: () {
+                                              setState(() {
+                                                overlay = null;
+                                              });
+                                            });
+                                          });
+                                        },
+                                        child: Column(
+                                          children: [
+                                            if (postProvider.audio != null)
+                                              Container(
+                                                width: 42,
+                                                height: 42,
+                                                margin: EdgeInsets.all(2),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white12,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        postProvider
+                                                            .audio!.coverPhoto),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            if (postProvider.audio == null)
+                                              Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Icon(
+                                                  MyIcons.music,
+                                                  size: 30,
+                                                ),
+                                              ),
+                                            Text('Audio'),
+                                          ],
                                         ),
                                       ),
-                                      Text('Audio'),
-                                    ],
+                                    ]),
                                   ),
                                 ),
-                              ]),
+                                Spacer(),
+                                ScaledTransition(
+                                    reverse: !showFilters,
+                                    child:
+                                        showFilters ? Filters() : Container()),
+                              ],
                             ),
-                          ),
-                          Spacer(),
-                        ],
-                      ),
                     ),
                   ),
-                  PausePlay(isPaused),
                 ],
               ),
             ),

@@ -7,11 +7,15 @@ class SearchField extends StatefulWidget {
   final bool autofocus;
   final Function(String text) onChanged;
   final Function(String text) onSubmitted;
+  final Color? color;
+  final Color? clearColor;
 
   SearchField({
     this.autofocus = false,
     this.height = 37.5,
     this.hintText = 'Search...',
+    this.color,
+    this.clearColor,
     required this.onChanged,
     required this.onSubmitted,
   });
@@ -45,7 +49,8 @@ class _SearchFieldState extends State<SearchField> {
         alignment: Alignment.center,
         padding: EdgeInsets.fromLTRB(12, 4, 8, 4),
         decoration: BoxDecoration(
-            color: Theme.of(context).inputDecorationTheme.fillColor,
+            color: widget.color ??
+                Theme.of(context).inputDecorationTheme.fillColor,
             borderRadius: BorderRadius.circular(30)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,12 +72,14 @@ class _SearchFieldState extends State<SearchField> {
               ),
             ),
             searchText.length > 0
-                ? TextFieldClear(onPressed: () {
-                    setState(() {
-                      textEditingController!.clear();
-                      searchText = '';
-                    });
-                  })
+                ? TextFieldClear(
+                    color: widget.clearColor,
+                    onPressed: () {
+                      setState(() {
+                        textEditingController!.clear();
+                        searchText = '';
+                      });
+                    })
                 : Container()
           ],
         ),
@@ -83,7 +90,8 @@ class _SearchFieldState extends State<SearchField> {
 
 class TextFieldClear extends StatelessWidget {
   final Function() onPressed;
-  TextFieldClear({required this.onPressed});
+  final Color? color;
+  TextFieldClear({required this.onPressed, this.color});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -93,7 +101,7 @@ class TextFieldClear extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Theme.of(context).dividerColor,
+          color: color ?? Theme.of(context).dividerColor,
         ),
         child: Icon(
           MyIcons.close,

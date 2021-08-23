@@ -31,9 +31,11 @@ ThemeData lightTheme = ThemeData(
       elevation: 0.0,
       selectedItemColor: Colors.black,
       unselectedItemColor: Colors.grey),
+  sliderTheme: sliderThemeData,
   textTheme: textTheme(Brightness.light),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   scaffoldBackgroundColor: Colors.white,
+  pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
       primary: Colors.blue,
       primaryVariant: Colors.deepPurpleAccent,
@@ -74,9 +76,11 @@ ThemeData darkTheme = ThemeData(
       elevation: 0.0,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.grey),
+  sliderTheme: sliderThemeData,
   textTheme: textTheme(Brightness.dark),
   visualDensity: VisualDensity.adaptivePlatformDensity,
   scaffoldBackgroundColor: kBackgroundColor,
+  pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
       primary: Colors.blue,
       primaryVariant: Colors.deepPurpleAccent,
@@ -132,6 +136,21 @@ ChipThemeData chipTheme(Brightness brightness) {
   );
 }
 
+PageTransitionsTheme pageTransitionsTheme = PageTransitionsTheme(builders: {
+  TargetPlatform.android: ZoomPageTransitionsBuilder(),
+  TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+});
+
+SliderThemeData sliderThemeData = SliderThemeData(
+    trackHeight: 30,
+    trackShape: CustomTrackShape(),
+    valueIndicatorShape: SliderComponentShape.noThumb,
+    disabledThumbColor: Colors.transparent,
+    thumbShape: RoundSliderThumbShape(
+        elevation: 0, pressedElevation: 0, enabledThumbRadius: 0),
+    overlayColor: Colors.transparent,
+    thumbColor: Colors.transparent);
+
 class ThemeProvider extends ChangeNotifier {
   ThemeData? _theme;
   ThemeData? get theme => _theme;
@@ -162,5 +181,22 @@ class ThemeProvider extends ChangeNotifier {
     _theme = value == 0 ? lightTheme : darkTheme;
     notifyListeners();
     syncTheme();
+  }
+}
+
+class CustomTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight!;
+    final double trackLeft = offset.dx;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
 }

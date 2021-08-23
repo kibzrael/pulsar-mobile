@@ -188,7 +188,7 @@ class _PostVideoState extends State<PostVideo> {
               }
             }
           }
-          if (info.visibleFraction > 0.5 && !isPlaying) {
+          if (info.visibleFraction > 0.5 && !isPlaying && !isPaused) {
             if (controller != null) {
               if (video.source == controller!.dataSource) {
                 controller?.play();

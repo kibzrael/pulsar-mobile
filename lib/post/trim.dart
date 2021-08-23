@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:patterns_canvas/patterns_canvas.dart';
 import 'package:pulsar/functions/time.dart';
 
 class TrimVideo extends StatefulWidget {
@@ -243,27 +242,5 @@ class _TrimVideoState extends State<TrimVideo> {
         ),
       ),
     );
-  }
-}
-
-class HandlePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Prepare a rectangle shape to draw the pattern on.
-    final rect = Rect.fromLTRB(0, 0, 24, 100);
-
-    // Create a Pattern object of diagonal stripes with the colors we want.
-    final Pattern pattern = DiagonalStripesThick(
-        bgColor: Colors.transparent,
-        fgColor: Colors.white54,
-        featuresCount: 20);
-
-    // Paint the pattern on the rectangle.
-    pattern.paintOnRect(canvas, size, rect);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
   }
 }

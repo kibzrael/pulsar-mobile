@@ -25,6 +25,7 @@ class _PostProcessState extends State<PostProcess> {
             ),
         builder: (context, snapshot) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Navigator(
                 initialRoute: '/',
                 onGenerateRoute: (settings) {

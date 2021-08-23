@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/data/users.dart';
-import 'package:pulsar/widgets/bottom_sheet.dart';
 
 class Filters extends StatefulWidget {
   @override
@@ -11,8 +10,7 @@ class Filters extends StatefulWidget {
 class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
-    return MyBottomSheet(
-        child: Container(
+    return Container(
       height: 120,
       child: ListView.builder(
           itemCount: 12,
@@ -21,41 +19,37 @@ class _FiltersState extends State<Filters> {
           itemBuilder: (context, index) {
             return FilterWidget();
           }),
-    ));
+    );
   }
 }
 
 class FilterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return Container(
       margin: EdgeInsets.symmetric(horizontal: 7.5, vertical: 12),
-      child: Container(
-        padding: EdgeInsets.all(4),
-        width: 90,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Theme.of(context).dividerColor,
-              backgroundImage: CachedNetworkImageProvider(beth.profilePic),
-            ),
-            Text(
-              'Filter',
-              maxLines: 1,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  ?.copyWith(fontSize: 16.5),
-            )
-          ],
-        ),
+      padding: EdgeInsets.all(4),
+      width: 90,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.white24,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.white12,
+            backgroundImage: CachedNetworkImageProvider(beth.profilePic),
+          ),
+          Text(
+            'Filter',
+            maxLines: 1,
+            style:
+                Theme.of(context).textTheme.subtitle2?.copyWith(fontSize: 16.5),
+          )
+        ],
       ),
     );
   }
