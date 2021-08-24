@@ -13,6 +13,7 @@ import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/settings/settings_page.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class MyProfilePage extends StatefulWidget {
@@ -112,9 +113,9 @@ class _RootProfilePageState extends State<RootProfilePage>
               })
         ],
       ),
-      body: RefreshIndicator(
+      body: NestedScrollViewRefreshIndicator(
         onRefresh: onRefresh,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
             controller: scrollController,
             headerSliverBuilder: (BuildContext context, bool? f) {
               return [
@@ -143,11 +144,12 @@ class _RootProfilePageState extends State<RootProfilePage>
                 ),
               ];
             },
-            innerScrollPositionKeyBuilder: () {
-              String index = 'Tab';
-              index += tabController!.index.toString();
-              return Key(index);
-            },
+            // innerScrollPositionKeyBuilder: () {
+            //   String index = 'Tab';
+            //   index += tabController!.index.toString();
+            //   return Key(index);
+            // },
+            onlyOneScrollInBody: false,
             body: Column(
               children: <Widget>[
                 TabBar(
@@ -172,14 +174,7 @@ class _RootProfilePageState extends State<RootProfilePage>
                     color: Theme.of(context).colorScheme.surface,
                     child: TabBarView(
                       controller: tabController,
-                      children: <Widget>[
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                          Key('Tab0'),
-                          GridPosts(user),
-                        ),
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                            Key('Tab1'), GridPosts(user)),
-                      ],
+                      children: <Widget>[GridPosts(user), GridPosts(user)],
                     ),
                   ),
                 )

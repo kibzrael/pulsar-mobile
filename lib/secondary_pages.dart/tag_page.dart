@@ -10,6 +10,7 @@ import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 
 class TagPage extends StatefulWidget {
   final String tag;
@@ -74,9 +75,9 @@ class _TagPageState extends State<TagPage>
           onPressed: moreOnTag,
         )
       ]),
-      body: RefreshIndicator(
+      body: NestedScrollViewRefreshIndicator(
         onRefresh: onRefresh,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
             controller: scrollController,
             headerSliverBuilder: (BuildContext context, bool? f) {
               return [
@@ -159,12 +160,13 @@ class _TagPageState extends State<TagPage>
                 ),
               ];
             },
-            innerScrollPositionKeyBuilder: () {
-              String index = 'Tab';
-              index += tabController!.index.toString();
+            // innerScrollPositionKeyBuilder: () {
+            //   String index = 'Tab';
+            //   index += tabController!.index.toString();
 
-              return Key(index);
-            },
+            //   return Key(index);
+            // },
+            onlyOneScrollInBody: false,
             body: Column(
               children: <Widget>[
                 TabBar(
@@ -189,12 +191,8 @@ class _TagPageState extends State<TagPage>
                     child: TabBarView(
                       controller: tabController,
                       children: <Widget>[
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                          Key('Tab0'),
-                          GridPosts(evanna),
-                        ),
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                            Key('Tab1'), GridPosts(evanna)),
+                        GridPosts(evanna),
+                        GridPosts(evanna),
                       ],
                     ),
                   ),

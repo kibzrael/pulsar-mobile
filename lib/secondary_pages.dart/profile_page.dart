@@ -11,6 +11,7 @@ import 'package:pulsar/models/profile.dart';
 import 'package:pulsar/options/user_options.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -74,9 +75,9 @@ class _ProfilePageState extends State<ProfilePage>
         title: Text('@${user.username}'),
         actions: [IconButton(icon: Icon(MyIcons.more), onPressed: moreOnUser)],
       ),
-      body: RefreshIndicator(
+      body: NestedScrollViewRefreshIndicator(
         onRefresh: onRefresh,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
             controller: scrollController,
             headerSliverBuilder: (BuildContext context, bool? f) {
               return [
@@ -109,12 +110,13 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ];
             },
-            innerScrollPositionKeyBuilder: () {
-              String index = 'Tab';
-              index += tabController!.index.toString();
+            // innerScrollPositionKeyBuilder: () {
+            //   String index = 'Tab';
+            //   index += tabController!.index.toString();
 
-              return Key(index);
-            },
+            //   return Key(index);
+            // },
+            onlyOneScrollInBody: false,
             body: Column(
               children: <Widget>[
                 TabBar(
@@ -141,12 +143,8 @@ class _ProfilePageState extends State<ProfilePage>
                     child: TabBarView(
                       controller: tabController,
                       children: <Widget>[
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                          Key('Tab0'),
-                          GridPosts(user),
-                        ),
-                        NestedScrollViewInnerScrollPositionKeyWidget(
-                            Key('Tab1'), GridPosts(user)),
+                        GridPosts(user),
+                        GridPosts(user),
                       ],
                     ),
                   ),

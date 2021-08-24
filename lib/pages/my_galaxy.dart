@@ -14,6 +14,7 @@ import 'package:pulsar/models/pinned_challenges.dart';
 import 'package:pulsar/models/recommended_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/pages/route_observer.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -68,7 +69,7 @@ class _RootGalaxyState extends State<RootGalaxy>
   }
 
   Future onRefresh() async {
-    Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: 2));
     return;
   }
 
@@ -102,42 +103,45 @@ class _RootGalaxyState extends State<RootGalaxy>
             ),
           ),
         ),
-        body: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, f) {
-            Widget space = SizedBox(
-              height: 8,
-            );
-            return [
-              SliverList(
-                  delegate: SliverChildListDelegate(
-                [
-                  FollowedTags(),
-                  space,
-                  PinnedChallenges(),
-                  space,
-                  DiscoverChallenges(),
-                  MyNativeAd(),
-                  RecommendedChallenges(),
-                  space,
-                  SectionTitle(title: 'Discover'),
-                ],
-              )),
-            ];
-          },
-          innerScrollPositionKeyBuilder: () {
-            return Key('Scroll1');
-          },
-          body: Column(
-            children: [
-              DiscoverGalaxyTags(),
-              Expanded(
-                child: Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    child: NestedScrollViewInnerScrollPositionKeyWidget(
-                        Key('Scroll1'), DiscoverGalaxy())),
-              ),
-            ],
+        body: NestedScrollViewRefreshIndicator(
+          onRefresh: onRefresh,
+          child: ExtendedNestedScrollView(
+            controller: scrollController,
+            headerSliverBuilder: (context, f) {
+              Widget space = SizedBox(
+                height: 8,
+              );
+              return [
+                SliverList(
+                    delegate: SliverChildListDelegate(
+                  [
+                    FollowedTags(),
+                    space,
+                    PinnedChallenges(),
+                    space,
+                    DiscoverChallenges(),
+                    MyNativeAd(),
+                    RecommendedChallenges(),
+                    space,
+                    SectionTitle(title: 'Discover'),
+                  ],
+                )),
+              ];
+            },
+            // innerScrollPositionKeyBuilder: () {
+            //   return Key('Scroll1');
+            // },
+            onlyOneScrollInBody: true,
+            body: Column(
+              children: [
+                DiscoverGalaxyTags(),
+                Expanded(
+                  child: Container(
+                      color: Theme.of(context).colorScheme.surface,
+                      child: DiscoverGalaxy()),
+                ),
+              ],
+            ),
           ),
         ));
   }

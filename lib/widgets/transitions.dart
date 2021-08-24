@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 class ScaledTransition extends StatelessWidget {
   final Widget child;
   final bool reverse;
-  ScaledTransition({required this.reverse, required this.child});
+  final Color fill;
+  ScaledTransition(
+      {required this.reverse,
+      required this.child,
+      this.fill = Colors.transparent});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +19,7 @@ class ScaledTransition extends StatelessWidget {
       transitionBuilder: (child, animation, secondaryAnimation) {
         return SharedAxisTransition(
             child: child,
-            fillColor: Colors.transparent,
+            fillColor: fill,
             animation: animation,
             secondaryAnimation: secondaryAnimation,
             transitionType: SharedAxisTransitionType.scaled);

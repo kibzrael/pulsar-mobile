@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/posts.dart';
@@ -50,15 +48,15 @@ class _GridPostsState extends State<GridPosts>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    BasicRootProvider? basicRootProvider;
-    double bottomPadding = 0;
+    // BasicRootProvider? basicRootProvider;
+    // double bottomPadding = 0;
 
-    try {
-      basicRootProvider = Provider.of<BasicRootProvider>(context);
-    } on Exception {}
-    if (basicRootProvider != null) {
-      bottomPadding = kToolbarHeight;
-    }
+    // try {
+    //   basicRootProvider = Provider.of<BasicRootProvider>(context);
+    // } on Exception {}
+    // if (basicRootProvider != null) {
+    //   bottomPadding = kToolbarHeight;
+    // }
 
     return isLoading
         ? Align(
@@ -73,7 +71,7 @@ class _GridPostsState extends State<GridPosts>
                 child: GridView.builder(
                     itemCount: posts.length,
                     physics: ClampingScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: bottomPadding),
+                    padding: MediaQuery.of(context).padding.copyWith(top: 0),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75,
                         crossAxisCount: 3,

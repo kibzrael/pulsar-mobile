@@ -60,7 +60,7 @@ dependencies:
   pin_code_fields: ^7.1.0
   carousel_slider: ^4.0.0
   animations: ^2.0.0
-  extended_nested_scroll_view: ^3.0.0
+  extended_nested_scroll_view: ^4.0.0
   video_player: ^2.1.6
   camera: ^0.8.1
   flutter_spinkit: ^5.0.0

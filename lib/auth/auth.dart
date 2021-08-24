@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return ScaledTransition(
+      fill: Theme.of(context).scaffoldBackgroundColor,
       child: index == 0
           ? LoginPage(onChange: onChange)
           : SignupPage(onChange: onChange),

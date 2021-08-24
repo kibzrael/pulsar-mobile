@@ -100,11 +100,13 @@ class _BasicRootState extends State<BasicRoot> {
                     transparent = true;
                   }
                 });
-                print(transparent);
+
                 return transparent;
               }
 
-              bool themeIsDark = barTransparent() ||
+              bool barIsTransparent = barTransparent();
+
+              bool themeIsDark = barIsTransparent ||
                   Theme.of(context).brightness == Brightness.dark;
 
               return Scaffold(
@@ -123,105 +125,213 @@ class _BasicRootState extends State<BasicRoot> {
                   ],
                 ),
                 bottomNavigationBar: BottomAppBar(
-                  elevation: barTransparent() ? 0 : 16,
-                  color: barTransparent()
+                  elevation: barIsTransparent ? 0 : 16,
+                  color: barIsTransparent
                       ? Colors.transparent
                       : Theme.of(context)
                           .bottomNavigationBarTheme
                           .backgroundColor,
-                  child: CupertinoTabBar(
-                    border: Border.all(style: BorderStyle.none),
-                    //  Border(
-                    //   top:
-                    //    BorderSide(
-                    //       color: barTransparent()
-                    //           ? Colors.transparent
-                    //           : Theme.of(context).colorScheme.surface),
-                    // ),
-                    backgroundColor: barTransparent()
-                        ? Colors.transparent
-                        : Theme.of(context)
-                            .bottomNavigationBarTheme
-                            .backgroundColor,
-                    activeColor: barTransparent()
-                        ? Colors.white
-                        : Theme.of(context)
-                            .bottomNavigationBarTheme
-                            .selectedItemColor,
-                    inactiveColor: Theme.of(context)
-                        .bottomNavigationBarTheme
-                        .unselectedItemColor!,
-                    onTap: navigationChange,
-                    iconSize: 27,
-                    currentIndex: currentIndex,
-                    items: [
-                      BottomNavigationBarItem(
+                  child: SizedBox.fromSize(
+                    size:
+                        Size(MediaQuery.of(context).size.width, kToolbarHeight),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        NavigationBarItem(
+                          0,
                           label: 'Home',
-                          icon: Icon(
-                            MyIcons.home,
-                          )),
-                      BottomNavigationBarItem(
+                          selected: currentIndex,
+                          icon: MyIcons.home,
+                          onTap: navigationChange,
+                          barIsTransparent: barIsTransparent,
+                        ),
+                        NavigationBarItem(
+                          1,
                           label: 'My Galaxy',
-                          icon: Icon(
-                            MyIcons.explore,
-                          )),
-                      BottomNavigationBarItem(
-                        icon: Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Transform.rotate(
-                            angle: 45,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 5),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).accentColor,
-                                    themeIsDark
-                                        ? Colors.transparent
-                                        : Colors.white,
-                                    Theme.of(context).buttonColor,
-                                  ],
-                                ),
-                              ),
-                              child: Transform.rotate(
-                                angle: -45,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: themeIsDark
-                                        ? Colors.black45
-                                        : Colors.white54,
+                          selected: currentIndex,
+                          icon: MyIcons.explore,
+                          onTap: navigationChange,
+                          barIsTransparent: barIsTransparent,
+                        ),
+                        InkWell(
+                          onTap: () => navigationChange(2),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    ((MediaQuery.of(context).size.width / 5) -
+                                            40) /
+                                        2),
+                            child: Transform.rotate(
+                              angle: 45,
+                              child: Container(
+                                decoration: BoxDecoration(
                                     shape: BoxShape.circle,
+                                    color: barIsTransparent
+                                        ? darkTheme.bottomNavigationBarTheme
+                                            .backgroundColor
+                                        : Theme.of(context)
+                                            .bottomNavigationBarTheme
+                                            .backgroundColor),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context).accentColor,
+                                        themeIsDark
+                                            ? Colors.transparent
+                                            : Colors.white,
+                                        Theme.of(context).buttonColor,
+                                      ],
+                                    ),
                                   ),
-                                  child: Icon(
-                                    MyIcons.add,
-                                    size: 30,
-                                    color: themeIsDark
-                                        ? Colors.white
-                                        : Colors.black,
+                                  child: Transform.rotate(
+                                    angle: -45,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: themeIsDark
+                                            ? Colors.black45
+                                            : Colors.white54,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        MyIcons.add,
+                                        size: 30,
+                                        color: themeIsDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      BottomNavigationBarItem(
+                        NavigationBarItem(
+                          3,
                           label: 'Inbox',
-                          icon: Icon(
-                            MyIcons.messageOutline,
-                            size: 24,
-                          )),
-                      BottomNavigationBarItem(
+                          selected: currentIndex,
+                          iconSize: 24,
+                          icon: MyIcons.messageOutline,
+                          onTap: navigationChange,
+                          barIsTransparent: barIsTransparent,
+                        ),
+                        NavigationBarItem(
+                          4,
                           label: 'Account',
-                          icon: Icon(
-                            MyIcons.account,
-                            size: 21,
-                          )),
-                    ],
+                          selected: currentIndex,
+                          iconSize: 21,
+                          icon: MyIcons.account,
+                          onTap: navigationChange,
+                          barIsTransparent: barIsTransparent,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+                // BottomAppBar(
+                //   elevation: barTransparent() ? 0 : 16,
+                //   color: barTransparent()
+                //       ? Colors.transparent
+                //       : Theme.of(context)
+                //           .bottomNavigationBarTheme
+                //           .backgroundColor,
+                //   child: CupertinoTabBar(
+                //     border: Border.all(style: BorderStyle.none),
+                //     //  Border(
+                //     //   top:
+                //     //    BorderSide(
+                //     //       color: barTransparent()
+                //     //           ? Colors.transparent
+                //     //           : Theme.of(context).colorScheme.surface),
+                //     // ),
+                //     backgroundColor: barTransparent()
+                //         ? Colors.transparent
+                //         : Theme.of(context)
+                //             .bottomNavigationBarTheme
+                //             .backgroundColor,
+                //     activeColor: barTransparent()
+                //         ? Colors.white
+                //         : Theme.of(context)
+                //             .bottomNavigationBarTheme
+                //             .selectedItemColor,
+                //     inactiveColor: Theme.of(context)
+                //         .bottomNavigationBarTheme
+                //         .unselectedItemColor!,
+                //     onTap: navigationChange,
+                //     iconSize: 27,
+                //     currentIndex: currentIndex,
+                //     items: [
+                //       BottomNavigationBarItem(
+                //           label: 'Home',
+                //           icon: Icon(
+                //             MyIcons.home,
+                //           )),
+                //       BottomNavigationBarItem(
+                //           label: 'My Galaxy',
+                //           icon: Icon(
+                //             MyIcons.explore,
+                //           )),
+                //       BottomNavigationBarItem(
+                //         icon: Padding(
+                //           padding: EdgeInsets.only(top: 5),
+                //           child: Transform.rotate(
+                //             angle: 45,
+                //             child: Container(
+                //               padding: EdgeInsets.symmetric(
+                //                   horizontal: 5, vertical: 5),
+                //               decoration: BoxDecoration(
+                //                 shape: BoxShape.circle,
+                //                 gradient: LinearGradient(
+                //                   colors: [
+                //                     Theme.of(context).accentColor,
+                //                     themeIsDark
+                //                         ? Colors.transparent
+                //                         : Colors.white,
+                //                     Theme.of(context).buttonColor,
+                //                   ],
+                //                 ),
+                //               ),
+                //               child: Transform.rotate(
+                //                 angle: -45,
+                //                 child: Container(
+                //                   decoration: BoxDecoration(
+                //                     color: themeIsDark
+                //                         ? Colors.black45
+                //                         : Colors.white54,
+                //                     shape: BoxShape.circle,
+                //                   ),
+                //                   child: Icon(
+                //                     MyIcons.add,
+                //                     size: 30,
+                //                     color: themeIsDark
+                //                         ? Colors.white
+                //                         : Colors.black,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       BottomNavigationBarItem(
+                //           label: 'Inbox',
+                //           icon: Icon(
+                //             MyIcons.messageOutline,
+                //             size: 24,
+                //           )),
+                //       BottomNavigationBarItem(
+                //           label: 'Account',
+                //           icon: Icon(
+                //             MyIcons.account,
+                //             size: 21,
+                //           )),
+                //     ],
+                //   ),
+                // ),
               );
             });
           }),
@@ -247,5 +357,63 @@ class BasicRootProvider extends ChangeNotifier {
 
   notify() {
     notifyListeners();
+  }
+}
+
+class NavigationBarItem extends StatelessWidget {
+  final int index;
+  final String label;
+  final IconData icon;
+  final double iconSize;
+  final int selected;
+  final bool barIsTransparent;
+
+  final Function(int index) onTap;
+
+  NavigationBarItem(this.index,
+      {required this.label,
+      required this.selected,
+      required this.icon,
+      required this.onTap,
+      required this.barIsTransparent,
+      this.iconSize = 27});
+
+  @override
+  Widget build(BuildContext context) {
+    // CupertinoTabBar(items: items)
+
+    bool isSelected = index == selected;
+
+    Color activeColor = barIsTransparent
+        ? Colors.white
+        : Theme.of(context).bottomNavigationBarTheme.selectedItemColor!;
+
+    Color inactiveColor =
+        Theme.of(context).bottomNavigationBarTheme.unselectedItemColor!;
+
+    return InkWell(
+      onTap: () => onTap(index),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: iconSize,
+              color: isSelected ? activeColor : inactiveColor,
+            ),
+            SizedBox(height: 4),
+            Text(
+              label,
+              style: CupertinoTheme.of(context)
+                  .textTheme
+                  .tabLabelTextStyle
+                  .copyWith(color: isSelected ? activeColor : null),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
