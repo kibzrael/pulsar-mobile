@@ -10,7 +10,6 @@ import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/custom_refresh_indicator.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
-import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
@@ -54,7 +53,7 @@ class _LeaderboardState extends State<Leaderboard> {
         body: LayoutBuilder(builder: (context, constraints) {
           return MyRefreshIndicator(
               onRefresh: onRefresh,
-              childBuilder: (context, displacement) {
+              childBuilder: (context, displacement, show) {
                 return ExtendedNestedScrollView(
                   controller: controller,
 
@@ -63,10 +62,23 @@ class _LeaderboardState extends State<Leaderboard> {
                       SliverList(
                           delegate: SliverChildListDelegate(
                         [
-                          Container(
-                            height: displacement.value,
+                          SizedBox(
+                            height: displacement.value * 75,
                             width: double.infinity,
-                            color: Colors.blue,
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: double.infinity,
+                              color: Theme.of(context).colorScheme.surface,
+                              child: SingleChildScrollView(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: CircularProgressIndicator(
+                                    value: show ? null : displacement.value,
+                                    strokeWidth: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(

@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 
 // The over-scroll distance that moves the indicator to its maximum
@@ -151,6 +152,8 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
   late Animation<double> _value;
   late Animation<Color?> _valueColor;
 
+  late final Ticker _ticker;
+
   _RefreshIndicatorMode? _mode;
   late Future<void> _pendingRefreshFuture;
   bool? _isIndicatorAtTop;
@@ -166,6 +169,10 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
   @override
   void initState() {
     super.initState();
+    _ticker = this.createTicker((elapsed) {
+      setState(() {});
+    });
+    _ticker.start();
     _positionController = AnimationController(vsync: this);
     _positionFactor = _positionController.drive(_kDragSizeFactorLimitTween);
     _value = _positionController.drive(
@@ -191,6 +198,7 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
 
   @override
   void dispose() {
+    _ticker.dispose();
     _positionController.dispose();
     _scaleController.dispose();
     super.dispose();
@@ -363,7 +371,12 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
           _mode = _RefreshIndicatorMode.refresh;
         });
 
-        final Future<void>? refreshResult = widget.onRefresh();
+        final Future<void>? refreshResult = widget.onRefresh().then((value) {
+          _positionController.animateTo(
+            0.0,
+            duration: Duration(milliseconds: 300),
+          );
+        });
         assert(() {
           if (refreshResult == null)
             FlutterError.reportError(FlutterErrorDetails(
@@ -419,12 +432,18 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
   @override
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
+
+    final bool showIndeterminateIndicator =
+        _mode == _RefreshIndicatorMode.refresh ||
+            _mode == _RefreshIndicatorMode.done;
+
     final Widget child = NotificationListener<ScrollNotification>(
       key: _key,
       onNotification: _handleScrollNotification,
       child: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: _handleGlowNotification,
-        child: widget.childBuilder(context, _positionFactor),
+        child: widget.childBuilder(
+            context, _positionFactor, showIndeterminateIndicator),
       ),
     );
     if (_mode == null) {
@@ -435,55 +454,51 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
     assert(_dragOffset != null);
     assert(_isIndicatorAtTop != null);
 
-    final bool showIndeterminateIndicator =
-        _mode == _RefreshIndicatorMode.refresh ||
-            _mode == _RefreshIndicatorMode.done;
-
     return Stack(
       children: <Widget>[
         child,
-        Positioned(
-          top: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-              ? 0.0
-              : null,
-          bottom: !(_isIndicatorAtTop != null || _isIndicatorAtTop == true)
-              ? 0.0
-              : null,
-          left: 0.0,
-          right: 0.0,
-          child: SizeTransition(
-            axisAlignment:
-                _isIndicatorAtTop != null || _isIndicatorAtTop == true
-                    ? 1.0
-                    : -1.0,
-            sizeFactor: _positionFactor, // this is what brings it down
-            child: Container(
-              padding: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-                  ? EdgeInsets.only(top: widget.displacement)
-                  : EdgeInsets.only(bottom: widget.displacement),
-              alignment: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-                  ? Alignment.topCenter
-                  : Alignment.bottomCenter,
-              child: ScaleTransition(
-                scale: _scaleFactor,
-                child: AnimatedBuilder(
-                  animation: _positionController,
-                  builder: (BuildContext context, Widget? child) {
-                    return RefreshProgressIndicator(
-                      semanticsLabel: widget.semanticsLabel ??
-                          MaterialLocalizations.of(context)
-                              .refreshIndicatorSemanticLabel,
-                      semanticsValue: widget.semanticsValue,
-                      value: showIndeterminateIndicator ? null : _value.value,
-                      valueColor: _valueColor,
-                      backgroundColor: widget.backgroundColor,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   top: _isIndicatorAtTop != null || _isIndicatorAtTop == true
+        //       ? 0.0
+        //       : null,
+        //   bottom: !(_isIndicatorAtTop != null || _isIndicatorAtTop == true)
+        //       ? 0.0
+        //       : null,
+        //   left: 0.0,
+        //   right: 0.0,
+        //   child: SizeTransition(
+        //     axisAlignment:
+        //         _isIndicatorAtTop != null || _isIndicatorAtTop == true
+        //             ? 1.0
+        //             : -1.0,
+        //     sizeFactor: _positionFactor, // this is what brings it down
+        //     child: Container(
+        //       padding: _isIndicatorAtTop != null || _isIndicatorAtTop == true
+        //           ? EdgeInsets.only(top: widget.displacement)
+        //           : EdgeInsets.only(bottom: widget.displacement),
+        //       alignment: _isIndicatorAtTop != null || _isIndicatorAtTop == true
+        //           ? Alignment.topCenter
+        //           : Alignment.bottomCenter,
+        //       child: ScaleTransition(
+        //         scale: _scaleFactor,
+        //         child: AnimatedBuilder(
+        //           animation: _positionController,
+        //           builder: (BuildContext context, Widget? child) {
+        //             return RefreshProgressIndicator(
+        //               semanticsLabel: widget.semanticsLabel ??
+        //                   MaterialLocalizations.of(context)
+        //                       .refreshIndicatorSemanticLabel,
+        //               semanticsValue: widget.semanticsValue,
+        //               value: showIndeterminateIndicator ? null : _value.value,
+        //               valueColor: _valueColor,
+        //               backgroundColor: widget.backgroundColor,
+        //             );
+        //           },
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -495,4 +510,4 @@ bool myScrollNotificationPredicate(ScrollNotification notification) {
 }
 
 typedef IndicatorBuilder = Widget Function(
-    BuildContext context, Animation<double> displacement);
+    BuildContext context, Animation<double> displacement, bool show);
