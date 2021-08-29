@@ -11,14 +11,21 @@ class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
-      child: ListView.builder(
-          itemCount: 12,
-          scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return FilterWidget();
-          }),
+      height: 150,
+      child: Column(
+        children: [
+          SizedBox(height: 30),
+          Flexible(
+            child: ListView.builder(
+                itemCount: 12,
+                scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return FilterWidget();
+                }),
+          ),
+        ],
+      ),
     );
   }
 }

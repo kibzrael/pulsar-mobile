@@ -457,48 +457,52 @@ class MyRefreshIndicatorState extends State<MyRefreshIndicator>
     return Stack(
       children: <Widget>[
         child,
-        // Positioned(
-        //   top: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-        //       ? 0.0
-        //       : null,
-        //   bottom: !(_isIndicatorAtTop != null || _isIndicatorAtTop == true)
-        //       ? 0.0
-        //       : null,
-        //   left: 0.0,
-        //   right: 0.0,
-        //   child: SizeTransition(
-        //     axisAlignment:
-        //         _isIndicatorAtTop != null || _isIndicatorAtTop == true
-        //             ? 1.0
-        //             : -1.0,
-        //     sizeFactor: _positionFactor, // this is what brings it down
-        //     child: Container(
-        //       padding: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-        //           ? EdgeInsets.only(top: widget.displacement)
-        //           : EdgeInsets.only(bottom: widget.displacement),
-        //       alignment: _isIndicatorAtTop != null || _isIndicatorAtTop == true
-        //           ? Alignment.topCenter
-        //           : Alignment.bottomCenter,
-        //       child: ScaleTransition(
-        //         scale: _scaleFactor,
-        //         child: AnimatedBuilder(
-        //           animation: _positionController,
-        //           builder: (BuildContext context, Widget? child) {
-        //             return RefreshProgressIndicator(
-        //               semanticsLabel: widget.semanticsLabel ??
-        //                   MaterialLocalizations.of(context)
-        //                       .refreshIndicatorSemanticLabel,
-        //               semanticsValue: widget.semanticsValue,
-        //               value: showIndeterminateIndicator ? null : _value.value,
-        //               valueColor: _valueColor,
-        //               backgroundColor: widget.backgroundColor,
-        //             );
-        //           },
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        Positioned(
+          top: _isIndicatorAtTop != null || _isIndicatorAtTop == true
+              ? 0.0
+              : null,
+          bottom: !(_isIndicatorAtTop != null || _isIndicatorAtTop == true)
+              ? 0.0
+              : null,
+          left: 0.0,
+          right: 0.0,
+          child: Opacity(
+            opacity: 0,
+            child: SizeTransition(
+              axisAlignment:
+                  _isIndicatorAtTop != null || _isIndicatorAtTop == true
+                      ? 1.0
+                      : -1.0,
+              sizeFactor: _positionFactor, // this is what brings it down
+              child: Container(
+                padding: _isIndicatorAtTop != null || _isIndicatorAtTop == true
+                    ? EdgeInsets.only(top: widget.displacement)
+                    : EdgeInsets.only(bottom: widget.displacement),
+                alignment:
+                    _isIndicatorAtTop != null || _isIndicatorAtTop == true
+                        ? Alignment.topCenter
+                        : Alignment.bottomCenter,
+                child: ScaleTransition(
+                  scale: _scaleFactor,
+                  child: AnimatedBuilder(
+                    animation: _positionController,
+                    builder: (BuildContext context, Widget? child) {
+                      return RefreshProgressIndicator(
+                        semanticsLabel: widget.semanticsLabel ??
+                            MaterialLocalizations.of(context)
+                                .refreshIndicatorSemanticLabel,
+                        semanticsValue: widget.semanticsValue,
+                        value: showIndeterminateIndicator ? null : _value.value,
+                        valueColor: _valueColor,
+                        backgroundColor: widget.backgroundColor,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

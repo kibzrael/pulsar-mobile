@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -53,11 +54,14 @@ class _CameraScreenState extends State<CameraScreen>
 
   int timer = 60;
 
+  CameraScreenPermissions? permissions;
+
   @override
   void initState() {
     super.initState();
     _ticker = this.createTicker((elapsed) {
       recordingDurationNotifier.setDuration(elapsed.inMilliseconds.toDouble());
+      checkPermissions();
     });
     _switchAnimationController = AnimationController(
         vsync: this, duration: Duration(seconds: 1), value: 0);
@@ -68,6 +72,14 @@ class _CameraScreenState extends State<CameraScreen>
     _ticker.dispose();
     _switchAnimationController.dispose();
     super.dispose();
+  }
+
+  checkPermissions() async {
+    permissions = CameraScreenPermissions(
+      camera: await Permission.camera.status.isGranted,
+      audio: await Permission.microphone.status.isGranted,
+      storage: await Permission.storage.status.isGranted,
+    );
   }
 
   onCapture() async {
@@ -143,14 +155,6 @@ class _CameraScreenState extends State<CameraScreen>
     Widget recordingOverlay() {
       return Align(alignment: Alignment.bottomCenter, child: captureButton());
     }
-
-    // Widget overlayOpacity({required Widget child}) {
-    //   return AnimatedOpacity(
-    //     duration: Duration(milliseconds: 500),
-    //     opacity: overlay ? 0 : 1,
-    //     child: child,
-    //   );
-    // }
 
     // setSpeed(int index) {
     //   setState(() {
@@ -322,17 +326,6 @@ class _CameraScreenState extends State<CameraScreen>
                                                 });
                                               });
                                             });
-                                            // openBottomSheet(
-                                            //         context, (context) => PostAudio(),
-                                            //         root: false, enableDrag: false)
-                                            //     .then((value) {
-                                            //   setState(() {
-                                            //     overlay = false;
-                                            //   });
-                                            // });
-                                            // setState(() {
-                                            //   overlay = true;
-                                            // });
                                           },
                                           child: Column(
                                             children: [
@@ -373,54 +366,59 @@ class _CameraScreenState extends State<CameraScreen>
                                   ScaledTransition(
                                     child: showFilters
                                         ? Filters()
-                                        : Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              if (showTimer && !showFilters)
-                                                CaptureTimer(
-                                                    initial: speed,
-                                                    onPressed: setTimer),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      openBottomSheet(
-                                                          context,
-                                                          (context) =>
-                                                              Gallery(),
-                                                          root: false);
-                                                    },
-                                                    child: Container(
-                                                      height: 60,
-                                                      width: 60,
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .dividerColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  'assets/old_logo.jpg'),
-                                                              fit:
-                                                                  BoxFit.cover),
-                                                          border: Border.all(
-                                                              width: 2,
-                                                              color: Colors
-                                                                  .white)),
+                                        : Container(
+                                            height: 150,
+                                            alignment: Alignment.bottomCenter,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                // if (showTimer && !showFilters)
+                                                //   CaptureTimer(
+                                                //       initial: speed,
+                                                //       onPressed: setTimer),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        openBottomSheet(
+                                                            context,
+                                                            (context) =>
+                                                                Gallery(),
+                                                            root: false);
+                                                      },
+                                                      child: Container(
+                                                        height: 60,
+                                                        width: 60,
+                                                        decoration: BoxDecoration(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .dividerColor,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                            image: DecorationImage(
+                                                                image: AssetImage(
+                                                                    'assets/old_logo.jpg'),
+                                                                fit: BoxFit
+                                                                    .cover),
+                                                            border: Border.all(
+                                                                width: 2,
+                                                                color: Colors
+                                                                    .white)),
+                                                      ),
                                                     ),
-                                                  ),
-                                                  captureButton(),
-                                                  Container(
-                                                    width: 60,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    captureButton(),
+                                                    Container(
+                                                      width: 60,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                     reverse: !showFilters,
                                   ),
@@ -429,6 +427,14 @@ class _CameraScreenState extends State<CameraScreen>
                             ),
                 ),
               ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                    height: kToolbarHeight,
+                    child: isRecording
+                        ? null
+                        : CaptureTimer(initial: speed, onPressed: setTimer)),
+              )
             ],
           ),
         ),
@@ -443,4 +449,15 @@ class RecordingDurationNotifier {
   setDuration(double duration) {
     notifier.value = duration;
   }
+}
+
+class CameraScreenPermissions {
+  bool camera;
+  bool audio;
+  bool storage;
+
+  bool get error => !camera || !audio || !storage;
+
+  CameraScreenPermissions(
+      {required this.camera, required this.audio, required this.storage});
 }

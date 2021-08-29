@@ -41,6 +41,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 text: 'Upload',
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
+                  provider.upload(context);
                 })
           ],
         ),

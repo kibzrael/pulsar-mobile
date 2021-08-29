@@ -109,7 +109,7 @@ class _ChallengePageState extends State<ChallengePage>
             (MediaQuery.of(context).padding.top + kToolbarHeight),
         headerSliverBuilder: (context, bool) {
           double opacity = scrollPosition / (200 - kToolbarHeight);
-          double padding = scrollPosition > 130 ? 130 : scrollPosition;
+          double padding = scrollPosition > 45 ? 45 : scrollPosition;
           return [
             Theme(
               data: Theme.of(context).brightness == Brightness.dark
@@ -140,7 +140,7 @@ class _ChallengePageState extends State<ChallengePage>
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   titlePadding: EdgeInsetsDirectional.only(
-                      start: 56, bottom: 15, end: padding),
+                      start: 56, bottom: 17.5, end: padding),
                   title: Text(
                     '${challenge.name}',
                     maxLines: 1,
@@ -149,22 +149,40 @@ class _ChallengePageState extends State<ChallengePage>
                   background: Stack(
                     children: [
                       Positioned.fill(
-                          bottom: 3,
                           child: Hero(
-                            tag: '${challenge.id}',
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .inputDecorationTheme
-                                      .fillColor,
-                                  image: challenge.coverPhoto != null
-                                      ? DecorationImage(
-                                          image:
-                                              AssetImage(challenge.coverPhoto!),
-                                          fit: BoxFit.cover)
-                                      : null),
-                            ),
-                          )),
+                        tag: '${challenge.id}',
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .fillColor,
+                              image: challenge.coverPhoto != null
+                                  ? DecorationImage(
+                                      image: AssetImage(challenge.coverPhoto!),
+                                      fit: BoxFit.cover)
+                                  : null),
+                        ),
+                      )),
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  stops: [
+                                0.175,
+                                0.35,
+                                0.75,
+                                1.0
+                              ],
+                                  colors: [
+                                Colors.black12,
+                                Colors.transparent,
+                                Colors.transparent,
+                                Colors.black12,
+                              ])),
+                        ),
+                      )
                     ],
                   ),
                 ),

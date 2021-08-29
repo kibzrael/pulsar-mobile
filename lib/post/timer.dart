@@ -1,5 +1,53 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+// class CaptureTimer extends StatefulWidget {
+//   final double initial;
+//   final Function(int index) onPressed;
+
+//   CaptureTimer({required this.initial, required this.onPressed});
+
+//   @override
+//   _CaptureTimerState createState() => _CaptureTimerState();
+// }
+
+// class _CaptureTimerState extends State<CaptureTimer> {
+//   int timer = 1;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget timerWidget(int timer) {
+//       return Text('${timer.toString()}s');
+//     }
+
+//     return Container(
+//       width: double.infinity,
+//       margin: EdgeInsets.symmetric(horizontal: 45, vertical: 4),
+//       child: CupertinoSegmentedControl<int>(
+//           borderColor: Colors.transparent,
+//           unselectedColor: Colors.black26,
+//           selectedColor: Colors.white,
+//           pressedColor: Colors.black26,
+//           groupValue: timer,
+//           children: {
+//             0: timerWidget(30),
+//             1: timerWidget(60),
+//             2: timerWidget(90),
+//           },
+//           onValueChanged: (int index) {
+//             setState(() {
+//               timer = index;
+//             });
+//             widget.onPressed(index == 0
+//                 ? 30
+//                 : index == 1
+//                     ? 60
+//                     : 90);
+//           }),
+//     );
+//   }
+// }
 
 class CaptureTimer extends StatefulWidget {
   final double initial;
@@ -17,33 +65,86 @@ class _CaptureTimerState extends State<CaptureTimer> {
   @override
   Widget build(BuildContext context) {
     Widget timerWidget(int timer) {
-      return Text('${timer.toString()}s');
+      return Center(child: Text('${timer.toString()}s'));
     }
 
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 45, vertical: 4),
-      child: CupertinoSegmentedControl<int>(
-          borderColor: Colors.transparent,
-          unselectedColor: Colors.black26,
-          selectedColor: Colors.white,
-          pressedColor: Colors.black26,
-          groupValue: timer,
-          children: {
-            0: timerWidget(30),
-            1: timerWidget(60),
-            2: timerWidget(90),
-          },
-          onValueChanged: (int index) {
-            setState(() {
-              timer = index;
-            });
-            widget.onPressed(index == 0
-                ? 30
-                : index == 1
-                    ? 60
-                    : 90);
-          }),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: kToolbarHeight,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            children: [
+              Positioned(
+                bottom: 12.5,
+                left: (MediaQuery.of(context).size.width - 50) / 2,
+                child: Container(
+                  width: 50,
+                  height: 25,
+                  decoration: BoxDecoration(
+                      color: Colors.white12,
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              CarouselSlider(
+                items: [
+                  timerWidget(30),
+                  timerWidget(60),
+                  timerWidget(90),
+                ],
+                options: CarouselOptions(
+                    height: 50,
+                    viewportFraction: 0.15,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    initialPage: timer,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, _) {
+                      widget.onPressed(index == 0
+                          ? 30
+                          : index == 1
+                              ? 60
+                              : 90);
+                    }),
+              ),
+            ],
+          ),
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context).colorScheme.primary),
+          )
+        ],
+      ),
     );
+
+    // Container(
+    //   width: double.infinity,
+    //   margin: EdgeInsets.symmetric(horizontal: 45, vertical: 4),
+    //   child: CupertinoSegmentedControl<int>(
+    //       borderColor: Colors.transparent,
+    //       unselectedColor: Colors.black26,
+    //       selectedColor: Colors.white,
+    //       pressedColor: Colors.black26,
+    //       groupValue: timer,
+    //       children: {
+    //         0: timerWidget(30),
+    //         1: timerWidget(60),
+    //         2: timerWidget(90),
+    //       },
+    //       onValueChanged: (int index) {
+    //         setState(() {
+    //           timer = index;
+    //         });
+    //         widget.onPressed(index == 0
+    //             ? 30
+    //             : index == 1
+    //                 ? 60
+    //                 : 90);
+    //       }),
+    // );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -32,6 +34,8 @@ class _EditScreenState extends State<EditScreen> {
 
   Widget? overlay;
 
+  double duration = 3000;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,7 @@ class _EditScreenState extends State<EditScreen> {
     controller = VideoPlayerController.file(widget.video.video);
 
     controller.initialize().then((value) {
+      duration = controller.value.duration.inMilliseconds.toDouble();
       controller.setPlaybackSpeed(video.speed);
       controller.play();
       controller.setLooping(true);
@@ -62,15 +67,16 @@ class _EditScreenState extends State<EditScreen> {
       resizeToAvoidBottomInset: false,
       body: InkWell(
         onTap: () {
-          setState(() {
-            if (controller.value.isPlaying) {
-              controller.pause();
-              isPaused = true;
-            } else {
-              controller.play();
-              isPaused = false;
-            }
-          });
+          if (overlay == null)
+            setState(() {
+              if (controller.value.isPlaying) {
+                controller.pause();
+                isPaused = true;
+              } else {
+                controller.play();
+                isPaused = false;
+              }
+            });
         },
         child: Padding(
           padding: EdgeInsets.only(bottom: kToolbarHeight),
@@ -82,12 +88,14 @@ class _EditScreenState extends State<EditScreen> {
                 children: [
                   controller.value.isInitialized
                       ? SizedBox.expand(
-                          child: FittedBox(
-                            fit: video.camera ? BoxFit.cover : BoxFit.contain,
-                            child: SizedBox(
-                                width: controller.value.size.width,
-                                height: controller.value.size.height,
-                                child: VideoPlayer(controller)),
+                          child: InkWell(
+                            child: FittedBox(
+                              fit: video.camera ? BoxFit.cover : BoxFit.contain,
+                              child: SizedBox(
+                                  width: controller.value.size.width,
+                                  height: controller.value.size.height,
+                                  child: VideoPlayer(controller)),
+                            ),
                           ),
                         )
                       : Container(),
@@ -123,6 +131,8 @@ class _EditScreenState extends State<EditScreen> {
                                           height: 30,
                                           onPressed: () {
                                             provider.video = video;
+                                            provider.thumbnail.thumbnail =
+                                                Uint8List(9);
                                             Navigator.of(context).push(
                                                 myPageRoute(
                                                     builder: (context) =>
@@ -140,17 +150,27 @@ class _EditScreenState extends State<EditScreen> {
                                     width: 100,
                                     child: Column(children: [
                                       InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          setState(() {
+                                            overlay = PostCover(
+                                                duration: duration,
+                                                pop: () {
+                                                  setState(() {
+                                                    overlay = null;
+                                                  });
+                                                });
+                                          });
+                                        },
                                         child: Column(
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Icon(
-                                                MyIcons.trim,
+                                                MyIcons.thumbnail,
                                                 size: 30,
                                               ),
                                             ),
-                                            Text('Trim'),
+                                            Text('Cover'),
                                           ],
                                         ),
                                       ),
@@ -171,30 +191,6 @@ class _EditScreenState extends State<EditScreen> {
                                               ),
                                             ),
                                             Text('Filters'),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            overlay = PostCover(pop: () {
-                                              setState(() {
-                                                overlay = null;
-                                              });
-                                            });
-                                          });
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(
-                                                MyIcons.thumbnail,
-                                                size: 30,
-                                              ),
-                                            ),
-                                            Text('Cover'),
                                           ],
                                         ),
                                       ),

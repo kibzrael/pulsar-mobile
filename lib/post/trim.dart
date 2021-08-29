@@ -33,11 +33,6 @@ class _TrimVideoState extends State<TrimVideo> {
   double trimEnd = 0.0;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // end = (widget.duration / 1000).ceil() > max
     //     ? max

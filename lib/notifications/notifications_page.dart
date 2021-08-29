@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
@@ -24,6 +25,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
     chris
   ];
 
+  Future onRefresh() async {
+    await Future.delayed(Duration(seconds: 2));
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +37,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
         title: Text('Notifications'),
         actions: [IconButton(icon: Icon(MyIcons.filterList), onPressed: () {})],
       ),
-      body: ListView.separated(
-        itemCount: users.length,
-        itemBuilder: (context, index) {
-          return InteractionNotificationCard(users[index]);
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            height: 12,
-          );
-        },
+      body: RefreshIndicator(
+        onRefresh: onRefresh,
+        child: ListView.separated(
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            return InteractionNotificationCard(users[index]);
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              height: 12,
+            );
+          },
+        ),
       ),
     );
   }

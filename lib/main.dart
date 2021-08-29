@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/providers/ad_provider.dart';
+import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
@@ -81,6 +82,9 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => CameraProvider(),
         ),
         Provider.value(value: AdProvider(adFuture)),
+        ChangeNotifierProvider<BackgroundOperations>(
+          create: (_) => BackgroundOperations(),
+        ),
       ],
       builder: (context, child) {
         return Consumer<LoginProvider>(

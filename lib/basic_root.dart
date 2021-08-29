@@ -9,8 +9,10 @@ import 'package:pulsar/pages/message_screen.dart';
 import 'package:pulsar/pages/my_galaxy.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
+import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:pulsar/widgets/upload_progress.dart';
 
 class BasicRoot extends StatefulWidget {
   @override
@@ -70,6 +72,12 @@ class _BasicRootState extends State<BasicRoot> {
   Widget build(BuildContext context) {
     Provider.of<ThemeProvider>(context).topPadding =
         MediaQuery.of(context).viewPadding.top;
+
+    BackgroundOperations bgOperations =
+        Provider.of<BackgroundOperations>(context);
+
+    bool isUploadingPost = bgOperations.isUploadingPost;
+
     return WillPopScope(
       onWillPop: () async {
         bool response;
@@ -132,101 +140,115 @@ class _BasicRootState extends State<BasicRoot> {
                           .bottomNavigationBarTheme
                           .backgroundColor,
                   child: SizedBox.fromSize(
-                    size:
-                        Size(MediaQuery.of(context).size.width, kToolbarHeight),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    size: Size(
+                        MediaQuery.of(context).size.width,
+                        kToolbarHeight +
+                            (isUploadingPost ? kToolbarHeight : 0)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        NavigationBarItem(
-                          0,
-                          label: 'Home',
-                          selected: currentIndex,
-                          icon: MyIcons.home,
-                          onTap: navigationChange,
-                          barIsTransparent: barIsTransparent,
-                        ),
-                        NavigationBarItem(
-                          1,
-                          label: 'My Galaxy',
-                          selected: currentIndex,
-                          icon: MyIcons.explore,
-                          onTap: navigationChange,
-                          barIsTransparent: barIsTransparent,
-                        ),
-                        InkWell(
-                          onTap: () => navigationChange(2),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    ((MediaQuery.of(context).size.width / 5) -
-                                            40) /
-                                        2),
-                            child: Transform.rotate(
-                              angle: 45,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: barIsTransparent
-                                        ? darkTheme.bottomNavigationBarTheme
-                                            .backgroundColor
-                                        : Theme.of(context)
-                                            .bottomNavigationBarTheme
-                                            .backgroundColor),
-                                child: Container(
+                        if (isUploadingPost)
+                          UploadProgress(bgOperations.uploadPost!),
+                        Padding(
+                          padding: EdgeInsets.only(top: 2.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              NavigationBarItem(
+                                0,
+                                label: 'Home',
+                                selected: currentIndex,
+                                icon: MyIcons.home,
+                                onTap: navigationChange,
+                                barIsTransparent: barIsTransparent,
+                              ),
+                              NavigationBarItem(
+                                1,
+                                label: 'My Galaxy',
+                                selected: currentIndex,
+                                icon: MyIcons.explore,
+                                onTap: navigationChange,
+                                barIsTransparent: barIsTransparent,
+                              ),
+                              InkWell(
+                                onTap: () => navigationChange(2),
+                                child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Theme.of(context).accentColor,
-                                        themeIsDark
-                                            ? Colors.transparent
-                                            : Colors.white,
-                                        Theme.of(context).buttonColor,
-                                      ],
-                                    ),
-                                  ),
+                                      horizontal:
+                                          ((MediaQuery.of(context).size.width /
+                                                      5) -
+                                                  40) /
+                                              2),
                                   child: Transform.rotate(
-                                    angle: -45,
+                                    angle: 45,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: themeIsDark
-                                            ? Colors.black45
-                                            : Colors.white54,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(
-                                        MyIcons.add,
-                                        size: 30,
-                                        color: themeIsDark
-                                            ? Colors.white
-                                            : Colors.black,
+                                          shape: BoxShape.circle,
+                                          color: barIsTransparent
+                                              ? darkTheme
+                                                  .bottomNavigationBarTheme
+                                                  .backgroundColor
+                                              : Theme.of(context)
+                                                  .bottomNavigationBarTheme
+                                                  .backgroundColor),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 5),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Theme.of(context).accentColor,
+                                              themeIsDark
+                                                  ? Colors.transparent
+                                                  : Colors.white,
+                                              Theme.of(context).buttonColor,
+                                            ],
+                                          ),
+                                        ),
+                                        child: Transform.rotate(
+                                          angle: -45,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: themeIsDark
+                                                  ? Colors.black45
+                                                  : Colors.white54,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              MyIcons.add,
+                                              size: 30,
+                                              color: themeIsDark
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                              NavigationBarItem(
+                                3,
+                                label: 'Inbox',
+                                selected: currentIndex,
+                                iconSize: 24,
+                                icon: MyIcons.messageOutline,
+                                onTap: navigationChange,
+                                barIsTransparent: barIsTransparent,
+                              ),
+                              NavigationBarItem(
+                                4,
+                                label: 'Account',
+                                selected: currentIndex,
+                                iconSize: 21,
+                                icon: MyIcons.account,
+                                onTap: navigationChange,
+                                barIsTransparent: barIsTransparent,
+                              ),
+                            ],
                           ),
-                        ),
-                        NavigationBarItem(
-                          3,
-                          label: 'Inbox',
-                          selected: currentIndex,
-                          iconSize: 24,
-                          icon: MyIcons.messageOutline,
-                          onTap: navigationChange,
-                          barIsTransparent: barIsTransparent,
-                        ),
-                        NavigationBarItem(
-                          4,
-                          label: 'Account',
-                          selected: currentIndex,
-                          iconSize: 21,
-                          icon: MyIcons.account,
-                          onTap: navigationChange,
-                          barIsTransparent: barIsTransparent,
                         ),
                       ],
                     ),

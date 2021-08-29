@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CameraProvider extends ChangeNotifier {
   List<CameraDescription> cameras = [];
@@ -63,6 +64,10 @@ class CameraProvider extends ChangeNotifier {
   }
 
   Future<VideoSnapshot?> recordVideo() async {
+    PermissionStatus readFilesStatus = await Permission.storage.status;
+    if (readFilesStatus.isLimited || readFilesStatus.isDenied) {
+      await Permission.storage.request();
+    }
     if (controller == null) return null;
 
     if (!controller!.value.isInitialized) return null;

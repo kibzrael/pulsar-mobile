@@ -31,7 +31,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
           leading: IconButton(
             icon: Icon(MyIcons.close),
             onPressed: () {
-              widget.onBack();
+              widget.pop();
             },
           ),
           actions: [
@@ -64,16 +64,33 @@ class _SelectedAudioState extends State<SelectedAudio> {
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.subtitle2,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 30),
-          child: Container(
-            width: 75,
-            height: 75,
-            decoration: BoxDecoration(
-                color: Theme.of(context).accentColor, shape: BoxShape.circle),
-            child: Icon(
-              MyIcons.play,
-              size: 50,
+        Visibility(
+          visible:
+              Provider.of<PostProvider>(context, listen: false).audio != null,
+          maintainSize: true,
+          maintainAnimation: true,
+          maintainState: true,
+          child: InkWell(
+            onTap: () {
+              Provider.of<PostProvider>(context, listen: false).audio = null;
+              widget.onBack();
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 15),
+              child: Column(
+                children: [
+                  Icon(
+                    MyIcons.delete,
+                    size: 45,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    'Remove',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )
+                ],
+              ),
             ),
           ),
         ),
