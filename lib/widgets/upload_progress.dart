@@ -15,6 +15,8 @@ class UploadProgress extends StatefulWidget {
 class _UploadProgressState extends State<UploadProgress> {
   UploadPost get uploadPost => widget.uploadPost;
 
+  double progress = 30;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,24 +56,9 @@ class _UploadProgressState extends State<UploadProgress> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                children: [
-                  Text(
-                    '@${uploadPost.user.username}',
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                  SizedBox(width: 12),
-                  ShaderMask(
-                      shaderCallback: (rect) {
-                        return LinearGradient(
-                            begin: Alignment.centerLeft,
-                            colors: [
-                              Theme.of(context).colorScheme.primary,
-                              Theme.of(context).buttonColor
-                            ]).createShader(rect);
-                      },
-                      child: Text('Uploading...'))
-                ],
+              Text(
+                '@${uploadPost.user.username}',
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               Text(
                 uploadPost.challenge?.name ??
@@ -81,16 +68,69 @@ class _UploadProgressState extends State<UploadProgress> {
               )
             ],
           )),
-          Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Theme.of(context).inputDecorationTheme.fillColor),
-              child: InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: Icon(MyIcons.close),
-                  )))
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              ShaderMask(
+                shaderCallback: (rect) {
+                  return SweepGradient(
+                      transform: GradientRotation(4.75),
+                      stops: [
+                        0.0, (progress / 100) * 0.5,
+                        progress / 100,
+                        progress / 100,
+                        // 0.25,
+                        // 0.5,
+                        // 0.5
+                      ],
+                      colors: [
+                        Colors.blue,
+                        Colors.deepPurpleAccent,
+                        Theme.of(context).accentColor,
+                        Colors.white
+                      ]).createShader(rect);
+                },
+                child: Container(
+                    constraints: BoxConstraints(maxHeight: 30, maxWidth: 30),
+                    decoration: BoxDecoration(
+                        color: Colors.white10,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2)),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        '$progress%',
+                        style: TextStyle(
+                            fontSize: 21, fontWeight: FontWeight.w800),
+                      ),
+                    )),
+              ),
+              //  Container(
+              //       padding: EdgeInsets.all(2),
+              //       width: 24,
+              //       height: 24,
+              //       alignment: Alignment.center,
+              //       child: FittedBox(
+              //         fit: BoxFit.scaleDown,
+              //         child:Text(
+              //                 '${((widget.max - widget.position) / 1000).ceil()}',
+              //                 style: TextStyle(
+              //                     fontSize: 21, fontWeight: FontWeight.w800),
+              //               ),
+              //       ))
+            ],
+          ),
+          SizedBox(width: 5),
+          InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: EdgeInsets.all(6.0),
+                child: Icon(
+                  MyIcons.close,
+                  size: 30,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ))
         ],
       ),
     );
