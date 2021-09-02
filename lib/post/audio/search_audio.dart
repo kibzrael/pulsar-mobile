@@ -58,7 +58,6 @@ class _SearchAudioState extends State<SearchAudio> {
               onChanged: (text) {},
               onSubmitted: (text) {},
               hintText: 'Search Audio...',
-              autofocus: true,
               color: Colors.white12,
               clearColor: Colors.white24,
             ),

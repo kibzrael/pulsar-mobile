@@ -150,7 +150,7 @@ class _BasicRootState extends State<BasicRoot> {
                         if (isUploadingPost)
                           UploadProgress(bgOperations.uploadPost!),
                         Padding(
-                          padding: EdgeInsets.only(top: 2.0),
+                          padding: EdgeInsets.only(top: 6.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [

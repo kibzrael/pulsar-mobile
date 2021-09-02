@@ -336,7 +336,11 @@ class _PostLayoutState extends State<PostLayout> {
                 ],
               ),
             ),
-            if (widget.stretch) SizedBox(height: kToolbarHeight)
+            if (widget.stretch) SizedBox(height: kToolbarHeight),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              height: MediaQuery.of(context).padding.bottom - kToolbarHeight,
+            )
           ])
         ],
       ),
