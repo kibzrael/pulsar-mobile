@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
-import 'package:pulsar/ads/banner_ad.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
+
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
@@ -93,7 +94,7 @@ class _LeaderboardState extends State<Leaderboard> {
                               ],
                             ),
                           ),
-                          MyBannerAd(),
+                          ListTileAd(),
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 4),
                             child: SectionTitle(

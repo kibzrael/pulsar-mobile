@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:pulsar/ads/banner_ad.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
+
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -193,7 +194,7 @@ class _ChallengePageState extends State<ChallengePage>
               [
                 Padding(
                   padding: EdgeInsets.only(top: 4),
-                  child: MyBannerAd(),
+                  child: ListTileAd(),
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),

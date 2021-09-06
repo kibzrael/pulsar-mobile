@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:pulsar/ads/native_ad.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
@@ -82,7 +82,7 @@ class _FollowingPostsState extends State<FollowingPosts> {
                           ))
                       .toList(),
                 )),
-            MyNativeAd()
+            ListTileAd()
           ],
         ),
       )),

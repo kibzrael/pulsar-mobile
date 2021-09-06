@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/ads/banner_ad.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
@@ -85,7 +85,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
                           itemBuilder: (context, index) {
                             if (data.isNotEmpty) {
                               if (index == 5) {
-                                return MyBannerAd();
+                                return ListTileAd();
                               }
                               if (index > 5) {
                                 return UserCard(data[index - 1]['user']);

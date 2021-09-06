@@ -3,7 +3,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 class AdProvider {
   Future<InitializationStatus> initialization;
 
-  String get bannerAd => 'ca-app-pub-3940256099942544/6300978111';
+  String get listTileAd => 'ca-app-pub-3940256099942544/2247696110';
+
+  String get naviveAd => "ca-app-pub-3940256099942544/2247696110";
 
   AdProvider(this.initialization);
 

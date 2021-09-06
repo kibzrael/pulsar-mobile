@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -11,14 +12,14 @@ import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/route.dart';
 
-import 'package:video_compress/video_compress.dart';
-
 class Gallery extends StatefulWidget {
   @override
   _GalleryState createState() => _GalleryState();
 }
 
 class _GalleryState extends State<Gallery> {
+  String value = 'Gallery';
+
   List<VideoFile> videos = [];
 
   @override
@@ -50,14 +51,14 @@ class _GalleryState extends State<Gallery> {
           videos.add(video);
           print(video.path);
         });
-        VideoCompress.getByteThumbnail(
-          video.path,
-          quality: 75,
-          position: 1,
-        ).then((thumbnail) {
-          video.thumbnail = thumbnail;
-          setState(() {});
-        });
+        // VideoCompress.getByteThumbnail(
+        //   video.path,
+        //   quality: 75,
+        //   position: 1,
+        // ).then((thumbnail) {
+        //   video.thumbnail = thumbnail;
+        //   setState(() {});
+        // });
 
         FlutterVideoInfo().getVideoInfo(video.path).then((info) {
           video.duration = info?.duration?.ceil();
@@ -75,7 +76,7 @@ class _GalleryState extends State<Gallery> {
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Gallery'),
+              Text('$value'),
               Padding(
                 padding: EdgeInsets.only(left: 5, top: 3),
                 child: Icon(MyIcons.arrowDown),

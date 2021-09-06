@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/ads/native_ad.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 
 class ChallengeRules extends StatefulWidget {
@@ -40,7 +40,7 @@ class _ChallengeRulesState extends State<ChallengeRules> {
             ),
           ),
           SizedBox(height: 15),
-          MyNativeAd()
+          ListTileAd()
         ],
       ),
     );

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:animations/animations.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/ads/native_ad.dart';
 
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/models/discover_challenges.dart';
 import 'package:pulsar/models/discover_galaxy.dart';
@@ -120,7 +120,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                     PinnedChallenges(),
                     space,
                     DiscoverChallenges(),
-                    MyNativeAd(),
+                    ListTileAd(),
                     RecommendedChallenges(),
                     space,
                     SectionTitle(title: 'Discover'),
