@@ -6,6 +6,8 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
+import 'package:pulsar/widgets/floating_button.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 
 class InterestsPage extends StatefulWidget {
   @override
@@ -50,10 +52,8 @@ class _InterestsPageState extends State<InterestsPage> {
           title: Text('Interests'),
           centerTitle: true,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: disabled
-              ? Theme.of(context).disabledColor
-              : Theme.of(context).buttonColor,
+        floatingActionButton: MyFloatingActionButton(
+          color: disabled ? Theme.of(context).disabledColor : null,
           onPressed: disabled
               ? null
               : () {
@@ -66,9 +66,12 @@ class _InterestsPageState extends State<InterestsPage> {
                 )
               : isSubmitting
                   ? Padding(
-                      padding: EdgeInsets.all(15.0),
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                      padding: EdgeInsets.all(12.0),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: MyProgressIndicator(
+                          margin: EdgeInsets.zero,
+                        ),
                       ),
                     )
                   : Icon(MyIcons.check, size: 30),
@@ -150,7 +153,9 @@ class _InterestsPageState extends State<InterestsPage> {
                                                 maxLines: 1,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .subtitle1,
+                                                    .subtitle1!
+                                                    .copyWith(
+                                                        color: Colors.white),
                                                 textAlign: TextAlign.center,
                                               ),
                                           ],

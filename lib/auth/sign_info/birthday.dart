@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/widgets/floating_button.dart';
 
 class BirthdayPage extends StatefulWidget {
   @override
@@ -38,8 +39,7 @@ class _BirthdayPageState extends State<BirthdayPage> {
           title: Text('Birthday'),
           centerTitle: true,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).buttonColor,
+        floatingActionButton: MyFloatingActionButton(
           onPressed: () {
             provider.user.birthday = selectedDate;
             provider.nextPage();

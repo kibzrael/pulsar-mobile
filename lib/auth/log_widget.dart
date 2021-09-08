@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
@@ -172,7 +172,7 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     bool enabled =
         !isSubmitting! && !inputs.any((element) => element.length < 1);
-    bool colored = !inputs.any((element) => element.length < 1);
+    // bool colored = !inputs.any((element) => element.length < 1);
     return InkWell(
       onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
@@ -180,17 +180,13 @@ class AuthButton extends StatelessWidget {
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
-        decoration: colored
-            ? BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).buttonColor
-                ]),
-                borderRadius: BorderRadius.circular(30),
-              )
-            : BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Theme.of(context).disabledColor),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).buttonColor
+          ]),
+          borderRadius: BorderRadius.circular(30),
+        ),
         child: isSubmitting!
             ? SizedBox(
                 height: 32,
@@ -200,7 +196,7 @@ class AuthButton extends StatelessWidget {
                   margin: EdgeInsets.zero,
                 ))
             : Text(
-                isLogin ? 'Login' : 'Signup',
+                isLogin ? 'Login' : 'Register',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -213,6 +209,11 @@ class AuthButton extends StatelessWidget {
 }
 
 class LinkedAccountLogin extends StatelessWidget {
+  final Color? color;
+  final Color? dividerColor;
+
+  LinkedAccountLogin({this.color, this.dividerColor});
+
   void onGoogle() {}
   void onFacebook() {}
   void onTwitter() {}
@@ -220,13 +221,61 @@ class LinkedAccountLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+      child: Column(
         children: [
-          IconButton(icon: Icon(MyIcons.google), onPressed: onGoogle),
-          IconButton(icon: Icon(MyIcons.facebook), onPressed: onFacebook),
-          IconButton(icon: Icon(MyIcons.twitter), onPressed: onTwitter),
+          MyDivider(
+            color: dividerColor,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              LinkedAccountWidget(
+                icon: 'assets/images/logos/google.png',
+                onPressed: onGoogle,
+                color: color,
+              ),
+              LinkedAccountWidget(
+                icon: 'assets/images/logos/facebook.png',
+                onPressed: onFacebook,
+                color: color,
+              ),
+              LinkedAccountWidget(
+                icon: 'assets/images/logos/twitter.png',
+                onPressed: onTwitter,
+                color: color,
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class LinkedAccountWidget extends StatelessWidget {
+  final String icon;
+  final Function() onPressed;
+  final Color? color;
+
+  LinkedAccountWidget(
+      {required this.icon, required this.onPressed, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: Card(
+        shape: CircleBorder(),
+        elevation: 3,
+        color: color ?? Theme.of(context).cardColor,
+        child: Container(
+          margin: EdgeInsets.all(12),
+          width: 27,
+          height: 27,
+          decoration:
+              BoxDecoration(image: DecorationImage(image: AssetImage(icon))),
+        ),
       ),
     );
   }

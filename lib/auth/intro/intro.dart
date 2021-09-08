@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/auth.dart';
+import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:pulsar/widgets/select_language.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -30,6 +33,8 @@ class RootIntroPage extends StatefulWidget {
 }
 
 class _RootIntroPageState extends State<RootIntroPage> {
+  bool agreed = false;
+
   void toRegister() {
     Navigator.of(context).pushReplacement(myPageRoute(
       builder: (context) => AuthScreen(
@@ -47,19 +52,32 @@ class _RootIntroPageState extends State<RootIntroPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraints) {
+    double topPadding = MediaQuery.of(context).padding.top;
+
+    return Theme(
+      data: darkTheme,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
+        body: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               height: constraints.maxHeight,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/intro.jpg'),
+                      fit: BoxFit.cover)),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PulsarLogo(size: MediaQuery.of(context).size.width / 2),
-                    SizedBox(height: 30),
+                    SizedBox(height: topPadding),
+                    SelectLanguage(),
+                    Spacer(),
+                    PulsarLogo(size: MediaQuery.of(context).size.width / 2.4),
                     PulsarTextLogo(),
                     SizedBox(height: 30),
                     Container(
@@ -73,12 +91,73 @@ class _RootIntroPageState extends State<RootIntroPage> {
                           SizedBox(height: 15),
                           ActionButton(
                             title: 'Login',
-                            backgroundColor: Theme.of(context).disabledColor,
-                            titleColor:
-                                Theme.of(context).textTheme.bodyText2!.color,
+                            backgroundColor: Colors.white,
+                            titleColor: lightTheme.textTheme.bodyText2!.color,
                             onPressed: toLogin,
                           )
-                        ]))
+                        ])),
+                    LinkedAccountLogin(
+                      color: Colors.white,
+                      dividerColor: Colors.white54,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: agreed,
+                            onChanged: (value) {
+                              setState(() {
+                                agreed = value ?? true;
+                              });
+                            },
+                          ),
+                          Flexible(
+                            child: RichText(
+                              text:
+                                  TextSpan(text: 'I agree to the ', children: [
+                                WidgetSpan(
+                                    child: ShaderMask(
+                                        shaderCallback: (rect) {
+                                          return LinearGradient(colors: [
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            Theme.of(context).buttonColor,
+                                          ]).createShader(rect);
+                                        },
+                                        child: Text(
+                                          'terms and conditions',
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline),
+                                        ))),
+                                TextSpan(text: ' of use and the '),
+                                WidgetSpan(
+                                    child: ShaderMask(
+                                        shaderCallback: (rect) {
+                                          return LinearGradient(colors: [
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            Theme.of(context).buttonColor,
+                                          ]).createShader(rect);
+                                        },
+                                        child: Text(
+                                          'privacy policy.',
+                                          style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline),
+                                        )))
+                              ]),
+
+                              // 'I agree to the terms and conditions of use and the privacy policy.',
+                              softWrap: true,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ]),
             ),
           );

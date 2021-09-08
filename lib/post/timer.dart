@@ -77,10 +77,10 @@ class _CaptureTimerState extends State<CaptureTimer> {
           Stack(
             children: [
               Positioned(
-                bottom: 12.5,
-                left: (MediaQuery.of(context).size.width - 50) / 2,
+                bottom: 9.5,
+                left: (MediaQuery.of(context).size.width - 44) / 2,
                 child: Container(
-                  width: 50,
+                  width: 44,
                   height: 25,
                   decoration: BoxDecoration(
                       color: Colors.white12,
@@ -94,7 +94,7 @@ class _CaptureTimerState extends State<CaptureTimer> {
                   timerWidget(90),
                 ],
                 options: CarouselOptions(
-                    height: 50,
+                    height: 44,
                     viewportFraction: 0.15,
                     enlargeCenterPage: true,
                     enlargeStrategy: CenterPageEnlargeStrategy.height,
@@ -113,6 +113,7 @@ class _CaptureTimerState extends State<CaptureTimer> {
           Container(
             width: 6,
             height: 6,
+            margin: EdgeInsets.only(bottom: 6),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Theme.of(context).colorScheme.primary),

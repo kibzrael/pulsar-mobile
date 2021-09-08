@@ -40,7 +40,7 @@ class ActionButton extends StatelessWidget {
             title,
             style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 color: titleColor ?? Colors.white),
           ),
         )),

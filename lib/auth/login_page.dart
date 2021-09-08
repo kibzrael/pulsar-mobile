@@ -6,7 +6,6 @@ import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
-import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/select_language.dart';
@@ -89,6 +88,8 @@ class _LoginPageState extends State<LoginPage>
     double size =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
+    double topPadding = MediaQuery.of(context).padding.top;
+
     List<String> inputs = [userController.text, passwordController.text];
 
     return GestureDetector(
@@ -96,84 +97,87 @@ class _LoginPageState extends State<LoginPage>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                height: size,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    SelectLanguage(),
-                    PulsarTextLogo(),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(children: [
-                        LogTextInput(
-                          hintText: 'Username/Email/Phone',
-                          controller: userController,
-                          focusNode: userNode,
-                          onFieldSubmitted: (_) {
-                            passwordNode.requestFocus();
-                          },
-                          onChanged: (_) {
-                            setState(() {});
-                          },
-                        ),
-                        SizedBox(height: 15),
-                        LogTextInput(
-                          hintText: 'Password',
-                          isPassword: true,
-                          obscureText: true,
-                          controller: passwordController,
-                          focusNode: passwordNode,
-                          keyboardType: TextInputType.visiblePassword,
-                          onFieldSubmitted: (_) {
-                            if (!isSubmitting &&
-                                !inputs.any((element) => element.length < 1)) {
-                              login();
-                            }
-                          },
-                          onChanged: (_) {
-                            setState(() {});
-                          },
-                        ),
-                        Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              height: 50,
-                              alignment: Alignment.topRight,
-                              child: MyTextButton(
-                                text: 'Forgot Password?',
-                                onPressed: onForgotPassword,
-                              ),
-                            ))
-                      ]),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(backgroundColor: Colors.transparent),
+        body: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              margin: EdgeInsets.only(top: topPadding),
+              height: size,
+              child: Column(
+                children: [
+                  SelectLanguage(),
+                  Spacer(),
+                  PulsarLogo(
+                    size: MediaQuery.of(context).size.width / 2.7,
+                  ),
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        AuthButton(
-                          isSubmitting: isSubmitting,
-                          onPressed: login,
-                          inputs: inputs,
-                        ),
-                        ToggleAuthScreen(
-                          isLogin: true,
-                          onChange: widget.onChange,
-                        )
-                      ]),
+                  ),
+                  Spacer(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(children: [
+                      LogTextInput(
+                        hintText: 'Username/Email/Phone',
+                        controller: userController,
+                        focusNode: userNode,
+                        onFieldSubmitted: (_) {
+                          passwordNode.requestFocus();
+                        },
+                        onChanged: (_) {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      LogTextInput(
+                        hintText: 'Password',
+                        isPassword: true,
+                        obscureText: true,
+                        controller: passwordController,
+                        focusNode: passwordNode,
+                        keyboardType: TextInputType.visiblePassword,
+                        onFieldSubmitted: (_) {
+                          if (!isSubmitting &&
+                              !inputs.any((element) => element.length < 1)) {
+                            login();
+                          }
+                        },
+                        onChanged: (_) {
+                          setState(() {});
+                        },
+                      ),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            height: 50,
+                            alignment: Alignment.topRight,
+                            child: MyTextButton(
+                              text: 'Forgot Password?',
+                              onPressed: onForgotPassword,
+                            ),
+                          ))
+                    ]),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: AuthButton(
+                      isSubmitting: isSubmitting,
+                      onPressed: login,
+                      inputs: inputs,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [MyDivider(), LinkedAccountLogin()]),
-                    )
-                  ],
-                )),
-          ),
+                  ),
+                  LinkedAccountLogin(),
+                  ToggleAuthScreen(
+                    isLogin: true,
+                    onChange: widget.onChange,
+                  )
+                ],
+              )),
         ),
       ),
     );

@@ -62,7 +62,7 @@ class _ListTileAdState extends State<ListTileAd> {
         width: double.infinity,
         margin: EdgeInsets.symmetric(vertical: 8),
         height: 72,
-        color: Theme.of(context).cardColor,
+        color: Theme.of(context).colorScheme.surface,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(

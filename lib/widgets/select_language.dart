@@ -12,9 +12,10 @@ class _SelectLanguageState extends State<SelectLanguage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+      padding: EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
+          print('Clicked');
           Navigator.of(context)
               .push(myPageRoute(builder: (context) => Language()));
         },
@@ -22,21 +23,17 @@ class _SelectLanguageState extends State<SelectLanguage> {
           width: double.infinity,
           height: 50,
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(45),
-            border: Border.all(color: Theme.of(context).cardColor, width: 1),
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 4),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'English',
                 style: TextStyle(
-                  fontSize: 21,
+                  fontSize: 18,
                 ),
               ),
-              Icon(MyIcons.expand)
+              Icon(MyIcons.expand, size: 21)
             ],
           ),
         ),

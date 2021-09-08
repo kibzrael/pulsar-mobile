@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/widgets/floating_button.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
@@ -32,8 +33,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
         title: Text('Profile Photo'),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).buttonColor,
+      floatingActionButton: MyFloatingActionButton(
         onPressed: () {
           provider.user.profilePic = profilePic;
           provider.nextPage();

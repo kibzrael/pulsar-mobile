@@ -5,7 +5,6 @@ import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/sign_info/info_verification.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/select_language.dart';
@@ -76,98 +75,105 @@ class _SignupPageState extends State<SignupPage>
     double size =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
+    double topPadding = MediaQuery.of(context).padding.top;
+
     List<String> inputs = [userController.text];
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                height: size,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SelectLanguage(),
-                    PulsarTextLogo(),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(children: [
-                        Container(
-                          height: 100,
-                          alignment: Alignment.center,
-                          child: CupertinoSlidingSegmentedControl(
-                              groupValue: signIndex,
-                              thumbColor: Theme.of(context).cardColor,
-                              backgroundColor: Theme.of(context)
-                                  .inputDecorationTheme
-                                  .fillColor!,
-                              children: {
-                                0: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 25, vertical: 10),
-                                    child: Text(
-                                      'Email',
-                                      style: TextStyle(fontSize: 18),
-                                    )),
-                                1: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 25, vertical: 10),
-                                    child: Text(
-                                      'Phone',
-                                      style: TextStyle(fontSize: 18),
-                                    ))
-                              },
-                              onValueChanged: onIndexChange),
-                        ),
-                        SizedBox(height: 15),
-                        LogTextInput(
-                          hintText: signIndex == 0 ? 'Email' : 'Phone',
-                          controller: userController,
-                          focusNode: userNode,
-                          onChanged: (_) {
-                            setState(() {});
-                          },
-                          onFieldSubmitted: (_) {
-                            if (!isSubmitting &&
-                                !inputs.any((element) => element.length < 1)) {
-                              signup();
-                            }
-                          },
-                          prefix: SelectCountry(
-                            code: countryCode,
-                            show: signIndex == 1,
-                            onPressed: selectCountryCode,
-                          ),
-                        ),
-                      ]),
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(backgroundColor: Colors.transparent),
+        body: SingleChildScrollView(
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              height: size,
+              margin: EdgeInsets.only(top: topPadding),
+              child: Column(
+                children: [
+                  SelectLanguage(),
+                  Spacer(),
+                  PulsarLogo(
+                    size: MediaQuery.of(context).size.width / 2.7,
+                  ),
+                  Text(
+                    'Register',
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        AuthButton(
-                          isSubmitting: isSubmitting,
-                          isLogin: false,
-                          onPressed: signup,
-                          inputs: inputs,
+                  ),
+                  Spacer(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(children: [
+                      Container(
+                        height: 100,
+                        alignment: Alignment.center,
+                        child: CupertinoSlidingSegmentedControl(
+                            groupValue: signIndex,
+                            thumbColor: Theme.of(context).cardColor,
+                            backgroundColor: Theme.of(context)
+                                .inputDecorationTheme
+                                .fillColor!,
+                            children: {
+                              0: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 10),
+                                  child: Text(
+                                    'Email',
+                                    style: TextStyle(fontSize: 18),
+                                  )),
+                              1: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 25, vertical: 10),
+                                  child: Text(
+                                    'Phone',
+                                    style: TextStyle(fontSize: 18),
+                                  ))
+                            },
+                            onValueChanged: onIndexChange),
+                      ),
+                      SizedBox(height: 15),
+                      LogTextInput(
+                        hintText: signIndex == 0 ? 'Email' : 'Phone',
+                        controller: userController,
+                        focusNode: userNode,
+                        onChanged: (_) {
+                          setState(() {});
+                        },
+                        onFieldSubmitted: (_) {
+                          if (!isSubmitting &&
+                              !inputs.any((element) => element.length < 1)) {
+                            signup();
+                          }
+                        },
+                        prefix: SelectCountry(
+                          code: countryCode,
+                          show: signIndex == 1,
+                          onPressed: selectCountryCode,
                         ),
-                        ToggleAuthScreen(
-                          isLogin: false,
-                          onChange: widget.onChange,
-                        )
-                      ]),
+                      ),
+                      SizedBox(height: 15)
+                    ]),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: AuthButton(
+                      isSubmitting: isSubmitting,
+                      isLogin: false,
+                      onPressed: signup,
+                      inputs: inputs,
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [MyDivider(), LinkedAccountLogin()]),
-                    )
-                  ],
-                )),
-          ),
+                  ),
+                  LinkedAccountLogin(),
+                  ToggleAuthScreen(
+                    isLogin: false,
+                    onChange: widget.onChange,
+                  )
+                ],
+              )),
         ),
       ),
     );

@@ -6,6 +6,8 @@ import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
+import 'package:pulsar/widgets/floating_button.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class LogCredentials extends StatefulWidget {
@@ -98,8 +100,7 @@ class _LogCredentialsState extends State<LogCredentials> {
             title: Text('Credentials'),
             centerTitle: true,
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Theme.of(context).buttonColor,
+          floatingActionButton: MyFloatingActionButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
               signup();
@@ -108,9 +109,12 @@ class _LogCredentialsState extends State<LogCredentials> {
                 ? Icon(MyIcons.check, size: 30)
                 : isSubmitting
                     ? Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
+                        padding: EdgeInsets.all(12.0),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: MyProgressIndicator(
+                            margin: EdgeInsets.zero,
+                          ),
                         ),
                       )
                     : Icon(MyIcons.forward, size: 30),

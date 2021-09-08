@@ -4,6 +4,7 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
+import 'package:pulsar/widgets/floating_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -54,8 +55,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
           title: Text('Category'),
           centerTitle: true,
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).buttonColor,
+        floatingActionButton: MyFloatingActionButton(
           onPressed: () {
             provider.user.category = selectedCategory;
             provider.nextPage();
