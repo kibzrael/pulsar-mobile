@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/audio/audio_widget.dart';
 import 'package:pulsar/post/post_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class SelectedAudio extends StatefulWidget {
@@ -31,7 +33,19 @@ class _SelectedAudioState extends State<SelectedAudio> {
           leading: IconButton(
             icon: Icon(MyIcons.close),
             onPressed: () {
-              widget.pop();
+              openDialog(
+                      context,
+                      (context) => MyDialog(
+                            title: 'Caution!',
+                            body:
+                                'The selected audio and changes you\'ve made would be lost if you quit.',
+                            actions: ['Cancel', 'Ok'],
+                            destructive: 'Ok',
+                          ),
+                      dismissible: true)
+                  .then((value) {
+                if (value == 'Ok') widget.pop();
+              });
             },
           ),
           actions: [

@@ -3,6 +3,11 @@ import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
 
 class DiscoverGalaxyTags extends StatefulWidget {
+  final String selected;
+  final Function(String value) onChanged;
+
+  DiscoverGalaxyTags({required this.selected, required this.onChanged});
+
   @override
   _DiscoverGalaxyTagsState createState() => _DiscoverGalaxyTagsState();
 }
@@ -10,34 +15,28 @@ class DiscoverGalaxyTags extends StatefulWidget {
 class _DiscoverGalaxyTagsState extends State<DiscoverGalaxyTags> {
   List<Interest> tags = allCategories;
 
-  late String selected;
-
-  @override
-  void initState() {
-    super.initState();
-    selected = 'Trending';
-  }
-
-  select(String interest) {
-    setState(() {
-      selected = interest;
-    });
-  }
+  String get selected => widget.selected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 46,
+      height: 40,
       alignment: Alignment.centerLeft,
       child: ListView.builder(
-          itemCount: tags.length + 1,
+          itemCount: tags.length + 2,
           physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            String name = index == 0 ? 'Trending' : tags[index - 1].name;
+            String name = index == 0
+                ? 'For you'
+                : index == 1
+                    ? 'Trending'
+                    : tags[index - 2].name;
             return GalaxyTag(
-                text: name, isSelected: selected == name, onPressed: select);
+                text: name,
+                isSelected: selected == name,
+                onPressed: widget.onChanged);
           }),
     );
   }

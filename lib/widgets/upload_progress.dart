@@ -7,8 +7,9 @@ import 'package:pulsar/widgets/text_button.dart';
 
 class UploadProgress extends StatefulWidget {
   final UploadPost uploadPost;
+  final bool barIsTransparent;
 
-  UploadProgress(this.uploadPost);
+  UploadProgress(this.uploadPost, {this.barIsTransparent = false});
 
   @override
   _UploadProgressState createState() => _UploadProgressState();
@@ -16,11 +17,16 @@ class UploadProgress extends StatefulWidget {
 
 class _UploadProgressState extends State<UploadProgress> {
   UploadPost get uploadPost => widget.uploadPost;
+  bool get barIsTransparent => widget.barIsTransparent;
 
   double progress = 30;
 
   @override
   Widget build(BuildContext context) {
+    bool themeIsLight = Theme.of(context).brightness == Brightness.light;
+    Color? textColor = barIsTransparent
+        ? Colors.white
+        : Theme.of(context).textTheme.bodyText2!.color;
     return OpenContainer(
       closedColor: Colors.transparent,
       closedElevation: 0.0,
@@ -35,14 +41,23 @@ class _UploadProgressState extends State<UploadProgress> {
             padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                // border: Border(
-                //   bottom: BorderSide(
-                //       color: Theme.of(context).colorScheme.surface, width: 1),
-                // ),
-                gradient: LinearGradient(
-                    colors: [Colors.transparent, Colors.black54, Colors.black],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
+                border: Border(
+                  bottom: BorderSide(
+                      color: Theme.of(context)
+                          .dividerColor
+                          .withOpacity(themeIsLight ? 0.5 : 1),
+                      width: 1),
+                ),
+                gradient: barIsTransparent
+                    ? LinearGradient(
+                        colors: [
+                            Colors.transparent,
+                            Colors.black54,
+                            Colors.black
+                          ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter)
+                    : null),
             child: Row(
               children: [
                 Container(
@@ -51,7 +66,9 @@ class _UploadProgressState extends State<UploadProgress> {
                   margin: EdgeInsets.only(right: 7.5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
-                      color: Colors.white12),
+                      color: barIsTransparent
+                          ? Colors.white12
+                          : Theme.of(context).inputDecorationTheme.fillColor),
                   child: Center(
                       child: MyProgressIndicator(
                     size: 21,
@@ -65,7 +82,10 @@ class _UploadProgressState extends State<UploadProgress> {
                   children: [
                     Text(
                       '@${uploadPost.user.username}',
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: textColor),
                     ),
                     ShaderMask(
                       shaderCallback: (bounds) {
@@ -100,7 +120,11 @@ class _UploadProgressState extends State<UploadProgress> {
                               Colors.blue,
                               Colors.deepPurpleAccent,
                               Theme.of(context).accentColor,
-                              Colors.white
+                              barIsTransparent
+                                  ? Colors.white
+                                  : Theme.of(context)
+                                      .dividerColor
+                                      .withOpacity(themeIsLight ? 0.5 : 1)
                             ]).createShader(rect);
                       },
                       child: Container(
@@ -121,7 +145,9 @@ class _UploadProgressState extends State<UploadProgress> {
                           child: Text(
                             '${progress.ceil()}%',
                             style: TextStyle(
-                                fontSize: 21, fontWeight: FontWeight.w800),
+                                fontSize: 21,
+                                fontWeight: FontWeight.w800,
+                                color: textColor),
                           ),
                         ))
                   ],

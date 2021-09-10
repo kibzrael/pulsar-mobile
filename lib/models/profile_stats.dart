@@ -24,6 +24,7 @@ class ProfileStats extends StatelessWidget {
         elevation: 7,
         margin: EdgeInsets.symmetric(horizontal: padding, vertical: 9),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Container(
           padding: EdgeInsets.all(5),
           height: 63,

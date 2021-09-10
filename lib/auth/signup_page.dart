@@ -84,7 +84,10 @@ class _SignupPageState extends State<SignupPage>
       },
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: SelectLanguage(),
+        ),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -92,7 +95,7 @@ class _SignupPageState extends State<SignupPage>
               margin: EdgeInsets.only(top: topPadding),
               child: Column(
                 children: [
-                  SelectLanguage(),
+                  SizedBox(height: kToolbarHeight),
                   Spacer(),
                   PulsarLogo(
                     size: MediaQuery.of(context).size.width / 2.7,
@@ -116,7 +119,8 @@ class _SignupPageState extends State<SignupPage>
                             thumbColor: Theme.of(context).cardColor,
                             backgroundColor: Theme.of(context)
                                 .inputDecorationTheme
-                                .fillColor!,
+                                .fillColor!
+                                .withOpacity(0.5),
                             children: {
                               0: Padding(
                                   padding: EdgeInsets.symmetric(

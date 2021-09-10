@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path/path.dart';
@@ -61,6 +62,9 @@ class _PulsarState extends State<Pulsar> {
     SystemChrome.setEnabledSystemUIOverlays(
         [SystemUiOverlay.bottom, SystemUiOverlay.top]);
 
+    Brightness systemBrightness =
+        SchedulerBinding.instance!.window.platformBrightness;
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(
@@ -70,7 +74,7 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => LoginProvider(widget.loggedIn),
         ),
         ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(),
+          create: (_) => ThemeProvider(systemBrightness),
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),
@@ -91,11 +95,18 @@ class _PulsarState extends State<Pulsar> {
             builder: (context, loginProvider, child) {
           return Consumer<ThemeProvider>(
               builder: (context, themeProvider, child) {
+            WidgetsBinding.instance!.window.onPlatformBrightnessChanged = () {
+              themeProvider.systemBrightness =
+                  WidgetsBinding.instance!.window.platformBrightness;
+              themeProvider.onSystemBrightnessChange();
+            };
             return MaterialApp(
               title: 'Pulsar',
               debugShowCheckedModeBanner: false,
               initialRoute: '/',
-              theme: themeProvider.theme,
+              theme: lightTheme,
+              darkTheme: darkTheme,
+              themeMode: themeProvider.themeMode,
               scrollBehavior: MyScrollBehavior(),
               routes: {
                 '/': (context) =>

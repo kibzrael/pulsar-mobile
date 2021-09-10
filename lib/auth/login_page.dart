@@ -98,7 +98,10 @@ class _LoginPageState extends State<LoginPage>
       },
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          title: SelectLanguage(),
+        ),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -106,7 +109,7 @@ class _LoginPageState extends State<LoginPage>
               height: size,
               child: Column(
                 children: [
-                  SelectLanguage(),
+                  SizedBox(height: kToolbarHeight),
                   Spacer(),
                   PulsarLogo(
                     size: MediaQuery.of(context).size.width / 2.7,

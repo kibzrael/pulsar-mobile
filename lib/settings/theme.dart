@@ -30,7 +30,7 @@ class _SelectThemeState extends State<SelectTheme> {
           return Column(
             children: [
               MyListTile(
-                title: 'Light Theme',
+                title: 'System Default',
                 trailingArrow: false,
                 onPressed: () => themeSwitch(0),
                 trailing: Radio<int>(
@@ -41,11 +41,22 @@ class _SelectThemeState extends State<SelectTheme> {
                     }),
               ),
               MyListTile(
-                title: 'Dark Theme',
+                title: 'Light Theme',
                 trailingArrow: false,
                 onPressed: () => themeSwitch(1),
                 trailing: Radio<int>(
                     value: 1,
+                    groupValue: value,
+                    onChanged: (value) {
+                      themeSwitch(value!);
+                    }),
+              ),
+              MyListTile(
+                title: 'Dark Theme',
+                trailingArrow: false,
+                onPressed: () => themeSwitch(2),
+                trailing: Radio<int>(
+                    value: 2,
                     groupValue: value,
                     onChanged: (value) {
                       themeSwitch(value!);

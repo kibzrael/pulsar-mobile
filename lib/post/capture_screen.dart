@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trim.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
 
@@ -82,7 +84,19 @@ class _CaptureScreenState extends State<CaptureScreen>
         backgroundColor: Colors.transparent,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              openDialog(
+                      context,
+                      (context) => MyDialog(
+                            title: 'Caution!',
+                            body:
+                                'The selected video and changes you\'ve made would be lost if you quit.',
+                            actions: ['Cancel', 'Ok'],
+                            destructive: 'Ok',
+                          ),
+                      dismissible: true)
+                  .then((value) {
+                if (value == 'Ok') Navigator.pop(context);
+              });
             },
             icon: Icon(
               MyIcons.close,

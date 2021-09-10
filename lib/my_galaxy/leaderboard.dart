@@ -7,6 +7,8 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/info/info.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/custom_refresh_indicator.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -49,7 +51,13 @@ class _LeaderboardState extends State<Leaderboard> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Leaderboard'),
-          actions: [IconButton(onPressed: () {}, icon: Icon(MyIcons.info))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  openBottomSheet(context, (context) => InfoSheet());
+                },
+                icon: Icon(MyIcons.info))
+          ],
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return MyRefreshIndicator(

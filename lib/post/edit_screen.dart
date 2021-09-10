@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/models/post_video.dart';
 import 'package:pulsar/post/audio/audio.dart';
 import 'package:pulsar/post/cover.dart';
@@ -10,6 +11,7 @@ import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/upload_screen.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/transitions.dart';
 import 'package:video_player/video_player.dart';
@@ -115,7 +117,20 @@ class _EditScreenState extends State<EditScreen> {
                                   backgroundColor: Colors.transparent,
                                   leading: IconButton(
                                       onPressed: () {
-                                        Navigator.pop(context);
+                                        openDialog(
+                                                context,
+                                                (context) => MyDialog(
+                                                      title: 'Caution!',
+                                                      body:
+                                                          'The changes you\'ve made would be lost if you quit.',
+                                                      actions: ['Cancel', 'Ok'],
+                                                      destructive: 'Ok',
+                                                    ),
+                                                dismissible: true)
+                                            .then((value) {
+                                          if (value == 'Ok')
+                                            Navigator.pop(context);
+                                        });
                                       },
                                       icon: Icon(
                                         MyIcons.close,

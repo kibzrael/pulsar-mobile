@@ -134,7 +134,10 @@ class _RootGalaxyState extends State<RootGalaxy>
             onlyOneScrollInBody: true,
             body: Column(
               children: [
-                DiscoverGalaxyTags(),
+                DiscoverGalaxyTags(
+                  selected: 'For you',
+                  onChanged: (_) {},
+                ),
                 Expanded(
                   child: Container(
                       color: Theme.of(context).colorScheme.surface,

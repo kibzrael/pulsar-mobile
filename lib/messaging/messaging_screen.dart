@@ -224,68 +224,84 @@ class _MessagingScreenState extends State<MessagingScreen>
                 if (!widget.chat.isSpam)
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                    child: MyTextInput(
-                      controller: messageController,
-                      hintText: 'Write a message...',
-                      maxLines: 7,
-                      height: null,
-                      padding: EdgeInsets.only(left: 12),
-                      prefix: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(MyIcons.attatchment),
-                      ),
-                      onChanged: (text) {
-                        setState(() {
-                          message = text;
-                          if (text.length > 0 && text.trim() == '') {
-                            isTyping = false;
-                          } else {
-                            isTyping = true;
-                          }
-                        });
-                      },
-                      onSubmitted: (text) {},
-                      suffix: Row(
-                        children: [
-                          if (message.length < 1)
-                            Padding(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: MyTextInput(
+                            controller: messageController,
+                            hintText: 'Write a message...',
+                            maxLines: 7,
+                            height: null,
+                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            prefix: Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: Icon(MyIcons.camera),
+                              child: Icon(MyIcons.attatchment),
                             ),
-                          if (message.length < 1)
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(MyIcons.mic),
-                            ),
-                          InkWell(
-                            onTap: () {
-                              if (message.length > 0 && message.trim() != '') {
-                                setState(() {
-                                  messagesList.add(Message(
-                                      message: message.trim(),
-                                      user: tahlia,
-                                      time: DateTime.now()));
-                                  messageController!.text = '';
-                                  message = '';
+                            onChanged: (text) {
+                              setState(() {
+                                message = text;
+                                if (text.length > 0 && text.trim() == '') {
                                   isTyping = false;
-                                });
-                              }
+                                } else {
+                                  isTyping = true;
+                                }
+                              });
                             },
-                            child: Card(
-                              margin: EdgeInsets.all(2),
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(21)),
-                              child: Container(
-                                child: Icon(MyIcons.send),
-                                height: 42,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 5),
-                              ),
+                            onSubmitted: (text) {},
+                            suffix: Row(
+                              children: [
+                                if (message.length < 1)
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(MyIcons.camera),
+                                  ),
+                                if (message.length < 1)
+                                  Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(MyIcons.mic),
+                                  ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(width: 5),
+                        InkWell(
+                          onTap: () {
+                            if (message.length > 0 && message.trim() != '') {
+                              setState(() {
+                                messagesList.add(Message(
+                                    message: message.trim(),
+                                    user: tahlia,
+                                    time: DateTime.now()));
+                                messageController!.text = '';
+                                message = '';
+                                isTyping = false;
+                              });
+                            }
+                          },
+                          child: Card(
+                            margin: EdgeInsets.all(2),
+                            elevation: 4,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(21)),
+                            child: Container(
+                              child: Icon(
+                                MyIcons.send,
+                                color: Colors.white,
+                              ),
+                              height: 42,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(21),
+                                  gradient: LinearGradient(colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).buttonColor
+                                  ])),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 5),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
               ],

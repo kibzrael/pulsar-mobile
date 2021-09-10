@@ -292,7 +292,7 @@ class _PostLayoutState extends State<PostLayout> {
                         ),
                         stat(24300, () {}),
                         Theme(
-                          data: provider.theme!,
+                          data: provider.theme,
                           child: Builder(builder: (_) {
                             return Theme(
                               data: Theme.of(context),
@@ -317,7 +317,7 @@ class _PostLayoutState extends State<PostLayout> {
                         ),
                         stat(24300, () {}),
                         Theme(
-                            data: provider.theme!,
+                            data: provider.theme,
                             child: Builder(builder: (_) {
                               return Theme(
                                 data: Theme.of(context),
@@ -357,7 +357,7 @@ class ThemeBugFix extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
     return Theme(
-      data: provider.theme!,
+      data: provider.theme,
       child: Builder(
         builder: (context) => child,
       ),

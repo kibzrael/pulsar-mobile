@@ -79,22 +79,34 @@ class _ManageAccountState extends State<ManageAccount> {
                 child: Column(children: [
                   MyListTile(
                     title: 'Facebook',
-                    leading: Icon(MyIcons.facebook, size: 36),
+                    leading: Image(
+                      image: AssetImage('assets/images/logos/facebook.png'),
+                      width: 36,
+                    ),
                     subtitle: '@${user.username}',
                   ),
                   MyListTile(
                     title: 'Google',
-                    leading: Icon(MyIcons.google, size: 36),
+                    leading: Image(
+                      image: AssetImage('assets/images/logos/google.png'),
+                      width: 36,
+                    ),
                     subtitle: '@${user.username}',
                   ),
                   MyListTile(
                     title: 'Twitter',
-                    leading: Icon(MyIcons.twitter, size: 36),
+                    leading: Image(
+                      image: AssetImage('assets/images/logos/twitter.png'),
+                      width: 36,
+                    ),
                     subtitle: '@${user.username}',
                   ),
                   MyListTile(
                     title: 'Instagram',
-                    leading: Icon(MyIcons.instagram, size: 36),
+                    leading: Image(
+                      image: AssetImage('assets/images/logos/instagram.png'),
+                      width: 36,
+                    ),
                     subtitle: '@${user.username}',
                   ),
                 ]),

@@ -60,12 +60,25 @@ class CaptureTimer extends StatefulWidget {
 }
 
 class _CaptureTimerState extends State<CaptureTimer> {
+  late CarouselController controller;
+
   int timer = 1;
 
   @override
+  void initState() {
+    super.initState();
+    controller = CarouselController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Widget timerWidget(int timer) {
-      return Center(child: Text('${timer.toString()}s'));
+    Widget timerWidget(int index, int timer) {
+      return InkWell(
+          onTap: () {
+            controller.animateToPage(index,
+                duration: Duration(milliseconds: 300));
+          },
+          child: Center(child: Text('${timer.toString()}s')));
     }
 
     return SizedBox(
@@ -88,10 +101,11 @@ class _CaptureTimerState extends State<CaptureTimer> {
                 ),
               ),
               CarouselSlider(
+                carouselController: controller,
                 items: [
-                  timerWidget(30),
-                  timerWidget(60),
-                  timerWidget(90),
+                  timerWidget(0, 30),
+                  timerWidget(1, 60),
+                  timerWidget(2, 90),
                 ],
                 options: CarouselOptions(
                     height: 44,

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/secondary_pages.dart/discover_posts.dart';
 import 'package:pulsar/secondary_pages.dart/following_posts.dart';
 import 'package:pulsar/secondary_pages.dart/posts_for_you.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -112,7 +113,7 @@ class _RootHomePageState extends State<RootHomePage>
                       color: Colors.white54,
                     ),
                     SegmentObject(
-                      'For you',
+                      'Discover',
                       1,
                       pageIndex: pageIndex,
                       onPressed: onPageChanged,
@@ -126,7 +127,8 @@ class _RootHomePageState extends State<RootHomePage>
               physics: NeverScrollableScrollPhysics(),
               children: [
                 FollowingPosts(),
-                PostsForYou(controller: forYouController)
+                DiscoverPosts()
+                // PostsForYou(controller: forYouController)
               ],
             ));
       }),

@@ -148,7 +148,8 @@ class _BasicRootState extends State<BasicRoot> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (isUploadingPost)
-                          UploadProgress(bgOperations.uploadPost!),
+                          UploadProgress(bgOperations.uploadPost!,
+                              barIsTransparent: barIsTransparent),
                         Padding(
                           padding: EdgeInsets.only(top: 6.0),
                           child: Row(

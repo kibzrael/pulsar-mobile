@@ -8,7 +8,11 @@ class ListTileAd extends StatefulWidget {
   _ListTileAdState createState() => _ListTileAdState();
 }
 
-class _ListTileAdState extends State<ListTileAd> {
+class _ListTileAdState extends State<ListTileAd>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   late AdProvider provider;
 
   late NativeAd _ad;
@@ -58,6 +62,7 @@ class _ListTileAdState extends State<ListTileAd> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
         width: double.infinity,
         margin: EdgeInsets.symmetric(vertical: 8),

@@ -8,7 +8,7 @@ class InfoSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyBottomSheet(
       child: SizedBox(
-        height: 200,
+        height: 300,
       ),
     );
   }

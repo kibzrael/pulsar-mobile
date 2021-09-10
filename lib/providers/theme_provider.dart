@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Color kBackgroundColor = Color(0xFF131313);
 Color kCardColor = Color(0xFF242424);
@@ -14,7 +15,7 @@ ThemeData lightTheme = ThemeData(
   accentColor: Colors.deepOrangeAccent,
   toggleableActiveColor: Colors.deepOrangeAccent,
   disabledColor: Colors.grey[300],
-  dividerColor: Colors.grey[400],
+  dividerColor: Colors.grey[300],
   chipTheme: chipTheme(Brightness.light),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
@@ -152,21 +153,61 @@ SliderThemeData sliderThemeData = SliderThemeData(
     thumbColor: Colors.transparent);
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeData? _theme;
-  ThemeData? get theme => _theme;
+  ThemeMode _theme = ThemeMode.system;
+  ThemeMode get themeMode => _theme;
+
+  late SharedPreferences prefs;
+
+  late ThemeData theme;
+
+  Brightness systemBrightness;
+
+  ThemeData get systemTheme =>
+      systemBrightness == Brightness.dark ? darkTheme : lightTheme;
+
+  bool get isDark =>
+      _theme == ThemeMode.dark ||
+      (_theme == ThemeMode.system && systemBrightness == Brightness.dark);
 
   double topPadding = 0;
 
-  ThemeProvider() {
-    _theme = darkTheme;
-    // check system theme and shared preferences
+  int get themeValue => _theme.index;
+
+  ThemeProvider(this.systemBrightness) {
+    theme = systemTheme;
+    getTheme();
+  }
+
+  getTheme() async {
+    prefs = await SharedPreferences.getInstance();
+    int? themePref = prefs.getInt('theme');
+
+    if (themePref == 1) {
+      _theme = ThemeMode.light;
+      theme = lightTheme;
+    }
+    if (themePref == 2) {
+      _theme = ThemeMode.dark;
+      theme = darkTheme;
+    }
+    notifyListeners();
     syncTheme();
   }
 
-  int get themeValue => _theme == lightTheme ? 0 : 1;
+  onSystemBrightnessChange() {
+    if (_theme == ThemeMode.system) {
+      theme = systemTheme;
+    }
+    notifyListeners();
+    syncTheme();
+  }
+
+  saveTheme() async {
+    await prefs.setInt('theme', themeValue);
+  }
 
   syncTheme() {
-    SystemChrome.setSystemUIOverlayStyle(_theme!.brightness == Brightness.light
+    SystemChrome.setSystemUIOverlayStyle(!isDark
         ? SystemUiOverlayStyle.dark.copyWith(
             statusBarColor: Colors.transparent,
             systemNavigationBarColor: Colors.white,
@@ -177,10 +218,21 @@ class ThemeProvider extends ChangeNotifier {
             systemNavigationBarIconBrightness: Brightness.light));
   }
 
-  switchTheme(var value) {
-    _theme = value == 0 ? lightTheme : darkTheme;
+  switchTheme(int value) {
+    _theme = value == 0
+        ? ThemeMode.system
+        : value == 1
+            ? ThemeMode.light
+            : ThemeMode.dark;
+    theme = value == 0
+        ? systemTheme
+        : value == 1
+            ? lightTheme
+            : darkTheme;
+
     notifyListeners();
     syncTheme();
+    saveTheme();
   }
 }
 

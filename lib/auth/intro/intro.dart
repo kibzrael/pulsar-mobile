@@ -61,6 +61,8 @@ class _RootIntroPageState extends State<RootIntroPage> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: SelectLanguage(),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
@@ -74,8 +76,7 @@ class _RootIntroPageState extends State<RootIntroPage> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: topPadding),
-                    SelectLanguage(),
+                    SizedBox(height: topPadding + kToolbarHeight),
                     Spacer(),
                     PulsarLogo(size: MediaQuery.of(context).size.width / 2.4),
                     PulsarTextLogo(),
