@@ -61,10 +61,8 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                     child: Chip(
                       elevation: 1,
                       label: Text('@${recipients![index].username}'),
-                      deleteIcon: Icon(
-                        Icons.cancel,
-                        color: Theme.of(context).accentColor,
-                      ),
+                      deleteIcon: Icon(Icons.cancel,
+                          color: Theme.of(context).colorScheme.secondary),
                       onDeleted: () {
                         setState(() {
                           widget.onRemove(recipients![index]);

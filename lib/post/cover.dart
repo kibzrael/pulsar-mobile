@@ -118,7 +118,7 @@ class _PostCoverState extends State<PostCover> {
                         width: 18,
                         height: 75,
                         decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             borderRadius: BorderRadius.horizontal(
                                 right: Radius.circular(15))),
                         child: ClipRRect(
@@ -133,7 +133,7 @@ class _PostCoverState extends State<PostCover> {
                         width: 18,
                         height: 75,
                         decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             borderRadius: BorderRadius.horizontal(
                                 left: Radius.circular(15))),
                         child: ClipRRect(

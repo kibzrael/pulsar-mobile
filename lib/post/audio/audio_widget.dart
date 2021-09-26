@@ -45,7 +45,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                 width: 18,
                 height: 75,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     borderRadius:
                         BorderRadius.horizontal(right: Radius.circular(15))),
                 child: ClipRRect(
@@ -60,7 +60,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                 width: 18,
                 height: 75,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).colorScheme.secondary,
                     borderRadius:
                         BorderRadius.horizontal(left: Radius.circular(15))),
                 child: ClipRRect(
@@ -76,7 +76,7 @@ class _AudioWidgetState extends State<AudioWidget> {
               child: Container(
                 width: double.infinity,
                 height: 1.5,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             Positioned(
@@ -86,7 +86,7 @@ class _AudioWidgetState extends State<AudioWidget> {
               child: Container(
                 width: double.infinity,
                 height: 1.5,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             Positioned(
@@ -99,7 +99,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                     gradient:
                         LinearGradient(begin: Alignment.topCenter, colors: [
                       Theme.of(context).colorScheme.primary,
-                      Theme.of(context).buttonColor,
+                      Theme.of(context).colorScheme.primaryVariant,
                     ])),
               ),
             )

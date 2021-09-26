@@ -7,7 +7,6 @@ import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/discover_posts.dart';
 import 'package:pulsar/secondary_pages.dart/following_posts.dart';
-import 'package:pulsar/secondary_pages.dart/posts_for_you.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class HomePage extends StatefulWidget {

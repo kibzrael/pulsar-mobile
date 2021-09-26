@@ -67,7 +67,7 @@ class GalaxyTag extends StatelessWidget {
             gradient: isSelected
                 ? LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).buttonColor
+                    Theme.of(context).colorScheme.primaryVariant
                   ])
                 : null,
             borderRadius: BorderRadius.circular(15)),

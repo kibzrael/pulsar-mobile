@@ -172,7 +172,7 @@ class _LogCredentialsState extends State<LogCredentials> {
                       passwordObscure ? Icons.visibility_off : Icons.visibility,
                       color: passwordObscure
                           ? Colors.grey
-                          : Theme.of(context).accentColor,
+                          : Theme.of(context).colorScheme.secondary,
                     ),
                     onTap: () {
                       setState(

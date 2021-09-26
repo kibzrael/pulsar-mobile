@@ -135,7 +135,8 @@ class _InterestsPageState extends State<InterestsPage> {
                                     decoration: BoxDecoration(
                                         color: isSelected
                                             ? Theme.of(context)
-                                                .accentColor
+                                                .colorScheme
+                                                .secondary
                                                 .withOpacity(0.5)
                                             : Colors.black12,
                                         borderRadius:
@@ -174,7 +175,9 @@ class _InterestsPageState extends State<InterestsPage> {
                                           shape: BoxShape.circle,
                                           gradient: LinearGradient(colors: [
                                             Colors.blue,
-                                            Theme.of(context).buttonColor
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primaryVariant
                                           ])),
                                       child: Icon(
                                         MyIcons.check,

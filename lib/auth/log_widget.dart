@@ -106,7 +106,7 @@ class _LogTextInputState extends State<LogTextInput> {
                               : Icons.visibility,
                           color: passwordObscure
                               ? Colors.grey
-                              : Theme.of(context).accentColor,
+                              : Theme.of(context).colorScheme.secondary,
                         ),
                         onTap: () {
                           setState(
@@ -183,7 +183,7 @@ class AuthButton extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             Theme.of(context).colorScheme.primary,
-            Theme.of(context).buttonColor
+            Theme.of(context).colorScheme.primaryVariant
           ]),
           borderRadius: BorderRadius.circular(30),
         ),

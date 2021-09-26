@@ -91,7 +91,7 @@ class _UploadProgressState extends State<UploadProgress> {
                       shaderCallback: (bounds) {
                         return LinearGradient(colors: [
                           Theme.of(context).colorScheme.primary,
-                          Theme.of(context).buttonColor
+                          Theme.of(context).colorScheme.primaryVariant
                         ]).createShader(bounds);
                       },
                       child: Text(
@@ -119,7 +119,7 @@ class _UploadProgressState extends State<UploadProgress> {
                             colors: [
                               Colors.blue,
                               Colors.deepPurpleAccent,
-                              Theme.of(context).accentColor,
+                              Theme.of(context).colorScheme.secondary,
                               barIsTransparent
                                   ? Colors.white
                                   : Theme.of(context)

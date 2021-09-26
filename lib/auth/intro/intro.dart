@@ -124,7 +124,9 @@ class _RootIntroPageState extends State<RootIntroPage> {
                                             Theme.of(context)
                                                 .colorScheme
                                                 .primary,
-                                            Theme.of(context).buttonColor,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primaryVariant,
                                           ]).createShader(rect);
                                         },
                                         child: Text(
@@ -141,7 +143,9 @@ class _RootIntroPageState extends State<RootIntroPage> {
                                             Theme.of(context)
                                                 .colorScheme
                                                 .primary,
-                                            Theme.of(context).buttonColor,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primaryVariant,
                                           ]).createShader(rect);
                                         },
                                         child: Text(

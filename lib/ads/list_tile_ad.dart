@@ -22,12 +22,7 @@ class _ListTileAdState extends State<ListTileAd>
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    provider = Provider.of<AdProvider>(context);
+    provider = Provider.of<AdProvider>(context, listen: false);
     provider.initialization.then((value) {
       setState(() {
         _ad = NativeAd(

@@ -61,7 +61,8 @@ class _MessagingCardState extends State<MessagingCard> {
                     borderRadius: BorderRadius.all(radius),
                     border: received
                         ? Border.all(
-                            color: Theme.of(context).accentColor, width: 1)
+                            color: Theme.of(context).colorScheme.secondary,
+                            width: 1)
                         : Border.all(color: Colors.transparent),
                   ),
                   child: Column(

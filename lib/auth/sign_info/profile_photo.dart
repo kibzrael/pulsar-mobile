@@ -71,7 +71,8 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                           color: Theme.of(context).scaffoldBackgroundColor),
                       child: CircleAvatar(
                         radius: 21,
-                        backgroundColor: Theme.of(context).accentColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         child: Center(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,

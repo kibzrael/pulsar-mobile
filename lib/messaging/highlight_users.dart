@@ -68,7 +68,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                           height: 52,
                           child: Icon(
                             MyIcons.add,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                             size: 35,
                           ),
                         ),

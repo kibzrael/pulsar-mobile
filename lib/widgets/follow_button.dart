@@ -36,12 +36,12 @@ class FollowButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
             color: isFollowing
                 ? Colors.transparent
-                : Theme.of(context).buttonColor,
+                : Theme.of(context).colorScheme.primaryVariant,
             gradient: isFollowing
                 ? null
                 : LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).buttonColor
+                    Theme.of(context).colorScheme.primaryVariant
                   ]),
             border: isFollowing
                 ? Border.all(

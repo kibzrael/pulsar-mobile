@@ -33,12 +33,13 @@ class RecipientCard extends StatelessWidget {
             : null,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color:
-                isSelected ? Theme.of(context).accentColor : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.secondary
+                : Colors.transparent,
             border: Border.all(
                 width: 3,
                 color: isSelected
-                    ? Theme.of(context).accentColor
+                    ? Theme.of(context).colorScheme.secondary
                     : Theme.of(context).dividerColor)),
       ),
     );

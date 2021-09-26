@@ -11,8 +11,6 @@ Color kDividerColor = Color(0xFF424242);
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.grey,
-  buttonColor: Colors.deepPurpleAccent,
-  accentColor: Colors.deepOrangeAccent,
   toggleableActiveColor: Colors.deepOrangeAccent,
   disabledColor: Colors.grey[300],
   dividerColor: Colors.grey[300],
@@ -41,7 +39,7 @@ ThemeData lightTheme = ThemeData(
       primary: Colors.blue,
       primaryVariant: Colors.deepPurpleAccent,
       secondary: Colors.deepOrangeAccent,
-      secondaryVariant: Colors.deepOrange,
+      secondaryVariant: Colors.deepOrangeAccent,
       surface: Colors.grey.shade50,
       background: Colors.white,
       error: Colors.red,
@@ -56,8 +54,6 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.grey,
-  buttonColor: Colors.deepPurpleAccent,
-  accentColor: Colors.deepOrangeAccent,
   toggleableActiveColor: Colors.deepOrangeAccent,
   disabledColor: kCardColor,
   dividerColor: kDividerColor,

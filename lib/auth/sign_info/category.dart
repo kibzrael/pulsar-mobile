@@ -120,7 +120,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                           trailing: selected
                               ? CircleAvatar(
                                   backgroundColor:
-                                      Theme.of(context).accentColor,
+                                      Theme.of(context).colorScheme.secondary,
                                   radius: 12,
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,

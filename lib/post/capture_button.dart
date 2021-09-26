@@ -79,7 +79,7 @@ class _CaptureButtonState extends State<CaptureButton> {
                   colors: [
                     Colors.blue,
                     Colors.deepPurpleAccent,
-                    Theme.of(context).accentColor,
+                    Theme.of(context).colorScheme.secondary,
                     Colors.white
                   ]).createShader(rect);
             },
@@ -101,7 +101,7 @@ class _CaptureButtonState extends State<CaptureButton> {
               decoration: BoxDecoration(
                 color: widget.isRecording
                     ? Colors.redAccent
-                    : Theme.of(context).accentColor,
+                    : Theme.of(context).colorScheme.secondary,
                 shape: BoxShape.circle,
               ),
               child: FittedBox(

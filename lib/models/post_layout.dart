@@ -197,7 +197,8 @@ class _PostLayoutState extends State<PostLayout> {
                                                               .colorScheme
                                                               .primary,
                                                           Theme.of(context)
-                                                              .buttonColor
+                                                              .colorScheme
+                                                              .primaryVariant
                                                         ]).createShader(rect);
                                                   },
                                                   child: Row(

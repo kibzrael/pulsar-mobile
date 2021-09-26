@@ -59,8 +59,7 @@ class _PulsarState extends State<Pulsar> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     Brightness systemBrightness =
         SchedulerBinding.instance!.window.platformBrightness;

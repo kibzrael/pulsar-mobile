@@ -294,7 +294,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                                   borderRadius: BorderRadius.circular(21),
                                   gradient: LinearGradient(colors: [
                                     Theme.of(context).colorScheme.primary,
-                                    Theme.of(context).buttonColor
+                                    Theme.of(context).colorScheme.primaryVariant
                                   ])),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 5),

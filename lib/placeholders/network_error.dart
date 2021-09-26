@@ -13,7 +13,7 @@ class NetworkError extends StatelessWidget {
             Icon(
               MyIcons.networkError,
               size: 100,
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             SizedBox(height: 15),
             Text('Opps!',

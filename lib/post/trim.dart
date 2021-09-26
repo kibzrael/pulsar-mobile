@@ -119,7 +119,7 @@ class _TrimVideoState extends State<TrimVideo> {
                   width: 21,
                   height: 75,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
                           BorderRadius.horizontal(right: Radius.circular(15))),
                   child: ClipRRect(
@@ -170,7 +170,7 @@ class _TrimVideoState extends State<TrimVideo> {
                   width: 21,
                   height: 75,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
                           BorderRadius.horizontal(left: Radius.circular(15))),
                   child: ClipRRect(
@@ -206,7 +206,7 @@ class _TrimVideoState extends State<TrimVideo> {
               child: Container(
                 width: double.infinity,
                 height: 1.5,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             Positioned(
@@ -216,7 +216,7 @@ class _TrimVideoState extends State<TrimVideo> {
               child: Container(
                 width: double.infinity,
                 height: 1.5,
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             Positioned(
@@ -229,7 +229,7 @@ class _TrimVideoState extends State<TrimVideo> {
                     gradient:
                         LinearGradient(begin: Alignment.topCenter, colors: [
                       Theme.of(context).colorScheme.primary,
-                      Theme.of(context).buttonColor,
+                      Theme.of(context).colorScheme.primaryVariant,
                     ])),
               ),
             )

@@ -30,9 +30,10 @@ class ActionButton extends StatelessWidget {
                 ? null
                 : LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).buttonColor
+                    Theme.of(context).colorScheme.primaryVariant
                   ]),
-            color: backgroundColor ?? Theme.of(context).buttonColor),
+            color: backgroundColor ??
+                Theme.of(context).colorScheme.primaryVariant),
         child: Center(
             child: FittedBox(
           fit: BoxFit.scaleDown,

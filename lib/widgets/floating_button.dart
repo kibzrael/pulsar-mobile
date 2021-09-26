@@ -21,7 +21,7 @@ class MyFloatingActionButton extends StatelessWidget {
                 colors: color == null
                     ? [
                         Theme.of(context).colorScheme.primary,
-                        Theme.of(context).buttonColor,
+                        Theme.of(context).colorScheme.primaryVariant,
                       ]
                     : [color!, color!])),
         child: child,

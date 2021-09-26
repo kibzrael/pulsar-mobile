@@ -62,7 +62,7 @@ class RepostButton extends StatelessWidget {
         child: Icon(reposted ? MyIcons.reposted : MyIcons.repost,
             size: size,
             color: reposted
-                ? Theme.of(context).buttonColor
+                ? Theme.of(context).colorScheme.primaryVariant
                 : Theme.of(context).iconTheme.color),
       ),
       onTap: onPressed as void Function()?,

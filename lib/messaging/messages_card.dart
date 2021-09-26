@@ -77,7 +77,8 @@ class _MessagesCardState extends State<MessagesCard> {
                           color: Theme.of(context).colorScheme.surface),
                       child: CircleAvatar(
                         radius: 9,
-                        backgroundColor: Theme.of(context).accentColor,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
                         child: Center(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
@@ -136,7 +137,7 @@ class _MessagesCardState extends State<MessagesCard> {
                 margin: EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Theme.of(context).accentColor),
+                    color: Theme.of(context).colorScheme.secondary),
                 child: Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 13.5),

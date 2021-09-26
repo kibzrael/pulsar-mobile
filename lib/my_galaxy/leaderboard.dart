@@ -204,7 +204,8 @@ class _LeaderboardState extends State<Leaderboard> {
                           image: CachedNetworkImageProvider(user.profilePic),
                           fit: BoxFit.cover),
                       border: Border.all(
-                          width: 3, color: Theme.of(context).accentColor))),
+                          width: 3,
+                          color: Theme.of(context).colorScheme.secondary))),
               Container(
                 width: 28 - pos.toDouble(),
                 height: 28 - pos.toDouble(),
@@ -213,7 +214,7 @@ class _LeaderboardState extends State<Leaderboard> {
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).buttonColor
+                    Theme.of(context).colorScheme.primaryVariant
                   ]),
                 ),
                 child: Text(

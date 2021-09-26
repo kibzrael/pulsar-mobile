@@ -86,7 +86,8 @@ class _EditProfileState extends State<EditProfile> {
                                       .scaffoldBackgroundColor),
                               child: CircleAvatar(
                                 radius: 18,
-                                backgroundColor: Theme.of(context).accentColor,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.secondary,
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Icon(

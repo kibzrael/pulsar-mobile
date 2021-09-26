@@ -84,7 +84,8 @@ class _VerifyCodeState extends State<VerifyCode> {
                 child: TextButton(
                   child: Text(
                     'Resend Code in $timeCountdown seconds?',
-                    style: TextStyle(color: Theme.of(context).buttonColor),
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primaryVariant),
                   ),
                   onPressed: () {},
                 ),

@@ -114,7 +114,7 @@ class NestedScrollViewRefreshIndicator extends StatefulWidget {
   final NestedScrollViewRefreshCallback onRefresh;
 
   /// The progress indicator's foreground color. The current theme's
-  /// [ThemeData.accentColor] by default.
+  /// [ThemeData.colorScheme.secondary] by default.
   final Color? color;
 
   /// The progress indicator's background color. The current theme's

@@ -199,11 +199,15 @@ class _BasicRootState extends State<BasicRoot> {
                                           shape: BoxShape.circle,
                                           gradient: LinearGradient(
                                             colors: [
-                                              Theme.of(context).accentColor,
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               themeIsDark
                                                   ? Colors.transparent
                                                   : Colors.white,
-                                              Theme.of(context).buttonColor,
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .primaryVariant,
                                             ],
                                           ),
                                         ),
