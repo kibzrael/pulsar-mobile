@@ -47,7 +47,7 @@ class _RecommendedChallengesState extends State<RecommendedChallenges> {
                 elevation: 4,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(12), bottom: Radius.circular(18))),
+                        top: Radius.circular(12), bottom: Radius.circular(15))),
                 child: Container(
                   width: 150,
                   padding: EdgeInsets.only(bottom: 5),

@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Blue
+Color kPrimary = Color(0xFF2196F3);
+
+/// Purple
+Color kPrimaryVariant = Color(0xFF7C4DFF);
+
+/// Orange
+Color kSecondary = Color(0xFFFF6E40);
+
 Color kBackgroundColor = Color(0xFF131313);
 Color kCardColor = Color(0xFF242424);
 Color kInputColor = Color(0xFF202020);
@@ -11,16 +20,15 @@ Color kDividerColor = Color(0xFF424242);
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: Colors.deepOrangeAccent,
+  toggleableActiveColor: kSecondary,
   disabledColor: Colors.grey[300],
   dividerColor: Colors.grey[300],
   chipTheme: chipTheme(Brightness.light),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  indicatorColor: Colors.deepOrangeAccent,
+  indicatorColor: kSecondary,
   iconTheme: IconThemeData(color: Colors.grey[500]),
-  textSelectionTheme:
-      TextSelectionThemeData(cursorColor: Colors.deepOrangeAccent),
+  textSelectionTheme: TextSelectionThemeData(cursorColor: kSecondary),
   inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.grey[200],
       hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey)),
@@ -36,10 +44,10 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white,
   pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
-      primary: Colors.blue,
-      primaryVariant: Colors.deepPurpleAccent,
-      secondary: Colors.deepOrangeAccent,
-      secondaryVariant: Colors.deepOrangeAccent,
+      primary: kPrimary,
+      primaryVariant: kPrimaryVariant,
+      secondary: kSecondary,
+      secondaryVariant: kSecondary,
       surface: Colors.grey.shade50,
       background: Colors.white,
       error: Colors.red,
@@ -54,16 +62,15 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: Colors.deepOrangeAccent,
+  toggleableActiveColor: kSecondary,
   disabledColor: kCardColor,
   dividerColor: kDividerColor,
   cardColor: kCardColor,
   chipTheme: chipTheme(Brightness.dark),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  indicatorColor: Colors.deepOrangeAccent,
-  textSelectionTheme:
-      TextSelectionThemeData(cursorColor: Colors.deepOrangeAccent),
+  indicatorColor: kSecondary,
+  textSelectionTheme: TextSelectionThemeData(cursorColor: kSecondary),
   inputDecorationTheme: InputDecorationTheme(
       fillColor: kInputColor,
       hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey[400])),
@@ -79,9 +86,9 @@ ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: kBackgroundColor,
   pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
-      primary: Colors.blue,
-      primaryVariant: Colors.deepPurpleAccent,
-      secondary: Colors.deepOrangeAccent,
+      primary: kPrimary,
+      primaryVariant: kPrimaryVariant,
+      secondary: kSecondary,
       secondaryVariant: Colors.deepOrange,
       surface: kSurfaceColor,
       background: Colors.grey.shade900,
@@ -118,8 +125,8 @@ ChipThemeData chipTheme(Brightness brightness) {
   return ChipThemeData(
     backgroundColor: isLight ? Colors.white : Colors.grey.shade800,
     disabledColor: Colors.grey,
-    selectedColor: Colors.deepOrangeAccent,
-    secondarySelectedColor: Colors.deepOrangeAccent,
+    selectedColor: kSecondary,
+    secondarySelectedColor: kSecondary,
     padding: EdgeInsets.all(4),
     labelStyle: TextStyle(
         fontSize: 16.5,

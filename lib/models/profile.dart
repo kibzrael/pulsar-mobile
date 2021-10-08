@@ -104,21 +104,23 @@ class _ProfileState extends State<Profile> {
         Container(
           margin: EdgeInsets.symmetric(vertical: 5),
           alignment: Alignment.center,
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 8,
-            runSpacing: 4,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               LinkedAccountLabel(
-                color: Colors.blue,
+                colors: [Colors.blue[900]!, Colors.blue[900]!],
+                icon: MyIcons.facebook,
+                user: '@rael',
+              ),
+              LinkedAccountLabel(colors: [
+                Colors.deepPurpleAccent,
+                Colors.orangeAccent,
+              ], icon: MyIcons.instagram, user: '@kibzrael'),
+              LinkedAccountLabel(
+                colors: [Colors.blue, Colors.blue],
                 icon: MyIcons.twitter,
                 user: '@kibzrael',
               ),
-              LinkedAccountLabel(
-                color: Colors.blue[900]!,
-                icon: MyIcons.facebook,
-                user: '@rael',
-              )
             ],
           ),
         ),
@@ -140,26 +142,48 @@ class _ProfileState extends State<Profile> {
 class LinkedAccountLabel extends StatelessWidget {
   final IconData icon;
   final String user;
-  final Color color;
+  final List<Color> colors;
   LinkedAccountLabel({
-    required this.color,
+    required this.colors,
     required this.icon,
     required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(icon, color: color, size: 18),
-        SizedBox(width: 4),
-        Text(
-          user,
-          style: TextStyle(color: color),
-        )
-      ],
+    return Card(
+      shape: CircleBorder(),
+      elevation: 3,
+      color: Theme.of(context).colorScheme.surface,
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: ShaderMask(
+          shaderCallback: (rect) {
+            return LinearGradient(
+                    colors: colors,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight)
+                .createShader(rect);
+          },
+          child: Icon(
+            icon,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
+
+    // Row(
+    //   mainAxisSize: MainAxisSize.min,
+    //   crossAxisAlignment: CrossAxisAlignment.center,
+    //   children: [
+    //     Icon(icon, color: color, size: 18),
+    //     SizedBox(width: 4),
+    //     Text(
+    //       user,
+    //       style: TextStyle(color: color),
+    //     )
+    //   ],
+    // );
   }
 }

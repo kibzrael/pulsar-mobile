@@ -197,7 +197,12 @@ class _CameraScreenState extends State<CameraScreen>
                   child: isRecording
                       ? recordingOverlay()
                       : overlay != null
-                          ? overlay!
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: overlay!)
                           : Container(
                               child: Column(
                                 children: [

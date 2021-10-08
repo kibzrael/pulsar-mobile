@@ -110,7 +110,12 @@ class _EditScreenState extends State<EditScreen> {
                     child: ScaledTransition(
                       reverse: overlay == null,
                       child: overlay != null
-                          ? overlay!
+                          ? Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black26,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: overlay!)
                           : Column(
                               children: [
                                 AppBar(
