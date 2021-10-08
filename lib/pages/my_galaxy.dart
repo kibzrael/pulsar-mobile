@@ -94,6 +94,10 @@ class _RootGalaxyState extends State<RootGalaxy>
       height: 8,
     );
 
+    ColorTween iconTween = ColorTween(
+        begin: Theme.of(context).inputDecorationTheme.hintStyle!.color,
+        end: Theme.of(context).textTheme.bodyText1!.color);
+
     return Scaffold(
         // appBar:
         // AppBar(
@@ -117,108 +121,118 @@ class _RootGalaxyState extends State<RootGalaxy>
         //     ),
         //   ),
         // ),
-        body: CustomScrollView(
-      controller: scrollController,
-      slivers: [
-        SliverAppBar(
-          floating: false,
-          pinned: true,
-          titleSpacing: 0.0,
-          expandedHeight: 150,
-          stretch: true,
-          flexibleSpace: FlexibleSpaceBar(
-            // titlePadding:
-            //     EdgeInsetsDirectional.only(start: 15, bottom: 12.5, end: 0),
-            titlePadding: EdgeInsets.zero,
-            collapseMode: CollapseMode.pin,
-            title: Container(
-              height: double.infinity,
-              child: Stack(
-                children: [
-                  Positioned(
-                    bottom: 50 - (scrollScale * 37.5),
-                    left: 15 + (scrollScale * 15),
-                    child: Text(
-                      'My Galaxy',
-                      maxLines: 1,
-                      style: TextStyle(fontSize: 36),
+        body: RefreshIndicator(
+      onRefresh: onRefresh,
+      child: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          SliverAppBar(
+            floating: false,
+            pinned: true,
+            titleSpacing: 0.0,
+            expandedHeight: 150,
+            stretch: true,
+            flexibleSpace: FlexibleSpaceBar(
+              // titlePadding:
+              //     EdgeInsetsDirectional.only(start: 15, bottom: 12.5, end: 0),
+              titlePadding: EdgeInsets.zero,
+              collapseMode: CollapseMode.pin,
+              title: Container(
+                height: double.infinity,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: 50 - (scrollScale * 42.5),
+                      left: 15 + (scrollScale * 15),
+                      child: Text(
+                        'My Galaxy',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 36),
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: scrollScale * 15,
-                    left: (scrollScale *
-                        (MediaQuery.of(context).size.width - (15 + 37.5))),
-                    child: InkWell(
-                      onTap: () {
-                        print('Hey search');
-                      },
-                      child: Transform.scale(
-                        scale: barScale,
-                        alignment: Alignment.center,
-                        child: Container(
-                          // height: 30 + (scrollScale * 7.5),
-                          width: 37.5 +
-                              (1 - scrollScale) *
-                                  (MediaQuery.of(context).size.width *
-                                      barScale),
-                          height: 37.5,
-                          margin: EdgeInsets.only(bottom: 8),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: (1 - scrollScale) * 15, vertical: 4),
+                    Positioned(
+                      bottom: 0,
+                      right: scrollScale * 15,
+                      left: (scrollScale *
+                          (MediaQuery.of(context).size.width - (15 + 37.5))),
+                      child: InkWell(
+                        onTap: () {
+                          print('Hey search');
+                        },
+                        child: Transform.scale(
+                          scale: barScale,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Theme.of(context)
-                                .inputDecorationTheme
-                                .fillColor,
-                          ),
                           child: Container(
-                            width: 37.7 + (1 - scrollScale) * 200,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(MyIcons.search),
-                                if (scrollScale < 1)
-                                  Flexible(
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: (1 - scrollScale) * 15),
-                                      child: Text(
-                                        'Search Pulsar',
-                                        style: TextStyle(fontSize: 16.5),
-                                        softWrap: false,
-                                        maxLines: 1,
+                            // height: 30 + (scrollScale * 7.5),
+                            width: 37.5 +
+                                (1 - scrollScale) *
+                                    (MediaQuery.of(context).size.width *
+                                        barScale),
+                            height: 37.5,
+                            margin: EdgeInsets.only(bottom: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: (1 - scrollScale) * 15,
+                                vertical: 4),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .fillColor!
+                                  .withOpacity(1 - scrollScale),
+                            ),
+                            child: Container(
+                              width: 37.7 + (1 - scrollScale) * 200,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    MyIcons.search,
+                                    color: iconTween.transform(scrollScale),
+                                  ),
+                                  if (scrollScale < 1)
+                                    Flexible(
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: (1 - scrollScale) * 15),
+                                        child: Text(
+                                          'Search Pulsar',
+                                          style: Theme.of(context)
+                                              .inputDecorationTheme
+                                              .hintStyle,
+                                          softWrap: false,
+                                          maxLines: 1,
+                                        ),
                                       ),
-                                    ),
-                                  )
-                              ],
+                                    )
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        SliverList(
-          delegate: SliverChildListDelegate([
-            FollowedTags(),
-            space,
-            PinnedChallenges(),
-            space,
-            DiscoverChallenges(),
-            ListTileAd(),
-            RecommendedChallenges(),
-          ]),
-        ),
-        SliverPadding(
-            padding:
-                EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom))
-      ],
+          SliverList(
+            delegate: SliverChildListDelegate([
+              FollowedTags(),
+              space,
+              PinnedChallenges(),
+              space,
+              DiscoverChallenges(),
+              ListTileAd(),
+              RecommendedChallenges(),
+            ]),
+          ),
+          SliverPadding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom))
+        ],
+      ),
     )
 
         // RefreshIndicator(

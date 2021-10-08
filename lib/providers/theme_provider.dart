@@ -32,7 +32,11 @@ ThemeData lightTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.grey[200],
       hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey)),
-  appBarTheme: AppBarTheme(color: Colors.white, elevation: 0.0),
+  appBarTheme: AppBarTheme(
+    color: Colors.white,
+    elevation: 0.0,
+    foregroundColor: Colors.black,
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       elevation: 0.0,

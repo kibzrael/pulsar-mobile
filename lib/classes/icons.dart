@@ -99,6 +99,8 @@ class MyIcons {
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
 
+  static IconData insights = myIcon(Icons.insights, Icons.insights);
+
   static IconData instagram = myIcon(SvgIcons.instagram, SvgIcons.instagram);
 
   static IconData interactions = myIcon(Icons.favorite, Icons.favorite);

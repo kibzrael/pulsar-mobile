@@ -8,8 +8,6 @@ import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile_stats.dart';
 import 'package:pulsar/my_galaxy/leaderboard.dart';
-import 'package:pulsar/my_galaxy/prizes.dart';
-import 'package:pulsar/my_galaxy/rules.dart';
 import 'package:pulsar/options/challenge_options.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -64,41 +62,41 @@ class _ChallengePageState extends State<ChallengePage>
 
   @override
   Widget build(BuildContext context) {
-    Widget option(
-            {required IconData icon,
-            required String text,
-            required Function() onPressed}) =>
-        Container(
-          width: (MediaQuery.of(context).size.width / 3) - 30,
-          child: InkWell(
-            onTap: onPressed,
-            child: Column(
-              children: [
-                Card(
-                  elevation: 4,
-                  shape: CircleBorder(),
-                  child: Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(icon, size: 36),
-                  ),
-                ),
-                SizedBox(height: 5),
-                FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      text,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 15),
-                    )),
-              ],
-            ),
-          ),
-        );
+    // Widget option(
+    //         {required IconData icon,
+    //         required String text,
+    //         required Function() onPressed}) =>
+    //     Container(
+    //       width: (MediaQuery.of(context).size.width / 3) - 30,
+    //       child: InkWell(
+    //         onTap: onPressed,
+    //         child: Column(
+    //           children: [
+    //             Card(
+    //               elevation: 4,
+    //               shape: CircleBorder(),
+    //               child: Container(
+    //                 padding: EdgeInsets.all(8),
+    //                 decoration: BoxDecoration(
+    //                   shape: BoxShape.circle,
+    //                 ),
+    //                 child: Icon(icon, size: 36),
+    //               ),
+    //             ),
+    //             SizedBox(height: 5),
+    //             FittedBox(
+    //                 fit: BoxFit.scaleDown,
+    //                 child: Text(
+    //                   text,
+    //                   style: Theme.of(context)
+    //                       .textTheme
+    //                       .bodyText1!
+    //                       .copyWith(fontSize: 15),
+    //                 )),
+    //           ],
+    //         ),
+    //       ),
+    //     );
 
     return Scaffold(
         body: NestedScrollViewRefreshIndicator(
@@ -118,76 +116,79 @@ class _ChallengePageState extends State<ChallengePage>
                   : scrollPosition < 130
                       ? darkTheme
                       : lightTheme,
-              child: SliverAppBar(
-                floating: false,
-                titleSpacing: 0.0,
-                elevation: 0.0,
-                pinned: true,
-                backgroundColor: Theme.of(context)
-                    .scaffoldBackgroundColor
-                    .withOpacity(opacity < 1 ? opacity : 1),
-                expandedHeight: 200,
-                actions: [
-                  // Container(
-                  //   margin:
-                  //       EdgeInsets.symmetric(vertical: (kToolbarHeight - 30) / 2),
-                  //   child: SecondaryButton(text: 'Tutorial'),
-                  // ),
-                  IconButton(
-                    icon: Icon(Icons.more_horiz),
-                    iconSize: 30,
-                    onPressed: moreOnChallenge,
-                  )
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding: EdgeInsetsDirectional.only(
-                      start: 56, bottom: 17.5, end: padding),
-                  title: Text(
-                    '${challenge.name}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+              child: Builder(builder: (context) {
+                return SliverAppBar(
+                  floating: false,
+                  titleSpacing: 0.0,
+                  elevation: 0.0,
+                  pinned: true,
+                  backgroundColor: Theme.of(context)
+                      .scaffoldBackgroundColor
+                      .withOpacity(opacity < 1 ? opacity : 1),
+                  expandedHeight: 200,
+                  actions: [
+                    // Container(
+                    //   margin:
+                    //       EdgeInsets.symmetric(vertical: (kToolbarHeight - 30) / 2),
+                    //   child: SecondaryButton(text: 'Tutorial'),
+                    // ),
+                    IconButton(
+                      icon: Icon(Icons.more_horiz),
+                      iconSize: 30,
+                      onPressed: moreOnChallenge,
+                    )
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                    titlePadding: EdgeInsetsDirectional.only(
+                        start: 56, bottom: 17.5, end: padding),
+                    title: Text(
+                      '${challenge.name}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    background: Stack(
+                      children: [
+                        Positioned.fill(
+                            child: Hero(
+                          tag: '${challenge.id}',
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .inputDecorationTheme
+                                    .fillColor,
+                                image: challenge.coverPhoto != null
+                                    ? DecorationImage(
+                                        image:
+                                            AssetImage(challenge.coverPhoto!),
+                                        fit: BoxFit.cover)
+                                    : null),
+                          ),
+                        )),
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    stops: [
+                                  0.175,
+                                  0.35,
+                                  0.75,
+                                  1.0
+                                ],
+                                    colors: [
+                                  Colors.black12,
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                  Colors.black12,
+                                ])),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  background: Stack(
-                    children: [
-                      Positioned.fill(
-                          child: Hero(
-                        tag: '${challenge.id}',
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .inputDecorationTheme
-                                  .fillColor,
-                              image: challenge.coverPhoto != null
-                                  ? DecorationImage(
-                                      image: AssetImage(challenge.coverPhoto!),
-                                      fit: BoxFit.cover)
-                                  : null),
-                        ),
-                      )),
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  stops: [
-                                0.175,
-                                0.35,
-                                0.75,
-                                1.0
-                              ],
-                                  colors: [
-                                Colors.black12,
-                                Colors.transparent,
-                                Colors.transparent,
-                                Colors.black12,
-                              ])),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+                );
+              }),
             ),
             SliverList(
                 delegate: SliverChildListDelegate(
@@ -227,6 +228,11 @@ class _ChallengePageState extends State<ChallengePage>
                     ),
                   ),
                 FollowLayout(
+                    middle: Icon(MyIcons.insights),
+                    onMiddlePressed: () {
+                      Navigator.of(context).push(myPageRoute(
+                          builder: (context) => Leaderboard(challenge)));
+                    },
                     child: Text(
                       'Join',
                       style: TextStyle(
@@ -246,41 +252,41 @@ class _ChallengePageState extends State<ChallengePage>
                         isFollowed = !isFollowed;
                       });
                     }),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      option(
-                          icon: MyIcons.rules,
-                          text: 'Rules',
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                myPageRoute(
-                                    builder: (context) => ChallengeRules(
-                                        challenge,
-                                        rules: challenge.description ?? '')));
-                          }),
-                      option(
-                          icon: MyIcons.prize,
-                          text: 'Prizes',
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                myPageRoute(
-                                    builder: (context) => ChallengePrizes()));
-                          }),
-                      option(
-                          icon: MyIcons.leaderboard,
-                          text: 'Leaderboard',
-                          onPressed: () {
-                            Navigator.of(context).push(myPageRoute(
-                                builder: (context) => Leaderboard(challenge)));
-                          }),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 4),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: [
+                //       option(
+                //           icon: MyIcons.rules,
+                //           text: 'Rules',
+                //           onPressed: () {
+                //             Navigator.push(
+                //                 context,
+                //                 myPageRoute(
+                //                     builder: (context) => ChallengeRules(
+                //                         challenge,
+                //                         rules: challenge.description ?? '')));
+                //           }),
+                //       option(
+                //           icon: MyIcons.prize,
+                //           text: 'Prizes',
+                //           onPressed: () {
+                //             Navigator.push(
+                //                 context,
+                //                 myPageRoute(
+                //                     builder: (context) => ChallengePrizes()));
+                //           }),
+                //       option(
+                //           icon: MyIcons.leaderboard,
+                //           text: 'Leaderboard',
+                //           onPressed: () {
+                //             Navigator.of(context).push(myPageRoute(
+                //                 builder: (context) => Leaderboard(challenge)));
+                //           }),
+                //     ],
+                //   ),
+                // ),
               ],
             ))
           ];
