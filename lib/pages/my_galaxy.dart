@@ -147,7 +147,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                       child: Text(
                         'My Galaxy',
                         maxLines: 1,
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(fontSize: 32),
                       ),
                     ),
                     Positioned(

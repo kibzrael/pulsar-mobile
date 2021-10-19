@@ -3,9 +3,10 @@ import 'package:pulsar/classes/icons.dart';
 
 class SearchInput extends StatelessWidget {
   final String text;
+  final double height;
   final Function()? onPressed;
 
-  SearchInput({this.onPressed, this.text = 'Search'});
+  SearchInput({this.onPressed, this.text = 'Search', this.height = 37.5});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class SearchInput extends StatelessWidget {
       onTap: onPressed ?? () {},
       child: Container(
         width: double.infinity,
-        height: 37.5,
+        height: height,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Theme.of(context).inputDecorationTheme.fillColor,

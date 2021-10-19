@@ -45,29 +45,38 @@ class Post {
     this.time,
   });
 
-  // Post.fromJson(Map<String, dynamic> info)
-  //     : assert(info['id'] != null),
-  //       assert(info['id'] is int),
-  //       assert(info['user'] != null),
-  //       id = info['id'],
-  //       user = User.fromJson(info['user']),
-  //       ad = info['ad'],
-  //       allowComments = info['allowComment'],
-  //       caption = info['caption'],
-  //       comments = info['comments'],
-  //       edited = info['edited'],
-  //       hashtags = info['hashtags'].map((i) => Hashtag.fromJson(i)).toList(),
-  //       isLiked = info['isLiked'],
-  //       isReposted = info['isReposted'],
-  //       isSaved = info['isSaved'],
-  //       likes = info['likes'],
-  //       location = Location.fromJson(info['location']),
-  //       media = info['media'],
-  //       postUrl = info['postUrl'],
-  //       repostObject = Repost.fromJson(info['repost']),
-  //       time = DateTime.tryParse(info['time']);
+  Post.fromJson(Map<String, dynamic> info)
+      : assert(info['id'] != null),
+        assert(info['id'] is int),
+        assert(info['user'] != null),
+        id = info['id'],
+        user = User.fromJson(info['user']),
+        // ad = info['ad'],
+        allowComments = info['allowComment'],
+        caption = info['caption'],
+        video = Video.fromJson(info['video']),
+        comments = info['comments'],
+        // edited = info['edited'],
+        // hashtags = info['hashtags'].map((i) => Hashtag.fromJson(i)).toList(),
+        isLiked = info['isLiked'],
+        isReposted = info['isReposted'],
+        isSaved = info['isSaved'],
+        likes = info['likes'],
+        // location = Location.fromJson(info['location']),
+        // media = info['media'],
+        // postUrl = info['postUrl'],
+        // repostObject = Repost.fromJson(info['repost']),
+        time = DateTime.tryParse(info['time'] ?? '');
 
-  toJson(BuildContext context) {}
+  Map<String, dynamic> toJson(BuildContext context) {
+    return {
+      'id': this.id,
+      'user': this.user.toJson(context),
+      'caption': this.caption,
+      'video': this.video.toJson(),
+      'time': this.time
+    };
+  }
 
   // app level
   markAsSeen(BuildContext context) {}

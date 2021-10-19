@@ -43,7 +43,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
   Widget build(BuildContext context) {
     super.build(context);
     double cardWidth = (MediaQuery.of(context).size.width * 0.8) - 15;
-    double cardHeight = cardWidth * (4.2 / 3);
+    double cardHeight = cardWidth * (4 / 3);
     return Section(
       title: 'Discover Challenges',
       child: CarouselSlider(
@@ -139,6 +139,7 @@ class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
               ),
               Container(
                 height: 50,
+                margin: EdgeInsets.only(bottom: 4),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -162,11 +163,13 @@ class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
               Expanded(
                 child: Container(
                   width: cardWidth,
+                  margin: EdgeInsets.symmetric(vertical: 4),
                   decoration: BoxDecoration(
-                      color: Theme.of(context).inputDecorationTheme.fillColor,
-                      image: DecorationImage(
-                          image: AssetImage(widget.challenge.coverPhoto!),
-                          fit: BoxFit.cover)),
+                    color: Colors.white10,
+                    // image: DecorationImage(
+                    //     image: AssetImage(widget.challenge.coverPhoto!),
+                    //     fit: BoxFit.cover)
+                  ),
                   foregroundDecoration: BoxDecoration(color: Colors.black45),
                 ),
               ),

@@ -6,6 +6,8 @@ import 'package:pulsar/models/discover_galaxy_tags.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/widgets/recycler_view.dart';
 
 class DiscoverPosts extends StatefulWidget {
   const DiscoverPosts({Key? key}) : super(key: key);
@@ -19,16 +21,19 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
 
   String category = 'For you';
 
-  @override
-  void initState() {
-    super.initState();
-    posts.shuffle();
-  }
-
   onChanged(String value) {
     setState(() {
       category = value;
     });
+  }
+
+  Future<List<Map<String, dynamic>>> fetchData(int index) async {
+    await Future.delayed(Duration(seconds: 2));
+    List<Map<String, dynamic>> postResults = [
+      ...posts.map((e) => e.toJson(context))
+    ];
+    postResults.shuffle();
+    return postResults;
   }
 
   Future<void> onRefresh() async {
@@ -46,102 +51,120 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
           child: RefreshIndicator(
             onRefresh: onRefresh,
             triggerMode: RefreshIndicatorTriggerMode.anywhere,
-            child: GridView.builder(
-                itemCount: posts.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.75,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5),
-                itemBuilder: (context, index) {
-                  Post post = posts[index];
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          settings: RouteSettings(name: 'postView'),
-                          builder: (context) => PostScreen(
-                                initialPosts: posts,
-                                title: category,
-                                postInView: index,
-                              )));
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(6),
-                      child: Stack(
-                        alignment: Alignment.bottomCenter,
-                        fit: StackFit.loose,
-                        children: [
-                          Positioned.fill(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .inputDecorationTheme
-                                    .fillColor,
-                                image: DecorationImage(
-                                    image: AssetImage(post.video.thumbnail),
-                                    fit: BoxFit.cover),
-                              ),
-                            ),
-                          ),
-                          Theme(
-                            data: darkTheme,
-                            child: Builder(builder: (context) {
-                              return Container(
-                                padding: EdgeInsets.all(5),
-                                alignment: Alignment.bottomCenter,
-                                height: 50,
-                                child: Row(
+            child: RecyclerView(
+                target: fetchData,
+                itemBuilder: (context, snapshot) {
+                  List<Map<String, dynamic>> data = snapshot.data;
+                  List<Post> postData = [...data.map((e) => Post.fromJson(e))];
+                  if (snapshot.errorLoading) print(snapshot.error);
+
+                  return data.isEmpty
+                      ? snapshot.errorLoading
+                          ? Text('${snapshot.error} $data')
+                          : Center(child: MyProgressIndicator())
+                      : GridView.builder(
+                          itemCount: data.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.75,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 5),
+                          itemBuilder: (context, index) {
+                            Post post = postData[index];
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    settings: RouteSettings(name: 'postView'),
+                                    builder: (context) => PostScreen(
+                                          initialPosts: postData,
+                                          title: category,
+                                          postInView: index,
+                                        )));
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  fit: StackFit.loose,
                                   children: [
-                                    ProfilePic(
-                                      post.user.profilePic,
-                                      radius: 18,
-                                      onMedia: true,
+                                    Positioned.fill(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .inputDecorationTheme
+                                              .fillColor,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  post.video.thumbnail),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
                                     ),
-                                    SizedBox(width: 2.5),
-                                    Expanded(
-                                        child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text('@${post.user.username}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1!
-                                                .copyWith(fontSize: 13)),
-                                        Text('${post.user.category}',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2!
-                                                .copyWith(
-                                                    fontSize: 12,
-                                                    color: Colors.white))
-                                      ],
-                                    )),
-                                    SizedBox(width: 2.5),
-                                    Icon(MyIcons.play, size: 18),
-                                    Text('2.4K',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2!
-                                            .copyWith(
-                                                fontSize: 12,
-                                                color: Colors.white))
+                                    Theme(
+                                      data: darkTheme,
+                                      child: Builder(builder: (context) {
+                                        return Container(
+                                          padding: EdgeInsets.all(5),
+                                          alignment: Alignment.bottomCenter,
+                                          height: 50,
+                                          child: Row(
+                                            children: [
+                                              ProfilePic(
+                                                post.user.profilePic,
+                                                radius: 18,
+                                                onMedia: true,
+                                              ),
+                                              SizedBox(width: 2.5),
+                                              Expanded(
+                                                  child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text('@${post.user.username}',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1!
+                                                          .copyWith(
+                                                              fontSize: 13)),
+                                                  Text('${post.user.category}',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle2!
+                                                          .copyWith(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white))
+                                                ],
+                                              )),
+                                              SizedBox(width: 2.5),
+                                              Icon(MyIcons.play, size: 18),
+                                              Text('2.4K',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle2!
+                                                      .copyWith(
+                                                          fontSize: 12,
+                                                          color: Colors.white))
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                    )
                                   ],
                                 ),
-                              );
-                            }),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
+                              ),
+                            );
+                          });
                 }),
           ),
         ),

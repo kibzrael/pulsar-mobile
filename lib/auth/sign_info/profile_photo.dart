@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/widgets/floating_button.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
@@ -21,96 +21,190 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
   Widget build(BuildContext context) {
     provider = Provider.of<SignInfoProvider>(context);
 
-    double size = MediaQuery.of(context).size.height -
-        (MediaQuery.of(context).padding.top + kToolbarHeight);
+    double deviceHeight = MediaQuery.of(context).size.height;
+    double deviceWidth = MediaQuery.of(context).size.width;
+
+    Widget border({required Widget child}) {
+      return Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+                color: Theme.of(context).colorScheme.surface, width: 5)),
+        child: child,
+      );
+    }
+
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(MyIcons.back),
-            onPressed: () {
-              provider.previousPage();
-            }),
-        title: Text('Profile Photo'),
-        centerTitle: true,
-      ),
-      floatingActionButton: MyFloatingActionButton(
-        onPressed: () {
-          provider.user.profilePic = profilePic;
-          provider.nextPage();
-        },
-        child: Icon(MyIcons.forward, size: 30),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(30),
-          height: size,
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Text(
-                  'Select a profile photo for your account.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
+          backgroundColor: Colors.transparent,
+          title: SignInfoTitle(
+            title: 'Profile Photo',
+            onBack: provider.previousPage,
+            onForward: () {
+              provider.user.profilePic = profilePic;
+              provider.nextPage();
+            },
+          )),
+      body: Stack(
+        children: [
+          Positioned(
+            top: MediaQuery.of(context).padding.top + kToolbarHeight,
+            left: -deviceWidth / 4,
+            child: border(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(deviceWidth),
+                child: Container(
+                  width: deviceWidth / 2,
+                  height: deviceWidth / 2,
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  child: Container(
+                    margin: EdgeInsets.only(left: deviceWidth / 4 - (8 + 5)),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/intro/profile 1.jpg'),
+                            fit: BoxFit.cover)),
+                  ),
                 ),
               ),
-              Spacer(flex: 1),
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  ProfilePic(profilePic, radius: 75),
-                  InkWell(
-                    onTap: () {
-                      openBottomSheet(context, (context) => PickImageSheet());
-                    },
+            ),
+          ),
+          Positioned(
+            bottom: deviceHeight / 6,
+            left: -deviceWidth / 5,
+            child: border(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(deviceWidth),
+                child: Container(
+                  width: deviceWidth / 2.5,
+                  height: deviceWidth / 2.5,
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  child: Container(
+                    margin: EdgeInsets.only(left: deviceWidth / 5 - (8 + 5)),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/intro/profile 4.jpg'),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: deviceHeight / 4,
+            right: -deviceWidth / 6,
+            child: border(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(deviceWidth),
+                child: Container(
+                  width: deviceWidth / 2.5,
+                  height: deviceWidth / 2.5,
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  child: Container(
+                    margin: EdgeInsets.only(right: deviceWidth / 6 - (8 + 5)),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/intro/profile 3.jpg'),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -deviceWidth / 2,
+            right: -deviceWidth / 2,
+            child: border(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(deviceWidth),
+                child: Container(
+                  width: deviceWidth,
+                  height: deviceWidth,
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        bottom: deviceWidth / 2 - (8 + 5),
+                        right: deviceWidth / 2 - (8 + 5)),
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/intro/profile 6.jpg'),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: deviceWidth / 5 + 50,
+            bottom: deviceHeight / 5,
+            child: Container(
+              width: 75,
+              height: 75,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage('assets/intro/profile 5.jpg'),
+                      fit: BoxFit.cover),
+                  border: Border.all(color: Theme.of(context).dividerColor)),
+            ),
+          ),
+          Positioned(
+            left: deviceWidth / 2 - 30,
+            top: deviceHeight / 5,
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: AssetImage('assets/intro/profile 2.jpg'),
+                      fit: BoxFit.cover),
+                  border: Border.all(color: Theme.of(context).dividerColor)),
+            ),
+          ),
+          Center(
+            child: Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                ProfilePic(profilePic, radius: 75),
+                InkWell(
+                  onTap: () {
+                    openBottomSheet(context, (context) => PickImageSheet());
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Theme.of(context).scaffoldBackgroundColor),
                     child: Container(
-                      padding: EdgeInsets.all(3),
+                      width: 42,
+                      height: 42,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(context).scaffoldBackgroundColor),
-                      child: CircleAvatar(
-                        radius: 21,
-                        backgroundColor:
+                          gradient:
+                              LinearGradient(begin: Alignment.topLeft, colors: [
                             Theme.of(context).colorScheme.secondary,
-                        child: Center(
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Icon(
-                              MyIcons.add,
-                              color: Colors.white,
-                            ),
+                            Theme.of(context).colorScheme.primaryVariant
+                          ])),
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Icon(
+                            MyIcons.add,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 12),
-              Text(
-                'Full name',
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(fontSize: 24),
-              ),
-              SizedBox(height: 3),
-              Text(
-                'Personal Account',
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2!
-                    .copyWith(fontSize: 21),
-              ),
-              Spacer(
-                flex: 2,
-              ),
-            ],
-          ),
-        ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

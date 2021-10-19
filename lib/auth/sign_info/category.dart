@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
-import 'package:pulsar/widgets/floating_button.dart';
-import 'package:pulsar/widgets/list_tile.dart';
-import 'package:pulsar/widgets/text_input.dart';
+import 'package:pulsar/widgets/search_input.dart';
 
 class ChooseCategory extends StatefulWidget {
   @override
@@ -45,23 +43,14 @@ class _ChooseCategoryState extends State<ChooseCategory> {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(
-                MyIcons.back,
-              ),
-              onPressed: () {
-                provider.previousPage();
-              }),
-          title: Text('Category'),
-          centerTitle: true,
-        ),
-        floatingActionButton: MyFloatingActionButton(
-          onPressed: () {
+            title: SignInfoTitle(
+          title: 'Category',
+          onBack: provider.previousPage,
+          onForward: () {
             provider.user.category = selectedCategory;
             provider.nextPage();
           },
-          child: Icon(MyIcons.forward, size: 30),
-        ),
+        )),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(15),
@@ -73,68 +62,114 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                   margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
                   alignment: Alignment.center,
                   child: Text(
-                    'Who do you consider yourself to be? Select a title that best suites you.',
+                    'Who do you consider yourself to be?',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(fontSize: 24),
                   ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: MyTextInput(
-                    hintText: 'Category',
-                    prefix: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(MyIcons.search),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: SearchInput(
+                      text: 'Category',
+                      height: 50,
+                    )
+                    // MyTextInput(
+                    //   hintText: 'Category',
+                    //   prefix: Padding(
+                    //     padding: EdgeInsets.all(8.0),
+                    //     child: Icon(MyIcons.search),
+                    //   ),
+                    //   onChanged: (text) {},
+                    //   onSubmitted: (text) {},
+                    // ),
                     ),
-                    onChanged: (text) {},
-                    onSubmitted: (text) {},
-                  ),
-                ),
                 SizedBox(
                   height: 30,
                 ),
                 Flexible(
-                  child: ListView.builder(
+                  child: GridView.builder(
                       itemCount: categories.length,
-                      padding: EdgeInsets.only(bottom: kToolbarHeight),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 15,
+                          childAspectRatio: 0.75),
                       itemBuilder: (context, index) {
                         Interest category = categories[index];
                         bool selected = category == selectedCategory;
-                        return MyListTile(
-                          title: category.category,
-                          onPressed: () {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          },
-                          leading: CircleAvatar(
-                              radius: 24,
-                              backgroundColor: Theme.of(context).dividerColor,
-                              backgroundImage:
-                                  AssetImage('${category.coverPhoto}')),
-                          subtitle: '2K users',
-                          trailingArrow: !selected,
-                          trailing: selected
-                              ? CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.secondary,
-                                  radius: 12,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        MyIcons.check,
-                                        color: Colors.white,
-                                      ),
-                                    ),
+                        return LayoutBuilder(builder: (context, snapshot) {
+                          return Container(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: snapshot.maxWidth,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .inputDecorationTheme
+                                        .fillColor,
+                                    image: DecorationImage(
+                                        image: AssetImage(category.coverPhoto!),
+                                        fit: BoxFit.cover),
+                                    shape: BoxShape.circle,
                                   ),
-                                )
-                              : null,
-                        );
+                                ),
+                                Spacer(),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    category.name,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: TextStyle(
+                                        fontSize: 16.5,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                                Spacer()
+                              ],
+                            ),
+                          );
+                        });
+
+                        // MyListTile(
+                        //   title: category.category,
+                        //   onPressed: () {
+                        //     setState(() {
+                        //       selectedCategory = category;
+                        //     });
+                        //   },
+                        //   leading: CircleAvatar(
+                        //       radius: 24,
+                        //       backgroundColor: Theme.of(context).dividerColor,
+                        //       backgroundImage:
+                        //           AssetImage('${category.coverPhoto}')),
+                        //   subtitle: '2K users',
+                        //   trailingArrow: !selected,
+                        //   trailing: selected
+                        //       ? CircleAvatar(
+                        //           backgroundColor:
+                        //               Theme.of(context).colorScheme.secondary,
+                        //           radius: 12,
+                        //           child: FittedBox(
+                        //             fit: BoxFit.scaleDown,
+                        //             child: Padding(
+                        //               padding: EdgeInsets.all(8.0),
+                        //               child: Icon(
+                        //                 MyIcons.check,
+                        //                 color: Colors.white,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         )
+                        //       : null,
+                        // );
                       }),
                 )
               ],

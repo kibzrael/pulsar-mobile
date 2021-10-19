@@ -83,7 +83,19 @@ class User {
         posts = info['posts'],
         profilePic = info['profilePic'];
 
-  toJson(BuildContext context) {}
+  toJson(BuildContext context) {
+    return {
+      'id': this.id,
+      'username': this.username,
+      'bio': this.bio,
+      'category': this.category,
+      'email': this.email,
+      'fullname': this.fullname,
+      'phone': this.phone,
+      'profilePic': this.profilePic,
+      'portfolio': this.portfolio
+    };
+  }
 
   pin(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 

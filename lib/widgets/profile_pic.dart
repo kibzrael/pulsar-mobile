@@ -22,8 +22,8 @@ class ProfilePic extends StatelessWidget {
               width: 1,
               style: url == null ? BorderStyle.solid : BorderStyle.none),
           color: Theme.of(context)
-              .inputDecorationTheme
-              .fillColor!
+              .colorScheme
+              .surface
               .withOpacity(onMedia ? 0.45 : 1),
           image: url != null
               ? DecorationImage(

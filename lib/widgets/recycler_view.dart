@@ -57,8 +57,9 @@ class _RecyclerViewState extends State<RecyclerView> {
       try {
         data = await widget
             .target(isRefreshing ? 0 : index)
-            .timeout(Duration(seconds: 15), onTimeout: () {
-          return null;
+            .timeout(Duration(seconds: 15), onTimeout: () async {
+          // timeout (Raise an error)
+          return [];
         });
       } catch (e) {
         connectionError();

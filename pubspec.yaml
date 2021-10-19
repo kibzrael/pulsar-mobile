@@ -94,6 +94,7 @@ flutter:
     - assets/posts/tahlia stanton/
     - assets/categories/
     - assets/challenges/
+    - assets/intro/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

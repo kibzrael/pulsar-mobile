@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/time.dart';
-import 'package:pulsar/widgets/floating_button.dart';
 
 class BirthdayPage extends StatefulWidget {
   @override
@@ -36,15 +35,14 @@ class _BirthdayPageState extends State<BirthdayPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Birthday'),
-          centerTitle: true,
-        ),
-        floatingActionButton: MyFloatingActionButton(
-          onPressed: () {
-            provider.user.birthday = selectedDate;
-            provider.nextPage();
-          },
-          child: Icon(MyIcons.forward, size: 30),
+          title: SignInfoTitle(
+            title: 'Birthday',
+            onBack: provider.previousPage,
+            onForward: () {
+              provider.user.birthday = selectedDate;
+              provider.nextPage();
+            },
+          ),
         ),
         body: SingleChildScrollView(
             child: Container(

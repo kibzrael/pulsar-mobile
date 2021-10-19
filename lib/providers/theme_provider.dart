@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Color kPrimary = Color(0xFF2196F3);
 
 /// Purple
-Color kPrimaryVariant = Color(0xFF7C4DFF);
+Color kPrimaryVariant = Color(0xFF7F20F3);
 
 /// Orange
 Color kSecondary = Color(0xFFFF6E40);
