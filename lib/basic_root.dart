@@ -50,9 +50,9 @@ class _BasicRootState extends State<BasicRoot> {
 
           if (pageController != null) {
             if (pageController is CarouselController) {
-              CarouselController controller = pageController;
-              controller.animateToPage(0,
-                  duration: Duration(seconds: 1), curve: Curves.ease);
+              // CarouselController controller = pageController;
+              // controller.animateToPage(0,
+              //     duration: Duration(seconds: 1), curve: Curves.ease);
             } else if (pageController!.hasClients)
               pageController!.animateTo(0.0,
                   duration: Duration(seconds: 1), curve: Curves.ease);

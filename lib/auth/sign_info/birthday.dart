@@ -51,9 +51,12 @@ class _BirthdayPageState extends State<BirthdayPage> {
           child: Column(
             children: [
               Text(
-                'Provide your birthday for better and personalized content. This information will be kept private',
+                'For personalized content. This info will be kept private',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1!
+                    .copyWith(fontSize: 24),
               ),
               Spacer(
                 flex: 2,

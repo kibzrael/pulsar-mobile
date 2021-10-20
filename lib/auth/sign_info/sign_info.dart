@@ -83,6 +83,7 @@ class SignInfoForwardButton extends StatelessWidget {
             ])),
         child: Icon(
           MyIcons.forward,
+          color: Colors.white,
         ),
       ),
     );

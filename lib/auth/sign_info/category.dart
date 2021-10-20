@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/widgets/search_input.dart';
@@ -76,7 +77,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: SearchInput(
-                      text: 'Category',
+                      text: selectedCategory?.name ?? 'Category',
                       height: 50,
                     )
                     // MyTextInput(
@@ -97,43 +98,90 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                       itemCount: categories.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          crossAxisSpacing: 12,
+                          crossAxisSpacing: 21,
                           mainAxisSpacing: 15,
                           childAspectRatio: 0.75),
                       itemBuilder: (context, index) {
                         Interest category = categories[index];
                         bool selected = category == selectedCategory;
                         return LayoutBuilder(builder: (context, snapshot) {
-                          return Container(
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: double.infinity,
-                                  height: snapshot.maxWidth,
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context)
-                                        .inputDecorationTheme
-                                        .fillColor,
-                                    image: DecorationImage(
-                                        image: AssetImage(category.coverPhoto!),
-                                        fit: BoxFit.cover),
-                                    shape: BoxShape.circle,
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                selectedCategory = category;
+                              });
+                            },
+                            child: Container(
+                              child: Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        height: snapshot.maxWidth,
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .inputDecorationTheme
+                                              .fillColor,
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  category.coverPhoto!),
+                                              fit: BoxFit.cover),
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      if (selected)
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: Container(
+                                            padding: EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Theme.of(context)
+                                                    .scaffoldBackgroundColor),
+                                            child: Container(
+                                              width: 27,
+                                              height: 27,
+                                              padding: EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  gradient: LinearGradient(
+                                                      begin: Alignment.topLeft,
+                                                      colors: [
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .secondary,
+                                                        Theme.of(context)
+                                                            .colorScheme
+                                                            .primaryVariant
+                                                      ])),
+                                              child: FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Icon(
+                                                  MyIcons.check,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                    ],
                                   ),
-                                ),
-                                Spacer(),
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    category.name,
-                                    maxLines: 1,
-                                    softWrap: false,
-                                    style: TextStyle(
-                                        fontSize: 16.5,
-                                        fontWeight: FontWeight.w500),
+                                  Spacer(),
+                                  FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      category.name,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      style: TextStyle(
+                                          fontSize: 16.5,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                ),
-                                Spacer()
-                              ],
+                                  Spacer()
+                                ],
+                              ),
                             ),
                           );
                         });
