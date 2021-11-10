@@ -7,9 +7,7 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
-import 'package:pulsar/widgets/floating_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
-import 'package:pulsar/widgets/progress_indicator.dart';
 
 class InterestsPage extends StatefulWidget {
   @override
@@ -41,8 +39,6 @@ class _InterestsPageState extends State<InterestsPage> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<SignInfoProvider>(context);
-
-    bool disabled = selected.length < 3;
 
     return Scaffold(
         appBar: AppBar(

@@ -29,8 +29,8 @@ class SignInfo extends StatelessWidget {
                   children: [
                     LogCredentials(),
                     IntroduceYourself(),
-                    BirthdayPage(),
                     ChooseCategory(),
+                    BirthdayPage(),
                     ProfilePhoto(),
                     InterestsPage(),
                   ]),

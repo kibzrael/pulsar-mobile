@@ -13,15 +13,10 @@ class BirthdayPage extends StatefulWidget {
 class _BirthdayPageState extends State<BirthdayPage> {
   late SignInfoProvider provider;
 
-  late TextEditingController textController;
+  String birthday = '';
+  String age = '';
 
   DateTime selectedDate = DateTime.utc(DateTime.now().year - 13);
-
-  @override
-  void initState() {
-    super.initState();
-    textController = TextEditingController();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +56,47 @@ class _BirthdayPageState extends State<BirthdayPage> {
               Spacer(
                 flex: 2,
               ),
-              TextField(
-                controller: textController,
-                readOnly: true,
-                decoration: InputDecoration(hintText: 'Birthday'),
+
+              DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyText1!,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.symmetric(horizontal: 15),
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Theme.of(context).colorScheme.primary,
+                                Theme.of(context).colorScheme.primaryVariant
+                              ]),
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Text(
+                            birthday,
+                            style: TextStyle(color: Colors.white),
+                          )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: 100,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      decoration: BoxDecoration(
+                          color:
+                              Theme.of(context).inputDecorationTheme.fillColor,
+                          borderRadius: BorderRadius.circular(30)),
+                      child: Text(age),
+                    )
+                  ],
+                ),
               ),
+
+              // TextField(
+              //   controller: textController,
+              //   readOnly: true,
+              //   decoration: InputDecoration(hintText: 'Birthday'),
+              // ),
               Spacer(
                 flex: 2,
               ),
@@ -81,7 +112,8 @@ class _BirthdayPageState extends State<BirthdayPage> {
                         mode: CupertinoDatePickerMode.date,
                         onDateTimeChanged: (DateTime date) {
                           setState(() {
-                            textController.text = timeBirthday(date);
+                            birthday = timeBirthday(date)['birthday']!;
+                            age = timeBirthday(date)['age']!;
                             selectedDate = date;
                           });
                         })),

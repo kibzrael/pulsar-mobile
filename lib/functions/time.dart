@@ -48,10 +48,11 @@ String timeAgo(time) {
   return response;
 }
 
-String timeBirthday(DateTime time) {
+Map<String, String> timeBirthday(DateTime time) {
   final universalVariables = UniversalVariables();
   final Map<int, String> months = universalVariables.months;
-  String response;
+  String birthday;
+  String age;
   DateTime postedTime = time;
   DateTime now = DateTime.now();
   Duration difference = now.difference(postedTime);
@@ -60,13 +61,14 @@ String timeBirthday(DateTime time) {
   var year = postedTime.year;
   var month = months[postedTime.month];
   var day = postedTime.day;
+  birthday = '$month $day $year';
   if (diffInYears == 1) {
-    response = ('$month $day $year - $diffInYears yr');
+    age = ('$diffInYears yr');
   } else {
-    response = ('$month $day $year - $diffInYears yrs');
+    age = ('$diffInYears yrs');
   }
 
-  return response;
+  return {'birthday': birthday, 'age': age};
 }
 
 String videoDuration(int seconds) {

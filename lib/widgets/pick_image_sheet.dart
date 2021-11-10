@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 
@@ -47,17 +50,18 @@ class PickImageOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        // if (option['option'] == PickImageOptions.remove) {
-        //   Navigator.pop(context, PickImageOptions.remove);
-        //   return;
-        // }
-        // PickedFile pickedFile = await ImagePicker().getImage(
-        //     source: option['option'] == PickImageOptions.gallery
-        //         ? ImageSource.gallery
-        //         : ImageSource.camera,
-        //     preferredCameraDevice: CameraDevice.front);
-        // File file = File(pickedFile.path);
-        Navigator.pop(context);
+        if (option['option'] == PickImageOptions.remove) {
+          Navigator.pop(context);
+          return;
+        }
+        XFile? pickedFile = await ImagePicker().pickImage(
+            source: option['option'] == PickImageOptions.gallery
+                ? ImageSource.gallery
+                : ImageSource.camera,
+            preferredCameraDevice: CameraDevice.front);
+        File? file;
+        if (pickedFile != null) file = File(pickedFile.path);
+        Navigator.pop(context, file);
       },
       child: Container(
         padding: EdgeInsets.all(5),

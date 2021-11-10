@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
@@ -169,10 +171,16 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
             child: Stack(
               alignment: Alignment.bottomRight,
               children: [
-                ProfilePic(profilePic, radius: 75),
+                ProfilePic(profilePic,
+                    radius: 75, provider: MyImageProvider.file),
                 InkWell(
-                  onTap: () {
-                    openBottomSheet(context, (context) => PickImageSheet());
+                  onTap: () async {
+                    File? image = await openBottomSheet(
+                        context, (context) => PickImageSheet());
+
+                    setState(() {
+                      profilePic = image?.path;
+                    });
                   },
                   child: Container(
                     padding: EdgeInsets.all(3),

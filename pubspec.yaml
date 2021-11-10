@@ -55,6 +55,7 @@ dependencies:
   connectivity: ^3.0.6
   share_plus: ^2.1.4
   cached_network_image: ^3.1.0
+  image_picker: ^0.8.4+4
 
   pin_code_fields: ^7.1.0
   carousel_slider: ^4.0.0
