@@ -22,8 +22,7 @@ class _HomePageState extends State<HomePage> {
     Provider.of<BasicRootProvider>(context, listen: false)
         .pageNavigators
         .putIfAbsent(0, () => key);
-    return Scaffold(
-        body: Navigator(
+    return Navigator(
       key: key,
       initialRoute: '/',
       observers: [MyRouteObserver(context, 0)],
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         return myPageRoute(
             settings: settings, builder: (context) => RootHomePage());
       },
-    ));
+    );
   }
 }
 

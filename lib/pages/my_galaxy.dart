@@ -24,16 +24,14 @@ class _MyGalaxyState extends State<MyGalaxy> {
     Provider.of<BasicRootProvider>(context, listen: false)
         .pageNavigators
         .putIfAbsent(1, () => key);
-    return Scaffold(
-      body: Navigator(
-        key: key,
-        initialRoute: '/',
-        observers: [MyRouteObserver(context, 1)],
-        onGenerateRoute: (settings) {
-          return myPageRoute(
-              settings: settings, builder: (context) => RootGalaxy());
-        },
-      ),
+    return Navigator(
+      key: key,
+      initialRoute: '/',
+      observers: [MyRouteObserver(context, 1)],
+      onGenerateRoute: (settings) {
+        return myPageRoute(
+            settings: settings, builder: (context) => RootGalaxy());
+      },
     );
   }
 }

@@ -28,16 +28,14 @@ class _MyProfilePageState extends State<MyProfilePage> {
     Provider.of<BasicRootProvider>(context, listen: false)
         .pageNavigators
         .putIfAbsent(4, () => key);
-    return Scaffold(
-      body: Navigator(
-        key: key,
-        initialRoute: '/',
-        observers: [MyRouteObserver(context, 4)],
-        onGenerateRoute: (settings) {
-          return myPageRoute(
-              settings: settings, builder: (context) => RootProfilePage());
-        },
-      ),
+    return Navigator(
+      key: key,
+      initialRoute: '/',
+      observers: [MyRouteObserver(context, 4)],
+      onGenerateRoute: (settings) {
+        return myPageRoute(
+            settings: settings, builder: (context) => RootProfilePage());
+      },
     );
   }
 }

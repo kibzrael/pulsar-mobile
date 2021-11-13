@@ -28,16 +28,14 @@ class _MessageScreenState extends State<MessageScreen> {
     Provider.of<BasicRootProvider>(context, listen: false)
         .pageNavigators
         .putIfAbsent(3, () => key);
-    return Scaffold(
-      body: Navigator(
-        key: key,
-        initialRoute: '/',
-        observers: [MyRouteObserver(context, 3)],
-        onGenerateRoute: (settings) {
-          return myPageRoute(
-              settings: settings, builder: (context) => RootMessageScreen());
-        },
-      ),
+    return Navigator(
+      key: key,
+      initialRoute: '/',
+      observers: [MyRouteObserver(context, 3)],
+      onGenerateRoute: (settings) {
+        return myPageRoute(
+            settings: settings, builder: (context) => RootMessageScreen());
+      },
     );
   }
 }

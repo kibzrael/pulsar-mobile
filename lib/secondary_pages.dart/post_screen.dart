@@ -25,6 +25,7 @@ class _PostScreenState extends State<PostScreen> {
       data: darkTheme,
       child: Scaffold(
         extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             centerTitle: true,
