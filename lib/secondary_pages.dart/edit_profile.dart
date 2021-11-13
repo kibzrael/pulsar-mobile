@@ -84,10 +84,19 @@ class _EditProfileState extends State<EditProfile> {
                                   shape: BoxShape.circle,
                                   color: Theme.of(context)
                                       .scaffoldBackgroundColor),
-                              child: CircleAvatar(
-                                radius: 18,
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.secondary,
+                              child: Container(
+                                width: 36,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                      Theme.of(context).colorScheme.secondary,
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .primaryVariant,
+                                    ])),
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Icon(

@@ -1,0 +1,110 @@
+{
+  "Categories": {
+    "Art": {
+      "user": "Artist",
+      "subcategories": {
+        "Painting": {
+          "user": "Painter"
+        },
+        "Fine Art": {
+          "user": "Fine Artist"
+        },
+        "Sculpture": {},
+        "Make-up Art": {
+          "user": "Make-up Artist"
+        }
+      }
+    },
+    "Music": {
+      "user": "Musician",
+      "subcategories": {
+        "Singing": {
+          "user": "Singer"
+        },
+        "Music Production": {
+          "user": "Music Producer"
+        },
+        "Sound Engineering": {
+          "user": "Sound Engineer"
+        }
+      }
+    },
+    "Dance": {
+      "user": "Dancer",
+      "subcategories": {
+        "Ballet": {},
+        "Break Dance": {},
+        "Hip Hop Dance": {},
+        "Contemporary": {}
+      }
+    },
+    "Performing Arts": {
+      "user": "Perfoming Artist",
+      "subcategories": {
+        "Gymnastic": {
+          "user": "Gymnast"
+        },
+        "Juggling": {
+          "user": "Juggler"
+        },
+        "Puppetry": {
+          "user": "Puppet Master"
+        },
+        "Magic": {
+          "user": "Magician"
+        }
+      }
+    },
+    "Comedy": {
+      "user": "Comedian",
+      "subcategories": {
+        "Standup Comedy": {},
+        "Drama": {}
+      }
+    },
+    "Film": {
+      "user": "*Filmer",
+      "subcategories": {
+        "Acting": {
+          "user": "Actor"
+        },
+        "Film Production": {
+          "user": "Film Producer"
+        }
+      }
+    },
+
+    "Design": {
+      "user": "Designer",
+      "subcategories": {
+        "Interior Design": {},
+        "Graphics Design": {},
+        "Fashion Design": {},
+        "Architectural Design": {}
+      }
+    },
+    "Modelling": {
+      "user": "Model",
+      "subcategories": {
+        "Fashion Modelling": {
+          "user": "Fashion Model"
+        },
+        "Body Building": {
+          "user": "Body Builder"
+        },
+        "Runway Modelling": {}
+      }
+    },
+    "Photography": {
+      "user": "Photographer",
+      "subcategories": {
+        "Landscape": {},
+        "Portrait": {},
+        "Wildlife": {},
+        "Fashion": {},
+        "Sport": {},
+        "Architecture": {}
+      }
+    }
+  }
+}
