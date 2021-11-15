@@ -14,13 +14,17 @@ class ProfilePhoto extends StatefulWidget {
   _ProfilePhotoState createState() => _ProfilePhotoState();
 }
 
-class _ProfilePhotoState extends State<ProfilePhoto> {
+class _ProfilePhotoState extends State<ProfilePhoto>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
   String? profilePic;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
 
     double deviceHeight = MediaQuery.of(context).size.height;

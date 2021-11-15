@@ -6,7 +6,6 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class InterestsPage extends StatefulWidget {
@@ -14,12 +13,15 @@ class InterestsPage extends StatefulWidget {
   _InterestsPageState createState() => _InterestsPageState();
 }
 
-class _InterestsPageState extends State<InterestsPage> {
+class _InterestsPageState extends State<InterestsPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
   bool isSubmitting = false;
 
-  List<Interest> interests = allCategories;
+  List<Interest> interests = [];
 
   List<Interest> selected = [];
 
@@ -38,7 +40,12 @@ class _InterestsPageState extends State<InterestsPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
+
+    interests = [
+      ...provider.interests.where((element) => element.parent == null)
+    ];
 
     return Scaffold(
         appBar: AppBar(
@@ -47,30 +54,6 @@ class _InterestsPageState extends State<InterestsPage> {
           onBack: provider.previousPage,
           onForward: login,
         )),
-        // floatingActionButton: MyFloatingActionButton(
-        //   color: disabled ? Theme.of(context).disabledColor : null,
-        //   onPressed: disabled
-        //       ? null
-        //       : () {
-        //           login();
-        //         },
-        //   child: disabled
-        //       ? Text(
-        //           '${selected.length}',
-        //           style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800),
-        //         )
-        //       : isSubmitting
-        //           ? Padding(
-        //               padding: EdgeInsets.all(12.0),
-        //               child: FittedBox(
-        //                 fit: BoxFit.scaleDown,
-        //                 child: MyProgressIndicator(
-        //                   margin: EdgeInsets.zero,
-        //                 ),
-        //               ),
-        //             )
-        //           : Icon(MyIcons.check, size: 30),
-        // ),
         body: ListView.builder(
           itemCount: interests.length + 1,
           itemBuilder: (context, index) {
@@ -91,45 +74,112 @@ class _InterestsPageState extends State<InterestsPage> {
             }
 
             Interest interest = interests[index - 1];
+            bool isSelected = selected.contains(interest);
+
+            List<Interest> subInterests = provider.interests
+                .where((element) => element.parent == interest)
+                .toList();
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyListTile(
-                  title: interest.name,
-                  subtitle: '2K posts',
-                  leading: CircleAvatar(
-                    radius: 24,
-                    backgroundColor:
-                        Theme.of(context).inputDecorationTheme.fillColor,
-                    backgroundImage: AssetImage(interest.coverPhoto!),
-                  ),
-                ),
+                    title: interest.name,
+                    subtitle: '2K posts',
+                    leading: CircleAvatar(
+                      radius: 24,
+                      backgroundColor:
+                          Theme.of(context).inputDecorationTheme.fillColor,
+                      backgroundImage: AssetImage(interest.coverPhoto!),
+                    ),
+                    trailingArrow: false,
+                    trailing: InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (isSelected)
+                            selected.remove(interest);
+                          else
+                            selected.add(interest);
+                        });
+                      },
+                      child: Card(
+                        shape: CircleBorder(),
+                        child: Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: isSelected
+                                    ? LinearGradient(colors: [
+                                        Theme.of(context).colorScheme.primary,
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .primaryVariant
+                                      ])
+                                    : null),
+                            child: Icon(
+                                isSelected ? MyIcons.check : MyIcons.add,
+                                color: isSelected ? Colors.white : null)),
+                      ),
+                    )),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
                   padding: EdgeInsets.only(bottom: 12),
                   child: Wrap(
-                    spacing: 12,
+                    spacing: 8,
                     runSpacing: 4,
                     children: [
-                      for (int i = 0; i < 4; i++)
-                        Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Container(
-                            padding: EdgeInsets.all(4),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                  child: Text(interest.name),
+                      for (int i = 0; i < subInterests.length; i++)
+                        Builder(builder: (context) {
+                          bool isSelected = selected.contains(subInterests[i]);
+                          return InkWell(
+                            onTap: () {
+                              setState(() {
+                                if (isSelected)
+                                  selected.remove(subInterests[i]);
+                                else
+                                  selected.add(subInterests[i]);
+                              });
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    gradient: isSelected
+                                        ? LinearGradient(colors: [
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .primaryVariant
+                                          ])
+                                        : null),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
+                                      child: Text(subInterests[i].name,
+                                          style: TextStyle(
+                                              color: isSelected
+                                                  ? Colors.white
+                                                  : null)),
+                                    ),
+                                    Icon(
+                                        isSelected
+                                            ? MyIcons.check
+                                            : MyIcons.add,
+                                        color: isSelected ? Colors.white : null)
+                                  ],
                                 ),
-                                Icon(MyIcons.add)
-                              ],
+                              ),
                             ),
-                          ),
-                        )
+                          );
+                        })
                     ],
                   ),
                 )

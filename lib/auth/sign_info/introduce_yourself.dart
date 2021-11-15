@@ -121,14 +121,20 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     child: ActionButton(
                       title: 'Solo',
-                      onPressed: provider.nextPage,
+                      onPressed: () {
+                        provider.user.userType = UserType.solo;
+                        provider.nextPage();
+                      },
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                     child: ActionButton(
                       title: 'Group',
-                      onPressed: provider.nextPage,
+                      onPressed: () {
+                        provider.user.userType = UserType.group;
+                        provider.nextPage();
+                      },
                       backgroundColor:
                           Theme.of(context).inputDecorationTheme.fillColor,
                       titleColor: Theme.of(context).textTheme.bodyText1!.color,

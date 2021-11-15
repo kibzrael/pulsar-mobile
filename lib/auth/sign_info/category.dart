@@ -4,7 +4,6 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
 class ChooseCategory extends StatefulWidget {
@@ -12,29 +11,26 @@ class ChooseCategory extends StatefulWidget {
   _ChooseCategoryState createState() => _ChooseCategoryState();
 }
 
-class _ChooseCategoryState extends State<ChooseCategory> {
+class _ChooseCategoryState extends State<ChooseCategory>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
-  List<Interest> categories = [
-    music,
-    art,
-    photography,
-    comedy,
-    dance,
-    gymnastics,
-    modelling,
-    acting,
-    interiorDesign,
-    makeup,
-    magic,
-    puppetry
-  ];
+  List<Interest> categories = [];
 
   Interest? selectedCategory;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
+
+    bool isSolo = provider.user.userType == UserType.solo;
+
+    categories = [
+      ...provider.interests.where((element) => element.parent == null)
+    ];
 
     double size = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).padding.top + kToolbarHeight);
@@ -63,7 +59,7 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                   margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
                   alignment: Alignment.center,
                   child: Text(
-                    'Who do you consider yourself to be?',
+                    'Who do you consider yoursel${isSolo ? 'f' : 'ves'} to be?',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -77,7 +73,11 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: SearchInput(
-                      text: selectedCategory?.name ?? 'Category',
+                      text: (isSolo
+                              ? selectedCategory?.category
+                              : selectedCategory?.pCategory ??
+                                  selectedCategory?.category) ??
+                          'Category',
                       height: 50,
                     )
                     // MyTextInput(
@@ -171,7 +171,10 @@ class _ChooseCategoryState extends State<ChooseCategory> {
                                   FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: Text(
-                                      category.name,
+                                      isSolo
+                                          ? category.category
+                                          : category.pCategory ??
+                                              category.category,
                                       maxLines: 1,
                                       softWrap: false,
                                       style: TextStyle(

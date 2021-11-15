@@ -14,6 +14,8 @@ class SignInfoProvider extends ChangeNotifier {
 
   late PageController _pageController;
 
+  List<Interest> interests = [];
+
   int? _page;
 
   SignupInfo info;
@@ -26,6 +28,34 @@ class SignInfoProvider extends ChangeNotifier {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
     user = SignUserInfo();
+  }
+
+  fetchInterests(BuildContext context) async {
+    String categoriesJson = await DefaultAssetBundle.of(context)
+        .loadString('assets/categories/categories.json');
+    var categories = jsonDecode(categoriesJson);
+    categories.forEach((key, item) {
+      Interest interest = Interest(
+        name: key,
+        category: item['user'],
+        pCategory: item['users'],
+        coverPhoto: item['cover'],
+      );
+      interests.add(interest);
+      Map<String, dynamic>? subcategories = item['subcategories'];
+      if (subcategories != null) {
+        subcategories.forEach((key, item) {
+          interests.add(
+            Interest(
+                name: key,
+                category: item['user'] ?? interest.category,
+                pCategory: item['users'] ?? interest.pCategory,
+                coverPhoto: item['cover'] ?? interest.coverPhoto,
+                parent: interest),
+          );
+        });
+      }
+    });
   }
 
   Future<SignupResponse> signup(String username, String password) async {
@@ -73,8 +103,11 @@ class SignupResponse {
 class SignUserInfo {
   int? id;
   String? username;
+  UserType? userType;
   DateTime? birthday;
   Interest? category;
   String? profilePic;
   List<Interest>? interests;
 }
+
+enum UserType { solo, group }

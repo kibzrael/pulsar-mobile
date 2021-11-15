@@ -10,16 +10,20 @@ class BirthdayPage extends StatefulWidget {
   _BirthdayPageState createState() => _BirthdayPageState();
 }
 
-class _BirthdayPageState extends State<BirthdayPage> {
+class _BirthdayPageState extends State<BirthdayPage>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
-  String birthday = '';
-  String age = '';
+  String birthday = 'Date';
+  String age = 'Age';
 
   DateTime selectedDate = DateTime.utc(DateTime.now().year - 13);
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
 
     double size = MediaQuery.of(context).size.height -

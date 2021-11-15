@@ -1,110 +1,154 @@
 {
-  "Categories": {
-    "Art": {
-      "user": "Artist",
-      "subcategories": {
-        "Painting": {
-          "user": "Painter"
-        },
-        "Fine Art": {
-          "user": "Fine Artist"
-        },
-        "Sculpture": {},
-        "Make-up Art": {
-          "user": "Make-up Artist"
-        }
+  "Art": {
+    "user": "Artist",
+    "users": "Artists",
+    "cover": "assets/categories/artist.jpg",
+    "subcategories": {
+      "Painting": {
+        "user": "Painter",
+        "users": "Painters",
+        "cover": "assets/categories/artist.jpg"
+      },
+      "Fine Art": {
+        "user": "Fine Artist",
+        "users": "Fine Artists",
+        "cover": "assets/categories/artist.jpg"
+      },
+      "Sculpture": {},
+      "Make-up Art": {
+        "user": "Make-up Artist",
+        "users": "Make-up Artists",
+        "cover": "assets/categories/make up artist.jpg"
       }
-    },
-    "Music": {
-      "user": "Musician",
-      "subcategories": {
-        "Singing": {
-          "user": "Singer"
-        },
-        "Music Production": {
-          "user": "Music Producer"
-        },
-        "Sound Engineering": {
-          "user": "Sound Engineer"
-        }
+    }
+  },
+  "Music": {
+    "user": "Musician",
+    "users": "Musicians",
+    "cover": "assets/categories/musician.jpg",
+    "subcategories": {
+      "Singing": {
+        "user": "Singer",
+        "users": "Singers",
+        "cover": "assets/categories/musician.jpg"
+      },
+      "Music Production": {
+        "user": "Music Producer",
+        "users": "Music Producers",
+        "cover": "assets/categories/music producer.jpg"
+      },
+      "Sound Engineering": {
+        "user": "Sound Engineer",
+        "users": "Sound Engineers",
+        "cover": "assets/categories/sound engineer.jpg"
       }
-    },
-    "Dance": {
-      "user": "Dancer",
-      "subcategories": {
-        "Ballet": {},
-        "Break Dance": {},
-        "Hip Hop Dance": {},
-        "Contemporary": {}
+    }
+  },
+  "Dance": {
+    "user": "Dancer",
+    "users": "Dancers",
+    "cover": "assets/categories/dancer.jpg",
+    "subcategories": {
+      "Ballet": {},
+      "Break Dance": {},
+      "Hip Hop Dance": {},
+      "Contemporary": {}
+    }
+  },
+  "Performing Arts": {
+    "user": "Performing Artist",
+    "users": "Performing Artists",
+    "cover": "assets/categories/magician.jpg",
+    "subcategories": {
+      "Gymnastic": {
+        "user": "Gymnast",
+        "users": "Gymnasts",
+        "cover": "assets/categories/gymnast.jpg"
+      },
+      "Juggling": {
+        "user": "Juggler",
+        "users": "Jugglers",
+        "cover": "assets/categories/artist.jpg"
+      },
+      "Puppetry": {
+        "user": "Puppet Master",
+        "users": "Puppet Masters",
+        "cover": "assets/categories/puppet master.jpg"
+      },
+      "Magic": {
+        "user": "Magician",
+        "users": "Magicians",
+        "cover": "assets/categories/magician.jpg"
       }
-    },
-    "Performing Arts": {
-      "user": "Perfoming Artist",
-      "subcategories": {
-        "Gymnastic": {
-          "user": "Gymnast"
-        },
-        "Juggling": {
-          "user": "Juggler"
-        },
-        "Puppetry": {
-          "user": "Puppet Master"
-        },
-        "Magic": {
-          "user": "Magician"
-        }
+    }
+  },
+  "Comedy": {
+    "user": "Comedian",
+    "users": "Comedians",
+    "cover": "assets/categories/comedian.jpg",
+    "subcategories": {
+      "Standup Comedy": {},
+      "Drama": {}
+    }
+  },
+  "Film": {
+    "user": "*Filmer",
+    "users": "Filmers",
+    "cover": "assets/categories/film producer.jpg",
+    "subcategories": {
+      "Acting": {
+        "user": "Actor",
+        "users": "Actors",
+        "cover": "assets/categories/actor.jpg"
+      },
+      "Film Production": {
+        "user": "Film Producer",
+        "users": "Film Producers",
+        "cover": "assets/categories/film producer.jpg"
       }
-    },
-    "Comedy": {
-      "user": "Comedian",
-      "subcategories": {
-        "Standup Comedy": {},
-        "Drama": {}
-      }
-    },
-    "Film": {
-      "user": "*Filmer",
-      "subcategories": {
-        "Acting": {
-          "user": "Actor"
-        },
-        "Film Production": {
-          "user": "Film Producer"
-        }
-      }
-    },
+    }
+  },
 
-    "Design": {
-      "user": "Designer",
-      "subcategories": {
-        "Interior Design": {},
-        "Graphics Design": {},
-        "Fashion Design": {},
-        "Architectural Design": {}
-      }
-    },
-    "Modelling": {
-      "user": "Model",
-      "subcategories": {
-        "Fashion Modelling": {
-          "user": "Fashion Model"
-        },
-        "Body Building": {
-          "user": "Body Builder"
-        },
-        "Runway Modelling": {}
-      }
-    },
-    "Photography": {
-      "user": "Photographer",
-      "subcategories": {
-        "Landscape": {},
-        "Portrait": {},
-        "Wildlife": {},
-        "Fashion": {},
-        "Sport": {},
-        "Architecture": {}
-      }
+  "Design": {
+    "user": "Designer",
+    "users": "Designers",
+    "cover": "assets/categories/interior designer.jpg",
+    "subcategories": {
+      "Interior Design": {},
+      "Graphics Design": {},
+      "Fashion Design": {},
+      "Architectural Design": {}
+    }
+  },
+  "Modelling": {
+    "user": "Model",
+    "users": "Models",
+    "cover": "assets/categories/model.jpg",
+    "subcategories": {
+      "Fashion Modelling": {
+        "user": "Fashion Model",
+        "users": "Fashion Models",
+        "cover": "assets/categories/model.jpg"
+      },
+      "Body Building": {
+        "user": "Body Builder",
+        "users": "Body Builders",
+        "cover": "assets/categories/model.jpg"
+      },
+      "Runway Modelling": {}
+    }
+  },
+  "Photography": {
+    "user": "Photographer",
+    "users": "Photographers",
+    "cover": "assets/categories/photographer.jpg",
+    "subcategories": {
+      "Landscape": {},
+      "Portrait": {},
+      "Wildlife": {},
+      "Fashion": {},
+      "Sport": {},
+      "Architecture": {}
     }
   }
 }

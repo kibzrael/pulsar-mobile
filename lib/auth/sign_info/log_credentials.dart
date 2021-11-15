@@ -56,6 +56,8 @@ class _LogCredentialsState extends State<LogCredentials> {
         isSubmitted = true;
       });
       await Future.delayed(Duration(milliseconds: 300));
+      provider.fetchInterests(context);
+
       provider.user.id = response.body!['user']['id'];
       provider.user.username = response.body!['user']['username'];
 
@@ -96,10 +98,7 @@ class _LogCredentialsState extends State<LogCredentials> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: Text('Credentials'),
-            centerTitle: true,
-          ),
+          appBar: AppBar(),
           floatingActionButton: MyFloatingActionButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
@@ -125,8 +124,11 @@ class _LogCredentialsState extends State<LogCredentials> {
               padding: EdgeInsets.all(30),
               child: Column(children: [
                 Text(
-                  'Please select a suitable username and password',
-                  style: Theme.of(context).textTheme.bodyText1,
+                  'Set your login\nCredentials',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1!
+                      .copyWith(fontSize: 24),
                   textAlign: TextAlign.center,
                 ),
                 Spacer(flex: 1),
