@@ -48,13 +48,29 @@ class _ResetPasswordState extends State<ResetPassword> {
               Text(
                   'Please enter your new password. Be sure to remember this one.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1),
+                  style: Theme.of(context).textTheme.headline1),
               Spacer(flex: 1),
               MyTextInput(
                   hintText: 'Password',
                   obscureText: obscureText,
                   onChanged: (text) {},
                   onSubmitted: (text) {}),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Minimum of 6 characters.',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(fontSize: 12),
+                    ),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -75,9 +91,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(obscureText ? 'Show Password:' : 'Hide password:',
+                        Text('Show Password:',
                             style: Theme.of(context).textTheme.subtitle1),
-                        Icon(obscureText ? MyIcons.eyeOff : MyIcons.eye),
+                        Checkbox(
+                            value: !obscureText,
+                            onChanged: (value) {
+                              bool state = value ?? false;
+                              setState(() {
+                                obscureText = !state;
+                              });
+                            })
                       ]),
                 ),
               ),

@@ -35,116 +35,123 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
       );
     }
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent),
-      body: Stack(
-        children: [
-          for (var overlay in overlays)
+    return Theme(
+      data: Theme.of(context),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(backgroundColor: Colors.transparent),
+        body: Stack(
+          children: [
+            for (var overlay in overlays)
+              Positioned(
+                left: overlay['left'],
+                bottom: overlay['bottom'],
+                child: Container(
+                  width: overlay['size'],
+                  height: overlay['size'],
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Theme.of(context)
+                              .inputDecorationTheme
+                              .fillColor!)),
+                ),
+              ),
             Positioned(
-              left: overlay['left'],
-              bottom: overlay['bottom'],
+              top: -deviceWidth / 2,
+              left: -deviceWidth / 3,
+              child: border(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(deviceWidth),
+                  child: Container(
+                    width: deviceWidth,
+                    height: deviceWidth,
+                    color: Theme.of(context).inputDecorationTheme.fillColor,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          top: deviceWidth / 2 - (8 + 5),
+                          left: deviceWidth / 3 - (8 + 5)),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/intro/group.jpg'),
+                              fit: BoxFit.cover)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: -deviceWidth / 2.4,
+              right: -deviceWidth / 2.4,
+              child: border(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(deviceWidth),
+                  child: Container(
+                    width: deviceWidth,
+                    height: deviceWidth,
+                    color: Theme.of(context).inputDecorationTheme.fillColor,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          bottom: deviceWidth / 2.4 - (8 + 5),
+                          right: deviceWidth / 2.4 - (8 + 5)),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/intro/solo.jpg'),
+                              fit: BoxFit.cover)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
               child: Container(
-                width: overlay['size'],
-                height: overlay['size'],
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        color:
-                            Theme.of(context).inputDecorationTheme.fillColor!)),
-              ),
-            ),
-          Positioned(
-            top: -deviceWidth / 2,
-            left: -deviceWidth / 3,
-            child: border(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(deviceWidth),
-                child: Container(
-                  width: deviceWidth,
-                  height: deviceWidth,
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        top: deviceWidth / 2 - (8 + 5),
-                        left: deviceWidth / 3 - (8 + 5)),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/intro/group.jpg'),
-                            fit: BoxFit.cover)),
-                  ),
+                margin: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Introduce\nYourself',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 48),
+                    ),
+                    SizedBox(height: 30),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      child: ActionButton(
+                        title: 'Solo',
+                        onPressed: () {
+                          provider.user.userType = UserType.solo;
+                          provider.nextPage();
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      child: ActionButton(
+                        title: 'Group',
+                        onPressed: () {
+                          provider.user.userType = UserType.group;
+                          provider.nextPage();
+                        },
+                        backgroundColor:
+                            Theme.of(context).inputDecorationTheme.fillColor,
+                        titleColor:
+                            Theme.of(context).textTheme.bodyText1!.color,
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -deviceWidth / 2.4,
-            right: -deviceWidth / 2.4,
-            child: border(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(deviceWidth),
-                child: Container(
-                  width: deviceWidth,
-                  height: deviceWidth,
-                  color: Theme.of(context).inputDecorationTheme.fillColor,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        bottom: deviceWidth / 2.4 - (8 + 5),
-                        right: deviceWidth / 2.4 - (8 + 5)),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/intro/solo.jpg'),
-                            fit: BoxFit.cover)),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Introduce\nYourself',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontSize: 48),
-                  ),
-                  SizedBox(height: 30),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: ActionButton(
-                      title: 'Solo',
-                      onPressed: () {
-                        provider.user.userType = UserType.solo;
-                        provider.nextPage();
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: ActionButton(
-                      title: 'Group',
-                      onPressed: () {
-                        provider.user.userType = UserType.group;
-                        provider.nextPage();
-                      },
-                      backgroundColor:
-                          Theme.of(context).inputDecorationTheme.fillColor,
-                      titleColor: Theme.of(context).textTheme.bodyText1!.color,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

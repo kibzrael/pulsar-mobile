@@ -128,7 +128,7 @@ class _LogCredentialsState extends State<LogCredentials> {
                   style: Theme.of(context)
                       .textTheme
                       .headline1!
-                      .copyWith(fontSize: 24),
+                      .copyWith(fontSize: 36),
                   textAlign: TextAlign.center,
                 ),
                 Spacer(flex: 1),
@@ -146,7 +146,7 @@ class _LogCredentialsState extends State<LogCredentials> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
@@ -188,7 +188,7 @@ class _LogCredentialsState extends State<LogCredentials> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(

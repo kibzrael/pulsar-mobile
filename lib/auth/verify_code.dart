@@ -47,11 +47,15 @@ class _VerifyCodeState extends State<VerifyCode> {
             height: size,
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             child: Column(children: [
-              if (widget.leading != null) widget.leading!,
+              if (widget.leading != null)
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  child: widget.leading!,
+                ),
               Text(
                 'A code has been sent to ${widget.info.account}. Please enter the code below.',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.headline1,
               ),
               Spacer(flex: 2),
               Container(
@@ -60,6 +64,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                   length: 4,
                   keyboardType: TextInputType.number,
                   enableActiveFill: true,
+                  showCursor: false,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly
                   ],

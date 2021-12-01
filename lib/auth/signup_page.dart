@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/country_code.dart';
 import 'package:pulsar/auth/log_widget.dart';
-import 'package:pulsar/auth/sign_info/info_verification.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -22,7 +21,7 @@ class _SignupPageState extends State<SignupPage>
   @override
   bool get wantKeepAlive => true;
 
-  int signIndex = 1;
+  int signIndex = 0;
 
   bool isSubmitting = false;
   bool isSubmitted = false;
@@ -142,7 +141,9 @@ class _SignupPageState extends State<SignupPage>
                       ),
                       SizedBox(height: 15),
                       LogTextInput(
-                        hintText: signIndex == 0 ? 'Email' : 'Phone',
+                        hintText: signIndex == 0
+                            ? 'email@example.com'
+                            : '723-456-7890',
                         controller: userController,
                         focusNode: userNode,
                         onChanged: (_) {

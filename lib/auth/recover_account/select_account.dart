@@ -56,9 +56,9 @@ class _SelectAccountState extends State<SelectAccount> {
               child: Column(
                 children: [
                   Text(
-                    'Recover your account with either your email or phone',
+                    'Select the account to recover. Recover using either email or phone.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                   Spacer(flex: 2),
                   MyTextInput(
