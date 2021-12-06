@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class ResetPassword extends StatefulWidget {
@@ -13,10 +15,27 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   late RecoverAccountProvider recoverAccountProvider;
 
+  String oldPassword = '';
+  String newPassword = '';
+
+  bool match = true;
+
   bool obscureText = true;
 
   void onReset() {
-    Navigator.pop(context);
+    if (oldPassword != newPassword) {
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: 'Warning!',
+          body: "The two passwords you've entered do not match.",
+          actions: ['Ok'],
+        ),
+        dismissible: true,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -53,7 +72,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               MyTextInput(
                   hintText: 'Password',
                   obscureText: obscureText,
-                  onChanged: (text) {},
+                  onChanged: (text) => oldPassword = text,
                   onSubmitted: (text) {}),
               Align(
                 alignment: Alignment.centerLeft,
@@ -77,8 +96,27 @@ class _ResetPasswordState extends State<ResetPassword> {
               MyTextInput(
                   hintText: 'Confirm Password',
                   obscureText: obscureText,
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    match = oldPassword.startsWith(text);
+                  },
                   onSubmitted: (text) {}),
+              if (!match)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'The passwords do not match!',
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                              fontSize: 12,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
               SizedBox(height: 15),
               InkWell(
                 onTap: () {

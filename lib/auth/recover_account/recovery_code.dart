@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
-import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/auth/verify_code.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
@@ -23,10 +22,10 @@ class _RecoveryCodeState extends State<RecoveryCode> {
 
     user = recoverAccountProvider.user!;
 
-    SignupInfo account = SignupInfo(email: 'kib*******7@gmail.com');
+    String account = 'kib*******7@gmail.com';
 
     return VerifyCode(
-      info: account,
+      account: account,
       onBack: recoverAccountProvider.previousPage,
       onDone: recoverAccountProvider.nextPage,
       leading: Container(

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
-import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/select_language.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class LoginPage extends StatefulWidget {
@@ -85,10 +84,10 @@ class _LoginPageState extends State<LoginPage>
     super.build(context);
     loginProvider = Provider.of<LoginProvider>(context);
 
-    double size =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-
     double topPadding = MediaQuery.of(context).padding.top;
+
+    double size =
+        MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
 
     List<String> inputs = [userController.text, passwordController.text];
 
@@ -97,36 +96,36 @@ class _LoginPageState extends State<LoginPage>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: SelectLanguage(),
-        ),
+        appBar: AppBar(),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              margin: EdgeInsets.only(top: topPadding),
               height: size,
               child: Column(
                 children: [
-                  SizedBox(height: kToolbarHeight),
-                  Spacer(),
-                  PulsarLogo(
-                    size: MediaQuery.of(context).size.width / 2.7,
-                  ),
-                  Text(
-                    'Login',
-                    style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w600,
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Icon(MyIcons.menu, size: 30)
+                      ],
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(height: 30),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
-                        hintText: 'Username/Email/Phone',
+                        hintText: 'Username/ Email',
                         controller: userController,
                         focusNode: userNode,
                         onFieldSubmitted: (_) {
@@ -175,6 +174,7 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                   LinkedAccountLogin(),
+                  Spacer(),
                   ToggleAuthScreen(
                     isLogin: true,
                     onChange: widget.onChange,

@@ -6,6 +6,7 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class InterestsPage extends StatefulWidget {
@@ -48,12 +49,10 @@ class _InterestsPageState extends State<InterestsPage>
     ];
 
     return Scaffold(
-        appBar: AppBar(
-            title: SignInfoTitle(
-          title: 'Interests',
-          onBack: provider.previousPage,
-          onForward: login,
-        )),
+        appBar: signInfoAppBar(
+            title: 'Interests',
+            onBack: provider.previousPage,
+            onForward: login),
         body: ListView.builder(
           itemCount: interests.length + 1,
           itemBuilder: (context, index) {
@@ -108,14 +107,8 @@ class _InterestsPageState extends State<InterestsPage>
                             padding: EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                gradient: isSelected
-                                    ? LinearGradient(colors: [
-                                        Theme.of(context).colorScheme.primary,
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .primaryVariant
-                                      ])
-                                    : null),
+                                gradient:
+                                    isSelected ? primaryGradient() : null),
                             child: Icon(
                                 isSelected ? MyIcons.check : MyIcons.add,
                                 color: isSelected ? Colors.white : null)),
@@ -147,16 +140,8 @@ class _InterestsPageState extends State<InterestsPage>
                                 padding: EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
-                                    gradient: isSelected
-                                        ? LinearGradient(colors: [
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primaryVariant
-                                          ])
-                                        : null),
+                                    gradient:
+                                        isSelected ? primaryGradient() : null),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [

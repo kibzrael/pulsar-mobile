@@ -124,6 +124,8 @@ class MyIcons {
 
   static IconData logOut = myIcon(Icons.logout, Icons.logout);
 
+  static IconData menu = myIcon(Icons.menu, Icons.menu);
+
   static IconData message = myIcon(SvgIcons.chat, SvgIcons.chat);
 
   static IconData messageOutline =

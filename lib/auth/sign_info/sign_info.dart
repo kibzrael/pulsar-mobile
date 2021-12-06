@@ -4,39 +4,29 @@ import 'package:pulsar/auth/sign_info/birthday.dart';
 import 'package:pulsar/auth/sign_info/category.dart';
 import 'package:pulsar/auth/sign_info/interests.dart';
 import 'package:pulsar/auth/sign_info/introduce_yourself.dart';
-import 'package:pulsar/auth/sign_info/log_credentials.dart';
 import 'package:pulsar/auth/sign_info/profile_photo.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
-import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/widgets/text_button.dart';
 
 class SignInfo extends StatelessWidget {
-  final SignupInfo info;
-
-  SignInfo(this.info);
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) => SignInfoProvider(info),
-        builder: (context, snapshot) {
-          return Consumer<SignInfoProvider>(
-              builder: (context, provider, child) {
-            return Scaffold(
-              body: PageView(
-                  controller: provider.pageController,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    LogCredentials(),
-                    IntroduceYourself(),
-                    ChooseCategory(),
-                    BirthdayPage(),
-                    ProfilePhoto(),
-                    InterestsPage(),
-                  ]),
-            );
-          });
-        });
+    return Consumer<SignInfoProvider>(builder: (context, provider, child) {
+      return Scaffold(
+        body: PageView(
+            controller: provider.pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              IntroduceYourself(),
+              ChooseCategory(),
+              BirthdayPage(),
+              ProfilePhoto(),
+              InterestsPage(),
+            ]),
+      );
+    });
   }
 }
 
@@ -50,11 +40,14 @@ class SignInfoBackButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 4, 4, 4),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Theme.of(context).inputDecorationTheme.fillColor),
+        margin: EdgeInsets.only(
+          left: 12,
+        ),
+        height: kToolbarHeight,
+        alignment: Alignment.center,
+        // decoration: BoxDecoration(
+        //     shape: BoxShape.circle,
+        //     color: Theme.of(context).inputDecorationTheme.fillColor),
         child: Icon(
           MyIcons.back,
         ),
@@ -73,43 +66,48 @@ class SignInfoForwardButton extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.fromLTRB(4, 4, 0, 4),
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(colors: [
-              Theme.of(context).colorScheme.primary,
-              Theme.of(context).colorScheme.primaryVariant
-            ])),
-        child: Icon(
-          MyIcons.forward,
-          color: Colors.white,
+        height: kToolbarHeight,
+        padding: EdgeInsets.only(right: 15),
+        alignment: Alignment.center,
+        child: ShaderMask(
+          shaderCallback: (bounds) => primaryGradient().createShader(bounds),
+          child: Text(
+            'Next',
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
+            // Container(
+            //   margin: EdgeInsets.fromLTRB(4, 4, 0, 4),
+            //   padding: EdgeInsets.all(12),
+            //   decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       gradient: LinearGradient(colors: [
+            //         Theme.of(context).colorScheme.primary,
+            //         Theme.of(context).colorScheme.primaryVariant
+            //       ])),
+            //   child: Icon(
+            //     MyIcons.forward,
+            //     color: Colors.white,
+            //   ),
+            // ),
+          ),
         ),
       ),
     );
   }
 }
 
-class SignInfoTitle extends StatelessWidget {
-  final String title;
-  final Function() onBack;
-  final Function() onForward;
-
-  SignInfoTitle(
-      {required this.title, required this.onBack, required this.onForward});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        height: kToolbarHeight,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SignInfoBackButton(onPressed: onBack),
-            Text(title),
-            SignInfoForwardButton(onPressed: onForward),
-          ],
-        ));
-  }
+AppBar signInfoAppBar(
+    {required String title,
+    required Function() onBack,
+    required Function() onForward}) {
+  return AppBar(
+    leading: IconButton(icon: Icon(MyIcons.back), onPressed: onBack),
+    title: Text(title),
+    actions: [
+      Padding(
+        padding: EdgeInsets.only(right: 12),
+        child: MyTextButton(text: 'Next', onPressed: onForward),
+      ),
+    ],
+  );
 }

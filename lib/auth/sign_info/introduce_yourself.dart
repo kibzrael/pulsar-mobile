@@ -15,6 +15,8 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
   Widget build(BuildContext context) {
     provider = Provider.of<SignInfoProvider>(context);
 
+    double topPadding = MediaQuery.of(context).padding.top;
+
     double deviceHeight = MediaQuery.of(context).size.height;
     double deviceWidth = MediaQuery.of(context).size.width;
 
@@ -35,12 +37,14 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
       );
     }
 
-    return Theme(
-      data: Theme.of(context),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent),
-        body: Stack(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          backgroundColor:
+              Theme.of(context).appBarTheme.backgroundColor!.withOpacity(0)),
+      body: Padding(
+        padding: EdgeInsets.only(top: topPadding),
+        child: Stack(
           children: [
             for (var overlay in overlays)
               Positioned(

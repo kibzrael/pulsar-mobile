@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class BirthdayPage extends StatefulWidget {
   @override
@@ -33,16 +34,13 @@ class _BirthdayPageState extends State<BirthdayPage>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: SignInfoTitle(
+        appBar: signInfoAppBar(
             title: 'Birthday',
             onBack: provider.previousPage,
             onForward: () {
               provider.user.birthday = selectedDate;
               provider.nextPage();
-            },
-          ),
-        ),
+            }),
         body: SingleChildScrollView(
             child: Container(
           padding: EdgeInsets.all(30),
@@ -71,10 +69,7 @@ class _BirthdayPageState extends State<BirthdayPage>
                           alignment: Alignment.center,
                           margin: EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Theme.of(context).colorScheme.primary,
-                                Theme.of(context).colorScheme.primaryVariant
-                              ]),
+                              gradient: primaryGradient(),
                               borderRadius: BorderRadius.circular(30)),
                           child: Text(
                             birthday,

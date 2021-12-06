@@ -6,6 +6,7 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
@@ -43,16 +44,13 @@ class _ProfilePhotoState extends State<ProfilePhoto>
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: SignInfoTitle(
-            title: 'Profile Photo',
-            onBack: provider.previousPage,
-            onForward: () {
-              provider.user.profilePic = profilePic;
-              provider.nextPage();
-            },
-          )),
+      appBar: signInfoAppBar(
+          title: 'Profile Photo',
+          onBack: provider.previousPage,
+          onForward: () {
+            provider.user.profilePic = profilePic;
+            provider.nextPage();
+          }),
       body: Stack(
         children: [
           Positioned(
@@ -197,10 +195,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           gradient:
-                              LinearGradient(begin: Alignment.topLeft, colors: [
-                            Theme.of(context).colorScheme.secondary,
-                            Theme.of(context).colorScheme.primaryVariant
-                          ])),
+                              secondaryGradient(begin: Alignment.topLeft)),
                       child: Center(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,

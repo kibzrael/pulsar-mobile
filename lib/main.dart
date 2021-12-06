@@ -5,6 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
+import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
@@ -74,6 +75,9 @@ class _PulsarState extends State<Pulsar> {
         ),
         ChangeNotifierProvider<LoginProvider>(
           create: (_) => LoginProvider(widget.loggedIn),
+        ),
+        ChangeNotifierProvider<SignInfoProvider>(
+          create: (_) => SignInfoProvider(),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(systemBrightness),

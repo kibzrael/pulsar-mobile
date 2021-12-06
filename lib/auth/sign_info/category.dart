@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/sign_info/seach_category.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
 class ChooseCategory extends StatefulWidget {
@@ -20,6 +23,11 @@ class _ChooseCategoryState extends State<ChooseCategory>
   List<Interest> categories = [];
 
   Interest? selectedCategory;
+
+  search() {
+    Navigator.of(context)
+        .push(myPageRoute(builder: (context) => SearchCategory()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +47,13 @@ class _ChooseCategoryState extends State<ChooseCategory>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-            title: SignInfoTitle(
-          title: 'Category',
-          onBack: provider.previousPage,
-          onForward: () {
-            provider.user.category = selectedCategory;
-            provider.nextPage();
-          },
-        )),
+        appBar: signInfoAppBar(
+            title: 'Category',
+            onBack: provider.previousPage,
+            onForward: () {
+              provider.user.category = selectedCategory;
+              provider.nextPage();
+            }),
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(15),
@@ -72,13 +78,17 @@ class _ChooseCategoryState extends State<ChooseCategory>
                 ),
                 Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: SearchInput(
-                      text: (isSolo
-                              ? selectedCategory?.category
-                              : selectedCategory?.pCategory ??
-                                  selectedCategory?.category) ??
-                          'Category',
-                      height: 50,
+                    child: Hero(
+                      tag: 'searchCategory',
+                      child: SearchInput(
+                        onPressed: search,
+                        text: (isSolo
+                                ? selectedCategory?.category
+                                : selectedCategory?.pCategory ??
+                                    selectedCategory?.category) ??
+                            'Category',
+                        height: 50,
+                      ),
                     )
                     // MyTextInput(
                     //   hintText: 'Category',
@@ -144,17 +154,10 @@ class _ChooseCategoryState extends State<ChooseCategory>
                                               height: 27,
                                               padding: EdgeInsets.all(4),
                                               decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  gradient: LinearGradient(
-                                                      begin: Alignment.topLeft,
-                                                      colors: [
-                                                        Theme.of(context)
-                                                            .colorScheme
-                                                            .secondary,
-                                                        Theme.of(context)
-                                                            .colorScheme
-                                                            .primaryVariant
-                                                      ])),
+                                                shape: BoxShape.circle,
+                                                gradient: secondaryGradient(
+                                                    begin: Alignment.topLeft),
+                                              ),
                                               child: FittedBox(
                                                 fit: BoxFit.scaleDown,
                                                 child: Icon(

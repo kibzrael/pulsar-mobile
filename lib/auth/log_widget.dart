@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -100,14 +101,34 @@ class _LogTextInputState extends State<LogTextInput> {
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.isPassword
                     ? InkWell(
-                        child: Icon(
-                          passwordObscure
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: passwordObscure
-                              ? Colors.grey
-                              : Theme.of(context).colorScheme.secondary,
+                        child: Container(
+                          width: 75,
+                          height: double.infinity,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                  color: Theme.of(context).dividerColor),
+                            ),
+                          ),
+                          child: ShaderMask(
+                            shaderCallback: (bounds) =>
+                                primaryGradient().createShader(bounds),
+                            child: Text(passwordObscure ? 'Show' : 'Hide',
+                                style: TextStyle(
+                                    fontSize: 16.5,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500)),
+                          ),
                         ),
+                        // Icon(
+                        //   passwordObscure
+                        //       ? Icons.visibility_off
+                        //       : Icons.visibility,
+                        //   color: passwordObscure
+                        //       ? Colors.grey
+                        //       : Theme.of(context).colorScheme.secondary,
+                        // ),
                         onTap: () {
                           setState(
                             () {
@@ -181,10 +202,7 @@ class AuthButton extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Theme.of(context).colorScheme.primary,
-            Theme.of(context).colorScheme.primaryVariant
-          ]),
+          gradient: primaryGradient(),
           borderRadius: BorderRadius.circular(30),
         ),
         child: isSubmitting!

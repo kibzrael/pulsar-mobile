@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/widgets/action_button.dart';
 
 class VerifyCode extends StatefulWidget {
-  final SignupInfo info;
+  final String account;
   final Widget? leading;
   final Function()? onBack;
   final Function() onDone;
 
   VerifyCode(
-      {required this.info, this.leading, this.onBack, required this.onDone});
+      {required this.account, this.leading, this.onBack, required this.onDone});
 
   @override
   _VerifyCodeState createState() => _VerifyCodeState();
@@ -53,7 +52,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                   child: widget.leading!,
                 ),
               Text(
-                'A code has been sent to ${widget.info.account}. Please enter the code below.',
+                'A code has been sent to ${widget.account}. Please enter the code below.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline1,
               ),
@@ -76,10 +75,10 @@ class _VerifyCodeState extends State<VerifyCode> {
                       borderWidth: 0.0,
                       activeFillColor: fillColor,
                       inactiveFillColor: fillColor,
-                      selectedFillColor: fillColor,
+                      selectedFillColor: Theme.of(context).dividerColor,
                       activeColor: fillColor,
                       inactiveColor: fillColor,
-                      selectedColor: fillColor,
+                      selectedColor: Theme.of(context).dividerColor,
                       disabledColor: fillColor),
                   onChanged: (_) {},
                 ),

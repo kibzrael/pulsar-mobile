@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:pulsar/auth/signup_page.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -18,13 +17,11 @@ class SignInfoProvider extends ChangeNotifier {
 
   int? _page;
 
-  SignupInfo info;
-
   late SignUserInfo user;
 
   late String _signupUrl;
 
-  SignInfoProvider(this.info) {
+  SignInfoProvider() {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
     user = SignUserInfo();
@@ -34,6 +31,7 @@ class SignInfoProvider extends ChangeNotifier {
     String categoriesJson = await DefaultAssetBundle.of(context)
         .loadString('assets/categories/categories.json');
     var categories = jsonDecode(categoriesJson);
+    interests.clear();
     categories.forEach((key, item) {
       Interest interest = Interest(
         name: key,
@@ -58,12 +56,12 @@ class SignInfoProvider extends ChangeNotifier {
     });
   }
 
-  Future<SignupResponse> signup(String username, String password) async {
+  Future<SignupResponse> signup(
+      String email, String username, String password) async {
     Uri url = Uri.parse(_signupUrl);
     http.Response requestResponse = await http.post(url, body: {
       'username': username,
-      'email': info.email ?? '',
-      'phone': info.phone ?? '',
+      'email': email,
       'password': password,
     });
 

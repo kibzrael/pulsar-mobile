@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pulsar/auth/country_code.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
+import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/widgets/logo.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/select_language.dart';
 
 class SignupPage extends StatefulWidget {
   final Function(int page) onChange;
@@ -21,147 +23,180 @@ class _SignupPageState extends State<SignupPage>
   @override
   bool get wantKeepAlive => true;
 
+  late SignInfoProvider provider;
+
+  late LoginProvider loginProvider;
+
   int signIndex = 0;
 
   bool isSubmitting = false;
   bool isSubmitted = false;
 
-  late FocusNode userNode;
+  late FocusNode emailNode;
+  late FocusNode usernameNode;
+  late FocusNode passwordNode;
 
-  late TextEditingController userController;
-  String countryCode = '+254';
+  late TextEditingController emailController;
+  late TextEditingController usernameController;
+  late TextEditingController passwordController;
 
   @override
   void initState() {
     super.initState();
-    userNode = FocusNode();
-    userController = TextEditingController();
+    emailNode = FocusNode();
+    usernameNode = FocusNode();
+    passwordNode = FocusNode();
+    emailController = TextEditingController();
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
   }
 
-  void selectCountryCode() {
-    openBottomSheet(context, (context) => CountryCodes());
-  }
+  // void selectCountryCode() {
+  //   openBottomSheet(context, (context) => CountryCodes());
+  // }
 
-  void signup() {
-    SignupInfo info = SignupInfo();
-
-    bool phone = signIndex == 1;
-    String account = '${phone ? countryCode : ''}' + userController.text;
-    if (phone) {
-      info.phone = account;
-    } else {
-      info.email = account;
-    }
-    Navigator.of(context, rootNavigator: true)
-        .pushReplacement(myPageRoute(builder: (context) => SignInfo(info)));
-  }
-
-  void onIndexChange(index) {
+  void signup() async {
+    String email = usernameController.text;
+    String username = usernameController.text;
+    String password = passwordController.text;
     setState(() {
-      signIndex = index;
+      isSubmitting = true;
     });
+    SignupResponse response = await provider.signup(email, username, password);
+    setState(() {
+      isSubmitting = false;
+    });
+    if (response.statusCode == 201) {
+      setState(() {
+        isSubmitted = true;
+      });
+      await Future.delayed(Duration(milliseconds: 300));
+      provider.fetchInterests(context);
+
+      provider.user.id = response.body!['user']['id'];
+      provider.user.username = response.body!['user']['username'];
+
+      await loginProvider.signup(context,
+          token: response.body!['jwtToken'], user: response.body!['user']);
+      Navigator.of(context, rootNavigator: true)
+          .pushReplacement(myPageRoute(builder: (context) => SignInfo()));
+      return;
+    }
+
+    openDialog(
+      context,
+      (context) => MyDialog(
+        title: statusCodes[response.statusCode]!,
+        body: response.body!['message'],
+        actions: ['Ok'],
+      ),
+    );
   }
 
   @override
   void dispose() {
     super.dispose();
-    userNode.dispose();
-    userController.dispose();
+    emailNode.dispose();
+    usernameNode.dispose();
+    passwordNode.dispose();
+    emailController.dispose();
+    usernameController.dispose();
+    passwordController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double size =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+
+    provider = Provider.of<SignInfoProvider>(context);
+    loginProvider = Provider.of<LoginProvider>(context);
 
     double topPadding = MediaQuery.of(context).padding.top;
 
-    List<String> inputs = [userController.text];
+    double size =
+        MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
+
+    List<String> inputs = [
+      emailController.text,
+      usernameController.text,
+      passwordController.text
+    ];
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: SelectLanguage(),
-        ),
+        appBar: AppBar(),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               height: size,
-              margin: EdgeInsets.only(top: topPadding),
               child: Column(
                 children: [
-                  SizedBox(height: kToolbarHeight),
-                  Spacer(),
-                  PulsarLogo(
-                    size: MediaQuery.of(context).size.width / 2.7,
-                  ),
-                  Text(
-                    'Register',
-                    style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w600,
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Register',
+                          style: TextStyle(
+                            fontSize: 48,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Icon(MyIcons.menu, size: 30)
+                      ],
                     ),
                   ),
-                  Spacer(),
+                  SizedBox(height: 30),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     child: Column(children: [
-                      Container(
-                        height: 100,
-                        alignment: Alignment.center,
-                        child: CupertinoSlidingSegmentedControl(
-                            groupValue: signIndex,
-                            thumbColor: Theme.of(context).cardColor,
-                            backgroundColor: Theme.of(context)
-                                .inputDecorationTheme
-                                .fillColor!
-                                .withOpacity(0.5),
-                            children: {
-                              0: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 10),
-                                  child: Text(
-                                    'Email',
-                                    style: TextStyle(fontSize: 18),
-                                  )),
-                              1: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 25, vertical: 10),
-                                  child: Text(
-                                    'Phone',
-                                    style: TextStyle(fontSize: 18),
-                                  ))
-                            },
-                            onValueChanged: onIndexChange),
-                      ),
-                      SizedBox(height: 15),
                       LogTextInput(
-                        hintText: signIndex == 0
-                            ? 'email@example.com'
-                            : '723-456-7890',
-                        controller: userController,
-                        focusNode: userNode,
+                        hintText: 'Email',
+                        controller: emailController,
+                        focusNode: emailNode,
+                        keyboardType: TextInputType.emailAddress,
                         onChanged: (_) {
                           setState(() {});
                         },
+                        onFieldSubmitted: (_) {
+                          usernameNode.requestFocus();
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      LogTextInput(
+                        hintText: 'Username',
+                        controller: usernameController,
+                        focusNode: usernameNode,
+                        onFieldSubmitted: (_) {
+                          passwordNode.requestFocus();
+                        },
+                        onChanged: (_) {
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(height: 15),
+                      LogTextInput(
+                        hintText: 'Password',
+                        isPassword: true,
+                        obscureText: true,
+                        controller: passwordController,
+                        focusNode: passwordNode,
+                        keyboardType: TextInputType.visiblePassword,
                         onFieldSubmitted: (_) {
                           if (!isSubmitting &&
                               !inputs.any((element) => element.length < 1)) {
                             signup();
                           }
                         },
-                        prefix: SelectCountry(
-                          code: countryCode,
-                          show: signIndex == 1,
-                          onPressed: selectCountryCode,
-                        ),
+                        onChanged: (_) {
+                          setState(() {});
+                        },
                       ),
-                      SizedBox(height: 15)
+                      SizedBox(height: 15),
                     ]),
                   ),
                   Container(
@@ -174,6 +209,7 @@ class _SignupPageState extends State<SignupPage>
                     ),
                   ),
                   LinkedAccountLogin(),
+                  Spacer(),
                   ToggleAuthScreen(
                     isLogin: false,
                     onChange: widget.onChange,
@@ -261,13 +297,4 @@ class _SelectCountryState extends State<SelectCountry>
             widget.show ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         duration: Duration(milliseconds: 300));
   }
-}
-
-class SignupInfo {
-  String? email;
-  String? phone;
-
-  String? get account => email ?? phone;
-
-  SignupInfo({this.email, this.phone});
 }

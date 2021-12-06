@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class ActionButton extends StatelessWidget {
   final String title;
@@ -26,12 +27,7 @@ class ActionButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            gradient: backgroundColor != null
-                ? null
-                : LinearGradient(colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primaryVariant
-                  ]),
+            gradient: backgroundColor != null ? null : primaryGradient(),
             color: backgroundColor ??
                 Theme.of(context).colorScheme.primaryVariant),
         child: Center(
