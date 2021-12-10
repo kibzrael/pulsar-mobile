@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/text_button.dart';
 
 class VerifyCode extends StatefulWidget {
   final String account;
   final Widget? leading;
   final Function()? onBack;
   final Function() onDone;
+  final Function(String code) verify;
 
   VerifyCode(
-      {required this.account, this.leading, this.onBack, required this.onDone});
+      {required this.account,
+      this.leading,
+      required this.verify,
+      this.onBack,
+      required this.onDone});
 
   @override
   _VerifyCodeState createState() => _VerifyCodeState();
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
-  int timeCountdown = 5;
+  int timeCountdown = 15;
+
+  String code = '';
+
+  bool isSubmitting = false;
+
+  verify() async {
+    setState(() => isSubmitting = true);
+    await widget.verify(code);
+    setState(() => isSubmitting = false);
+    widget.onDone();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,26 +97,22 @@ class _VerifyCodeState extends State<VerifyCode> {
                       inactiveColor: fillColor,
                       selectedColor: Theme.of(context).dividerColor,
                       disabledColor: fillColor),
-                  onChanged: (_) {},
+                  onChanged: (text) => code = text,
                 ),
               ),
               Align(
                 alignment: Alignment.centerRight,
-                child: TextButton(
-                  child: Text(
-                    'Resend Code in $timeCountdown seconds?',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.primaryVariant),
-                  ),
-                  onPressed: () {},
-                ),
+                child: MyTextButton(
+                    text: "Resend Code in $timeCountdown seconds?",
+                    fontSize: 16.5,
+                    onPressed: () {}),
               ),
               Spacer(flex: 1),
-              ActionButton(
+              AuthButton(
                 title: 'Confirm',
-                onPressed: () {
-                  widget.onDone();
-                },
+                onPressed: verify,
+                isSubmitting: isSubmitting,
+                inputs: [code],
               ),
               Spacer(flex: 3)
             ]),

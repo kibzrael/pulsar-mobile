@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
-import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -15,15 +15,17 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordState extends State<ResetPassword> {
   late RecoverAccountProvider recoverAccountProvider;
 
-  String oldPassword = '';
-  String newPassword = '';
+  String password = '';
+  String confirmPassword = '';
 
   bool match = true;
 
   bool obscureText = true;
 
-  void onReset() {
-    if (oldPassword != newPassword) {
+  bool isSubmitting = false;
+
+  void onReset() async {
+    if (password != confirmPassword) {
       openDialog(
         context,
         (context) => MyDialog(
@@ -34,6 +36,18 @@ class _ResetPasswordState extends State<ResetPassword> {
         dismissible: true,
       );
     } else {
+      setState(() => isSubmitting = true);
+      await recoverAccountProvider.resetPassword(password);
+      setState(() => isSubmitting = false);
+      await openDialog(
+        context,
+        (context) => MyDialog(
+          title: 'Success',
+          body: "You have successfully changed your password.",
+          actions: ['Ok'],
+        ),
+        dismissible: true,
+      );
       Navigator.pop(context);
     }
   }
@@ -72,7 +86,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               MyTextInput(
                   hintText: 'Password',
                   obscureText: obscureText,
-                  onChanged: (text) => oldPassword = text,
+                  onChanged: (text) => setState(() => password = text),
                   onSubmitted: (text) {}),
               Align(
                 alignment: Alignment.centerLeft,
@@ -97,26 +111,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                   hintText: 'Confirm Password',
                   obscureText: obscureText,
                   onChanged: (text) {
-                    match = oldPassword.startsWith(text);
+                    setState(() {
+                      match = password.startsWith(text);
+                      confirmPassword = text;
+                    });
                   },
                   onSubmitted: (text) {}),
-              if (!match)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'The passwords do not match!',
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              fontSize: 12,
-                              color: Theme.of(context).colorScheme.error,
-                            ),
-                      ),
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  child: Text(
+                    match ? '' : 'The passwords do not match!',
+                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                   ),
                 ),
+              ),
               SizedBox(height: 15),
               InkWell(
                 onTap: () {
@@ -145,9 +158,11 @@ class _ResetPasswordState extends State<ResetPassword> {
               Spacer(
                 flex: 1,
               ),
-              ActionButton(
+              AuthButton(
                 title: 'Reset',
+                isSubmitting: isSubmitting,
                 onPressed: onReset,
+                inputs: [password, confirmPassword],
               ),
               Spacer(
                 flex: 2,

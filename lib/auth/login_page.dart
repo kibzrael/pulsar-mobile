@@ -116,7 +116,13 @@ class _LoginPageState extends State<LoginPage>
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Icon(MyIcons.menu, size: 30)
+                        InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(MyIcons.menu, size: 30),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -169,6 +175,7 @@ class _LoginPageState extends State<LoginPage>
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
+                      title: "Login",
                       onPressed: login,
                       inputs: inputs,
                     ),

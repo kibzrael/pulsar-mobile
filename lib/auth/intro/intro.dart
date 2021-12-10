@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/auth.dart';
 import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/logo.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/select_language.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -61,8 +61,6 @@ class _RootIntroPageState extends State<RootIntroPage> {
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: SelectLanguage(),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
@@ -77,6 +75,22 @@ class _RootIntroPageState extends State<RootIntroPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: topPadding + kToolbarHeight),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(
+                              MyIcons.menu,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Spacer(),
                     PulsarLogo(size: MediaQuery.of(context).size.width / 2.4),
                     PulsarTextLogo(),

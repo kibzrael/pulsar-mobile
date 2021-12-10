@@ -26,6 +26,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
 
     return VerifyCode(
       account: account,
+      verify: recoverAccountProvider.verifyCode,
       onBack: recoverAccountProvider.previousPage,
       onDone: recoverAccountProvider.nextPage,
       leading: Container(

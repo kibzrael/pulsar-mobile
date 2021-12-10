@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_cropper/image_cropper.dart';
+
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -179,9 +181,15 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   onTap: () async {
                     File? image = await openBottomSheet(
                         context, (context) => PickImageSheet());
-
+                    File? croppedImage;
+                    if (image != null)
+                      croppedImage = await ImageCropper.cropImage(
+                        sourcePath: image.path,
+                        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+                        cropStyle: CropStyle.circle,
+                      );
                     setState(() {
-                      profilePic = image?.path;
+                      profilePic = croppedImage?.path;
                     });
                   },
                   child: Container(

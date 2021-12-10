@@ -232,7 +232,8 @@ class _MessagingScreenState extends State<MessagingScreen>
                             hintText: 'Write a message...',
                             maxLines: 7,
                             height: null,
-                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            padding: EdgeInsets.fromLTRB(
+                                4, 2, message.length < 1 ? 4 : 8, 2),
                             prefix: Padding(
                               padding: EdgeInsets.all(8.0),
                               child: Icon(MyIcons.attatchment),

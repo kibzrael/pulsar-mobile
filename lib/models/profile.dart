@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/profile_stats.dart';
 import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
@@ -101,29 +100,30 @@ class _ProfileState extends State<Profile> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 5),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              LinkedAccountLabel(
-                colors: [Colors.blue[900]!, Colors.blue[900]!],
-                icon: MyIcons.facebook,
-                user: '@rael',
-              ),
-              LinkedAccountLabel(colors: [
-                Colors.deepPurpleAccent,
-                Colors.orangeAccent,
-              ], icon: MyIcons.instagram, user: '@kibzrael'),
-              LinkedAccountLabel(
-                colors: [Colors.blue, Colors.blue],
-                icon: MyIcons.twitter,
-                user: '@kibzrael',
-              ),
-            ],
-          ),
-        ),
+        SizedBox(height: 5),
+        // Container(
+        //   margin: EdgeInsets.symmetric(vertical: 5),
+        //   alignment: Alignment.center,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //     children: [
+        //       LinkedAccountLabel(
+        //         colors: [Colors.blue[900]!, Colors.blue[900]!],
+        //         icon: MyIcons.facebook,
+        //         user: '@rael',
+        //       ),
+        //       LinkedAccountLabel(colors: [
+        //         Colors.deepPurpleAccent,
+        //         Colors.orangeAccent,
+        //       ], icon: MyIcons.instagram, user: '@kibzrael'),
+        //       LinkedAccountLabel(
+        //         colors: [Colors.blue, Colors.blue],
+        //         icon: MyIcons.twitter,
+        //         user: '@kibzrael',
+        //       ),
+        //     ],
+        //   ),
+        // ),
         // //if (user.portfolio != null)
         // Container(
         //   margin: EdgeInsets.symmetric(vertical: 5),

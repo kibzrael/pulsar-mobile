@@ -146,7 +146,13 @@ class _SignupPageState extends State<SignupPage>
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Icon(MyIcons.menu, size: 30)
+                        InkWell(
+                          onTap: () {},
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(MyIcons.menu, size: 30),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -203,7 +209,7 @@ class _SignupPageState extends State<SignupPage>
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
-                      isLogin: false,
+                      title: 'Register',
                       onPressed: signup,
                       inputs: inputs,
                     ),

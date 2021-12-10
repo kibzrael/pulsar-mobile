@@ -5,11 +5,13 @@ class MyTextButton extends StatelessWidget {
   final Function onPressed;
   final Color? color;
   final bool enabled;
+  final double fontSize;
 
   MyTextButton(
       {this.enabled = true,
       required this.text,
       required this.onPressed,
+      this.fontSize = 18,
       this.color});
 
   @override
@@ -35,10 +37,10 @@ class MyTextButton extends StatelessWidget {
         },
         child: Text(
           text,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1!
-              .copyWith(color: Colors.white),
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w600),
         ),
       ),
       onPressed: enabled ? onPressed as void Function()? : null,

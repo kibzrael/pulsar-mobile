@@ -11,6 +11,8 @@ class RecoverAccountProvider extends ChangeNotifier {
 
   User? user;
 
+  String? token;
+
   RecoverAccountProvider() {
     _pageController = PageController();
     user = melissa;
@@ -24,5 +26,17 @@ class RecoverAccountProvider extends ChangeNotifier {
   nextPage() {
     _page = _pageController.page!.floor();
     _pageController.jumpToPage(_page! + 1);
+  }
+
+  verifyCode(String code) async {
+    // token, user_id, code
+    await Future.delayed(Duration(seconds: 2));
+    return;
+  }
+
+  resetPassword(String password) async {
+    // token, user_id, password
+    await Future.delayed(Duration(seconds: 2));
+    return;
   }
 }

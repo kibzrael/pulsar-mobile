@@ -66,6 +66,7 @@ class _MessagingCardState extends State<MessagingCard> {
                         : Border.all(color: Colors.transparent),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (message.attachment != null)
                         Padding(
@@ -75,7 +76,17 @@ class _MessagingCardState extends State<MessagingCard> {
                                   topLeft: radius, topRight: radius
                                   // put bottom if no text
                                   ),
-                              child: Image.asset(message.attachment!)),
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  maxHeight:
+                                      MediaQuery.of(context).size.width / 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage(message.attachment!),
+                                      fit: BoxFit.cover),
+                                ),
+                              )),
                         ),
                       Padding(
                         padding: EdgeInsets.all(7.5),

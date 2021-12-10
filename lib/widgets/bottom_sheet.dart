@@ -68,7 +68,7 @@ class MyBottomSheet extends StatelessWidget {
                   if (title != null) title!,
                   myFlex(
                     child: Container(
-                        color: Theme.of(context).colorScheme.surface,
+                        // color: Theme.of(context).colorScheme.surface,
                         child: child),
                   ),
                 ],

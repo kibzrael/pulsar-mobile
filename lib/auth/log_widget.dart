@@ -121,14 +121,6 @@ class _LogTextInputState extends State<LogTextInput> {
                                     fontWeight: FontWeight.w500)),
                           ),
                         ),
-                        // Icon(
-                        //   passwordObscure
-                        //       ? Icons.visibility_off
-                        //       : Icons.visibility,
-                        //   color: passwordObscure
-                        //       ? Colors.grey
-                        //       : Theme.of(context).colorScheme.secondary,
-                        // ),
                         onTap: () {
                           setState(
                             () {
@@ -181,19 +173,17 @@ class AuthButton extends StatelessWidget {
   final Function onPressed;
   final List<String> inputs;
 
-  ///Default is true
-  final bool isLogin;
+  final String title;
   AuthButton({
     this.isSubmitting,
     this.inputs = const [],
-    this.isLogin = true,
+    required this.title,
     required this.onPressed,
   });
   @override
   Widget build(BuildContext context) {
     bool enabled =
         !isSubmitting! && !inputs.any((element) => element.length < 1);
-    // bool colored = !inputs.any((element) => element.length < 1);
     return InkWell(
       onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
@@ -214,7 +204,7 @@ class AuthButton extends StatelessWidget {
                   margin: EdgeInsets.zero,
                 ))
             : Text(
-                isLogin ? 'Login' : 'Register',
+                title,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,

@@ -165,7 +165,7 @@ class _BasicRootState extends State<BasicRoot> {
                               ),
                               NavigationBarItem(
                                 1,
-                                label: 'My Galaxy',
+                                label: 'Challenges',
                                 selected: currentIndex,
                                 icon: MyIcons.explore,
                                 onTap: navigationChange,
