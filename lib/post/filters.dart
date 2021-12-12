@@ -48,7 +48,7 @@ class FilterWidget extends StatelessWidget {
           CircleAvatar(
             radius: 30,
             backgroundColor: Colors.white12,
-            backgroundImage: CachedNetworkImageProvider(beth.profilePic),
+            backgroundImage: CachedNetworkImageProvider(beth.profilePic!),
           ),
           Text(
             'Filter',

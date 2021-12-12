@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/test_user.dart';
+import 'package:pulsar/classes/user.dart';
 
 class UserProvider extends ChangeNotifier {
   User? user;

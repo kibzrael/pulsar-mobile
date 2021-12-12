@@ -4,13 +4,13 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_info.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class EditProfile extends StatefulWidget {
@@ -88,15 +88,9 @@ class _EditProfileState extends State<EditProfile> {
                                 width: 36,
                                 height: 36,
                                 decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        colors: [
-                                      Theme.of(context).colorScheme.secondary,
-                                      Theme.of(context)
-                                          .colorScheme
-                                          .primaryVariant,
-                                    ])),
+                                    gradient: secondaryGradient(
+                                        begin: Alignment.topLeft),
+                                    shape: BoxShape.circle),
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Icon(
@@ -157,31 +151,6 @@ class _EditProfileState extends State<EditProfile> {
                           trailingText: ''),
                     ],
                   )),
-              SizedBox(
-                height: 15,
-              ),
-              Section(
-                title: 'Display Info',
-                child: Column(
-                  children: [
-                    MyListTile(
-                      title: 'Email',
-                      leading: Icon(MyIcons.email),
-                      trailingArrow: false,
-                    ),
-                    MyListTile(
-                      title: 'Phone',
-                      leading: Icon(MyIcons.phone),
-                      trailingArrow: false,
-                    ),
-                    MyListTile(
-                      title: 'Facebook',
-                      leading: Icon(MyIcons.facebook),
-                      trailingArrow: false,
-                    )
-                  ],
-                ),
-              ),
             ],
           ),
         ),

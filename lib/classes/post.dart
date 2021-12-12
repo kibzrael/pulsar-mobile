@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/classes/comment.dart';
+import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/classes/video.dart';
 
@@ -7,41 +9,26 @@ class Post {
   User user;
   Video video;
   String? caption;
-  // Location location;
-  // List<Media> media;
   bool? allowComments;
   int? likes;
   int? comments;
-  // Link postUrl;
-  // List<Hashtag> hashtags;
-  // Ad ad;
-  // Repost repostObject;
-  // bool edited;
+  int? reposts;
   DateTime? time;
 
-  //
   bool? isLiked;
   bool? isReposted;
-  bool? isSaved;
+
+  String get url => '';
 
   Post(
     this.id, {
     required this.user,
     required this.video,
-    // this.ad,
-    // this.allowComments,
+    this.allowComments,
     this.caption,
-    // this.comments,
-    // this.edited,
-    // this.hashtags,
     this.isLiked,
     this.isReposted,
-    this.isSaved,
     this.likes,
-    // this.location,
-    // this.media,
-    // this.postUrl,
-    // this.repostObject,
     this.time,
   });
 
@@ -51,21 +38,13 @@ class Post {
         assert(info['user'] != null),
         id = info['id'],
         user = User.fromJson(info['user']),
-        // ad = info['ad'],
         allowComments = info['allowComment'],
         caption = info['caption'],
         video = Video.fromJson(info['video']),
         comments = info['comments'],
-        // edited = info['edited'],
-        // hashtags = info['hashtags'].map((i) => Hashtag.fromJson(i)).toList(),
         isLiked = info['isLiked'],
         isReposted = info['isReposted'],
-        isSaved = info['isSaved'],
         likes = info['likes'],
-        // location = Location.fromJson(info['location']),
-        // media = info['media'],
-        // postUrl = info['postUrl'],
-        // repostObject = Repost.fromJson(info['repost']),
         time = DateTime.tryParse(info['time'] ?? '');
 
   Map<String, dynamic> toJson(BuildContext context) {
@@ -87,31 +66,15 @@ class Post {
   //     {RequestMethod mode = RequestMethod.post, String comment}) {}
   save(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 
-  // comment(BuildContext context, Comment comment) {}
+  comment(BuildContext context, Comment comment) {}
 
   notInterested() {
     // a survey card for why not interested
   }
 
-  // report(Report report) {}
+  report(Report report) {}
 
-  shareToUser() {}
-
-  shareToLinkedAccounts() {}
-
-  getLikes() {}
-
-  getComments() {}
-
-  // String get getPostUrl {
-  //   return postUrl?.url;
-  // }
-
-  // promote(Ad ad) {}
-
-  update(BuildContext context) {}
-
-  editPost(BuildContext context) {}
+  edit(BuildContext context) {}
 
   delete(BuildContext context) {}
 }

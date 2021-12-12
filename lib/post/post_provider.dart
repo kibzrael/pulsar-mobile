@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/classes/test_user.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/upload_post.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/user_provider.dart';

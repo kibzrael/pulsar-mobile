@@ -41,10 +41,12 @@ class _ProfileState extends State<Profile> {
                 padding: EdgeInsets.only(bottom: 6),
                 child: InkWell(
                     onTap: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                          MaterialPageRoute(
-                              builder: (context) => PhotoView(user.profilePic,
-                                  tag: '${user.id}ProfilePic')));
+                      if (user.profilePic != null)
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                                builder: (context) => PhotoView(
+                                    user.profilePic!,
+                                    tag: '${user.id}ProfilePic')));
                     },
                     child: HeroMode(
                       enabled: true,

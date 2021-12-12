@@ -25,8 +25,8 @@ class _MessagingScreenState extends State<MessagingScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  ScrollController? scrollController;
-  TextEditingController? messageController;
+  late ScrollController scrollController;
+  late TextEditingController messageController;
 
   bool isTyping = false;
   String message = '';
@@ -52,13 +52,13 @@ class _MessagingScreenState extends State<MessagingScreen>
     }
     fetchMessages();
     scrollController = ScrollController();
-    scrollController!.addListener(scrollListener);
+    scrollController.addListener(scrollListener);
     messageController = TextEditingController();
   }
 
   scrollListener() {
-    if (scrollController!.position.pixels ==
-            scrollController!.position.maxScrollExtent &&
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
         !isSearching &&
         canLoadMore) {
       fetchMoreMessages();
@@ -67,9 +67,9 @@ class _MessagingScreenState extends State<MessagingScreen>
 
   @override
   void dispose() {
-    scrollController!.removeListener(scrollListener);
-    scrollController!.dispose();
-    messageController!.dispose();
+    scrollController.removeListener(scrollListener);
+    scrollController.dispose();
+    messageController.dispose();
     super.dispose();
   }
 
@@ -274,7 +274,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                                     message: message.trim(),
                                     user: tahlia,
                                     time: DateTime.now()));
-                                messageController!.text = '';
+                                messageController.text = '';
                                 message = '';
                                 isTyping = false;
                               });

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/classes/test_user.dart';
+import 'package:pulsar/classes/user.dart';
 
 class UploadPost {
   User user;

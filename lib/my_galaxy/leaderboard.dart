@@ -201,7 +201,7 @@ class _LeaderboardState extends State<Leaderboard> {
                       shape: BoxShape.circle,
                       color: Theme.of(context).inputDecorationTheme.fillColor,
                       image: DecorationImage(
-                          image: CachedNetworkImageProvider(user.profilePic),
+                          image: CachedNetworkImageProvider(user.profilePic!),
                           fit: BoxFit.cover),
                       border: Border.all(
                           width: 3,

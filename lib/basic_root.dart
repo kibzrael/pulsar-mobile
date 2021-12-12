@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/pages/home_page.dart';

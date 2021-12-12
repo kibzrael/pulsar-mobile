@@ -1,59 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/report.dart';
 
 class User {
   int id;
   String username;
-  String? fullname;
-  String profilePic;
-  String? bio;
   String category;
+  String? fullname;
+  String? profilePic;
+  String? bio;
   String? portfolio;
-  // Location location;
-  // List<Interest> interests;
-  // List<LinkedAccount> linkedAccounts;
+  List<Interest> interests;
   String? email;
   String? phone;
   DateTime? dateOfBirth;
-  // UserPrivacy privacy;
-  int? pins;
-  int? pinned;
+  bool isSuperuser;
+
+  String? token;
+
+  int? followers;
   int? posts;
-  // Link profileUrl;
-  DateTime? dateJoined;
-  //
-  bool? isPinned;
+
+  bool? isFollowing;
   bool? isBlocked;
-  bool? isMuted;
-  bool? isFavorite;
+  bool? postNotifications;
 
   /// Create a user from info.
   ///
   /// id and username are required
-  User(
-    this.id, {
-    required this.username,
-    this.bio,
-    required this.category,
-    this.dateJoined,
-    this.dateOfBirth,
-    this.email,
-    this.fullname,
-    //this.interests,
-    this.isBlocked,
-    this.isFavorite,
-    this.isMuted,
-    this.isPinned,
-    //this.linkedAccounts,
-    //this.location,
-    this.phone,
-    this.pinned,
-    this.pins,
-    this.portfolio,
-    this.posts,
-    //this.privacy,
-    required this.profilePic,
-    //this.profileUrl,
-  });
+  User(this.id,
+      {required this.username,
+      required this.category,
+      this.bio,
+      this.dateOfBirth,
+      this.email,
+      this.fullname,
+      this.interests = const [],
+      this.isBlocked,
+      this.isFollowing,
+      this.phone,
+      this.followers,
+      this.portfolio,
+      this.posts,
+      this.profilePic,
+      this.isSuperuser = false});
 
   // Create a user from a json/ map
   //
@@ -61,27 +51,24 @@ class User {
 
   User.fromJson(Map<String, dynamic> info)
       : assert(info['id'] != null),
-        assert(info['id'] is int),
         assert(info['username'] != null),
         assert(info['username'] is String),
         id = info['id'] is int ? info['id'] : int.tryParse(info['id']),
         username = info['username'],
         bio = info['bio'],
         category = info['category'],
-        dateJoined = DateTime.tryParse(info['dateJoined'] ?? ''),
         dateOfBirth = DateTime.tryParse(info['dateOfBirth'] ?? ''),
         email = info['email'],
         fullname = info['fullname'],
         isBlocked = info['isBlocked'],
-        isFavorite = info['isFavorite'],
-        isMuted = info['isMuted'],
-        isPinned = info['isPinned'],
+        isFollowing = info['isFollowing'],
+        interests = info['interests'] ?? [],
         phone = info['phone'],
-        pinned = info['pinned'],
-        pins = info['pins'],
+        followers = info['followers'],
         portfolio = info['portfolio'],
         posts = info['posts'],
-        profilePic = info['profilePic'];
+        profilePic = info['profilePic'],
+        isSuperuser = info['superuser'] ?? false;
 
   toJson(BuildContext context) {
     return {
@@ -93,44 +80,33 @@ class User {
       'fullname': this.fullname,
       'phone': this.phone,
       'profilePic': this.profilePic,
-      'portfolio': this.portfolio
+      'portfolio': this.portfolio,
+      'token': token
     };
   }
 
-  pin(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
+  follow(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 
   block(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 
-  mute(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
+  report(BuildContext context, Report report) {}
 
-  // report(BuildContext context, Report report) {}
-
-  subcribeForPostNotifications(BuildContext context) {}
-
-  addToFavorite(BuildContext context) {}
-
-  shareToUser() {}
+  subcribeForPostNotifications(BuildContext context,
+      {RequestMethod mode = RequestMethod.post}) {}
 
   getPosts() {}
 
   getReposts() {}
 
-  getPostSaves(BuildContext context) {}
-
-  getLikes(BuildContext context) {}
-
-  getBlocks(BuildContext context) {}
-
   getInterests(BuildContext context) {}
 
-  getPins() {}
-
-  getPinned() {}
+  getFollowers() {}
 
   // message(Message message) {}
 
   String? get getProfileUrl {
-    // return profileUrl?.url;
+    // User user = this;
+    // String url = UserUrls.profile(user);
   }
 
   bool get profileIsComplete {
@@ -139,13 +115,11 @@ class User {
       username,
       fullname,
       category,
-      portfolio,
       profilePic,
       bio,
       posts,
-      pins,
-      pinned,
-      isPinned
+      followers,
+      isFollowing
     ];
     return !info.any((element) => element == null);
   }
@@ -163,8 +137,6 @@ class User {
     // email = newUser.email ?? email;
     // fullname = newUser.fullname ?? fullname;
     // interests = newUser.interests ?? interests;
-    // linkedAccounts = newUser.linkedAccounts ?? linkedAccounts;
-    // location = newUser.location ?? location;
     // phone = newUser.phone ?? phone;
     // portfolio = newUser.portfolio ?? portfolio;
     // profilePic = newUser.profilePic ?? profilePic;

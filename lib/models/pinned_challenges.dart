@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
