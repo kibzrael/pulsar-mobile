@@ -104,8 +104,8 @@ class _ChallengePageState extends State<ChallengePage>
       child: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         controller: scrollController,
-        pinnedHeaderSliverHeightBuilder: () =>
-            (MediaQuery.of(context).padding.top + kToolbarHeight),
+        // pinnedHeaderSliverHeightBuilder: () =>
+        //     (MediaQuery.of(context).padding.top + kToolbarHeight),
         headerSliverBuilder: (context, bool) {
           double opacity = scrollPosition / (200 - kToolbarHeight);
           double padding = scrollPosition > 45 ? 45 : scrollPosition;
@@ -252,41 +252,7 @@ class _ChallengePageState extends State<ChallengePage>
                         isFollowed = !isFollowed;
                       });
                     }),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 4),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-                //       option(
-                //           icon: MyIcons.rules,
-                //           text: 'Rules',
-                //           onPressed: () {
-                //             Navigator.push(
-                //                 context,
-                //                 myPageRoute(
-                //                     builder: (context) => ChallengeRules(
-                //                         challenge,
-                //                         rules: challenge.description ?? '')));
-                //           }),
-                //       option(
-                //           icon: MyIcons.prize,
-                //           text: 'Prizes',
-                //           onPressed: () {
-                //             Navigator.push(
-                //                 context,
-                //                 myPageRoute(
-                //                     builder: (context) => ChallengePrizes()));
-                //           }),
-                //       option(
-                //           icon: MyIcons.leaderboard,
-                //           text: 'Leaderboard',
-                //           onPressed: () {
-                //             Navigator.of(context).push(myPageRoute(
-                //                 builder: (context) => Leaderboard(challenge)));
-                //           }),
-                //     ],
-                //   ),
-                // ),
+                SizedBox(height: 3)
               ],
             ))
           ];

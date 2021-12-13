@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:pulsar/my_galaxy/challenge_page.dart';
-import 'package:pulsar/widgets/follow_button.dart';
-import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/data/challenges.dart';
+import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class DiscoverChallenges extends StatefulWidget {
   @override
@@ -16,179 +16,200 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
   List<Challenge> challenges = [
-    cuisines,
-    breakup,
     adventure,
-    bestOfNewYork,
+    breakup,
     landscape,
-    telephoneGame,
-    paintChallenge,
-    modellingChallenge,
-    gymnasticChallenge,
-    danceChallenge,
-    puppetryChallenge,
+    bestOfTokyo,
+    pet,
+    bestOfNewYork,
+    streetDance,
+    litByFire,
   ];
-  CarouselController? carouselController;
+
+  List<String> tags = [
+    'For you',
+    'Trending',
+    ...allCategories.map((e) => e.name)
+  ];
+
+  String selected = 'For you';
 
   @override
   void initState() {
     super.initState();
-    carouselController = CarouselController();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    double cardWidth = (MediaQuery.of(context).size.width * 0.8) - 15;
-    double cardHeight = cardWidth * (4 / 3);
-    return Section(
-      title: 'Discover Challenges',
-      child: CarouselSlider(
-        //use a controller on pin
-        carouselController: carouselController,
-        options: CarouselOptions(
-          height: cardHeight + 10,
-          viewportFraction: 0.8,
-          enableInfiniteScroll: false,
-          enlargeCenterPage: true,
-          initialPage: 0,
-          onPageChanged: (index, reason) {
-            setState(() {});
-          },
-        ),
-        items: challenges.map((challenge) {
-          return DiscoverChallengesCard(
-            challenge,
-            cardWidth: cardWidth,
-            onPinned: () {
-              carouselController!.nextPage(
-                  duration: Duration(milliseconds: 700), curve: Curves.ease);
-            },
-          );
-        }).toList(),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        children: [
+          Container(
+            height: 56,
+            child: ListView.builder(
+                itemCount: tags.length,
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                itemBuilder: (context, index) {
+                  return ChallengeTag(
+                    tags[index],
+                    isSelected: selected == tags[index],
+                    onPressed: () => setState(() => selected = tags[index]),
+                  );
+                }),
+          ),
+          Container(
+            height: 225,
+            margin: EdgeInsets.only(top: 12),
+            child: ListView.builder(
+              itemCount: challenges.length,
+              scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 7.5),
+              itemBuilder: (context, index) {
+                Challenge challenge = challenges[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(myPageRoute(
+                        builder: (context) => ChallengePage(challenge)));
+                  },
+                  child: Card(
+                    margin: EdgeInsets.fromLTRB(7.5, 0, 7.5,
+                        10), //symmetric(horizontal: 7.5, vertical: 5),
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(12),
+                            bottom: Radius.circular(15))),
+                    child: Container(
+                      width: 180,
+                      padding: EdgeInsets.only(bottom: 5),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 125,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(12)),
+                                image: DecorationImage(
+                                    image: AssetImage(challenge.coverPhoto!),
+                                    fit: BoxFit.cover)),
+                          ),
+                          Spacer(),
+                          Text(
+                            challenge.name,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(fontSize: 18),
+                            maxLines: 1,
+                          ),
+                          Text(
+                            'Category',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .copyWith(fontSize: 16.5),
+                            maxLines: 1,
+                          ),
+                          Spacer(),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                  child: Icon(
+                                    MyIcons.play,
+                                    size: 24,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '3.14K',
+                                    maxLines: 1,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                  child: Icon(
+                                    MyIcons.pin,
+                                    size: 18,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '4.5K',
+                                    maxLines: 1,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class DiscoverChallengesCard extends StatefulWidget {
-  final Challenge challenge;
-  final double cardWidth;
-  final Function onPinned;
-  DiscoverChallengesCard(this.challenge,
-      {required this.cardWidth, required this.onPinned});
+class ChallengeTag extends StatefulWidget {
+  final String tag;
+  final bool isSelected;
+  final Function() onPressed;
+  ChallengeTag(this.tag, {required this.isSelected, required this.onPressed});
+
   @override
-  _DiscoverChallengesCardState createState() => _DiscoverChallengesCardState();
+  _ChallengeTagState createState() => _ChallengeTagState();
 }
 
-class _DiscoverChallengesCardState extends State<DiscoverChallengesCard>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-  bool isPinned = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+class _ChallengeTagState extends State<ChallengeTag> {
+  bool get isSelected => widget.isSelected;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    double cardWidth = widget.cardWidth;
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-            myPageRoute(builder: (context) => ChallengePage(widget.challenge)));
-      },
+      onTap: widget.onPressed,
       child: Card(
-        margin: EdgeInsets.fromLTRB(7.5, 0, 7.5, 10),
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30)),
-        ),
-        child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: EdgeInsets.only(top: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Hero(
-                tag: '${widget.challenge.id}',
-                child: Container(
-                  height: cardWidth / 2,
-                  width: cardWidth / 2,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).dividerColor,
-                    image: DecorationImage(
-                        image: AssetImage(widget.challenge.coverPhoto!),
-                        fit: BoxFit.cover),
-                  ),
-                ),
-              ),
-              Container(
-                height: 50,
-                margin: EdgeInsets.only(bottom: 4),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text('${widget.challenge.name}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle1!
-                              .copyWith(fontSize: 21)),
-                    ),
-                    Center(
-                      child: Text('Category',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(fontSize: 18)),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  width: cardWidth,
-                  margin: EdgeInsets.symmetric(vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.white10,
-                    // image: DecorationImage(
-                    //     image: AssetImage(widget.challenge.coverPhoto!),
-                    //     fit: BoxFit.cover)
-                  ),
-                  foregroundDecoration: BoxDecoration(color: Colors.black45),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7.5),
-                child: FollowButton(
-                  height: 37.5,
-                  width: double.infinity,
-                  isFollowing: isPinned,
-                  text: {true: 'Pinned', false: 'Pin'},
-                  onPressed: () {
-                    setState(() {
-                      isPinned = !isPinned;
-                    });
-
-                    if (isPinned) widget.onPinned();
-                  },
-                ),
-              ),
-            ],
-          ),
+        elevation: 3,
+        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        child: AnimatedContainer(
+          padding: EdgeInsets.only(left: 8, right: 12),
+          duration: Duration(milliseconds: 300),
+          decoration: BoxDecoration(
+              gradient: isSelected ? secondaryGradient() : null,
+              borderRadius: BorderRadius.circular(30)),
+          child: Row(children: [
+            CircleAvatar(
+              radius: 15,
+              backgroundColor: Theme.of(context).dividerColor,
+            ),
+            SizedBox(width: 8),
+            Text(
+              widget.tag,
+              style: TextStyle(
+                  fontSize: 16.5,
+                  fontWeight: FontWeight.w500,
+                  color: isSelected
+                      ? Colors.white
+                      : Theme.of(context).textTheme.subtitle2!.color),
+            )
+          ]),
         ),
       ),
     );

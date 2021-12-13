@@ -3,6 +3,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/compose/compose_message.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
@@ -66,10 +67,15 @@ class _HighlightUsersState extends State<HighlightUsers> {
                         child: Container(
                           width: 52,
                           height: 52,
-                          child: Icon(
-                            MyIcons.add,
-                            color: Theme.of(context).colorScheme.secondary,
-                            size: 35,
+                          child: ShaderMask(
+                            shaderCallback: (rect) =>
+                                secondaryGradient(begin: Alignment.topLeft)
+                                    .createShader(rect),
+                            child: Icon(
+                              MyIcons.add,
+                              color: Colors.white,
+                              size: 35,
+                            ),
                           ),
                         ),
                       ),

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/pages/home_page.dart';
 import 'package:pulsar/pages/message_screen.dart';
-import 'package:pulsar/pages/my_galaxy.dart';
+import 'package:pulsar/pages/challenges.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/background_operations.dart';

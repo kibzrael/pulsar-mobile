@@ -24,6 +24,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
     chris
   ];
 
+  List<Interaction> types = [
+    Interaction.like,
+    Interaction.follow,
+    Interaction.repost,
+    Interaction.comment
+  ];
+
   Future onRefresh() async {
     await Future.delayed(Duration(seconds: 2));
     return;
@@ -34,14 +41,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
-        actions: [IconButton(icon: Icon(MyIcons.filterList), onPressed: () {})],
+        actions: [IconButton(icon: Icon(MyIcons.tune), onPressed: () {})],
       ),
       body: RefreshIndicator(
         onRefresh: onRefresh,
         child: ListView.separated(
           itemCount: users.length,
           itemBuilder: (context, index) {
-            return InteractionNotificationCard(users[index]);
+            return InteractionNotificationCard(users[index],
+                type: types[index % 4]);
           },
           separatorBuilder: (context, index) {
             return SizedBox(

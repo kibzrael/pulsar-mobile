@@ -4,6 +4,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/message.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/messaging_screen.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -142,7 +143,7 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
                 margin: EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Theme.of(context).colorScheme.secondary),
+                    gradient: secondaryGradient(begin: Alignment.topLeft)),
                 child: Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 13.5),

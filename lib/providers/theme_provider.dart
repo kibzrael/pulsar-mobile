@@ -17,26 +17,31 @@ Color kInputColor = Color(0xFF202020);
 Color kSurfaceColor = Color(0xFF181818);
 Color kDividerColor = Color(0xFF424242);
 
-
 LinearGradient primaryGradient({
   Alignment begin = Alignment.centerLeft,
   Alignment end = Alignment.centerRight,
-})=>LinearGradient(
-  colors: [
-    kPrimary,
-    kPrimaryVariant,
-  ],begin: begin,end: end,
-);
+}) =>
+    LinearGradient(
+      colors: [
+        kPrimary,
+        kPrimaryVariant,
+      ],
+      begin: begin,
+      end: end,
+    );
 
 LinearGradient secondaryGradient({
   Alignment begin = Alignment.centerLeft,
   Alignment end = Alignment.centerRight,
-})=>LinearGradient(
-  colors: [
-    kSecondary,
-    kPrimaryVariant,
-  ],begin: begin,end: end,
-);
+}) =>
+    LinearGradient(
+      colors: [
+        kSecondary,
+        kPrimaryVariant,
+      ],
+      begin: begin,
+      end: end,
+    );
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -132,7 +137,7 @@ TextTheme textTheme(Brightness brightness) => TextTheme(
       fontWeight: FontWeight.w500,
     ),
     headline1: TextStyle(
-      fontSize: 18,
+      fontSize: 21,
       fontWeight: FontWeight.bold,
       color: Colors.grey[brightness == Brightness.light ? 600 : 350],
     ),

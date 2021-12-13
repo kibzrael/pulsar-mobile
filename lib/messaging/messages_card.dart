@@ -6,6 +6,7 @@ import 'package:pulsar/classes/message.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/providers/messages_provider.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
 
@@ -75,10 +76,13 @@ class _MessagesCardState extends State<MessagesCard> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.surface),
-                      child: CircleAvatar(
-                        radius: 9,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
+                      child: Container(
+                        width: 18,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: secondaryGradient(begin: Alignment.topLeft),
+                        ),
                         child: Center(
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
@@ -137,7 +141,7 @@ class _MessagesCardState extends State<MessagesCard> {
                 margin: EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: Theme.of(context).colorScheme.secondary),
+                    gradient: secondaryGradient(begin: Alignment.topLeft)),
                 child: Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 13.5),

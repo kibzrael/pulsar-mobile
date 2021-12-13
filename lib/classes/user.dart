@@ -56,7 +56,7 @@ class User {
         id = info['id'] is int ? info['id'] : int.tryParse(info['id']),
         username = info['username'],
         bio = info['bio'],
-        category = info['category'],
+        category = info['category'] ?? "Personal Account",
         dateOfBirth = DateTime.tryParse(info['dateOfBirth'] ?? ''),
         email = info['email'],
         fullname = info['fullname'],

@@ -26,24 +26,42 @@ class FollowLayout extends StatelessWidget {
       data: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FollowButton(
-              isFollowing: isFollowed,
-              text: isPin
-                  ? {true: 'Pinned', false: 'Pin'}
-                  : {true: 'Following', false: 'Follow'},
-              onPressed: onFollow,
-              height: 35,
-              width: MediaQuery.of(context).size.width / 2 -
-                  (middle == null ? 0 : 45),
-            ),
-            SizedBox(width: 15),
-            if (middle != null)
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FollowButton(
+                isFollowing: isFollowed,
+                text: isPin
+                    ? {true: 'Pinned', false: 'Pin'}
+                    : {true: 'Following', false: 'Follow'},
+                onPressed: onFollow,
+                height: 35,
+                width: constraints.maxWidth / 2 - (middle == null ? 0 : 45),
+              ),
+              SizedBox(width: 15),
+              if (middle != null)
+                InkWell(
+                  onTap: onMiddlePressed,
+                  child: Card(
+                    elevation: 4,
+                    margin: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Container(
+                      child: middle,
+                      height: 35,
+                      alignment: Alignment.center,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    ),
+                  ),
+                ),
+              if (middle != null) SizedBox(width: 15),
               InkWell(
-                onTap: onMiddlePressed,
+                onTap: onChildPressed,
                 child: Card(
                   elevation: 4,
                   margin: EdgeInsets.zero,
@@ -51,32 +69,16 @@ class FollowLayout extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Container(
-                    child: middle,
+                    child: child,
                     height: 35,
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   ),
                 ),
               ),
-            if (middle != null) SizedBox(width: 15),
-            InkWell(
-              onTap: onChildPressed,
-              child: Card(
-                elevation: 4,
-                margin: EdgeInsets.zero,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Container(
-                  child: child,
-                  height: 35,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }

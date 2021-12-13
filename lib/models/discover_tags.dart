@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
-class DiscoverGalaxyTags extends StatefulWidget {
+class DiscoverTags extends StatefulWidget {
   final String selected;
   final Function(String value) onChanged;
 
-  DiscoverGalaxyTags({required this.selected, required this.onChanged});
+  DiscoverTags({required this.selected, required this.onChanged});
 
   @override
-  _DiscoverGalaxyTagsState createState() => _DiscoverGalaxyTagsState();
+  _DiscoverTagsState createState() => _DiscoverTagsState();
 }
 
-class _DiscoverGalaxyTagsState extends State<DiscoverGalaxyTags> {
+class _DiscoverTagsState extends State<DiscoverTags> {
   List<Interest> tags = allCategories;
 
   String get selected => widget.selected;
@@ -33,7 +34,7 @@ class _DiscoverGalaxyTagsState extends State<DiscoverGalaxyTags> {
                 : index == 1
                     ? 'Trending'
                     : tags[index - 2].name;
-            return GalaxyTag(
+            return TagWidget(
                 text: name,
                 isSelected: selected == name,
                 onPressed: widget.onChanged);
@@ -42,12 +43,12 @@ class _DiscoverGalaxyTagsState extends State<DiscoverGalaxyTags> {
   }
 }
 
-class GalaxyTag extends StatelessWidget {
+class TagWidget extends StatelessWidget {
   final String text;
   final bool isSelected;
   final Function(String interest) onPressed;
 
-  GalaxyTag(
+  TagWidget(
       {required this.text, required this.isSelected, required this.onPressed});
 
   @override
@@ -64,12 +65,7 @@ class GalaxyTag extends StatelessWidget {
                 width: 1.5,
                 color: Theme.of(context).dividerColor,
                 style: isSelected ? BorderStyle.none : BorderStyle.solid),
-            gradient: isSelected
-                ? LinearGradient(colors: [
-                    Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primaryVariant
-                  ])
-                : null,
+            gradient: isSelected ? secondaryGradient() : null,
             borderRadius: BorderRadius.circular(15)),
         child: Text(
           text,

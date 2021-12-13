@@ -115,6 +115,7 @@ class _PostVideoState extends State<PostVideo> {
   bool isPaused = false;
 
   late Key visibilityKey;
+  bool visible = false;
 
   @override
   void initState() {
@@ -125,7 +126,7 @@ class _PostVideoState extends State<PostVideo> {
 
   @override
   void dispose() {
-    // controller?.dispose();
+    if (controller?.dataSource == video.source) controller?.dispose();
     super.dispose();
   }
 
@@ -143,7 +144,7 @@ class _PostVideoState extends State<PostVideo> {
 
       videoProvider.initializeVideo(video.source).then((_) {
         setState(() {
-          if (widget.isInView) {
+          if (widget.isInView && visible) {
             controller = videoProvider.videoPlayerController;
             controller?.play();
             isPlaying = true;
@@ -181,6 +182,7 @@ class _PostVideoState extends State<PostVideo> {
         onVisibilityChanged: (info) {
           print(info.visibleFraction);
           if (info.visibleFraction < 0.5) {
+            visible = false;
             if (controller != null) {
               if (video.source == controller!.dataSource) {
                 isPlaying = false;
@@ -188,8 +190,9 @@ class _PostVideoState extends State<PostVideo> {
               }
             }
           }
-          if (info.visibleFraction > 0.5 && !isPlaying && !isPaused) {
-            if (controller != null) {
+          if (info.visibleFraction > 0.5) {
+            visible = true;
+            if (controller != null && !isPlaying && !isPaused) {
               if (video.source == controller!.dataSource) {
                 controller?.play();
                 isPlaying = true;

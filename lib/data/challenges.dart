@@ -1,45 +1,45 @@
 import 'package:pulsar/classes/challenge.dart';
 
 Challenge paintChallenge = Challenge(1,
-    name: 'PaintChallenge', coverPhoto: 'assets/categories/artist.jpg');
+    name: 'Paint Challenge', coverPhoto: 'assets/categories/artist.jpg');
 
 Challenge actingChallenge = Challenge(2,
-    name: 'ActingChallenge', coverPhoto: 'assets/categories/actor.jpg');
+    name: 'Acting Challenge', coverPhoto: 'assets/categories/actor.jpg');
 Challenge comedyChallenge = Challenge(3,
-    name: 'ComedyChallenge', coverPhoto: 'assets/categories/comedian.jpg');
+    name: 'Comedy Challenge', coverPhoto: 'assets/categories/comedian.jpg');
 
 Challenge bandChallenge = Challenge(4,
-    name: 'BandChallenge', coverPhoto: 'assets/categories/band.jpg');
+    name: 'Band Challenge', coverPhoto: 'assets/categories/band.jpg');
 
 Challenge danceChallenge = Challenge(5,
-    name: 'DanceChallenge', coverPhoto: 'assets/categories/dancer.jpg');
+    name: 'Dance Challenge', coverPhoto: 'assets/categories/dancer.jpg');
 
 Challenge gymnasticChallenge = Challenge(6,
-    name: 'GymnasticChallenge', coverPhoto: 'assets/categories/gymnast.jpg');
+    name: 'Gymnastic Challenge', coverPhoto: 'assets/categories/gymnast.jpg');
 
 Challenge interiorChallenge = Challenge(7,
-    name: 'InterorDesignChallenge',
+    name: 'InterorDesign Challenge',
     coverPhoto: 'assets/categories/interior designer.jpg');
 
 Challenge magicChallenge = Challenge(8,
-    name: 'MagicChallenge', coverPhoto: 'assets/categories/magician.jpg');
+    name: 'Magic Challenge', coverPhoto: 'assets/categories/magician.jpg');
 
 Challenge makeupChallenge = Challenge(9,
-    name: 'MakeupChallenge',
+    name: 'Makeup Challenge',
     coverPhoto: 'assets/categories/make up artist.jpg');
 
 Challenge modellingChallenge = Challenge(10,
-    name: 'ModellingChallenge', coverPhoto: 'assets/categories/model.jpg');
+    name: 'Modelling Challenge', coverPhoto: 'assets/categories/model.jpg');
 
 Challenge karaokeChallenge = Challenge(11,
-    name: 'KaraokeChallenge', coverPhoto: 'assets/categories/musician.jpg');
+    name: 'Karaoke Challenge', coverPhoto: 'assets/categories/musician.jpg');
 
 Challenge photographyChallenge = Challenge(12,
-    name: 'PhotographyChallenge',
+    name: 'Photography Challenge',
     coverPhoto: 'assets/categories/photographer.jpg');
 
 Challenge puppetryChallenge = Challenge(13,
-    name: 'PuppetryChallenge',
+    name: 'Puppetry Challenge',
     coverPhoto: 'assets/categories/puppet master.jpg');
 
 //

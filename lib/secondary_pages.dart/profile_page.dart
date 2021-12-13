@@ -110,12 +110,6 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ];
             },
-            // innerScrollPositionKeyBuilder: () {
-            //   String index = 'Tab';
-            //   index += tabController!.index.toString();
-
-            //   return Key(index);
-            // },
             onlyOneScrollInBody: false,
             body: Column(
               children: <Widget>[

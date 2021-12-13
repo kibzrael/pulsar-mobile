@@ -88,18 +88,18 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                       fit: BoxFit.cover)
                                   : null,
                             ),
+                            foregroundDecoration:
+                                BoxDecoration(color: Colors.black12),
                           ),
                         ),
                         Container(
-                          height: 60,
+                          height: 125,
                           width: 175,
                           alignment: Alignment.bottomCenter,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4,
-                          ),
+                          padding: EdgeInsets.all(4),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text(
                                 '${challenge.name}',
@@ -107,10 +107,11 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                     .textTheme
                                     .bodyText1
                                     ?.copyWith(
-                                      fontSize: 15,
+                                      fontSize: 18,
                                       color: Colors.white,
                                     ),
-                                maxLines: 1,
+                                maxLines: 2,
+                                softWrap: true,
                                 textAlign: TextAlign.center,
                               ),
                               Container(
