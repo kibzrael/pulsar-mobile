@@ -300,7 +300,7 @@ class _PostLayoutState extends State<PostLayout> {
                               child: CommentButton(
                                 size: 30,
                                 onPressed: () {
-                                  openBottomSheet(_, (_) => CommentPage());
+                                  openBottomSheet(_, (_) => CommentPage(post));
                                 },
                               ),
                             );

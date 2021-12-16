@@ -45,7 +45,6 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
               List<Map<String, dynamic>> snapshotData = snapshot.data;
               if (dataCategory == category) data = [...snapshotData];
               List<Post> postData = [...data.map((e) => Post.fromJson(e))];
-              if (snapshot.errorLoading) print(snapshot.error);
 
               return Column(
                 children: [

@@ -29,7 +29,8 @@ class _InterestsPageState extends State<InterestsPage>
     setState(() {
       isSubmitting = true;
     });
-    await Future.delayed(Duration(seconds: 2));
+    await provider.submit();
+
     setState(() {
       isSubmitting = false;
     });

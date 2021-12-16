@@ -126,7 +126,10 @@ class _PostVideoState extends State<PostVideo> {
 
   @override
   void dispose() {
-    if (controller?.dataSource == video.source) controller?.dispose();
+    if (controller?.dataSource == video.source) {
+      controller?.dispose();
+      controller = null;
+    }
     super.dispose();
   }
 
@@ -186,7 +189,7 @@ class _PostVideoState extends State<PostVideo> {
             if (controller != null) {
               if (video.source == controller!.dataSource) {
                 isPlaying = false;
-                controller!.pause();
+                controller?.pause();
               }
             }
           }

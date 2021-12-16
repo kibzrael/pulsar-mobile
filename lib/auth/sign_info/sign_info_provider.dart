@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -90,6 +92,16 @@ class SignInfoProvider extends ChangeNotifier {
   nextPage() {
     _page = _pageController.page!.floor();
     _pageController.jumpToPage(_page! + 1);
+  }
+
+  submit() async {
+    await Future.delayed(Duration(seconds: 2));
+    FirebaseStorage storage = FirebaseStorage.instance;
+    Reference profilePic = storage.ref('profile pictures/${user.id}.jpg');
+    if (user.profilePic != null) profilePic.putFile(File(user.profilePic!));
+    String profilePicUrl = await profilePic.getDownloadURL();
+    user.profilePic = profilePicUrl;
+    return;
   }
 }
 

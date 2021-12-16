@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
@@ -33,10 +34,9 @@ class RecipientCard extends StatelessWidget {
             : null,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isSelected
-                ? Theme.of(context).colorScheme.secondary
-                : Colors.transparent,
-            border: Border.all(
+            gradient:
+                isSelected ? secondaryGradient(begin: Alignment.topLeft) : null,
+            border:isSelected? null: Border.all(
                 width: 3,
                 color: isSelected
                     ? Theme.of(context).colorScheme.secondary

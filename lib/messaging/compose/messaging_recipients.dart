@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class MessagingRecipients extends StatefulWidget {
   final List<User> recipients;
-  final Function onRemove;
+  final Function(User user) onRemove;
+  final Function() onClear;
   final ScrollController recipientsController;
   MessagingRecipients(
       {required this.recipients,
       required this.onRemove,
+      required this.onClear,
       required this.recipientsController});
   @override
   _MessagingRecipientsState createState() => _MessagingRecipientsState();
@@ -24,7 +27,7 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
     return Section(
       title: 'Members',
       trailing: InkWell(
-          onTap: () {},
+          onTap: widget.onClear,
           child: Padding(
             padding: EdgeInsets.all(8),
             child: Icon(MyIcons.clearAll),
@@ -61,8 +64,14 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                     child: Chip(
                       elevation: 1,
                       label: Text('@${recipients![index].username}'),
-                      deleteIcon: Icon(Icons.cancel,
-                          color: Theme.of(context).colorScheme.secondary),
+                      deleteIcon: ShaderMask(
+                          shaderCallback: (rect) =>
+                              secondaryGradient(begin: Alignment.topLeft)
+                                  .createShader(rect),
+                          child: Icon(
+                            Icons.cancel,
+                            color: Colors.white,
+                          )),
                       onDeleted: () {
                         setState(() {
                           widget.onRemove(recipients![index]);

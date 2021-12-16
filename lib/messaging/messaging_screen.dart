@@ -7,8 +7,10 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/messaging/messaging_card.dart';
 import 'package:pulsar/options/chat.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/text_input.dart';
@@ -235,9 +237,9 @@ class _MessagingScreenState extends State<MessagingScreen>
                             padding: EdgeInsets.fromLTRB(
                                 4, 2, message.length < 1 ? 4 : 8, 2),
                             prefix: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(MyIcons.attatchment),
-                            ),
+                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child:
+                                    ProfilePic(tahlia.profilePic, radius: 18)),
                             onChanged: (text) {
                               setState(() {
                                 message = text;
@@ -251,11 +253,10 @@ class _MessagingScreenState extends State<MessagingScreen>
                             onSubmitted: (text) {},
                             suffix: Row(
                               children: [
-                                if (message.length < 1)
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(MyIcons.camera),
-                                  ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(MyIcons.camera),
+                                ),
                                 if (message.length < 1)
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
@@ -293,10 +294,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                               height: 42,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(21),
-                                  gradient: LinearGradient(colors: [
-                                    Theme.of(context).colorScheme.primary,
-                                    Theme.of(context).colorScheme.primaryVariant
-                                  ])),
+                                  gradient: primaryGradient()),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 5),
                             ),

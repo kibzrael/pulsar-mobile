@@ -61,6 +61,12 @@ class _ComposeMessageState extends State<ComposeMessage> {
     });
   }
 
+  clearRecipients() {
+    setState(() {
+      recipients.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -102,6 +108,7 @@ class _ComposeMessageState extends State<ComposeMessage> {
             MessagingRecipients(
               recipients: recipients,
               onRemove: removeRecipient,
+              onClear: clearRecipients,
               recipientsController: recipientsController!,
             ),
             SizedBox(height: 12),

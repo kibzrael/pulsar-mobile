@@ -15,12 +15,12 @@ import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
-class MyGalaxy extends StatefulWidget {
+class ChallengesPage extends StatefulWidget {
   @override
-  _MyGalaxyState createState() => _MyGalaxyState();
+  _ChallengesPageState createState() => _ChallengesPageState();
 }
 
-class _MyGalaxyState extends State<MyGalaxy> {
+class _ChallengesPageState extends State<ChallengesPage> {
   GlobalKey<NavigatorState> key = GlobalKey();
   @override
   Widget build(BuildContext context) {

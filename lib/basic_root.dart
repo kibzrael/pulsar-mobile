@@ -125,7 +125,7 @@ class _BasicRootState extends State<BasicRoot> {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     HomePage(),
-                    MyGalaxy(),
+                    ChallengesPage(),
                     Container(),
                     MessageScreen(),
                     MyProfilePage(),

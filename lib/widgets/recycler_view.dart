@@ -121,6 +121,7 @@ class _RecyclerViewState extends State<RecyclerView> {
   Future<bool> refreshCallback() async {
     isRefreshing = true;
     canBuffer = true;
+    snapshot.error = null;
     await fetchData();
     return true;
   }
