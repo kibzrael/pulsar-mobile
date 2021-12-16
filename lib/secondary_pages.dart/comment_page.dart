@@ -26,6 +26,7 @@ class _CommentPageState extends State<CommentPage> {
   Post get post => widget.post;
 
   String comment = '';
+  Comment? replyTo;
 
   List<Map<String, dynamic>> userComments = [];
 
@@ -50,6 +51,12 @@ class _CommentPageState extends State<CommentPage> {
     }
 
     return comments;
+  }
+
+  onReply(Comment comment) {
+    setState(() {
+      replyTo = comment;
+    });
   }
 
   @override
@@ -92,18 +99,66 @@ class _CommentPageState extends State<CommentPage> {
                                     Map<String, dynamic> comment = data[index];
 
                                     return CommentCard(
-                                      Comment(comment['id'],
-                                          user: comment['user'],
-                                          post: comment['post'],
-                                          comment: comment['comment'],
-                                          time: comment['time'],
-                                          likes: 1302,
-                                          replies: 423),
-                                    );
+                                        Comment(comment['id'],
+                                            user: comment['user'],
+                                            post: comment['post'],
+                                            comment: comment['comment'],
+                                            time: comment['time'],
+                                            likes: 1302,
+                                            replies: 423),
+                                        onReply: onReply);
                                   }),
                             );
                     }),
               ),
+              if (replyTo != null)
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.symmetric(
+                      horizontal: BorderSide(
+                        color:
+                            Theme.of(context).inputDecorationTheme.fillColor!,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      ProfilePic(replyTo?.user.profilePic, radius: 18),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            RichText(
+                              text: TextSpan(text: 'replying to', children: [
+                                TextSpan(
+                                    text: ' @${replyTo?.user.username}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16.5))
+                              ]),
+                            ),
+                            Text(
+                              replyTo!.comment,
+                              style: Theme.of(context).textTheme.subtitle2,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => setState(() => replyTo = null),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(MyIcons.close),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Row(
@@ -144,10 +199,12 @@ class _CommentPageState extends State<CommentPage> {
                                   .user!,
                               'post': post,
                               'comment': comment,
+                              'replyTo': replyTo,
                               'time': DateTime.now()
                             });
                             commentController.text = '';
                             comment = '';
+                            replyTo = null;
                           });
                         }
                       },

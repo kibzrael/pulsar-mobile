@@ -8,9 +8,10 @@ import 'package:pulsar/widgets/route.dart';
 
 class CommentCard extends StatefulWidget {
   final Comment comment;
+  final Function(Comment comment) onReply;
   final List<Comment> replies;
 
-  CommentCard(this.comment, {this.replies = const []});
+  CommentCard(this.comment, {required this.onReply, this.replies = const []});
 
   @override
   _CommentCardState createState() => _CommentCardState();
@@ -26,7 +27,9 @@ class _CommentCardState extends State<CommentCard> {
     comment.like();
   }
 
-  reply() {}
+  reply() {
+    widget.onReply(comment);
+  }
 
   openProfile() {
     Navigator.of(context)

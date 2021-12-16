@@ -25,10 +25,12 @@ class _SettingsPageState extends State<SettingsPage> {
       'Manage Account': {'icon': MyIcons.account, 'page': ManageAccount()},
       'Billing': {'icon': MyIcons.billing, 'page': Billing()},
     },
-    'Ads': {
-      'Ad activity': {'icon': MyIcons.activity, 'page': null},
-      'About Ads': {'icon': MyIcons.ad, 'page': null},
-    },
+
+    // 'Ads': {
+    //   'Ad activity': {'icon': MyIcons.activity, 'page': null},
+    //   'About Ads': {'icon': MyIcons.ad, 'page': null},
+    // },
+
     'Display & Media': {
       'Data Saver': {'icon': MyIcons.dataSaver, 'page': DataSaver()},
       'Theme': {'icon': MyIcons.theme, 'page': SelectTheme()},
@@ -53,19 +55,31 @@ class _SettingsPageState extends State<SettingsPage> {
           for (String key in settings.keys.toList())
             Section(
               title: key,
+              titleSize: 18,
               child: Column(
                 children: [
                   for (String subKey in settings[key]!.keys.toList())
-                    MyListTile(
-                      onPressed: () {
-                        Navigator.of(context).push(myPageRoute(
-                            builder: (context) =>
-                                settings[key]![subKey]!['page'] ?? Blank()));
-                      },
-                      title: subKey,
-                      leading: Icon(
-                        settings[key]![subKey]!['icon'],
-                      ),
+                    Column(
+                      children: [
+                        MyListTile(
+                          onPressed: () {
+                            Navigator.of(context).push(myPageRoute(
+                                builder: (context) =>
+                                    settings[key]![subKey]!['page'] ??
+                                    Blank()));
+                          },
+                          title: subKey,
+                          leading: Icon(
+                            settings[key]![subKey]!['icon'],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Divider(
+                            thickness: 1.2,
+                          ),
+                        )
+                      ],
                     )
                 ],
               ),

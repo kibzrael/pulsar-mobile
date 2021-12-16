@@ -41,7 +41,7 @@ class _ManageAccountState extends State<ManageAccount> {
                                   .subtitle1!
                                   .copyWith(fontSize: 21)),
                           SizedBox(
-                            height: 2.5,
+                            height: 5,
                           ),
                           Text('${user.category}',
                               style: Theme.of(context)
@@ -75,7 +75,6 @@ class _ManageAccountState extends State<ManageAccount> {
               ),
               Section(
                 title: 'Linked Accounts',
-                trailing: Icon(MyIcons.addOutlined),
                 child: Column(children: [
                   MyListTile(
                     title: 'Facebook',
