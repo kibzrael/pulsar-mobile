@@ -27,6 +27,26 @@ class _EditProfileState extends State<EditProfile> {
   String profilePic = tahlia.profilePic!;
   MyImageProvider imageProvider = MyImageProvider.network;
 
+  late TextEditingController fullnameController;
+  late TextEditingController bioController;
+  late TextEditingController portfolioController;
+
+  @override
+  void initState() {
+    super.initState();
+    fullnameController = TextEditingController(text: user.fullname);
+    bioController = TextEditingController(text: user.bio);
+    portfolioController = TextEditingController(text: user.portfolio);
+  }
+
+  @override
+  void dispose() {
+    fullnameController.dispose();
+    bioController.dispose();
+    portfolioController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -155,6 +175,7 @@ class _EditProfileState extends State<EditProfile> {
                             trailing: Expanded(
                                 flex: 3,
                                 child: TextField(
+                                  controller: fullnameController,
                                   textAlign: TextAlign.end,
                                   style: Theme.of(context)
                                       .textTheme
@@ -178,6 +199,7 @@ class _EditProfileState extends State<EditProfile> {
                             trailing: Expanded(
                                 flex: 4,
                                 child: TextField(
+                                  controller: bioController,
                                   textAlign: TextAlign.end,
                                   minLines: 1,
                                   maxLines: 3,
@@ -203,6 +225,7 @@ class _EditProfileState extends State<EditProfile> {
                             trailing: Expanded(
                                 flex: 3,
                                 child: TextField(
+                                  controller: portfolioController,
                                   textAlign: TextAlign.end,
                                   style: Theme.of(context)
                                       .textTheme

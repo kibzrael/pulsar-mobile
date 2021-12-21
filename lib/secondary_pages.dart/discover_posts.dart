@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
@@ -109,8 +110,10 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                                           .inputDecorationTheme
                                                           .fillColor,
                                                       image: DecorationImage(
-                                                          image: AssetImage(post
-                                                              .video.thumbnail),
+                                                          image:
+                                                              CachedNetworkImageProvider(
+                                                                  post.video
+                                                                      .thumbnail),
                                                           fit: BoxFit.cover),
                                                     ),
                                                   ),

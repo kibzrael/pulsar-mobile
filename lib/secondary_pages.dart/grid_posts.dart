@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
@@ -48,15 +49,6 @@ class _GridPostsState extends State<GridPosts>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    // BasicRootProvider? basicRootProvider;
-    // double bottomPadding = 0;
-
-    // try {
-    //   basicRootProvider = Provider.of<BasicRootProvider>(context);
-    // } on Exception {}
-    // if (basicRootProvider != null) {
-    //   bottomPadding = kToolbarHeight;
-    // }
 
     return isLoading
         ? Align(
@@ -96,7 +88,7 @@ class _GridPostsState extends State<GridPosts>
                                     .inputDecorationTheme
                                     .fillColor,
                                 image: DecorationImage(
-                                    image: AssetImage(
+                                    image: CachedNetworkImageProvider(
                                         posts[index].video.thumbnail),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(8))),

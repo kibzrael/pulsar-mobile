@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
@@ -130,7 +131,8 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               image: DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage(widget.user['cover']))),
+                  fit: BoxFit.cover,
+                  image: CachedNetworkImageProvider(widget.user['cover']))),
           child: Container(
             alignment: Alignment.bottomCenter,
             padding: EdgeInsets.all(4),
@@ -146,7 +148,6 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                   radius: 30,
                   onMedia: true,
                 ),
-
                 SizedBox(height: 6),
                 Text(
                   '${user.username}',
@@ -179,18 +180,6 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                     },
                   ),
                 ),
-                // Container(
-                //   width: double.infinity,
-                //   height: 32,
-                //   margin: EdgeInsets.fromLTRB(8, 4, 8, 0),
-                //   decoration: BoxDecoration(
-                //     gradient: LinearGradient(colors: [
-                //       Theme.of(context).colorScheme.primary,
-                //       Theme.of(context).buttonColor
-                //     ]),
-                //     borderRadius: BorderRadius.circular(30),
-                //   ),
-                // )
               ],
             ),
           ),
