@@ -82,7 +82,8 @@ class _PostLayoutState extends State<PostLayout> {
               child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.center,
-                  child: Text('${roundCount(number)}')),
+                  child: Text('${roundCount(number)}',
+                      style: TextStyle(fontWeight: FontWeight.w500))),
             ),
           ),
         );
@@ -277,28 +278,28 @@ class _PostLayoutState extends State<PostLayout> {
                     ),
                   ),
                   Container(
-                    width: 75,
+                    width: 90,
                     alignment: Alignment.center,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         LikeButton(
                           liked: isLiked,
-                          size: 30,
+                          size: 36,
                           onPressed: () {
                             setState(() {
                               isLiked = !isLiked;
                             });
                           },
                         ),
-                        stat(24300, () {}),
+                        stat(24360, () {}),
                         Theme(
                           data: provider.theme,
                           child: Builder(builder: (_) {
                             return Theme(
                               data: Theme.of(context),
                               child: CommentButton(
-                                size: 30,
+                                size: 36,
                                 onPressed: () {
                                   openBottomSheet(_, (_) => CommentPage(post));
                                 },
@@ -306,24 +307,24 @@ class _PostLayoutState extends State<PostLayout> {
                             );
                           }),
                         ),
-                        stat(24300, comment),
+                        stat(24360, comment),
                         RepostButton(
                           reposted: isReposted,
-                          size: 30,
+                          size: 36,
                           onPressed: () {
                             setState(() {
                               isReposted = !isReposted;
                             });
                           },
                         ),
-                        stat(24300, () {}),
+                        stat(24360, () {}),
                         Theme(
                             data: provider.theme,
                             child: Builder(builder: (_) {
                               return Theme(
                                 data: Theme.of(context),
                                 child: ShareButton(
-                                  size: 30,
+                                  size: 36,
                                   onPressed: () {
                                     openBottomSheet(
                                         _, (_) => PostOptions(post));

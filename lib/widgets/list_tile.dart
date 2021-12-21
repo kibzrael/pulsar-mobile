@@ -10,16 +10,19 @@ class MyListTile extends StatelessWidget {
   final String? subtitle;
   final Function? onPressed;
   final List<int> flexRatio;
+  final CrossAxisAlignment? crossAxisAlignment;
 
-  MyListTile(
-      {this.flexRatio = const [10, 1],
-      this.leading,
-      this.onPressed,
-      this.subtitle,
-      required this.title,
-      this.trailing,
-      this.trailingArrow = true,
-      this.trailingText});
+  MyListTile({
+    this.flexRatio = const [10, 1],
+    this.leading,
+    this.onPressed,
+    this.subtitle,
+    required this.title,
+    this.trailing,
+    this.trailingArrow = true,
+    this.trailingText,
+    this.crossAxisAlignment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class MyListTile extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
           children: [
             if (leading != null)
               Padding(
@@ -39,6 +42,7 @@ class MyListTile extends StatelessWidget {
               flex: flexRatio[0],
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(title!,
                         maxLines: 1,
@@ -67,7 +71,10 @@ class MyListTile extends StatelessWidget {
               )
             else
               Spacer(),
-            if (trailing != null) trailing!,
+            if (trailing != null)
+              DefaultTextStyle(
+                  style: Theme.of(context).textTheme.subtitle2!,
+                  child: trailing!),
             if (trailingArrow) TraillingArrow()
           ],
         ),
@@ -78,13 +85,16 @@ class MyListTile extends StatelessWidget {
 
 class TraillingArrow extends StatelessWidget {
   final double size;
-  TraillingArrow({this.size = 18});
+  TraillingArrow({this.size = 15});
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      MyIcons.trailingArrow,
-      color: Theme.of(context).textTheme.subtitle2!.color,
-      size: size,
+    return Padding(
+      padding: EdgeInsets.only(left: 12),
+      child: Icon(
+        MyIcons.trailingArrow,
+        color: Theme.of(context).textTheme.subtitle2!.color,
+        size: size,
+      ),
     );
   }
 }

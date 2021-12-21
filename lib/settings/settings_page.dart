@@ -7,7 +7,7 @@ import 'package:pulsar/settings/cache.dart';
 import 'package:pulsar/settings/data_saver.dart';
 import 'package:pulsar/settings/language.dart';
 import 'package:pulsar/settings/log_out.dart';
-import 'package:pulsar/settings/privacy/interactions.dart';
+import 'package:pulsar/settings/privacy/privacy.dart';
 import 'package:pulsar/settings/report/report.dart';
 import 'package:pulsar/settings/theme.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
       'Language': {'icon': MyIcons.language, 'page': Language()},
     },
     'Support': {
-      'Privacy': {'icon': MyIcons.privacy, 'page': Interactions()},
+      'Privacy': {'icon': MyIcons.privacy, 'page': Privacy()},
       'Report': {'icon': MyIcons.report, 'page': ReportScreen()},
     },
     'About': {

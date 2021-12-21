@@ -48,6 +48,7 @@ dependencies:
   # video_compress: ^3.1.0
 
   flutter_video_info: ^1.2.0
+  video_editor: ^1.2.2
 
   permission_handler: ^8.1.4+2
   sqflite:

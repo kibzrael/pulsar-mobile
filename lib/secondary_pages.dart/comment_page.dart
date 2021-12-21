@@ -69,7 +69,7 @@ class _CommentPageState extends State<CommentPage> {
   Widget build(BuildContext context) {
     return MyBottomSheet(
       maxRatio: 0.9,
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           body: Column(

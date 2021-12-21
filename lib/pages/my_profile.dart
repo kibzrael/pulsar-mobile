@@ -125,18 +125,47 @@ class _RootProfilePageState extends State<RootProfilePage>
                         scrollController: scrollController,
                       ),
                       Container(
-                          margin:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 45),
-                          child: ActionButton(
-                            title: 'Edit Profile',
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  myPageRoute(
-                                      builder: (context) => EditProfile()));
-                            },
-                            height: 42,
-                          )),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 45),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: ActionButton(
+                                title: 'Edit Profile',
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      myPageRoute(
+                                          builder: (context) => EditProfile()));
+                                },
+                                height: 37.5,
+                              ),
+                            ),
+                            SizedBox(width: 15),
+                            InkWell(
+                              onTap: () {},
+                              child: Card(
+                                elevation: 4,
+                                margin: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Container(
+                                  child: Text(
+                                    'Promote',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600),
+                                  ),
+                                  height: 35,
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 5),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

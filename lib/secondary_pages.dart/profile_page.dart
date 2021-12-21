@@ -89,6 +89,11 @@ class _ProfilePageState extends State<ProfilePage>
                         scrollController: scrollController!,
                       ),
                       FollowLayout(
+                          middle: Image(
+                            image:
+                                AssetImage('assets/images/logos/instagram.png'),
+                            width: 24,
+                          ),
                           child: Icon(
                             MyIcons.send,
                             color: Theme.of(context).textTheme.bodyText2!.color,

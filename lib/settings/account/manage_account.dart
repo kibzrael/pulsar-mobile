@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/widgets/list_tile.dart';

@@ -53,6 +53,8 @@ class MyIcons {
 
   static IconData download = myIcon(Icons.download, Icons.download);
 
+  static IconData edit = myIcon(Icons.edit, Icons.edit);
+
   static IconData email = myIcon(Icons.email, Icons.email_outlined);
 
   static IconData expand = myIcon(

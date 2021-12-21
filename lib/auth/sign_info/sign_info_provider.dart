@@ -98,8 +98,10 @@ class SignInfoProvider extends ChangeNotifier {
     await Future.delayed(Duration(seconds: 2));
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference profilePic = storage.ref('profile pictures/${user.id}.jpg');
-    if (user.profilePic != null) profilePic.putFile(File(user.profilePic!));
+    if (user.profilePic != null)
+      await profilePic.putFile(File(user.profilePic!));
     String profilePicUrl = await profilePic.getDownloadURL();
+    print(profilePicUrl);
     user.profilePic = profilePicUrl;
     return;
   }

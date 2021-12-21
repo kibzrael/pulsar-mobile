@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/section.dart';
 
-class Interactions extends StatefulWidget {
+class Privacy extends StatefulWidget {
   @override
-  _InteractionsState createState() => _InteractionsState();
+  _PrivacyState createState() => _PrivacyState();
 }
 
-class _InteractionsState extends State<Interactions> {
+class _PrivacyState extends State<Privacy> {
   bool comment = false;
   bool repost = false;
   bool download = false;
@@ -15,7 +15,7 @@ class _InteractionsState extends State<Interactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Interactions')),
+      appBar: AppBar(title: Text('Privacy')),
       body: SingleChildScrollView(
         child: Container(
           child: Column(children: [
@@ -61,6 +61,10 @@ class _InteractionsState extends State<Interactions> {
             MyListTile(
               title: 'Messaging',
               subtitle: 'Following',
+            ),
+            MyListTile(
+              title: 'Information Privacy',
+              subtitle: 'email, phone, social media',
             )
           ]),
         ),

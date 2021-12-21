@@ -8,17 +8,17 @@ import 'package:pulsar/widgets/bottom_sheet.dart';
 class PickImageSheet extends StatelessWidget {
   final List<Map> options = [
     {
-      'label': 'Gallery',
+      'label': 'Select from gallery',
       'icon': MyIcons.gallery,
       'option': PickImageOptions.gallery
     },
     {
-      'label': 'Camera',
+      'label': 'Take on camera',
       'icon': MyIcons.camera,
       'option': PickImageOptions.camera
     },
     {
-      'label': 'Remove',
+      'label': 'Remove photo',
       'icon': MyIcons.delete,
       'option': PickImageOptions.remove
     }
@@ -28,15 +28,16 @@ class PickImageSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyBottomSheet(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize: MainAxisSize.min,
         children: [
+          PickImageOption(options[0]),
+          Divider(height: 1),
+          PickImageOption(options[1]),
           Container(
-            padding: EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [for (Map option in options) PickImageOption(option)],
-            ),
-          ),
+              color: Theme.of(context).colorScheme.surface,
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: PickImageOption(options[2])),
         ],
       ),
     );
@@ -64,19 +65,12 @@ class PickImageOption extends StatelessWidget {
         Navigator.pop(context, file);
       },
       child: Container(
-        padding: EdgeInsets.all(5),
-        child: Column(
-          children: [
-            Icon(
-              option['icon'],
-              size: 42,
-            ),
-            SizedBox(height: 5),
-            Text(
-              option['label'],
-              style: Theme.of(context).textTheme.headline1,
-            )
-          ],
+        alignment: Alignment.center,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        child: Text(
+          option['label'],
+          style: Theme.of(context).textTheme.subtitle1,
         ),
       ),
     );
