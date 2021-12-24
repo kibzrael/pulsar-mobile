@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/post/post_provider.dart';
+import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
-import 'package:pulsar/widgets/section.dart';
-import 'package:pulsar/widgets/text_button.dart';
 
 class UploadScreen extends StatefulWidget {
   final String caption;
@@ -36,166 +34,131 @@ class _UploadScreenState extends State<UploadScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          actions: [
-            MyTextButton(
-                text: 'Upload',
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true).pop();
-                  provider.upload(context);
-                })
-          ],
+          title: Text('Upload'),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return Container(
-            color: Theme.of(context).colorScheme.surface,
             height: constraints.maxHeight,
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 12),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 100,
-                                height: 120,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Theme.of(context)
-                                      .inputDecorationTheme
-                                      .fillColor,
-                                ),
-                                child: Icon(MyIcons.play),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: [
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 150,
+                            alignment: Alignment.bottomCenter,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Theme.of(context)
+                                    .inputDecorationTheme
+                                    .fillColor,
+                                image: DecorationImage(
+                                    image: AssetImage('assets/intro/solo.jpg'),
+                                    fit: BoxFit.cover)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              child: Text(
+                                'Preview',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
                               ),
-                              SizedBox(width: 15),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 21,
-                                          backgroundColor: Theme.of(context)
-                                              .inputDecorationTheme
-                                              .fillColor,
-                                        ),
-                                        SizedBox(width: 12),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '@username',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1,
-                                            ),
-                                            Text(
-                                              'Category',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2,
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: TextField(
+                                      decoration: InputDecoration.collapsed(
+                                        hintText: 'Caption...',
+                                      ),
+                                      maxLength: 80,
+                                      maxLines: 4,
+                                      controller: captionController,
+                                      onChanged: (text) {
+                                        setState(() {
+                                          provider.caption = text;
+                                        });
+                                      },
                                     ),
-                                    SizedBox(height: 30),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 42,
-                                          alignment: Alignment.center,
-                                          child: Icon(
-                                            MyIcons.tag,
-                                          ),
-                                        ),
-                                        SizedBox(width: 12),
-                                        Expanded(
-                                          child: Text(
-                                            provider.challenge?.name ??
-                                                'Challenge',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2,
-                                          ),
-                                        ),
-                                        TraillingArrow(size: 15)
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
+                                  ),
+                                  SizedBox(height: 12),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '# Tag',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2!
+                                            .copyWith(fontSize: 16.5),
+                                      ),
+                                      Text(
+                                        '@ Person',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2!
+                                            .copyWith(fontSize: 16.5),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 12),
+                    MyListTile(
+                      title: 'Challenge',
+                      trailingText: provider.challenge?.name ?? 'None',
+                      flexRatio: [2, 3],
+                    ),
+                    MyListTile(
+                      title: 'Allow Comments',
+                      subtitle: 'Allow all',
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: ActionButton(
+                            title: 'Draft',
+                            backgroundColor: Theme.of(context)
+                                .inputDecorationTheme
+                                .fillColor,
+                            titleColor:
+                                Theme.of(context).textTheme.bodyText2!.color,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(15),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: 'Caption',
-                                counterText: '${80 - provider.caption.length}'),
-                            maxLength: 80,
-                            maxLines: 4,
-                            minLines: 1,
-                            controller: captionController,
-                            onChanged: (text) {
-                              setState(() {
-                                provider.caption = text;
-                              });
-                            },
-                          ),
-                        ),
-                        MyListTile(
-                          title: 'Location',
-                          subtitle: 'LA, California',
-                          trailingArrow: false,
-                          trailing: Switch.adaptive(
-                              value: provider.location,
-                              onChanged: (value) {
-                                setState(() {
-                                  provider.location = value;
-                                });
+                        SizedBox(width: 15),
+                        Flexible(
+                          child: ActionButton(
+                              title: 'Post',
+                              onPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                                provider.upload(context);
                               }),
                         ),
-                        MyListTile(
-                          title: 'Allow Comments',
-                          subtitle: 'Allow all',
-                        ),
                       ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: Section(
-                      title: 'Linked Accounts',
-                      child: Column(children: [
-                        MyListTile(
-                          title: 'Facebook',
-                          leading: Icon(MyIcons.facebook, size: 28),
-                          subtitle: '@kibzrael',
-                        ),
-                        MyListTile(
-                          title: 'Google',
-                          leading: Icon(MyIcons.google, size: 28),
-                          subtitle: '@kibzrael',
-                        ),
-                        MyListTile(
-                          title: 'Twitter',
-                          leading: Icon(MyIcons.twitter, size: 28),
-                          subtitle: '@kibzrael',
-                        ),
-                      ]),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

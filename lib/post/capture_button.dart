@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class CaptureButton extends StatefulWidget {
   final Function() onPressed;
@@ -85,7 +86,7 @@ class _CaptureButtonState extends State<CaptureButton> {
             },
             child: Container(
               margin: EdgeInsets.all(12),
-              constraints: BoxConstraints(maxHeight: 80, maxWidth: 80),
+              constraints: BoxConstraints(maxHeight: 100, maxWidth: 100),
               decoration: BoxDecoration(
                   color: Colors.white10,
                   shape: BoxShape.circle,
@@ -95,10 +96,13 @@ class _CaptureButtonState extends State<CaptureButton> {
           AnimatedContainer(
               padding: EdgeInsets.all(4),
               duration: Duration(seconds: 1),
-              width: 56,
-              height: 56,
+              width: 72,
+              height: 72,
               alignment: Alignment.center,
               decoration: BoxDecoration(
+                gradient: widget.isRecording
+                    ? null
+                    : secondaryGradient(begin: Alignment.topLeft),
                 color: widget.isRecording
                     ? Colors.redAccent
                     : Theme.of(context).colorScheme.secondary,
@@ -115,7 +119,7 @@ class _CaptureButtonState extends State<CaptureButton> {
                     : Icon(
                         MyIcons.camera,
                         color: Colors.white,
-                        size: 35,
+                        size: 42,
                       ),
               ))
         ],

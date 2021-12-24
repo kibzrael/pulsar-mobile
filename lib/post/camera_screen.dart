@@ -7,7 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/post/audio/audio.dart';
 import 'package:pulsar/post/camera_view.dart';
 import 'package:pulsar/post/capture_button.dart';
 import 'package:pulsar/post/edit_screen.dart';
@@ -126,8 +125,6 @@ class _CameraScreenState extends State<CameraScreen>
 
     PostProvider postProvider = Provider.of<PostProvider>(context);
 
-    // trial kibzrael contribution
-
     Widget captureButton() {
       return ValueListenableBuilder(
         valueListenable: recordingDurationNotifier.notifier,
@@ -163,7 +160,7 @@ class _CameraScreenState extends State<CameraScreen>
     // }
 
     return Theme(
-      data: darkTheme,
+      data: darkTheme.copyWith(scaffoldBackgroundColor: Colors.black),
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -322,48 +319,48 @@ class _CameraScreenState extends State<CameraScreen>
                                           ),
                                         ),
                                         SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              overlay = PostAudio(pop: () {
-                                                setState(() {
-                                                  overlay = null;
-                                                });
-                                              });
-                                            });
-                                          },
-                                          child: Column(
-                                            children: [
-                                              if (postProvider.audio != null)
-                                                Container(
-                                                  width: 42,
-                                                  height: 42,
-                                                  margin: EdgeInsets.all(2),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white12,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    image: DecorationImage(
-                                                      image: AssetImage(
-                                                          postProvider.audio!
-                                                              .coverPhoto),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              if (postProvider.audio == null)
-                                                Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Icon(
-                                                    MyIcons.music,
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                              Text('Audio'),
-                                            ],
-                                          ),
-                                        ),
+                                        // InkWell(
+                                        //   onTap: () {
+                                        //     setState(() {
+                                        //       overlay = PostAudio(pop: () {
+                                        //         setState(() {
+                                        //           overlay = null;
+                                        //         });
+                                        //       });
+                                        //     });
+                                        //   },
+                                        //   child: Column(
+                                        //     children: [
+                                        //       if (postProvider.audio != null)
+                                        //         Container(
+                                        //           width: 42,
+                                        //           height: 42,
+                                        //           margin: EdgeInsets.all(2),
+                                        //           decoration: BoxDecoration(
+                                        //             color: Colors.white12,
+                                        //             borderRadius:
+                                        //                 BorderRadius.circular(
+                                        //                     6),
+                                        //             image: DecorationImage(
+                                        //               image: AssetImage(
+                                        //                   postProvider.audio!
+                                        //                       .coverPhoto),
+                                        //               fit: BoxFit.cover,
+                                        //             ),
+                                        //           ),
+                                        //         ),
+                                        //       if (postProvider.audio == null)
+                                        //         Padding(
+                                        //           padding: EdgeInsets.all(8.0),
+                                        //           child: Icon(
+                                        //             MyIcons.music,
+                                        //             size: 30,
+                                        //           ),
+                                        //         ),
+                                        //       Text('Audio'),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                       ]),
                                     ),
                                   ),
@@ -385,6 +382,8 @@ class _CameraScreenState extends State<CameraScreen>
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceEvenly,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
                                                   children: [
                                                     InkWell(
                                                       onTap: () {
@@ -394,26 +393,45 @@ class _CameraScreenState extends State<CameraScreen>
                                                                 Gallery(),
                                                             root: false);
                                                       },
-                                                      child: Container(
-                                                        height: 60,
-                                                        width: 60,
-                                                        decoration: BoxDecoration(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .dividerColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12),
-                                                            image: DecorationImage(
-                                                                image: AssetImage(
-                                                                    'assets/old_logo.jpg'),
-                                                                fit: BoxFit
-                                                                    .cover),
-                                                            border: Border.all(
-                                                                width: 2,
-                                                                color: Colors
-                                                                    .white)),
+                                                      child: Padding(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                vertical: 12),
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              height: 60,
+                                                              width: 60,
+                                                              decoration: BoxDecoration(
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .dividerColor,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  image: DecorationImage(
+                                                                      image: AssetImage(
+                                                                          'assets/images/dance.jpg'),
+                                                                      fit: BoxFit
+                                                                          .cover),
+                                                                  border: Border.all(
+                                                                      width: 2,
+                                                                      color: Colors
+                                                                          .white)),
+                                                            ),
+                                                            SizedBox(height: 3),
+                                                            Text(
+                                                              'Upload',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      16.5,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                     captureButton(),
