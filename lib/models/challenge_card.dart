@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
@@ -30,7 +31,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
       leading: CircleAvatar(
         radius: 24,
         backgroundColor: Theme.of(context).dividerColor,
-        backgroundImage: AssetImage(challenge.coverPhoto!),
+        backgroundImage: CachedNetworkImageProvider(challenge.coverPhoto!),
       ),
       onPressed: () {
         Navigator.of(context)

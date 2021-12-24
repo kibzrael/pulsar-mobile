@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/user.dart';
 
@@ -15,5 +17,15 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
     // String userString = jsonEncode(newUser);
     // prefs.setString('user', userString);
+  }
+
+  editProfile(
+      {required String bio,
+      required String fullname,
+      required String portfolio,
+      File? profilePic}) async {
+    if (profilePic != null) {}
+    await Future.delayed(Duration(seconds: 3));
+    return;
   }
 }

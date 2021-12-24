@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
@@ -18,10 +19,10 @@ class _FollowingPostsState extends State<FollowingPosts> {
   late CarouselController controller;
 
   List<Map<String, dynamic>> users = [
-    {'user': lynn, 'cover': 'assets/posts/martina lynn/thumb 6.png'},
-    {'user': tahlia, 'cover': 'assets/posts/tahlia stanton/thumb 8.png'},
-    {'user': kinjaz, 'cover': 'assets/posts/kinjaz/thumb 1.png'},
-    {'user': evanna, 'cover': 'assets/posts/evanna/thumb 2.png'},
+    {'user': lynn, 'cover': lynn6.video.thumbnail},
+    {'user': tahlia, 'cover': tahlia8.video.thumbnail},
+    {'user': kinjaz, 'cover': kinjaz1.video.thumbnail},
+    {'user': evanna, 'cover': evanna2.video.thumbnail},
   ];
 
   @override

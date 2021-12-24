@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
@@ -62,50 +63,12 @@ class _ChallengePageState extends State<ChallengePage>
 
   @override
   Widget build(BuildContext context) {
-    // Widget option(
-    //         {required IconData icon,
-    //         required String text,
-    //         required Function() onPressed}) =>
-    //     Container(
-    //       width: (MediaQuery.of(context).size.width / 3) - 30,
-    //       child: InkWell(
-    //         onTap: onPressed,
-    //         child: Column(
-    //           children: [
-    //             Card(
-    //               elevation: 4,
-    //               shape: CircleBorder(),
-    //               child: Container(
-    //                 padding: EdgeInsets.all(8),
-    //                 decoration: BoxDecoration(
-    //                   shape: BoxShape.circle,
-    //                 ),
-    //                 child: Icon(icon, size: 36),
-    //               ),
-    //             ),
-    //             SizedBox(height: 5),
-    //             FittedBox(
-    //                 fit: BoxFit.scaleDown,
-    //                 child: Text(
-    //                   text,
-    //                   style: Theme.of(context)
-    //                       .textTheme
-    //                       .bodyText1!
-    //                       .copyWith(fontSize: 15),
-    //                 )),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-
     return Scaffold(
         body: NestedScrollViewRefreshIndicator(
       onRefresh: onRefresh,
       child: ExtendedNestedScrollView(
         floatHeaderSlivers: true,
         controller: scrollController,
-        // pinnedHeaderSliverHeightBuilder: () =>
-        //     (MediaQuery.of(context).padding.top + kToolbarHeight),
         headerSliverBuilder: (context, bool) {
           double opacity = scrollPosition / (200 - kToolbarHeight);
           double padding = scrollPosition > 45 ? 45 : scrollPosition;
@@ -127,11 +90,6 @@ class _ChallengePageState extends State<ChallengePage>
                       .withOpacity(opacity < 1 ? opacity : 1),
                   expandedHeight: 200,
                   actions: [
-                    // Container(
-                    //   margin:
-                    //       EdgeInsets.symmetric(vertical: (kToolbarHeight - 30) / 2),
-                    //   child: SecondaryButton(text: 'Tutorial'),
-                    // ),
                     IconButton(
                       icon: Icon(Icons.more_horiz),
                       iconSize: 30,
@@ -158,8 +116,8 @@ class _ChallengePageState extends State<ChallengePage>
                                     .fillColor,
                                 image: challenge.coverPhoto != null
                                     ? DecorationImage(
-                                        image:
-                                            AssetImage(challenge.coverPhoto!),
+                                        image: CachedNetworkImageProvider(
+                                            challenge.coverPhoto!),
                                         fit: BoxFit.cover)
                                     : null),
                           ),

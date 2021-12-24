@@ -83,7 +83,7 @@ class _MessagingCardState extends State<MessagingCard> {
                                 ),
                                 decoration: BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage(message.attachment!),
+                                      image: NetworkImage(message.attachment!),
                                       fit: BoxFit.cover),
                                 ),
                               )),

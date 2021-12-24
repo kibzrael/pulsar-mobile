@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/data/challenges.dart';
@@ -65,7 +66,8 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
                 left: Radius.circular(15),
               ),
               image: DecorationImage(
-                  image: AssetImage(challenge.coverPhoto!), fit: BoxFit.cover)),
+                  image: CachedNetworkImageProvider(challenge.coverPhoto!),
+                  fit: BoxFit.cover)),
         ),
         Expanded(
           child: Text(challenge.name,

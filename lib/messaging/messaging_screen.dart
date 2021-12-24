@@ -3,6 +3,7 @@ import 'package:pulsar/classes/chat.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/classes/message.dart';
+import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/messaging/messaging_card.dart';
@@ -85,9 +86,8 @@ class _MessagingScreenState extends State<MessagingScreen>
             user: sender,
             time: DateTime.now()
                 .subtract(Duration(days: (messagesList.length / 4).floor())),
-            attachment: messagesList.length % 7 == 0
-                ? 'assets/challenges/adventure.jpg'
-                : null));
+            attachment:
+                messagesList.length % 7 == 0 ? adventure.coverPhoto : null));
       }
     }
     if (mounted)

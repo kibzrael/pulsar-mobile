@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/widgets/follow_button.dart';
@@ -35,7 +36,8 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                         left: Radius.circular(21),
                       ),
                       image: DecorationImage(
-                          image: AssetImage(challenge.coverPhoto!),
+                          image:
+                              CachedNetworkImageProvider(challenge.coverPhoto!),
                           fit: BoxFit.cover)),
                 ),
                 Flexible(

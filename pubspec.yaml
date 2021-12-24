@@ -65,6 +65,7 @@ dependencies:
   share_plus: ^2.1.4
   cached_network_image: ^3.1.0
   image_picker: ^0.8.4+4
+  image: ^3.1.0
 
   pin_code_fields: ^7.1.0
   carousel_slider: ^4.0.0
@@ -98,13 +99,6 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/logos/
-    - assets/posts/
-    - assets/posts/evanna/
-    - assets/posts/kinjaz/
-    - assets/posts/martina lynn/
-    - assets/posts/tahlia stanton/
-    - assets/categories/
-    - assets/challenges/
     - assets/intro/
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -96,7 +97,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
-                                    image: AssetImage(challenge.coverPhoto!),
+                                    image: CachedNetworkImageProvider(
+                                        challenge.coverPhoto!),
                                     fit: BoxFit.cover)),
                           ),
                           Spacer(),
