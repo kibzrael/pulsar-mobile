@@ -7,6 +7,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
@@ -50,7 +51,8 @@ class _ProfilePhotoState extends State<ProfilePhoto>
           title: 'Profile Photo',
           onBack: provider.previousPage,
           onForward: () {
-            provider.user.profilePic = profilePic;
+            if (profilePic != null)
+              provider.user.profilePic = Photo(thumbnail: profilePic!);
             provider.nextPage();
           }),
       body: Stack(

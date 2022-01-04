@@ -5,8 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 
@@ -95,14 +99,47 @@ class SignInfoProvider extends ChangeNotifier {
   }
 
   submit() async {
-    await Future.delayed(Duration(seconds: 2));
-
     if (user.profilePic != null) {
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference profilePic = storage.ref('profile pictures/${user.id}.jpg');
-      await profilePic.putFile(File(user.profilePic!));
-      String profilePicUrl = await profilePic.getDownloadURL();
-      user.profilePic = profilePicUrl;
+      // split into three different qualities
+      img.Image? image =
+          img.decodeImage(File(user.profilePic!.thumbnail).readAsBytesSync());
+      if (image != null) {
+        img.Image thumbnail = img.copyResize(image, width: 120);
+        img.Image medium = img.copyResize(image, width: 240);
+        img.Image high = img.copyResize(image, width: 480);
+
+        Directory dir = await getApplicationDocumentsDirectory();
+        File thumbnailFile =
+            await File(join(dir.path, '${DateTime.now()}', '-thumbnail.jpg'))
+                .writeAsBytes(img.encodeJpg(thumbnail));
+        File mediumFile =
+            await File(join(dir.path, '${DateTime.now()}', '-medium.jpg'))
+                .writeAsBytes(img.encodeJpg(medium));
+        File highFile =
+            await File(join(dir.path, '${DateTime.now()}', '-high.jpg'))
+                .writeAsBytes(img.encodeJpg(high));
+
+        FirebaseStorage storage = FirebaseStorage.instance;
+        Reference profilePicThumbnail =
+            storage.ref('profile pictures/${user.id}-thumbnail.jpg');
+        Reference profilePicMedium =
+            storage.ref('profile pictures/${user.id}-medium.jpg');
+        Reference profilePicHigh =
+            storage.ref('profile pictures/${user.id}-high.jpg');
+
+        await profilePicThumbnail.putFile(thumbnailFile);
+        await profilePicMedium.putFile(mediumFile);
+        await profilePicHigh.putFile(highFile);
+
+        String thumbnailUrl = await profilePicThumbnail.getDownloadURL();
+        String mediumUrl = await profilePicMedium.getDownloadURL();
+        String highUrl = await profilePicHigh.getDownloadURL();
+        user.profilePic = Photo(
+          thumbnail: thumbnailUrl,
+          medium: mediumUrl,
+          high: highUrl,
+        );
+      }
     }
 
     return;
@@ -120,7 +157,7 @@ class SignUserInfo {
   UserType? userType;
   DateTime? birthday;
   Interest? category;
-  String? profilePic;
+  Photo? profilePic;
   List<Interest>? interests;
 }
 

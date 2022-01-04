@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/seach_category.dart';
@@ -89,17 +90,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
                             'Category',
                         height: 50,
                       ),
-                    )
-                    // MyTextInput(
-                    //   hintText: 'Category',
-                    //   prefix: Padding(
-                    //     padding: EdgeInsets.all(8.0),
-                    //     child: Icon(MyIcons.search),
-                    //   ),
-                    //   onChanged: (text) {},
-                    //   onSubmitted: (text) {},
-                    // ),
-                    ),
+                    )),
                 SizedBox(
                   height: 30,
                 ),
@@ -134,7 +125,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
                                               .inputDecorationTheme
                                               .fillColor,
                                           image: DecorationImage(
-                                              image: AssetImage(
+                                              image: CachedNetworkImageProvider(
                                                   category.coverPhoto!),
                                               fit: BoxFit.cover),
                                           shape: BoxShape.circle,
@@ -191,39 +182,6 @@ class _ChooseCategoryState extends State<ChooseCategory>
                             ),
                           );
                         });
-
-                        // MyListTile(
-                        //   title: category.category,
-                        //   onPressed: () {
-                        //     setState(() {
-                        //       selectedCategory = category;
-                        //     });
-                        //   },
-                        //   leading: CircleAvatar(
-                        //       radius: 24,
-                        //       backgroundColor: Theme.of(context).dividerColor,
-                        //       backgroundImage:
-                        //           AssetImage('${category.coverPhoto}')),
-                        //   subtitle: '2K users',
-                        //   trailingArrow: !selected,
-                        //   trailing: selected
-                        //       ? CircleAvatar(
-                        //           backgroundColor:
-                        //               Theme.of(context).colorScheme.secondary,
-                        //           radius: 12,
-                        //           child: FittedBox(
-                        //             fit: BoxFit.scaleDown,
-                        //             child: Padding(
-                        //               padding: EdgeInsets.all(8.0),
-                        //               child: Icon(
-                        //                 MyIcons.check,
-                        //                 color: Colors.white,
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )
-                        //       : null,
-                        // );
                       }),
                 )
               ],
