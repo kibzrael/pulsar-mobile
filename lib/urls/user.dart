@@ -1,12 +1,10 @@
-import 'package:pulsar/classes/user.dart';
-
 class UserUrls {
   UserUrls._();
 
-  static String profile(User user) => '/users/${user.id}';
+  static String profile(int id) => '/users/$id';
 
   /// url to get followers, follow and unfollow
-  static String follow(User user) => '/users/${user.id}/followers';
+  static String follow(int id) => '/users/$id/followers';
 
-  static String posts(User user) => '/users/${user.id}/posts';
+  static String posts(int id) => '/users/$id/posts';
 }

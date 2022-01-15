@@ -74,6 +74,7 @@ class _SignupPageState extends State<SignupPage>
 
       provider.user.id = response.body!['user']['id'];
       provider.user.username = response.body!['user']['username'];
+      provider.token = response.body!['jwtToken'];
 
       await loginProvider.signup(context,
           token: response.body!['jwtToken'], user: response.body!['user']);

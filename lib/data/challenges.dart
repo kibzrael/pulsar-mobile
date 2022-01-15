@@ -57,7 +57,7 @@ Challenge karaokeChallenge = Challenge(11,
 Challenge photographyChallenge = Challenge(12,
     name: 'Photography Challenge',
     coverPhoto:
-        'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fpuppet%20master.jpg?alt=media&token=5964c02e-a554-4a4e-af69-04b3970afb88');
+        'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fphotographer.jpg?alt=media&token=5cf4cb54-ec1f-4b5d-82ea-8a53e2c20f45');
 
 Challenge puppetryChallenge = Challenge(13,
     name: 'Puppetry Challenge',

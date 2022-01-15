@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart' as parser;
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/user.dart';
 
 class SignInfoProvider extends ChangeNotifier {
   PageController? get pageController => _pageController;
@@ -27,6 +27,8 @@ class SignInfoProvider extends ChangeNotifier {
 
   late String _signupUrl;
 
+  String? token;
+
   SignInfoProvider() {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
@@ -35,7 +37,7 @@ class SignInfoProvider extends ChangeNotifier {
 
   fetchInterests(BuildContext context) async {
     String categoriesJson = await DefaultAssetBundle.of(context)
-        .loadString('assets/categories/categories.json');
+        .loadString('assets/categories.json');
     var categories = jsonDecode(categoriesJson);
     interests.clear();
     categories.forEach((key, item) {
@@ -65,11 +67,14 @@ class SignInfoProvider extends ChangeNotifier {
   Future<SignupResponse> signup(
       String email, String username, String password) async {
     Uri url = Uri.parse(_signupUrl);
-    http.Response requestResponse = await http.post(url, body: {
-      'username': username,
-      'email': email,
-      'password': password,
-    });
+    http.Response requestResponse = await http.post(
+      url,
+      body: {
+        'username': username,
+        'email': email,
+        'password': password,
+      },
+    );
 
     SignupResponse response = SignupResponse();
     response.statusCode = requestResponse.statusCode;
@@ -78,8 +83,7 @@ class SignInfoProvider extends ChangeNotifier {
     if (body is Map) {
       response.body = body;
     }
-    print(response.statusCode);
-    print(response.body);
+
     if (response.statusCode == 200) {
       await Future.delayed(Duration(milliseconds: 300));
 
@@ -99,48 +103,49 @@ class SignInfoProvider extends ChangeNotifier {
   }
 
   submit() async {
+    File? profilePic;
     if (user.profilePic != null) {
       // split into three different qualities
       img.Image? image =
-          img.decodeImage(File(user.profilePic!.thumbnail).readAsBytesSync());
+          img.decodeImage(File(user.profilePic!).readAsBytesSync());
       if (image != null) {
-        img.Image thumbnail = img.copyResize(image, width: 120);
-        img.Image medium = img.copyResize(image, width: 240);
-        img.Image high = img.copyResize(image, width: 480);
+        img.Image resized = img.copyResize(image, width: 480);
 
         Directory dir = await getApplicationDocumentsDirectory();
-        File thumbnailFile =
-            await File(join(dir.path, '${DateTime.now()}', '-thumbnail.jpg'))
-                .writeAsBytes(img.encodeJpg(thumbnail));
-        File mediumFile =
-            await File(join(dir.path, '${DateTime.now()}', '-medium.jpg'))
-                .writeAsBytes(img.encodeJpg(medium));
-        File highFile =
-            await File(join(dir.path, '${DateTime.now()}', '-high.jpg'))
-                .writeAsBytes(img.encodeJpg(high));
-
-        FirebaseStorage storage = FirebaseStorage.instance;
-        Reference profilePicThumbnail =
-            storage.ref('profile pictures/${user.id}-thumbnail.jpg');
-        Reference profilePicMedium =
-            storage.ref('profile pictures/${user.id}-medium.jpg');
-        Reference profilePicHigh =
-            storage.ref('profile pictures/${user.id}-high.jpg');
-
-        await profilePicThumbnail.putFile(thumbnailFile);
-        await profilePicMedium.putFile(mediumFile);
-        await profilePicHigh.putFile(highFile);
-
-        String thumbnailUrl = await profilePicThumbnail.getDownloadURL();
-        String mediumUrl = await profilePicMedium.getDownloadURL();
-        String highUrl = await profilePicHigh.getDownloadURL();
-        user.profilePic = Photo(
-          thumbnail: thumbnailUrl,
-          medium: mediumUrl,
-          high: highUrl,
-        );
+        profilePic = await File(join(dir.path, '${DateTime.now()} resized.jpg'))
+            .writeAsBytes(img.encodeJpg(resized));
       }
     }
+
+    String profileUrl = getUrl(UserUrls.profile(user.id!));
+
+    var request = http.MultipartRequest('POST', Uri.parse(profileUrl));
+    //   ..fields['fullname'] = user.username!;
+    // if (user.birthday != null)
+    //   request.fields['DOB'] =
+    //       '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}';
+    if (profilePic != null)
+      request.files.add(await http.MultipartFile.fromPath(
+          'profilePic', profilePic.path,
+          contentType: parser.MediaType('images', 'jpeg')));
+
+    print(request.fields);
+    print(request.files);
+    http.StreamedResponse response = await request.send();
+
+    // http.Response response = await http.post(Uri.parse(profileUrl), headers: {
+    //   'Authorization': token!
+    // }, body: {
+    //   'fullname': user.username,
+    //   'DOB': user.birthday == null
+    //       ? null
+    //       : '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}',
+    //   'profilePic': profilePic == null
+    //       ? null
+    //       : http.MultipartFile.fromPath('profilePic', profilePic.path)
+    // });
+
+    print(response.statusCode);
 
     return;
   }
@@ -157,7 +162,7 @@ class SignUserInfo {
   UserType? userType;
   DateTime? birthday;
   Interest? category;
-  Photo? profilePic;
+  String? profilePic;
   List<Interest>? interests;
 }
 

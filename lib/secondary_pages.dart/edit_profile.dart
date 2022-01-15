@@ -65,10 +65,12 @@ class _EditProfileState extends State<EditProfile> {
       context,
       (context) => LoadingDialog(() async {
         await provider.editProfile(
-          bio: bioController.text,
-          fullname: fullnameController.text,
-          portfolio: portfolioController.text,
-        );
+            bio: bioController.text,
+            fullname: fullnameController.text,
+            portfolio: portfolioController.text,
+            profilePic: imageProvider == MyImageProvider.file
+                ? File(profilePic)
+                : null);
         return;
       }),
     );
