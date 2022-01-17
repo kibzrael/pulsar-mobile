@@ -64,6 +64,7 @@ class _PostVideoState extends State<PostVideo> {
         setState(() {
           if (widget.isInView && visible) {
             controller = videoProvider.videoPlayerController;
+            // check if app is in background
             controller?.play();
             isPlaying = true;
           }

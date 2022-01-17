@@ -8,8 +8,7 @@ import 'package:pulsar/widgets/text_button.dart';
 
 class PostCover extends StatefulWidget {
   final double duration;
-  final Function() pop;
-  PostCover({required this.duration, required this.pop});
+  PostCover({required this.duration});
   @override
   _PostCoverState createState() => _PostCoverState();
 }
@@ -42,10 +41,8 @@ class _PostCoverState extends State<PostCover> {
     isInitialized = true;
     position = ((cover - 18) / maxWidth) * widget.duration;
 
-    return Column(
-      children: [
-        AppBar(
-          backgroundColor: Colors.transparent,
+    return Scaffold(
+        appBar: AppBar(
           centerTitle: true,
           title: Text('Cover'),
           leading: IconButton(
@@ -62,7 +59,7 @@ class _PostCoverState extends State<PostCover> {
                           ),
                       dismissible: true)
                   .then((value) {
-                if (value == 'Ok') widget.pop();
+                if (value == 'Ok') Navigator.pop(context);
               });
             },
           ),
@@ -71,106 +68,110 @@ class _PostCoverState extends State<PostCover> {
                 text: 'Done',
                 onPressed: () {
                   postProvider.thumbnail = VideoThumbnail(position: position);
-                  widget.pop();
+                  Navigator.pop(context);
                 })
           ],
         ),
-        Spacer(),
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
+        body: Column(
+          children: [
+            Spacer(),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 7.5),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          width: double.infinity,
-                          height: 75,
-                          decoration: BoxDecoration(
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 7.5),
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            color: Colors.white12,
+                            child: Container(
+                              width: double.infinity,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white12,
+                              ),
+                              child: ListView.builder(
+                                  itemCount: 15,
+                                  scrollDirection: Axis.horizontal,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      width: 25,
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.white12, width: 1)),
+                                    );
+                                  }),
+                            ),
                           ),
-                          child: ListView.builder(
-                              itemCount: 15,
-                              scrollDirection: Axis.horizontal,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  width: 25,
-                                  height: 75,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.white12, width: 1)),
-                                );
-                              }),
                         ),
-                      ),
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            width: 18,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondary,
+                                borderRadius: BorderRadius.horizontal(
+                                    right: Radius.circular(15))),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.horizontal(
+                                  right: Radius.circular(15)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 0,
+                          child: Container(
+                            width: 18,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.secondary,
+                                borderRadius: BorderRadius.horizontal(
+                                    left: Radius.circular(15))),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.horizontal(
+                                  left: Radius.circular(15)),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: cover,
+                          child: GestureDetector(
+                            onPanUpdate: (details) {
+                              setState(() {
+                                if (cover + details.delta.dx < 18) {
+                                  cover = 18;
+                                } else if (cover + details.delta.dx >
+                                    maxWidth) {
+                                  cover = maxWidth;
+                                } else {
+                                  cover += details.delta.dx;
+                                }
+                              });
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  border:
+                                      Border.all(width: 1, color: Colors.white),
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                    Positioned(
-                      right: 0,
-                      child: Container(
-                        width: 18,
-                        height: 75,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.horizontal(
-                                right: Radius.circular(15))),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.horizontal(
-                              right: Radius.circular(15)),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      child: Container(
-                        width: 18,
-                        height: 75,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.horizontal(
-                                left: Radius.circular(15))),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(15)),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: cover,
-                      child: GestureDetector(
-                        onPanUpdate: (details) {
-                          setState(() {
-                            if (cover + details.delta.dx < 18) {
-                              cover = 18;
-                            } else if (cover + details.delta.dx > maxWidth) {
-                              cover = maxWidth;
-                            } else {
-                              cover += details.delta.dx;
-                            }
-                          });
-                        },
-                        child: Container(
-                          width: 50,
-                          height: 90,
-                          decoration: BoxDecoration(
-                              color: Colors.white70,
-                              border: Border.all(width: 1, color: Colors.white),
-                              borderRadius: BorderRadius.circular(12)),
-                        ),
-                      ),
-                    )
                   ],
-                ),
-              ],
-            )),
-      ],
-    );
+                )),
+          ],
+        ));
   }
 }

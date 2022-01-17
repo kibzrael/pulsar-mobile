@@ -123,7 +123,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                       child: OpenContainer(
                         openElevation: 0.0,
                         closedElevation: 0.0,
-                        transitionDuration: Duration(milliseconds: 700),
+                        transitionDuration: Duration(milliseconds: 500),
                         closedColor: Colors.transparent,
                         closedBuilder: (context, open) {
                           return Hero(

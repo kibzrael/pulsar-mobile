@@ -42,7 +42,7 @@ class _BillingState extends State<Billing> {
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!
-                            .copyWith(fontSize: 21),
+                            .copyWith(fontSize: 24),
                       ),
                       Text(
                         'Points',

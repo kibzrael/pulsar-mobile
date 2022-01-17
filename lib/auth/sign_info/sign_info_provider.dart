@@ -119,19 +119,20 @@ class SignInfoProvider extends ChangeNotifier {
 
     String profileUrl = getUrl(UserUrls.profile(user.id!));
 
-    var request = http.MultipartRequest('POST', Uri.parse(profileUrl));
-    //   ..fields['fullname'] = user.username!;
-    // if (user.birthday != null)
-    //   request.fields['DOB'] =
-    //       '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}';
-    if (profilePic != null)
-      request.files.add(await http.MultipartFile.fromPath(
-          'profilePic', profilePic.path,
-          contentType: parser.MediaType('images', 'jpeg')));
+    // var request = http.MultipartRequest('POST', Uri.parse(profileUrl));
+    // //   ..fields['fullname'] = user.username!;
+    // // if (user.birthday != null)
+    // //   request.fields['DOB'] =
+    // //       '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}';
+    // if (profilePic != null)
+    //   request.files.add(await http.MultipartFile.fromPath(
+    //       'profilePic', profilePic.path,
+    //       contentType: parser.MediaType('images', 'jpeg')));
 
-    print(request.fields);
-    print(request.files);
-    http.StreamedResponse response = await request.send();
+    // print(request.fields);
+    // print(request.files);
+    // http.StreamedResponse response = await request.send();
+    await Future.delayed(Duration(seconds: 2));
 
     // http.Response response = await http.post(Uri.parse(profileUrl), headers: {
     //   'Authorization': token!
@@ -145,7 +146,7 @@ class SignInfoProvider extends ChangeNotifier {
     //       : http.MultipartFile.fromPath('profilePic', profilePic.path)
     // });
 
-    print(response.statusCode);
+    // print(response.statusCode);
 
     return;
   }

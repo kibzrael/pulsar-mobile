@@ -6,6 +6,7 @@ import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trim.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -78,101 +79,98 @@ class _CaptureScreenState extends State<CaptureScreen>
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-            onPressed: () {
-              openDialog(
-                      context,
-                      (context) => MyDialog(
-                            title: 'Caution!',
-                            body:
-                                'The selected video and changes you\'ve made would be lost if you quit.',
-                            actions: ['Cancel', 'Ok'],
-                            destructive: 'Ok',
-                          ),
-                      dismissible: true)
-                  .then((value) {
-                if (value == 'Ok') Navigator.pop(context);
-              });
-            },
-            icon: Icon(
-              MyIcons.close,
-              size: 30,
-            )),
-        actions: [
-          Container(
-            width: 100,
-            alignment: Alignment.center,
-            child: ActionButton(
-                title: 'Next',
-                width: 70,
-                height: 30,
-                onPressed: () {
-                  provider.video = video;
-                  Navigator.of(context).push(
-                      myPageRoute(builder: (context) => EditScreen(video)));
-                }),
-          )
-        ],
-      ),
-      body: InkWell(
-        onTap: () {
-          controller.play();
-        },
-        child: Padding(
-          padding: EdgeInsets.only(bottom: kToolbarHeight),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              color: Theme.of(context).inputDecorationTheme.fillColor,
-              child: Stack(
-                children: [
-                  controller.value.isInitialized
-                      ? SizedBox.expand(
-                          child: FittedBox(
-                            fit: video.camera ? BoxFit.cover : BoxFit.contain,
-                            child: SizedBox(
-                                width: controller.value.size.width,
-                                height: controller.value.size.height,
-                                child: VideoPlayer(controller)),
-                          ),
-                        )
-                      : Container(),
-                  Container(
-                    color: Colors.black12,
-                    child: Column(
-                      children: [
-                        Spacer(),
-                        // Padding(
-                        //   padding: EdgeInsets.symmetric(vertical: 30),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //     children: [
-                        //       Text('$trimStart'),
-                        //       Text('$trimEnd'),
-                        //     ],
-                        //   ),
-                        // ),
-                        TrimVideo(
-                          position: position,
-                          duration: duration,
-                          speed: speed,
-                          onUpdate: (start, end) {
-                            setState(() {
-                              trimStart = start.floor();
-                              trimEnd = end.floor();
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+    return Theme(
+      data: darkTheme.copyWith(scaffoldBackgroundColor: Colors.black),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+              onPressed: () {
+                openDialog(
+                        context,
+                        (context) => MyDialog(
+                              title: 'Caution!',
+                              body:
+                                  'The selected video and changes you\'ve made would be lost if you quit.',
+                              actions: ['Cancel', 'Ok'],
+                              destructive: 'Ok',
+                            ),
+                        dismissible: true)
+                    .then((value) {
+                  if (value == 'Ok') Navigator.pop(context);
+                });
+              },
+              icon: Icon(
+                MyIcons.close,
+                size: 30,
+              )),
+          actions: [
+            Container(
+              width: 100,
+              alignment: Alignment.center,
+              child: ActionButton(
+                  title: 'Next',
+                  width: 70,
+                  height: 30,
+                  onPressed: () {
+                    provider.video = video;
+                    Navigator.of(context).push(
+                        myPageRoute(builder: (context) => EditScreen(video)));
+                  }),
+            )
+          ],
+        ),
+        body: InkWell(
+          onTap: () {
+            controller.play();
+          },
+          child: Stack(
+            children: [
+              controller.value.isInitialized
+                  ? SizedBox.expand(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: kToolbarHeight),
+                        child: FittedBox(
+                          fit: video.camera ? BoxFit.cover : BoxFit.contain,
+                          child: SizedBox(
+                              width: controller.value.size.width,
+                              height: controller.value.size.height,
+                              child: VideoPlayer(controller)),
+                        ),
+                      ),
+                    )
+                  : Container(),
+              Container(
+                color: Colors.black12,
+                child: Column(
+                  children: [
+                    Spacer(),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(vertical: 30),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //     children: [
+                    //       Text('$trimStart'),
+                    //       Text('$trimEnd'),
+                    //     ],
+                    //   ),
+                    // ),
+                    TrimVideo(
+                      position: position,
+                      duration: duration,
+                      speed: speed,
+                      onUpdate: (start, end) {
+                        setState(() {
+                          trimStart = start.floor();
+                          trimEnd = end.floor();
+                        });
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

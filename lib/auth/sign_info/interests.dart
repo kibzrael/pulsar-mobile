@@ -5,8 +5,10 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
 
 class InterestsPage extends StatefulWidget {
   @override
@@ -19,22 +21,20 @@ class _InterestsPageState extends State<InterestsPage>
   bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
-  bool isSubmitting = false;
-
   List<Interest> interests = [];
 
   List<Interest> selected = [];
 
   void login() async {
     provider.user.interests = selected;
-    setState(() {
-      isSubmitting = true;
-    });
-    await provider.submit();
 
-    setState(() {
-      isSubmitting = false;
-    });
+    await openDialog(
+      context,
+      (context) => LoadingDialog(() async {
+        await provider.submit();
+        return;
+      }),
+    );
     Navigator.of(context).pushReplacementNamed('/');
     return;
   }

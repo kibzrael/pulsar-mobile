@@ -3,15 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/post/audio/audio.dart';
 import 'package:pulsar/post/camera_view.dart';
 import 'package:pulsar/post/capture_button.dart';
+import 'package:pulsar/post/capture_screen.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/filters.dart';
-import 'package:pulsar/post/gallery.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/timer.dart';
 import 'package:pulsar/providers/camera_provider.dart';
@@ -49,7 +52,6 @@ class _CameraScreenState extends State<CameraScreen>
   Widget? overlay;
 
   bool showTimer = true;
-  bool showFilters = false;
 
   int timer = 60;
 
@@ -234,6 +236,8 @@ class _CameraScreenState extends State<CameraScreen>
                                               size: 30,
                                             ),
                                             onPressed: () {
+                                              if (provider.flash)
+                                                provider.switchFlash();
                                               provider.switchLens();
                                               cameraPreviewScale = 1;
                                               cameraSecondaryScale = 1;
@@ -301,9 +305,10 @@ class _CameraScreenState extends State<CameraScreen>
                                         SizedBox(height: 5),
                                         InkWell(
                                           onTap: () {
-                                            setState(() {
-                                              showFilters = !showFilters;
-                                            });
+                                            openBottomSheet(
+                                                context,
+                                                (context) =>
+                                                    Filters(postProvider));
                                           },
                                           child: Column(
                                             children: [
@@ -319,131 +324,132 @@ class _CameraScreenState extends State<CameraScreen>
                                           ),
                                         ),
                                         SizedBox(height: 5),
-                                        // InkWell(
-                                        //   onTap: () {
-                                        //     setState(() {
-                                        //       overlay = PostAudio(pop: () {
-                                        //         setState(() {
-                                        //           overlay = null;
-                                        //         });
-                                        //       });
-                                        //     });
-                                        //   },
-                                        //   child: Column(
-                                        //     children: [
-                                        //       if (postProvider.audio != null)
-                                        //         Container(
-                                        //           width: 42,
-                                        //           height: 42,
-                                        //           margin: EdgeInsets.all(2),
-                                        //           decoration: BoxDecoration(
-                                        //             color: Colors.white12,
-                                        //             borderRadius:
-                                        //                 BorderRadius.circular(
-                                        //                     6),
-                                        //             image: DecorationImage(
-                                        //               image: AssetImage(
-                                        //                   postProvider.audio!
-                                        //                       .coverPhoto),
-                                        //               fit: BoxFit.cover,
-                                        //             ),
-                                        //           ),
-                                        //         ),
-                                        //       if (postProvider.audio == null)
-                                        //         Padding(
-                                        //           padding: EdgeInsets.all(8.0),
-                                        //           child: Icon(
-                                        //             MyIcons.music,
-                                        //             size: 30,
-                                        //           ),
-                                        //         ),
-                                        //       Text('Audio'),
-                                        //     ],
-                                        //   ),
-                                        // ),
+                                        InkWell(
+                                          onTap: () {
+                                            openBottomSheet(context,
+                                                (context) => PostAudio(),
+                                                root: false);
+                                          },
+                                          child: Column(
+                                            children: [
+                                              if (postProvider.audio != null)
+                                                Container(
+                                                  width: 42,
+                                                  height: 42,
+                                                  margin: EdgeInsets.all(2),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white12,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          postProvider.audio!
+                                                              .coverPhoto),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                              if (postProvider.audio == null)
+                                                Padding(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Icon(
+                                                    MyIcons.music,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              Text('Sounds'),
+                                            ],
+                                          ),
+                                        ),
                                       ]),
                                     ),
                                   ),
                                   Spacer(),
-                                  ScaledTransition(
-                                    child: showFilters
-                                        ? Filters()
-                                        : Container(
-                                            height: 150,
-                                            alignment: Alignment.bottomCenter,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                // if (showTimer && !showFilters)
-                                                //   CaptureTimer(
-                                                //       initial: speed,
-                                                //       onPressed: setTimer),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                  Container(
+                                    height: 150,
+                                    alignment: Alignment.bottomCenter,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        // if (showTimer && !showFilters)
+                                        //   CaptureTimer(
+                                        //       initial: speed,
+                                        //       onPressed: setTimer),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                XFile? pickedFile =
+                                                    await ImagePicker()
+                                                        .pickVideo(
+                                                            source: ImageSource
+                                                                .gallery);
+                                                File? file;
+                                                if (pickedFile != null)
+                                                  file = File(pickedFile.path);
+                                                if (file != null)
+                                                  Navigator.of(context).push(
+                                                      myPageRoute(
+                                                          builder: (context) =>
+                                                              CaptureScreen(
+                                                                  VideoCapture(
+                                                                      file!,
+                                                                      camera:
+                                                                          false))));
+                                                // openBottomSheet(context,
+                                                //     (context) => Gallery(),
+                                                //     root: false);
+                                              },
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 12),
+                                                child: Column(
                                                   children: [
-                                                    InkWell(
-                                                      onTap: () {
-                                                        openBottomSheet(
-                                                            context,
-                                                            (context) =>
-                                                                Gallery(),
-                                                            root: false);
-                                                      },
-                                                      child: Padding(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                                vertical: 12),
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              height: 60,
-                                                              width: 60,
-                                                              decoration: BoxDecoration(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .dividerColor,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12),
-                                                                  image: DecorationImage(
-                                                                      image: AssetImage(
-                                                                          'assets/images/dance.jpg'),
-                                                                      fit: BoxFit
-                                                                          .cover),
-                                                                  border: Border.all(
-                                                                      width: 2,
-                                                                      color: Colors
-                                                                          .white)),
-                                                            ),
-                                                            SizedBox(height: 3),
-                                                            Text(
-                                                              'Upload',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      16.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    captureButton(),
                                                     Container(
+                                                      height: 60,
                                                       width: 60,
+                                                      decoration: BoxDecoration(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .dividerColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  'assets/images/dance.jpg'),
+                                                              fit:
+                                                                  BoxFit.cover),
+                                                          border: Border.all(
+                                                              width: 2,
+                                                              color: Colors
+                                                                  .white)),
+                                                    ),
+                                                    SizedBox(height: 3),
+                                                    Text(
+                                                      'Upload',
+                                                      style: TextStyle(
+                                                          fontSize: 16.5,
+                                                          fontWeight:
+                                                              FontWeight.w500),
                                                     ),
                                                   ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                    reverse: !showFilters,
+                                            captureButton(),
+                                            Container(
+                                              width: 60,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

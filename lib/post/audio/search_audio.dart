@@ -58,8 +58,6 @@ class _SearchAudioState extends State<SearchAudio> {
               onChanged: (text) {},
               onSubmitted: (text) {},
               hintText: 'Search Audio...',
-              color: Colors.white12,
-              clearColor: Colors.white24,
             ),
             leading: IconButton(
                 onPressed: () {
@@ -85,7 +83,7 @@ class _SearchAudioState extends State<SearchAudio> {
                         color: Colors.white12,
                         borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
-                          image: AssetImage(audio.coverPhoto),
+                          image: NetworkImage(audio.coverPhoto),
                           fit: BoxFit.cover,
                         ),
                       ),

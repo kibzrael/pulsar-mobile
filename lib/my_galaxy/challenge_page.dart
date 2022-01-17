@@ -67,8 +67,11 @@ class _ChallengePageState extends State<ChallengePage>
         body: NestedScrollViewRefreshIndicator(
       onRefresh: onRefresh,
       child: ExtendedNestedScrollView(
-        floatHeaderSlivers: true,
+        // floatHeaderSlivers: true,
         controller: scrollController,
+        pinnedHeaderSliverHeightBuilder: () {
+          return kToolbarHeight + MediaQuery.of(context).padding.top;
+        },
         headerSliverBuilder: (context, bool) {
           double opacity = scrollPosition / (200 - kToolbarHeight);
           double padding = scrollPosition > 45 ? 45 : scrollPosition;

@@ -66,7 +66,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
               borderRadius: BorderRadius.circular(15),
               color: Colors.white12,
               image: DecorationImage(
-                  image: AssetImage(audio.coverPhoto), fit: BoxFit.cover)),
+                  image: NetworkImage(audio.coverPhoto), fit: BoxFit.cover)),
         ),
         Text(
           audio.name,

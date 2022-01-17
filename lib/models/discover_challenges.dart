@@ -94,6 +94,9 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                           Container(
                             height: 125,
                             decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .inputDecorationTheme
+                                    .fillColor,
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
@@ -135,21 +138,31 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                   child: Text(
                                     '3.14K',
                                     maxLines: 1,
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .color),
                                   ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 4),
                                   child: Icon(
                                     MyIcons.pin,
-                                    size: 18,
+                                    size: 16.5,
                                   ),
                                 ),
                                 Expanded(
                                   child: Text(
                                     '4.5K',
                                     maxLines: 1,
-                                    style: TextStyle(fontSize: 15),
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .color),
                                   ),
                                 ),
                               ],

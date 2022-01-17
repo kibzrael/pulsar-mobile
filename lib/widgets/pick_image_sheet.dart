@@ -35,9 +35,13 @@ class PickImageSheet extends StatelessWidget {
           Divider(height: 1),
           PickImageOption(options[1]),
           Container(
-              color: Theme.of(context).colorScheme.surface,
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: PickImageOption(options[2])),
+            color: Theme.of(context).colorScheme.surface,
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: PickImageOption(
+              options[2],
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
         ],
       ),
     );
@@ -46,7 +50,8 @@ class PickImageSheet extends StatelessWidget {
 
 class PickImageOption extends StatelessWidget {
   final Map option;
-  PickImageOption(this.option);
+  final Color? color;
+  PickImageOption(this.option, {this.color});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -70,7 +75,7 @@ class PickImageOption extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Text(
           option['label'],
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: color),
         ),
       ),
     );

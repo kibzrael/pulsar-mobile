@@ -10,7 +10,11 @@ class UserResults extends StatefulWidget {
   _UserResultsState createState() => _UserResultsState();
 }
 
-class _UserResultsState extends State<UserResults> {
+class _UserResultsState extends State<UserResults>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   Future<List<Map<String, dynamic>>?> search(int index) async {
     await Future.delayed(Duration(seconds: 2));
     List<Map<String, dynamic>> results = [
@@ -32,6 +36,7 @@ class _UserResultsState extends State<UserResults> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RecyclerView(
         target: search,
         itemBuilder: (context, snapshot) {

@@ -10,13 +10,14 @@ import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
-import 'package:pulsar/secondary_pages.dart/profile_info.dart';
+import 'package:pulsar/settings/account/change_username.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class EditProfile extends StatefulWidget {
@@ -176,8 +177,7 @@ class _EditProfileState extends State<EditProfile> {
                             title: 'Username',
                             onPressed: () {
                               Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => ProfileInfo('Username',
-                                      maxCharacters: 12)));
+                                  builder: (context) => ChangeUsername()));
                             },
                             flexRatio: [2, 3],
                             trailingText: '@${user.username}',
@@ -267,21 +267,22 @@ class _EditProfileState extends State<EditProfile> {
                                   ))),
                         ],
                       )),
+                  SectionTitle(title: 'Additional Information'),
                   MyListTile(
                       title: 'Category',
                       onPressed: () {},
                       flexRatio: [2, 3],
-                      trailingText: '${user.category}'),
+                      subtitle: '${user.category}'),
                   MyListTile(
                       title: 'Interests',
                       onPressed: () {},
                       flexRatio: [2, 3],
-                      trailingText: 'Art, Music +4'),
+                      subtitle: 'Art, Music +4'),
                   MyListTile(
                       title: 'Birthday',
                       onPressed: () {},
                       flexRatio: [2, 3],
-                      trailingText: '9th July 2001'),
+                      subtitle: '9th July 2001'),
                 ],
               ),
             ),

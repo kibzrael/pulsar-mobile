@@ -10,7 +10,10 @@ class ChallengeResults extends StatefulWidget {
   _ChallengeResultsState createState() => _ChallengeResultsState();
 }
 
-class _ChallengeResultsState extends State<ChallengeResults> {
+class _ChallengeResultsState extends State<ChallengeResults>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   Future<List<Map<String, dynamic>>?> search(int index) async {
     await Future.delayed(Duration(seconds: 2));
     List<Map<String, dynamic>> results = [
@@ -22,6 +25,7 @@ class _ChallengeResultsState extends State<ChallengeResults> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RecyclerView(
         target: search,
         itemBuilder: (context, snapshot) {
