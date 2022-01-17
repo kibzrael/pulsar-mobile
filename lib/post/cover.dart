@@ -31,6 +31,8 @@ class _PostCoverState extends State<PostCover> {
     position = postProvider.thumbnail.position;
   }
 
+  getThumbnails() {}
+
   @override
   Widget build(BuildContext context) {
     // device width - (padding + right handle + cover widget)

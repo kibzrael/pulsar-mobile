@@ -46,7 +46,7 @@ dependencies:
 
   path_provider:
 
-  # video_compress: ^3.1.0
+  video_compress: ^3.1.0
 
   flutter_video_info: ^1.2.0
   ffmpeg_kit_flutter: ^4.5.0-LTS

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_video_info/flutter_video_info.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,7 +15,6 @@ import 'package:pulsar/post/capture_button.dart';
 import 'package:pulsar/post/capture_screen.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/filters.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/timer.dart';
 import 'package:pulsar/providers/camera_provider.dart';
@@ -392,15 +392,24 @@ class _CameraScreenState extends State<CameraScreen>
                                                 File? file;
                                                 if (pickedFile != null)
                                                   file = File(pickedFile.path);
-                                                if (file != null)
+                                                if (file != null) {
+                                                  VideoData? data =
+                                                      await FlutterVideoInfo()
+                                                          .getVideoInfo(
+                                                              file.path);
                                                   Navigator.of(context).push(
                                                       myPageRoute(
                                                           builder: (context) =>
                                                               CaptureScreen(
-                                                                  VideoCapture(
-                                                                      file!,
-                                                                      camera:
-                                                                          false))));
+                                                                VideoCapture(
+                                                                    file!,
+                                                                    camera:
+                                                                        false),
+                                                                duration:
+                                                                    data?.duration ??
+                                                                        3000,
+                                                              )));
+                                                }
                                                 // openBottomSheet(context,
                                                 //     (context) => Gallery(),
                                                 //     root: false);

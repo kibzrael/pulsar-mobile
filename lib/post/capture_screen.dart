@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -5,16 +7,18 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
-import 'package:pulsar/post/trim.dart';
+import 'package:pulsar/post/trimmer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
-  CaptureScreen(this.video);
+  final double duration;
+  CaptureScreen(this.video, {required this.duration});
   @override
   _CaptureScreenState createState() => _CaptureScreenState();
 }
@@ -31,8 +35,10 @@ class _CaptureScreenState extends State<CaptureScreen>
 
   double get speed => video.speed;
 
-  double get max => 90 * video.speed;
-  int get maxMilli => (max * 10000).floor();
+  // double get max => 90 * video.speed;
+  int maxDuration = 90000;
+
+  List<Uint8List?> thumbnails = [];
 
   double position = 0.0;
   double duration = 3000.0;
@@ -44,6 +50,7 @@ class _CaptureScreenState extends State<CaptureScreen>
   void initState() {
     super.initState();
     video = widget.video;
+    duration = widget.duration;
     _ticker = this.createTicker((elapsed) {
       position = controller.value.position.inMilliseconds.toDouble();
 
@@ -58,15 +65,28 @@ class _CaptureScreenState extends State<CaptureScreen>
 
     controller = VideoPlayerController.file(video.video);
     controller.initialize().then((value) {
-      controller.play();
-      trimEnd = controller.value.duration.inMilliseconds > maxMilli
-          ? maxMilli
+      controller.setLooping(true);
+      trimEnd = controller.value.duration.inMilliseconds > maxDuration
+          ? maxDuration
           : controller.value.duration.inMilliseconds;
       duration = controller.value.duration.inMilliseconds.toDouble();
+      controller.play();
       _ticker.start();
-      controller.setLooping(true);
-      setState(() {});
-    }).catchError((_) {});
+      maxDuration = duration < 90000 ? duration.floor() : 90000;
+      getThumbnails();
+    });
+  }
+
+  getThumbnails() async {
+    // double max = maxDuration > duration ? duration : maxDuration.toDouble();
+    int stepSize = maxDuration ~/ 9;
+    for (int step = 0; step < duration / stepSize; step++) {
+      int position = stepSize * step;
+      Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
+          video.video.path,
+          position: position * 1000);
+      thumbnails.add(thumbnail);
+    }
   }
 
   @override
@@ -156,17 +176,29 @@ class _CaptureScreenState extends State<CaptureScreen>
                     //     ],
                     //   ),
                     // ),
-                    TrimVideo(
-                      position: position,
-                      duration: duration,
-                      speed: speed,
-                      onUpdate: (start, end) {
-                        setState(() {
-                          trimStart = start.floor();
-                          trimEnd = end.floor();
-                        });
-                      },
-                    )
+                    Trimmer(
+                        position: position,
+                        duration: duration,
+                        speed: speed,
+                        max: maxDuration,
+                        onUpdate: (start, end) {
+                          setState(() {
+                            trimStart = start.floor();
+                            trimEnd = end.floor();
+                          });
+                        },
+                        thumbnails: thumbnails),
+                    // TrimVideo(
+                    //   position: position,
+                    //   duration: duration,
+                    //   speed: speed,
+                    //   onUpdate: (start, end) {
+                    //     setState(() {
+                    //       trimStart = start.floor();
+                    //       trimEnd = end.floor();
+                    //     });
+                    //   },
+                    // )
                   ],
                 ),
               ),
