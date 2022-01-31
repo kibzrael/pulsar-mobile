@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
+import 'package:pulsar/widgets/text_button.dart';
 
 class Filters extends StatefulWidget {
   final PostProvider postProvider;
@@ -29,8 +30,19 @@ class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
     return MyBottomSheet(
+      title: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Filters', style: Theme.of(context).textTheme.headline1),
+            MyTextButton(text: 'Done', onPressed: () {})
+          ],
+        ),
+      ),
       child: Container(
         height: 100,
+        margin: EdgeInsets.only(bottom: 12, top: 4),
         child: ListView.builder(
             itemCount: filters.length,
             scrollDirection: Axis.horizontal,

@@ -63,7 +63,7 @@ class _SearchAudioState extends State<SearchAudio> {
                 onPressed: () {
                   widget.pop();
                 },
-                icon: Icon(MyIcons.back)),
+                icon: Icon(MyIcons.close)),
             actions: [MyTextButton(text: 'Search', onPressed: () {})],
           ),
           Expanded(

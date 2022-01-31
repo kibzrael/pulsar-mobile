@@ -13,11 +13,7 @@ class TrendingChallenges extends StatefulWidget {
 }
 
 class _TrendingChallengesState extends State<TrendingChallenges> {
-  List<Challenge> challenges = [
-    danceChallenge,
-    landscape,
-    telephoneGame,
-  ];
+  List<Challenge> challenges = [danceChallenge, pubgtakeouts, codheadshot];
 
   @override
   Widget build(BuildContext context) {

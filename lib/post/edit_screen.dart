@@ -11,6 +11,7 @@ import 'package:pulsar/post/cover.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/upload_screen.dart';
+import 'package:pulsar/post/voiceover.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -97,7 +98,9 @@ class _EditScreenState extends State<EditScreen> {
                               child: SizedBox(
                                   width: controller.value.size.width,
                                   height: controller.value.size.height,
-                                  child: VideoPlayer(controller)),
+                                  child: Hero(
+                                      tag: 'cover',
+                                      child: VideoPlayer(controller))),
                             ),
                           ),
                         ),
@@ -124,7 +127,16 @@ class _EditScreenState extends State<EditScreen> {
                                         ),
                                     dismissible: true)
                                 .then((value) {
-                              if (value == 'Ok') Navigator.pop(context);
+                              if (value == 'Ok') {
+                                // reset values
+                                provider.filter = null;
+                                provider.thumbnail =
+                                    VideoThumbnail(position: 0.0);
+                                //
+                                // reset audio to the one selected in camera
+                                //
+                                Navigator.pop(context);
+                              }
                             });
                           },
                           icon: Icon(
@@ -172,7 +184,7 @@ class _EditScreenState extends State<EditScreen> {
                                       color: Colors.white12,
                                       borderRadius: BorderRadius.circular(6),
                                       image: DecorationImage(
-                                        image: AssetImage(
+                                        image: NetworkImage(
                                             postProvider.audio!.coverPhoto),
                                         fit: BoxFit.cover,
                                       ),
@@ -192,7 +204,8 @@ class _EditScreenState extends State<EditScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              setState(() {});
+                              Navigator.of(context).push(myPageRoute(
+                                  builder: (context) => Voiceover()));
                             },
                             child: Column(
                               children: [
@@ -227,11 +240,9 @@ class _EditScreenState extends State<EditScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                              setState(() {
-                                Navigator.of(context).push(myPageRoute(
-                                    builder: (context) =>
-                                        PostCover(duration: duration)));
-                              });
+                              Navigator.of(context).push(myPageRoute(
+                                  builder: (context) => PostCover(
+                                      video: video, duration: duration)));
                             },
                             child: Column(
                               children: [

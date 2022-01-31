@@ -150,9 +150,9 @@
 //   // }
 
 //   // onIntialize() async {
-    
+
 //   //    startFetch();
-    
+
 //   // }
 
 //   // startFetch() async {
@@ -210,3 +210,55 @@
 //   //     port.send('done');
 //   //   });
 //   // }
+
+import 'dart:io';
+
+import 'package:file_manager/file_manager.dart';
+import 'package:flutter/material.dart';
+
+class Gallery extends StatefulWidget {
+  const Gallery({Key? key}) : super(key: key);
+
+  @override
+  _GalleryState createState() => _GalleryState();
+}
+
+class _GalleryState extends State<Gallery> {
+  late FileManagerController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = FileManagerController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FileManager(
+      controller: controller,
+      builder: (context, snapshot) {
+        final List<FileSystemEntity> entities = snapshot;
+        return ListView.builder(
+          itemCount: entities.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                leading: FileManager.isFile(entities[index])
+                    ? Icon(Icons.feed_outlined)
+                    : Icon(Icons.folder),
+                title: Text(FileManager.basename(entities[index])),
+                onTap: () {
+                  if (FileManager.isDirectory(entities[index])) {
+                    controller.openDirectory(entities[index]); // open directory
+                  } else {
+                    // Perform file-related tasks.
+                  }
+                },
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}

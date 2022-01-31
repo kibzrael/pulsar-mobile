@@ -31,7 +31,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
           centerTitle: true,
           title: Text('Audio'),
           leading: IconButton(
-            icon: Icon(MyIcons.close),
+            icon: Icon(MyIcons.back),
             onPressed: () {
               openDialog(
                       context,
@@ -44,7 +44,14 @@ class _SelectedAudioState extends State<SelectedAudio> {
                           ),
                       dismissible: true)
                   .then((value) {
-                if (value == 'Ok') widget.pop();
+                if (value == 'Ok') {
+                  if (Provider.of<PostProvider>(context, listen: false).audio !=
+                      null) {
+                    widget.pop();
+                  } else {
+                    widget.onBack();
+                  }
+                }
               });
             },
           ),
@@ -164,6 +171,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
             ],
           ),
         ),
+        Spacer(),
       ],
     );
   }

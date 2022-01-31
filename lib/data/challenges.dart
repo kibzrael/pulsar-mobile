@@ -190,6 +190,16 @@ Challenge urbanPortraits = Challenge(34,
     description:
         'Capture people in the city with streets, buildings and urban features as a background');
 
+Challenge pubgtakeouts = Challenge(35,
+    name: 'Pubg takeouts',
+    coverPhoto:
+        'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/challenges%2Fpubg.jpg?alt=media&token=eede90c5-79ee-42bd-a65a-2d2b7dc3c68b');
+
+Challenge codheadshot = Challenge(35,
+    name: 'COD headshot',
+    coverPhoto:
+        'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/challenges%2Fcod.jpg?alt=media&token=7b4db0e7-fdac-47af-a367-32db939bb5e6');
+
 List<Challenge> allChallenges = [
   interiorChallenge,
   karaokeChallenge,

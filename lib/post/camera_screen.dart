@@ -13,7 +13,6 @@ import 'package:pulsar/post/audio/audio.dart';
 import 'package:pulsar/post/camera_view.dart';
 import 'package:pulsar/post/capture_button.dart';
 import 'package:pulsar/post/capture_screen.dart';
-import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/timer.dart';
@@ -96,7 +95,7 @@ class _CameraScreenState extends State<CameraScreen>
     setState(() {});
   }
 
-  stopRecording() async {
+  stopRecording({required double duration}) async {
     if (!isRecording) return;
     VideoSnapshot? snapshot = await provider.stopVideoRecording();
     if (snapshot == null) {
@@ -110,10 +109,15 @@ class _CameraScreenState extends State<CameraScreen>
       _ticker.stop();
       setState(() {});
       Navigator.of(context).push(myPageRoute(
-          builder: (context) => EditScreen(VideoCapture(
-                File(snapshot.video!.path),
-                camera: true,
-              ))));
+          builder: (context) => CaptureScreen(
+              VideoCapture(File(snapshot.video!.path), camera: true),
+              duration: duration)
+          // EditScreen(VideoCapture(
+          //       File(snapshot.video!.path),
+          //       camera: true,
+          //     )
+          //     )
+          ));
     }
   }
 
@@ -132,14 +136,14 @@ class _CameraScreenState extends State<CameraScreen>
         valueListenable: recordingDurationNotifier.notifier,
         builder: (context, double duration, child) {
           if ((duration / 1000) >= max && isRecording) {
-            stopRecording();
+            stopRecording(duration: duration);
           }
           return CaptureButton(
             isRecording: isRecording,
             onPressed: () {
               if (provider.controller != null) {
                 if (isRecording)
-                  stopRecording();
+                  stopRecording(duration: duration);
                 else
                   onCapture();
               }
@@ -343,7 +347,7 @@ class _CameraScreenState extends State<CameraScreen>
                                                         BorderRadius.circular(
                                                             6),
                                                     image: DecorationImage(
-                                                      image: AssetImage(
+                                                      image: NetworkImage(
                                                           postProvider.audio!
                                                               .coverPhoto),
                                                       fit: BoxFit.cover,

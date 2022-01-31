@@ -10,8 +10,8 @@ class PhotoView extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.white.withOpacity(0.0),
-      ),
+          // backgroundColor: Colors.white.withOpacity(0.0),
+          ),
       body: Center(
         child: Hero(
           tag: tag,

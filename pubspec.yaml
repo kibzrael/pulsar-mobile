@@ -45,6 +45,7 @@ dependencies:
   path: ^1.8.0
 
   path_provider:
+  file_manager: ^1.0.0
 
   video_compress: ^3.1.0
 
@@ -56,7 +57,7 @@ dependencies:
 
   json_serializable:
 
-  patterns_canvas: ^0.3.5
+  # patterns_canvas: ^0.3.5
 
   visibility_detector: ^0.2.2
 
@@ -67,6 +68,9 @@ dependencies:
   cached_network_image: ^3.1.0
   image_picker: ^0.8.4+4
   image: ^3.1.0
+
+  extended_text_field: ^9.0.3
+  extended_text: ^8.0.2
 
   pin_code_fields: ^7.1.0
   carousel_slider: ^4.0.0
@@ -80,7 +84,7 @@ dependencies:
   # syncfusion_flutter_sliders: ^19.2.51
   # sleek_circular_slider: ^2.0.1
   image_cropper: ^1.4.1
-  file_picker: ^4.3.1
+  # file_picker: ^4.3.1
 
 dev_dependencies:
   flutter_test:

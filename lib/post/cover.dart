@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -5,10 +7,13 @@ import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
+import 'package:video_compress/video_compress.dart';
+import 'package:video_player/video_player.dart';
 
 class PostCover extends StatefulWidget {
+  final VideoCapture video;
   final double duration;
-  PostCover({required this.duration});
+  PostCover({required this.video, required this.duration});
   @override
   _PostCoverState createState() => _PostCoverState();
 }
@@ -22,6 +27,11 @@ class _PostCoverState extends State<PostCover> {
 
   late PostProvider postProvider;
 
+  late VideoPlayerController controller;
+  double duration = 3000;
+
+  List<Uint8List?> thumbnails = [];
+
   bool isInitialized = false;
 
   @override
@@ -29,9 +39,27 @@ class _PostCoverState extends State<PostCover> {
     super.initState();
     postProvider = Provider.of<PostProvider>(context, listen: false);
     position = postProvider.thumbnail.position;
+    //
+    controller = VideoPlayerController.file(widget.video.video);
+    controller.initialize().then((value) {
+      controller.seekTo(Duration(milliseconds: position.floor()));
+      duration = controller.value.duration.inMilliseconds.toDouble();
+      getThumbnails();
+    });
   }
 
-  getThumbnails() {}
+  getThumbnails() async {
+    int stepSize = duration ~/ 9;
+    for (int step = 0; step < duration / stepSize; step++) {
+      int position = stepSize * step;
+      Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
+          widget.video.video.path,
+          position: position * 1000);
+      setState(() {
+        thumbnails.add(thumbnail);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +71,8 @@ class _PostCoverState extends State<PostCover> {
     isInitialized = true;
     position = ((cover - 18) / maxWidth) * widget.duration;
 
+    controller.seekTo(Duration(milliseconds: position.floor()));
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -50,19 +80,22 @@ class _PostCoverState extends State<PostCover> {
           leading: IconButton(
             icon: Icon(MyIcons.close),
             onPressed: () {
-              openDialog(
-                      context,
-                      (context) => MyDialog(
-                            title: 'Caution!',
-                            body:
-                                'The selected cover and changes you\'ve made would be lost if you quit.',
-                            actions: ['Cancel', 'Ok'],
-                            destructive: 'Ok',
-                          ),
-                      dismissible: true)
-                  .then((value) {
-                if (value == 'Ok') Navigator.pop(context);
-              });
+              if (postProvider.thumbnail.position != position)
+                openDialog(
+                        context,
+                        (context) => MyDialog(
+                              title: 'Caution!',
+                              body:
+                                  'The selected cover and changes you\'ve made would be lost if you quit.',
+                              actions: ['Cancel', 'Ok'],
+                              destructive: 'Ok',
+                            ),
+                        dismissible: true)
+                    .then((value) {
+                  if (value == 'Ok') Navigator.pop(context);
+                });
+              else
+                Navigator.pop(context);
             },
           ),
           actions: [
@@ -76,7 +109,24 @@ class _PostCoverState extends State<PostCover> {
         ),
         body: Column(
           children: [
-            Spacer(),
+            Expanded(
+                child: Hero(
+              tag: 'cover',
+              child: Container(
+                color: Theme.of(context).colorScheme.surface,
+                width: double.infinity,
+                child: controller.value.isInitialized
+                    ? FittedBox(
+                        fit: BoxFit.contain,
+                        child: SizedBox(
+                          width: controller.value.size.width,
+                          height: controller.value.size.height,
+                          child: VideoPlayer(controller),
+                        ),
+                      )
+                    : null,
+              ),
+            )),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                 child: Column(
@@ -91,26 +141,33 @@ class _PostCoverState extends State<PostCover> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: Container(
-                              width: double.infinity,
-                              height: 75,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white12,
-                              ),
-                              child: ListView.builder(
-                                  itemCount: 15,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      width: 25,
-                                      height: 75,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.white12, width: 1)),
-                                    );
-                                  }),
-                            ),
+                                width: double.infinity,
+                                height: 75,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Theme.of(context)
+                                      .inputDecorationTheme
+                                      .fillColor,
+                                ),
+                                child: Row(
+                                  children: [
+                                    for (Uint8List? thumbnail in thumbnails)
+                                      Expanded(
+                                          child: Container(
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.white12,
+                                                width: 1),
+                                            image: thumbnail == null
+                                                ? null
+                                                : DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: MemoryImage(
+                                                        thumbnail))),
+                                      ))
+                                  ],
+                                )),
                           ),
                         ),
                         Positioned(
@@ -158,14 +215,34 @@ class _PostCoverState extends State<PostCover> {
                                 }
                               });
                             },
-                            child: Container(
-                              width: 50,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  color: Colors.white70,
-                                  border:
-                                      Border.all(width: 1, color: Colors.white),
+                            child: Card(
+                              elevation: 3,
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 8),
+                              shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12)),
+                              child: Container(
+                                width: 50,
+                                height: 85,
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 5, color: Colors.white),
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 75,
+                                    child: FittedBox(
+                                      fit: BoxFit.cover,
+                                      child: SizedBox(
+                                          width: controller.value.size.width,
+                                          height: controller.value.size.height,
+                                          child: VideoPlayer(controller)),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         )

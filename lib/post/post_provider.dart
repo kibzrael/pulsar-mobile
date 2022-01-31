@@ -16,7 +16,7 @@ class PostProvider extends ChangeNotifier {
 
   Audio? audio;
 
-  VideoThumbnail thumbnail = VideoThumbnail(position: 0);
+  VideoThumbnail thumbnail = VideoThumbnail(position: 0.0);
 
   String caption;
 

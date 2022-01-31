@@ -1,19 +1,28 @@
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trimmer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
@@ -45,6 +54,8 @@ class _CaptureScreenState extends State<CaptureScreen>
 
   int trimStart = 0;
   int trimEnd = 3000;
+
+  int rotate = 0;
 
   @override
   void initState() {
@@ -86,6 +97,38 @@ class _CaptureScreenState extends State<CaptureScreen>
           video.video.path,
           position: position * 1000);
       thumbnails.add(thumbnail);
+    }
+  }
+
+  Future<Null> trim() async {
+    Permission storage = Permission.storage;
+    Permission manageStorage = Permission.manageExternalStorage;
+    if (!await storage.isGranted) {
+      PermissionStatus status = await storage.request();
+      // if (status != PermissionStatus.granted) Navigator.pop(context);
+    }
+    if (!await manageStorage.isGranted) {
+      PermissionStatus status = await manageStorage.request();
+      // if (status != PermissionStatus.granted) Navigator.pop(context);
+    }
+
+    Directory directory = await getApplicationDocumentsDirectory();
+    String start = ffmpegDuration(trimStart);
+    String end = ffmpegDuration(trimEnd);
+    String outputPath = join(directory.absolute.path,
+        '${DateTime.now().toString().replaceAll(" ", '_')}video_trim.mp4');
+    String command =
+        '-i ${video.video.absolute.path} -ss $start -to $end $outputPath';
+    FFmpegSession session = await FFmpegKit.executeAsync(command);
+    ReturnCode? response = await session.getReturnCode();
+    if (response != null) {
+      if (!response.isValueSuccess()) {
+        // setState(() {
+        //   error = true;
+        // });
+      } else {
+        return;
+      }
     }
   }
 
@@ -133,8 +176,12 @@ class _CaptureScreenState extends State<CaptureScreen>
                   title: 'Next',
                   width: 70,
                   height: 30,
-                  onPressed: () {
+                  onPressed: () async {
                     provider.video = video;
+                    await openDialog(
+                        context,
+                        (context) =>
+                            Theme(data: darkTheme, child: LoadingDialog(trim)));
                     Navigator.of(context).push(
                         myPageRoute(builder: (context) => EditScreen(video)));
                   }),
@@ -152,11 +199,19 @@ class _CaptureScreenState extends State<CaptureScreen>
                       child: Padding(
                         padding: EdgeInsets.only(bottom: kToolbarHeight),
                         child: FittedBox(
-                          fit: video.camera ? BoxFit.cover : BoxFit.contain,
-                          child: SizedBox(
+                          fit: video.camera && (rotate == 0 || rotate == 180)
+                              ? BoxFit.cover
+                              : BoxFit.contain,
+                          // fit: BoxFit.contain,
+                          child: RotatedBox(
+                            quarterTurns: rotate ~/ 90,
+                            // angle: rotate.toDouble() * -math.pi / 180,
+                            child: SizedBox(
                               width: controller.value.size.width,
                               height: controller.value.size.height,
-                              child: VideoPlayer(controller)),
+                              child: VideoPlayer(controller),
+                            ),
+                          ),
                         ),
                       ),
                     )
@@ -166,16 +221,6 @@ class _CaptureScreenState extends State<CaptureScreen>
                 child: Column(
                   children: [
                     Spacer(),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(vertical: 30),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //     children: [
-                    //       Text('$trimStart'),
-                    //       Text('$trimEnd'),
-                    //     ],
-                    //   ),
-                    // ),
                     Trimmer(
                         position: position,
                         duration: duration,
@@ -188,17 +233,37 @@ class _CaptureScreenState extends State<CaptureScreen>
                           });
                         },
                         thumbnails: thumbnails),
-                    // TrimVideo(
-                    //   position: position,
-                    //   duration: duration,
-                    //   speed: speed,
-                    //   onUpdate: (start, end) {
-                    //     setState(() {
-                    //       trimStart = start.floor();
-                    //       trimEnd = end.floor();
-                    //     });
-                    //   },
-                    // )
+                    Container(
+                      height: kToolbarHeight,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            if (rotate < 270)
+                              rotate += 90;
+                            else
+                              rotate = 0;
+                          });
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Icon(MyIcons.rotate),
+                            ),
+                            Text(
+                              'Rotate ${rotate.toDouble()}',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

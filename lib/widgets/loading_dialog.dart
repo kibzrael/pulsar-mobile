@@ -3,7 +3,8 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 
 class LoadingDialog extends StatefulWidget {
   final Future<Null> Function() process;
-  LoadingDialog(this.process);
+  final String text;
+  LoadingDialog(this.process, {this.text = 'Processing'});
 
   @override
   _LoadingDialogState createState() => _LoadingDialogState();
@@ -38,7 +39,7 @@ class _LoadingDialogState extends State<LoadingDialog> {
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
-                  'Processing...',
+                  '${widget.text}...',
                   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
                 ),
               )

@@ -79,3 +79,21 @@ String videoDuration(int seconds) {
   minutes = minutes - (hours * 60);
   return '${hours > 0 ? '$hours:' : ''}${(minutes < 10) && (hours > 0) ? '0' : ''}$minutes:${seconds < 10 ? '0' : ''}$seconds';
 }
+
+String ffmpegDuration(int milliseconds) {
+  int seconds = milliseconds ~/ 1000;
+  milliseconds = milliseconds - (seconds * 1000);
+
+  int minutes = seconds ~/ 60;
+  seconds = seconds - (minutes * 60);
+
+  int hours = minutes ~/ 60;
+  minutes = minutes - (hours * 60);
+
+  String millipad = milliseconds < 10
+      ? "00"
+      : milliseconds < 100
+          ? "0"
+          : "";
+  return '${hours > 0 ? '$hours:' : ''}${minutes < 10 ? '0' : ''}$minutes:${seconds < 10 ? '0' : ''}$seconds.$millipad$milliseconds';
+}
