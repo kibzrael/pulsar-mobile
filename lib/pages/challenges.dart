@@ -12,6 +12,7 @@ import 'package:pulsar/models/pinned_challenges.dart';
 import 'package:pulsar/models/trending_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/pages/route_observer.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
@@ -91,76 +92,79 @@ class _RootGalaxyState extends State<RootGalaxy>
     Widget space = SizedBox(height: 8);
 
     return Scaffold(
-      body: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverAppBar(
-                floating: false,
-                pinned: true,
-                elevation: 2,
-                collapsedHeight: 0,
-                toolbarHeight: 0,
-                expandedHeight: 200,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Join Challenges\nAnd Earn Points',
-                      style:
-                          TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+      body: NestedScrollViewRefreshIndicator(
+        onRefresh: onRefresh,
+        child: NestedScrollView(
+            controller: scrollController,
+            headerSliverBuilder: (context, _) {
+              return [
+                SliverAppBar(
+                  floating: false,
+                  pinned: true,
+                  elevation: 2,
+                  collapsedHeight: 0,
+                  toolbarHeight: 0,
+                  expandedHeight: 200,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Join Challenges\nAnd Earn Points',
+                        style: TextStyle(
+                            fontSize: 36, fontWeight: FontWeight.w600),
+                      ),
                     ),
                   ),
+                  bottom: PreferredSize(
+                      preferredSize: Size(
+                          MediaQuery.of(context).size.width, kToolbarHeight),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: kToolbarHeight,
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: OpenContainer(
+                          openElevation: 0.0,
+                          closedElevation: 0.0,
+                          transitionDuration: Duration(milliseconds: 500),
+                          closedColor: Colors.transparent,
+                          closedBuilder: (context, open) {
+                            return Hero(
+                              tag: 'searchPulsar',
+                              child: SearchInput(
+                                text: 'Search Pulsar',
+                                onPressed: open,
+                                height: 40 + (barScale * 5),
+                              ),
+                            );
+                          },
+                          openBuilder: (context, action) => SearchScreen(),
+                        ),
+                      )),
                 ),
-                bottom: PreferredSize(
-                    preferredSize:
-                        Size(MediaQuery.of(context).size.width, kToolbarHeight),
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: kToolbarHeight,
-                      padding: EdgeInsets.symmetric(horizontal: 30),
-                      child: OpenContainer(
-                        openElevation: 0.0,
-                        closedElevation: 0.0,
-                        transitionDuration: Duration(milliseconds: 500),
-                        closedColor: Colors.transparent,
-                        closedBuilder: (context, open) {
-                          return Hero(
-                            tag: 'searchPulsar',
-                            child: SearchInput(
-                              text: 'Search Pulsar',
-                              onPressed: open,
-                              height: 40 + (barScale * 5),
-                            ),
-                          );
-                        },
-                        openBuilder: (context, action) => SearchScreen(),
-                      ),
-                    )),
-              ),
-            ];
-          },
-          body: ListView(
-            physics: NeverScrollableScrollPhysics(),
-            padding:
-                EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-            children: [
-              space,
-              PinnedChallenges(),
-              space,
-              TrendingChallenges(),
-              ListTileAd(),
-              space,
-              HighlightChallege(cuisines),
-              space,
-              DiscoverChallenges(),
+              ];
+            },
+            body: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).padding.bottom),
+              children: [
+                space,
+                PinnedChallenges(),
+                space,
+                TrendingChallenges(),
+                ListTileAd(),
+                space,
+                HighlightChallege(cuisines),
+                space,
+                DiscoverChallenges(),
 
-              // RecommendedChallenges(),
-              // space,
-              // // SectionTitle(title: 'Discover'),
-            ],
-          )),
+                // RecommendedChallenges(),
+                // space,
+                // // SectionTitle(title: 'Discover'),
+              ],
+            )),
+      ),
     );
   }
 }

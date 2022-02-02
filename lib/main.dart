@@ -11,6 +11,7 @@ import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
+import 'package:pulsar/providers/connectivity_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -84,6 +85,9 @@ class _PulsarState extends State<Pulsar> {
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(systemBrightness),
+        ),
+        ChangeNotifierProvider<ConnectivityProvider>(
+          create: (_) => ConnectivityProvider(),
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),

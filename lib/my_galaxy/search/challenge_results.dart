@@ -34,11 +34,14 @@ class _ChallengeResultsState extends State<ChallengeResults>
               ? snapshot.errorLoading
                   ? Text('${snapshot.error} $data')
                   : Center(child: MyProgressIndicator())
-              : ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return ChallengeCard(data[index]['challenge']);
-                  },
+              : RefreshIndicator(
+                  onRefresh: snapshot.refreshCallback,
+                  child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return ChallengeCard(data[index]['challenge']);
+                    },
+                  ),
                 );
         });
   }

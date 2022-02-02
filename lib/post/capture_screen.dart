@@ -55,8 +55,6 @@ class _CaptureScreenState extends State<CaptureScreen>
   int trimStart = 0;
   int trimEnd = 3000;
 
-  int rotate = 0;
-
   @override
   void initState() {
     super.initState();
@@ -142,6 +140,8 @@ class _CaptureScreenState extends State<CaptureScreen>
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
+
+    int rotate = provider.rotate;
     return Theme(
       data: darkTheme.copyWith(scaffoldBackgroundColor: Colors.black),
       child: Scaffold(
@@ -202,7 +202,6 @@ class _CaptureScreenState extends State<CaptureScreen>
                           fit: video.camera && (rotate == 0 || rotate == 180)
                               ? BoxFit.cover
                               : BoxFit.contain,
-                          // fit: BoxFit.contain,
                           child: RotatedBox(
                             quarterTurns: rotate ~/ 90,
                             // angle: rotate.toDouble() * -math.pi / 180,
@@ -239,12 +238,11 @@ class _CaptureScreenState extends State<CaptureScreen>
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: () {
-                          setState(() {
-                            if (rotate < 270)
-                              rotate += 90;
-                            else
-                              rotate = 0;
-                          });
+                          if (provider.rotate < 270)
+                            provider.rotate += 90;
+                          else
+                            provider.rotate = 0;
+                          provider.notify();
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -254,7 +252,7 @@ class _CaptureScreenState extends State<CaptureScreen>
                               child: Icon(MyIcons.rotate),
                             ),
                             Text(
-                              'Rotate ${rotate.toDouble()}',
+                              'Rotate',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,

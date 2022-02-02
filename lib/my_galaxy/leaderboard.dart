@@ -13,6 +13,7 @@ import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/custom_refresh_indicator.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
+import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
@@ -60,119 +61,117 @@ class _LeaderboardState extends State<Leaderboard> {
           ],
         ),
         body: LayoutBuilder(builder: (context, constraints) {
-          return MyRefreshIndicator(
+          return NestedScrollViewRefreshIndicator(
               onRefresh: onRefresh,
-              childBuilder: (context, displacement, show) {
-                return ExtendedNestedScrollView(
-                  controller: controller,
+              child: ExtendedNestedScrollView(
+                controller: controller,
 
-                  headerSliverBuilder: (context, f) {
-                    return [
-                      SliverList(
-                          delegate: SliverChildListDelegate(
-                        [
-                          SizedBox(
-                            height: displacement.value * 75,
-                            width: double.infinity,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: double.infinity,
-                              color: Theme.of(context).colorScheme.surface,
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: CircularProgressIndicator(
-                                    value: show ? null : displacement.value,
-                                    strokeWidth: 1,
-                                  ),
-                                ),
-                              ),
-                            ),
+                headerSliverBuilder: (context, f) {
+                  return [
+                    SliverList(
+                        delegate: SliverChildListDelegate(
+                      [
+                        // SizedBox(
+                        //   height: displacement.value * 75,
+                        //   width: double.infinity,
+                        //   child: Container(
+                        //     alignment: Alignment.center,
+                        //     width: double.infinity,
+                        //     color: Theme.of(context).colorScheme.surface,
+                        //     child: SingleChildScrollView(
+                        //       child: Padding(
+                        //         padding: EdgeInsets.all(8),
+                        //         child: CircularProgressIndicator(
+                        //           value: show ? null : displacement.value,
+                        //           strokeWidth: 1,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              winnersProfile(2, lynn),
+                              winnersProfile(1, tahlia),
+                              winnersProfile(3, kinjaz),
+                            ],
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                winnersProfile(2, lynn),
-                                winnersProfile(1, tahlia),
-                                winnersProfile(3, kinjaz),
-                              ],
-                            ),
-                          ),
-                          ListTileAd(),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 4),
-                            child: SectionTitle(
-                              title: '${challenge.name}',
-                              trailing: Text(
-                                '12K posts',
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
-                    ];
-                  },
-                  // innerScrollPositionKeyBuilder: () {
-                  //   return Key('Scroll1');
-                  // },
-                  onlyOneScrollInBody: true,
-                  body: Column(
-                    children: [
-                      MyListTile(
-                        title: 'You',
-                        subtitle: 'Current Position',
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage('assets/old_logo.jpg'),
-                          radius: 21,
                         ),
-                        trailingText: 'N/A',
-                        flexRatio: [4, 1],
+                        ListTileAd(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4),
+                          child: SectionTitle(
+                            title: '${challenge.name}',
+                            trailing: Text(
+                              '12K posts',
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                  ];
+                },
+                // innerScrollPositionKeyBuilder: () {
+                //   return Key('Scroll1');
+                // },
+                onlyOneScrollInBody: true,
+                body: Column(
+                  children: [
+                    MyListTile(
+                      title: 'You',
+                      subtitle: 'Current Position',
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage('assets/old_logo.jpg'),
+                        radius: 21,
                       ),
-                      Expanded(
-                        child: Container(
-                            color: Theme.of(context).colorScheme.surface,
-                            child: ListView.builder(
-                                itemCount: allUsers.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  User user = allUsers[index];
-                                  return MyListTile(
-                                    title: '@${user.username}',
-                                    subtitle: user.category,
-                                    onPressed: () {
-                                      Navigator.of(context).push(myPageRoute(
-                                          builder: (context) =>
-                                              ProfilePage(user)));
-                                    },
-                                    leading: ProfilePic(
-                                      user.profilePic,
-                                      radius: 21,
-                                    ),
-                                    trailing: Card(
-                                      shape: CircleBorder(),
-                                      child: Padding(
-                                          padding: EdgeInsets.all(8),
-                                          child: Text(
-                                            '${index + 4}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1,
-                                          )),
-                                    ),
-                                    trailingArrow: false,
-                                    flexRatio: [4, 1],
-                                  );
-                                })),
-                      ),
-                    ],
-                  ),
-                );
-              });
+                      trailingText: 'N/A',
+                      flexRatio: [4, 1],
+                    ),
+                    Expanded(
+                      child: Container(
+                          color: Theme.of(context).colorScheme.surface,
+                          child: ListView.builder(
+                              itemCount: allUsers.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                User user = allUsers[index];
+                                return MyListTile(
+                                  title: '@${user.username}',
+                                  subtitle: user.category,
+                                  onPressed: () {
+                                    Navigator.of(context).push(myPageRoute(
+                                        builder: (context) =>
+                                            ProfilePage(user)));
+                                  },
+                                  leading: ProfilePic(
+                                    user.profilePic,
+                                    radius: 21,
+                                  ),
+                                  trailing: Card(
+                                    shape: CircleBorder(),
+                                    child: Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: Text(
+                                          '${index + 4}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1,
+                                        )),
+                                  ),
+                                  trailingArrow: false,
+                                  flexRatio: [4, 1],
+                                );
+                              })),
+                    ),
+                  ],
+                ),
+              ));
         }));
   }
 

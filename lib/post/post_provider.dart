@@ -24,6 +24,8 @@ class PostProvider extends ChangeNotifier {
 
   bool location = true;
 
+  int rotate = 0;
+
   PostProvider({this.challenge, this.caption = ''});
 
   upload(context) {
@@ -41,6 +43,10 @@ class PostProvider extends ChangeNotifier {
     );
     operations.uploadPost?.upload();
     operations.notify();
+  }
+
+  notify() {
+    notifyListeners();
   }
 }
 

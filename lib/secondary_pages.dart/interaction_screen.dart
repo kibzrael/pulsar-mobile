@@ -80,20 +80,23 @@ class _InteractionScreenState extends State<InteractionScreen> {
                       ? snapshot.errorLoading
                           ? Text('${snapshot.error} $data')
                           : Center(child: MyProgressIndicator())
-                      : ListView.builder(
-                          itemCount: data.length + 1,
-                          itemBuilder: (context, index) {
-                            if (data.isNotEmpty) {
-                              if (index == 5) {
-                                return ListTileAd();
-                              }
-                              if (index > 5) {
-                                return UserCard(data[index - 1]['user']);
-                              }
-                              return UserCard(data[index]['user']);
-                            }
-                            return Container();
-                          });
+                      : RefreshIndicator(
+                          onRefresh: snapshot.refreshCallback,
+                          child: ListView.builder(
+                              itemCount: data.length + 1,
+                              itemBuilder: (context, index) {
+                                if (data.isNotEmpty) {
+                                  if (index == 5) {
+                                    return ListTileAd();
+                                  }
+                                  if (index > 5) {
+                                    return UserCard(data[index - 1]['user']);
+                                  }
+                                  return UserCard(data[index]['user']);
+                                }
+                                return Container();
+                              }),
+                        );
                 }),
           )),
         ),

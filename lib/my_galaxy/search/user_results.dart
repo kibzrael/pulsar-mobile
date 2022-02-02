@@ -45,20 +45,23 @@ class _UserResultsState extends State<UserResults>
               ? snapshot.errorLoading
                   ? Text('${snapshot.error} $data')
                   : Center(child: MyProgressIndicator())
-              : ListView.builder(
-                  itemCount: data.length + (snapshot.isLoadingMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (snapshot.isLoadingMore && index == data.length) {
-                      return LoadingMore();
-                    }
-                    // if (index == 5) {
-                    //   return MyBannerAd();
-                    // }
-                    // if (index > 5) {
-                    //   return UserCard(data[index - 1]['user']);
-                    // }
-                    return UserCard(data[index]['user']);
-                  },
+              : RefreshIndicator(
+                  onRefresh: snapshot.refreshCallback,
+                  child: ListView.builder(
+                    itemCount: data.length + (snapshot.isLoadingMore ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (snapshot.isLoadingMore && index == data.length) {
+                        return LoadingMore();
+                      }
+                      // if (index == 5) {
+                      //   return MyBannerAd();
+                      // }
+                      // if (index > 5) {
+                      //   return UserCard(data[index - 1]['user']);
+                      // }
+                      return UserCard(data[index]['user']);
+                    },
+                  ),
                 );
         });
   }

@@ -61,7 +61,7 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
 
-    PostProvider postProvider = Provider.of<PostProvider>(context);
+    int rotate = provider.rotate;
 
     Widget editLabel(String text) {
       return Text(text,
@@ -94,13 +94,17 @@ class _EditScreenState extends State<EditScreen> {
                           borderRadius: BorderRadius.circular(15),
                           child: InkWell(
                             child: FittedBox(
-                              fit: video.camera ? BoxFit.cover : BoxFit.contain,
-                              child: SizedBox(
-                                  width: controller.value.size.width,
-                                  height: controller.value.size.height,
-                                  child: Hero(
-                                      tag: 'cover',
-                                      child: VideoPlayer(controller))),
+                              fit:
+                                  video.camera && (rotate == 0 || rotate == 180)
+                                      ? BoxFit.cover
+                                      : BoxFit.contain,
+                              child: RotatedBox(
+                                quarterTurns: rotate ~/ 90,
+                                child: SizedBox(
+                                    width: controller.value.size.width,
+                                    height: controller.value.size.height,
+                                    child: VideoPlayer(controller)),
+                              ),
                             ),
                           ),
                         ),
@@ -175,7 +179,7 @@ class _EditScreenState extends State<EditScreen> {
                             },
                             child: Column(
                               children: [
-                                if (postProvider.audio != null)
+                                if (provider.audio != null)
                                   Container(
                                     width: 42,
                                     height: 42,
@@ -185,12 +189,12 @@ class _EditScreenState extends State<EditScreen> {
                                       borderRadius: BorderRadius.circular(6),
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                            postProvider.audio!.coverPhoto),
+                                            provider.audio!.coverPhoto),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                if (postProvider.audio == null)
+                                if (provider.audio == null)
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Icon(
@@ -223,7 +227,7 @@ class _EditScreenState extends State<EditScreen> {
                           InkWell(
                             onTap: () {
                               openBottomSheet(
-                                  context, (context) => Filters(postProvider));
+                                  context, (context) => Filters(provider));
                             },
                             child: Column(
                               children: [

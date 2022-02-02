@@ -175,8 +175,7 @@ class MyIcons {
 
   static IconData reposted = myIcon(Icons.repeat_one, Icons.repeat_one);
 
-  static IconData rotate =
-      myIcon(Icons.rotate_90_degrees_ccw, Icons.rotate_90_degrees_ccw);
+  static IconData rotate = myIcon(Icons.rotate_right, Icons.rotate_right);
 
   static IconData rules = myIcon(Icons.rule, Icons.rule);
 
