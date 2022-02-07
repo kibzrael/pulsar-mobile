@@ -57,12 +57,13 @@ class _VoiceoverState extends State<Voiceover> {
 
   record() async {
     Directory temp = await getTemporaryDirectory();
-    String path = join(temp.path, 'audio${DateTime.now()}');
+    String path = join(temp.path, 'audio${DateTime.now()}.aac');
     await recorder.startRecorder(
       toFile: path,
-      codec: Codec.mp3,
     );
+    print('started...');
     recorder.onProgress?.listen((RecordingDisposition event) {
+      print('recording....');
       setState(() {
         disposition = event;
       });

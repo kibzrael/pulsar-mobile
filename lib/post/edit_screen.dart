@@ -103,7 +103,10 @@ class _EditScreenState extends State<EditScreen> {
                                 child: SizedBox(
                                     width: controller.value.size.width,
                                     height: controller.value.size.height,
-                                    child: VideoPlayer(controller)),
+                                    child: ColorFiltered(
+                                        colorFilter: ColorFilter.matrix(
+                                            provider.filter.convolution),
+                                        child: VideoPlayer(controller))),
                               ),
                             ),
                           ),
@@ -133,7 +136,7 @@ class _EditScreenState extends State<EditScreen> {
                                 .then((value) {
                               if (value == 'Ok') {
                                 // reset values
-                                provider.filter = null;
+                                provider.filter = original;
                                 provider.thumbnail =
                                     VideoThumbnail(position: 0.0);
                                 //

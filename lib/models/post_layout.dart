@@ -9,6 +9,7 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/secondary_pages.dart/tag_page.dart';
+import 'package:pulsar/widgets/caption_text.dart';
 import 'package:pulsar/widgets/interactions.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -248,17 +249,19 @@ class _PostLayoutState extends State<PostLayout> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 4),
-                          child: Text(
-                            'Caption of the post. Has soft wrap\nOccupies max of three lines\nno read more...',
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(fontWeight: FontWeight.w500),
-                          ),
-                        ),
+                            padding: EdgeInsets.symmetric(vertical: 4),
+                            child: RichText(
+                              text: TextSpan(
+                                children: captionText(
+                                    'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more...'),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(fontWeight: FontWeight.w500),
+                              ),
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                            )),
                         Padding(
                           padding: EdgeInsets.only(top: 4),
                           child: Wrap(

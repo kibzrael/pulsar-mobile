@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/post/post_provider.dart';
 
 class Trimmer extends StatefulWidget {
   final double position;
@@ -10,6 +11,7 @@ class Trimmer extends StatefulWidget {
   final int max;
   final List<Uint8List?> thumbnails;
   final Function(double start, double end) onUpdate;
+  final PostProvider provider;
 
   Trimmer({
     required this.position,
@@ -18,6 +20,7 @@ class Trimmer extends StatefulWidget {
     required this.max,
     required this.onUpdate,
     required this.thumbnails,
+    required this.provider,
   });
 
   @override
@@ -115,25 +118,29 @@ class _TrimmerState extends State<Trimmer> {
                     }
                     return false;
                   },
-                  child: ListView.builder(
-                      itemCount: widget.thumbnails.length,
-                      scrollDirection: Axis.horizontal,
-                      controller: scrollController,
-                      itemBuilder: (context, index) {
-                        Uint8List? thumbnail = widget.thumbnails[index];
-                        return Container(
-                          width: thumbsWidth / widget.thumbnails.length,
-                          height: 75,
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.white12, width: 1),
-                              image: thumbnail == null
-                                  ? null
-                                  : DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: MemoryImage(thumbnail))),
-                        );
-                      }),
+                  child: ColorFiltered(
+                    colorFilter:
+                        ColorFilter.matrix(widget.provider.filter.convolution),
+                    child: ListView.builder(
+                        itemCount: widget.thumbnails.length,
+                        scrollDirection: Axis.horizontal,
+                        controller: scrollController,
+                        itemBuilder: (context, index) {
+                          Uint8List? thumbnail = widget.thumbnails[index];
+                          return Container(
+                            width: thumbsWidth / widget.thumbnails.length,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white12, width: 1),
+                                image: thumbnail == null
+                                    ? null
+                                    : DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: MemoryImage(thumbnail))),
+                          );
+                        }),
+                  ),
                 ),
               ),
             ),

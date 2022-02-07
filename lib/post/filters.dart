@@ -16,6 +16,7 @@ class _FiltersState extends State<Filters> {
   List<Filter> filters = [
     original,
     pop,
+    sepia,
     grayscale,
     warm,
     cool,
@@ -24,7 +25,8 @@ class _FiltersState extends State<Filters> {
     rise,
     bw,
     landscape,
-    lofi
+    lofi,
+    invert,
   ];
 
   @override
@@ -36,20 +38,31 @@ class _FiltersState extends State<Filters> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Filters', style: Theme.of(context).textTheme.headline1),
-            MyTextButton(text: 'Done', onPressed: () {})
+            MyTextButton(text: 'Done', onPressed: () => Navigator.pop(context))
           ],
         ),
       ),
       child: Container(
-        height: 100,
-        margin: EdgeInsets.only(bottom: 12, top: 4),
+        height: 125,
+        margin: EdgeInsets.only(bottom: 18, top: 4),
         child: ListView.builder(
             itemCount: filters.length,
             scrollDirection: Axis.horizontal,
             physics: BouncingScrollPhysics(),
             padding: EdgeInsets.symmetric(horizontal: 5),
             itemBuilder: (context, index) {
-              return FilterWidget(filters[index]);
+              bool isSelected = widget.postProvider.filter == filters[index];
+              return InkWell(
+                  onTap: () {
+                    setState(() {
+                      widget.postProvider.filter = filters[index];
+                      widget.postProvider.notify();
+                    });
+                  },
+                  child: FilterWidget(
+                    filters[index],
+                    selected: isSelected,
+                  ));
             }),
       ),
     );
@@ -58,24 +71,30 @@ class _FiltersState extends State<Filters> {
 
 class FilterWidget extends StatelessWidget {
   final Filter filter;
-  FilterWidget(this.filter);
+  final bool selected;
+  FilterWidget(this.filter, {required this.selected});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 2.5, vertical: 4),
       padding: EdgeInsets.all(4),
-      width: 90,
+      width: 100,
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: selected
+              ? Theme.of(context).inputDecorationTheme.fillColor
+              : Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(5)),
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.white12,
-            backgroundImage: CachedNetworkImageProvider(beth.profilePic!),
+          ColorFiltered(
+            colorFilter: ColorFilter.matrix(filter.convolution),
+            child: CircleAvatar(
+              radius: 36,
+              backgroundColor: Colors.white12,
+              backgroundImage: CachedNetworkImageProvider(beth.profilePic!),
+            ),
           ),
           SizedBox(height: 4),
           FittedBox(
@@ -95,20 +114,89 @@ class FilterWidget extends StatelessWidget {
   }
 }
 
-class Filter {
-  String name;
-
-  Filter(this.name);
-}
-
-Filter original = Filter('Original');
-Filter pop = Filter('Pop');
-Filter grayscale = Filter('Grayscale');
-Filter warm = Filter('Warm');
-Filter cool = Filter('Cool');
-Filter natural = Filter('Natural');
-Filter vintage = Filter('Vintage');
-Filter rise = Filter('Rise');
-Filter bw = Filter('B/W');
-Filter landscape = Filter('Landscape');
-Filter lofi = Filter('Lo-Fi');
+Filter original = Filter('Original',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter pop = Filter('Pop',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter sepia = Filter('Sepia', convolution: [
+  0.393,
+  0.769,
+  0.189,
+  0,
+  0,
+  0.349,
+  0.686,
+  0.168,
+  0,
+  0,
+  0.272,
+  0.534,
+  0.131,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
+Filter grayscale = Filter('Grayscale', convolution: [
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
+Filter warm = Filter('Warm',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter cool = Filter('Cool',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter natural = Filter('Natural',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter vintage = Filter('Vintage',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter rise = Filter('Rise',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter bw = Filter('B/W',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter landscape = Filter('Landscape',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter lofi = Filter('Lo-Fi',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter invert = Filter('Invert', convolution: [
+  -1,
+  0,
+  0,
+  0,
+  255,
+  0,
+  -1,
+  0,
+  0,
+  255,
+  0,
+  0,
+  -1,
+  0,
+  255,
+  0,
+  0,
+  0,
+  1,
+  0
+]);

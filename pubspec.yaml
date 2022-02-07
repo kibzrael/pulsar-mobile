@@ -57,7 +57,8 @@ dependencies:
   video_player: ^2.1.6
   video_compress: ^3.1.0
   flutter_video_info: ^1.2.0
-  ffmpeg_kit_flutter: ^4.5.0-LTS
+  video_thumbnail: ^0.4.3
+  flutter_ffmpeg: ^0.4.2
 
   # image
   cached_network_image: ^3.1.0
@@ -76,9 +77,12 @@ dependencies:
   flutter_sound: ^9.1.2
   audio_session: ^0.1.6+1
 
-  # widgets
+  # text
   extended_text_field: ^9.0.3
   extended_text: ^8.0.2
+  flutter_social_textfield: ^0.1.0
+
+  # widgets
   pin_code_fields: ^7.1.0
   carousel_slider: ^4.0.0
   animations: ^2.0.0

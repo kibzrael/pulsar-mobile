@@ -323,20 +323,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.2"
-  ffmpeg_kit_flutter:
-    dependency: "direct main"
-    description:
-      name: ffmpeg_kit_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.5.0"
-  ffmpeg_kit_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: ffmpeg_kit_flutter_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   file:
     dependency: transitive
     description:
@@ -433,6 +419,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  flutter_ffmpeg:
+    dependency: "direct main"
+    description:
+      name: flutter_ffmpeg
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -447,6 +440,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  flutter_social_textfield:
+    dependency: "direct main"
+    description:
+      name: flutter_social_textfield
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   flutter_sound:
     dependency: "direct main"
     description:
@@ -1078,6 +1078,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  video_thumbnail:
+    dependency: "direct main"
+    description:
+      name: video_thumbnail
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   visibility_detector:
     dependency: "direct main"
     description:

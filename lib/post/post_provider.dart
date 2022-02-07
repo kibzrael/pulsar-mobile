@@ -6,13 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/upload_post.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/user_provider.dart';
 
 class PostProvider extends ChangeNotifier {
   VideoCapture? video;
 
-  Filter? filter;
+  Filter filter = original;
 
   Audio? audio;
 
@@ -82,4 +83,9 @@ class Audio {
   });
 }
 
-class Filter {}
+class Filter {
+  String name;
+  List<double> convolution;
+
+  Filter(this.name, {required this.convolution});
+}

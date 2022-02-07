@@ -49,12 +49,13 @@ class _PostCoverState extends State<PostCover> {
   }
 
   getThumbnails() async {
-    int stepSize = duration ~/ 9;
-    for (int step = 0; step < duration / stepSize; step++) {
+    double maxDuration = duration * 1000;
+    int stepSize = maxDuration ~/ 9;
+    for (int step = 0; step < maxDuration / stepSize; step++) {
       int position = stepSize * step;
       Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
           widget.video.video.path,
-          position: position * 1000);
+          position: position);
       setState(() {
         thumbnails.add(thumbnail);
       });
@@ -121,133 +122,135 @@ class _PostCoverState extends State<PostCover> {
                         child: SizedBox(
                           width: controller.value.size.width,
                           height: controller.value.size.height,
-                          child: VideoPlayer(controller),
+                          child: ColorFiltered(
+                              colorFilter: ColorFilter.matrix(
+                                  postProvider.filter.convolution),
+                              child: VideoPlayer(controller)),
                         ),
                       )
                     : null,
               ),
             )),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
+            Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                height: 120,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 7.5),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Container(
-                                width: double.infinity,
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 7.5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Container(
+                            width: double.infinity,
+                            height: 75,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Theme.of(context)
+                                  .inputDecorationTheme
+                                  .fillColor,
+                            ),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.matrix(
+                                  postProvider.filter.convolution),
+                              child: Row(
+                                children: [
+                                  for (Uint8List? thumbnail in thumbnails)
+                                    Expanded(
+                                        child: Container(
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.white12, width: 1),
+                                          image: thumbnail == null
+                                              ? null
+                                              : DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image:
+                                                      MemoryImage(thumbnail))),
+                                    ))
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      child: Container(
+                        width: 18,
+                        height: 75,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary,
+                            borderRadius: BorderRadius.horizontal(
+                                right: Radius.circular(15))),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.horizontal(
+                              right: Radius.circular(15)),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      child: Container(
+                        width: 18,
+                        height: 75,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary,
+                            borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(15))),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(15)),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: cover,
+                      child: GestureDetector(
+                        onPanUpdate: (details) {
+                          setState(() {
+                            if (cover + details.delta.dx < 18) {
+                              cover = 18;
+                            } else if (cover + details.delta.dx > maxWidth) {
+                              cover = maxWidth;
+                            } else {
+                              cover += details.delta.dx;
+                            }
+                          });
+                        },
+                        child: Card(
+                          elevation: 3,
+                          margin: EdgeInsets.fromLTRB(0, 8, 2, 8),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Container(
+                            width: 50,
+                            height: 85,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 5, color: Colors.white),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: SizedBox(
+                                width: 40,
                                 height: 75,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Theme.of(context)
-                                      .inputDecorationTheme
-                                      .fillColor,
-                                ),
-                                child: Row(
-                                  children: [
-                                    for (Uint8List? thumbnail in thumbnails)
-                                      Expanded(
-                                          child: Container(
-                                        height: 75,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.white12,
-                                                width: 1),
-                                            image: thumbnail == null
-                                                ? null
-                                                : DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: MemoryImage(
-                                                        thumbnail))),
-                                      ))
-                                  ],
-                                )),
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: Container(
-                            width: 18,
-                            height: 75,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondary,
-                                borderRadius: BorderRadius.horizontal(
-                                    right: Radius.circular(15))),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.horizontal(
-                                  right: Radius.circular(15)),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 0,
-                          child: Container(
-                            width: 18,
-                            height: 75,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.secondary,
-                                borderRadius: BorderRadius.horizontal(
-                                    left: Radius.circular(15))),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.horizontal(
-                                  left: Radius.circular(15)),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: cover,
-                          child: GestureDetector(
-                            onPanUpdate: (details) {
-                              setState(() {
-                                if (cover + details.delta.dx < 18) {
-                                  cover = 18;
-                                } else if (cover + details.delta.dx >
-                                    maxWidth) {
-                                  cover = maxWidth;
-                                } else {
-                                  cover += details.delta.dx;
-                                }
-                              });
-                            },
-                            child: Card(
-                              elevation: 3,
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 8),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Container(
-                                width: 50,
-                                height: 85,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 5, color: Colors.white),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
                                   child: SizedBox(
-                                    width: 40,
-                                    height: 75,
-                                    child: FittedBox(
-                                      fit: BoxFit.cover,
-                                      child: SizedBox(
-                                          width: controller.value.size.width,
-                                          height: controller.value.size.height,
-                                          child: VideoPlayer(controller)),
-                                    ),
-                                  ),
+                                      width: controller.value.size.width,
+                                      height: controller.value.size.height,
+                                      child: ColorFiltered(
+                                          colorFilter: ColorFilter.matrix(
+                                              postProvider.filter.convolution),
+                                          child: VideoPlayer(controller))),
                                 ),
                               ),
                             ),
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      ),
+                    )
                   ],
                 )),
           ],

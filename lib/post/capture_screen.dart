@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
+// import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+// import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,7 +23,8 @@ import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
+// import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
@@ -91,25 +93,31 @@ class _CaptureScreenState extends State<CaptureScreen>
     int stepSize = maxDuration ~/ 9;
     for (int step = 0; step < duration / stepSize; step++) {
       int position = stepSize * step;
-      Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
-          video.video.path,
-          position: position * 1000);
+      Uint8List? thumbnail = await thumb.VideoThumbnail.thumbnailData(
+          video: video.video.path, timeMs: position);
+
+      // await VideoCompress.getByteThumbnail(video.video.path,
+      //     position: position * 1000);
       thumbnails.add(thumbnail);
     }
   }
 
+  String state = 'none';
+
   Future<Null> trim() async {
+    state = 'initial';
     Permission storage = Permission.storage;
     Permission manageStorage = Permission.manageExternalStorage;
     if (!await storage.isGranted) {
-      PermissionStatus status = await storage.request();
+      await storage.request();
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
     if (!await manageStorage.isGranted) {
-      PermissionStatus status = await manageStorage.request();
+      await manageStorage.request();
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
 
+    FlutterFFmpeg ffmpeg = FlutterFFmpeg();
     Directory directory = await getApplicationDocumentsDirectory();
     String start = ffmpegDuration(trimStart);
     String end = ffmpegDuration(trimEnd);
@@ -117,17 +125,29 @@ class _CaptureScreenState extends State<CaptureScreen>
         '${DateTime.now().toString().replaceAll(" ", '_')}video_trim.mp4');
     String command =
         '-i ${video.video.absolute.path} -ss $start -to $end $outputPath';
-    FFmpegSession session = await FFmpegKit.executeAsync(command);
-    ReturnCode? response = await session.getReturnCode();
-    if (response != null) {
-      if (!response.isValueSuccess()) {
-        // setState(() {
-        //   error = true;
-        // });
-      } else {
-        return;
-      }
+    state = 'starting.....';
+    int response = await ffmpeg.execute(command);
+    start = 'done code $response';
+    if (response != 0) {
+      //  error
+    } else {
+      return;
     }
+    // FFmpegKit.executeAsync(command).then((session) async {
+    //   state = 'waiting for response....';
+    //   ReturnCode? response = await session.getReturnCode();
+    //   state = response.toString();
+    //   state = (await File(outputPath).exists()).toString();
+    //   if (response != null) {
+    //     if (!response.isValueSuccess()) {
+    //       // setState(() {
+    //       //   error = true;
+    //       // });
+    //     } else {
+    //       return;
+    //     }
+    //   }
+    // });
   }
 
   @override
@@ -178,10 +198,11 @@ class _CaptureScreenState extends State<CaptureScreen>
                   height: 30,
                   onPressed: () async {
                     provider.video = video;
-                    await openDialog(
-                        context,
-                        (context) =>
-                            Theme(data: darkTheme, child: LoadingDialog(trim)));
+                    trim();
+                    // await openDialog(
+                    //     context,
+                    //     (context) =>
+                    //         Theme(data: darkTheme, child: LoadingDialog(trim)));
                     Navigator.of(context).push(
                         myPageRoute(builder: (context) => EditScreen(video)));
                   }),
@@ -208,7 +229,10 @@ class _CaptureScreenState extends State<CaptureScreen>
                             child: SizedBox(
                               width: controller.value.size.width,
                               height: controller.value.size.height,
-                              child: VideoPlayer(controller),
+                              child: ColorFiltered(
+                                  colorFilter: ColorFilter.matrix(
+                                      provider.filter.convolution),
+                                  child: VideoPlayer(controller)),
                             ),
                           ),
                         ),
@@ -220,18 +244,21 @@ class _CaptureScreenState extends State<CaptureScreen>
                 child: Column(
                   children: [
                     Spacer(),
+                    Text(state),
                     Trimmer(
-                        position: position,
-                        duration: duration,
-                        speed: speed,
-                        max: maxDuration,
-                        onUpdate: (start, end) {
-                          setState(() {
-                            trimStart = start.floor();
-                            trimEnd = end.floor();
-                          });
-                        },
-                        thumbnails: thumbnails),
+                      position: position,
+                      duration: duration,
+                      speed: speed,
+                      max: maxDuration,
+                      onUpdate: (start, end) {
+                        setState(() {
+                          trimStart = start.floor();
+                          trimEnd = end.floor();
+                        });
+                      },
+                      thumbnails: thumbnails,
+                      provider: provider,
+                    ),
                     Container(
                       height: kToolbarHeight,
                       alignment: Alignment.centerLeft,

@@ -192,7 +192,10 @@ class _CameraScreenState extends State<CameraScreen>
           },
           child: Stack(
             children: [
-              CameraView(provider),
+              ColorFiltered(
+                  colorFilter:
+                      ColorFilter.matrix(postProvider.filter.convolution),
+                  child: CameraView(provider)),
               Positioned.fill(
                 bottom: kToolbarHeight,
                 child: ScaledTransition(

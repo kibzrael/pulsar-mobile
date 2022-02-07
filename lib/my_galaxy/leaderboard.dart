@@ -10,7 +10,6 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
-import 'package:pulsar/widgets/custom_refresh_indicator.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
