@@ -10,7 +10,10 @@ import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/settings/account/birthday.dart';
+import 'package:pulsar/settings/account/category.dart';
 import 'package:pulsar/settings/account/change_username.dart';
+import 'package:pulsar/settings/account/interests.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
@@ -272,18 +275,22 @@ class _EditProfileState extends State<EditProfile> {
                       )),
                   SectionTitle(title: 'Additional Information'),
                   MyListTile(
-                      title: 'Category',
-                      onPressed: () {},
-                      flexRatio: [2, 3],
-                      subtitle: '${user.category}'),
+                    title: 'Category',
+                    onPressed: () => Navigator.of(context).push(
+                        myPageRoute(builder: (context) => EditCategory())),
+                    flexRatio: [2, 3],
+                    subtitle: '${user.category}',
+                  ),
                   MyListTile(
                       title: 'Interests',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                          myPageRoute(builder: (context) => EditInterests())),
                       flexRatio: [2, 3],
                       subtitle: 'Art, Music +4'),
                   MyListTile(
                       title: 'Birthday',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                          myPageRoute(builder: (context) => EditBirthday())),
                       flexRatio: [2, 3],
                       subtitle: '9th July 2001'),
                 ],

@@ -2,8 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:pulsar/ads/challenges_ad.dart';
 
-import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/models/discover_challenges.dart';
@@ -153,7 +153,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                 PinnedChallenges(),
                 space,
                 TrendingChallenges(),
-                ListTileAd(),
+                ChallengesAd(),
                 space,
                 HighlightChallege(cuisines),
                 space,

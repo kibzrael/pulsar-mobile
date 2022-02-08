@@ -8,6 +8,7 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
+import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class FollowingPosts extends StatefulWidget {
@@ -32,62 +33,86 @@ class _FollowingPostsState extends State<FollowingPosts> {
     controller = CarouselController();
   }
 
+  Future<List<Map<String, dynamic>>> fetchUsers(int index) async {
+    List<Map<String, dynamic>> results = [...users];
+    if (index != 0) await Future.delayed(Duration(seconds: 2));
+    return results;
+  }
+
+  Future onRefresh() async {
+    await Future.delayed(Duration(seconds: 2));
+    return;
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.width * 0.85;
 
     return SafeArea(
-      child: SingleChildScrollView(
-          child: Container(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-              child: Text(
-                'No posts',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle1!
-                    .copyWith(fontSize: 24),
-                maxLines: 1,
+      child: RefreshIndicator(
+        onRefresh: onRefresh,
+        triggerMode: RefreshIndicatorTriggerMode.anywhere,
+        child: SingleChildScrollView(
+            child: Container(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                child: Text(
+                  'No posts',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(fontSize: 24),
+                  maxLines: 1,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-              child: Text(
-                'There are no posts to show you.\nFollow users or challenges to view their posts.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2!
-                    .copyWith(fontSize: 16.5),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                child: Text(
+                  'There are no posts to show you.\nFollow users or challenges to view their posts.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(fontSize: 16.5),
+                ),
               ),
-            ),
-            Container(
-                height: height,
-                margin: EdgeInsets.symmetric(vertical: 12),
-                child: CarouselSlider(
-                  carouselController: controller,
-                  options: CarouselOptions(
-                    height: height,
-                    viewportFraction: 0.6,
-                    enableInfiniteScroll: false,
-                    enlargeCenterPage: true,
-                    initialPage: 0,
-                  ),
-                  items: users
-                      .map((info) => DiscoverPeopleCard(
-                            info,
-                            onPinned: () {
-                              controller.nextPage();
-                            },
-                          ))
-                      .toList(),
-                )),
-            ListTileAd()
-          ],
-        ),
-      )),
+              Container(
+                  height: height,
+                  margin: EdgeInsets.symmetric(vertical: 12),
+                  child: RecyclerView(
+                      target: fetchUsers,
+                      itemBuilder: (context, snapshot) {
+                        List<Map<String, dynamic>> snapshotData = snapshot.data;
+                        return snapshotData.isEmpty
+                            ? Center(
+                                child: Text('Error loading!'),
+                              )
+                            : CarouselSlider(
+                                carouselController: controller,
+                                options: CarouselOptions(
+                                  height: height,
+                                  viewportFraction: 0.6,
+                                  enableInfiniteScroll: false,
+                                  enlargeCenterPage: true,
+                                  initialPage: 0,
+                                ),
+                                items: snapshotData
+                                    .map((info) => DiscoverPeopleCard(
+                                          info,
+                                          onPinned: () {
+                                            controller.nextPage();
+                                          },
+                                        ))
+                                    .toList(),
+                              );
+                      })),
+              ListTileAd()
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

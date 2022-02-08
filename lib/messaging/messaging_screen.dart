@@ -51,7 +51,9 @@ class _MessagingScreenState extends State<MessagingScreen>
     if (!chat.isGroup) {
       user = chat.receipient(tahlia)!;
     } else {
-      name = chat.name;
+      List<User> receipients = [...chat.members];
+      receipients.remove(tahlia);
+      name = '${receipients.first.username} + ${receipients.length - 1}';
     }
     fetchMessages();
     scrollController = ScrollController();

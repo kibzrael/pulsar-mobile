@@ -8,7 +8,7 @@ class RecyclerView extends StatefulWidget {
 
   final bool reversed;
   final int dataLength;
-  final int bufferExtent;
+  final double bufferExtent;
   RecyclerView(
       {required this.itemBuilder,
       // required this.scrollController,

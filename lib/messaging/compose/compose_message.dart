@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/chat.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
-import 'package:pulsar/messaging/compose/configure_group.dart';
 import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_field.dart';
@@ -85,18 +84,13 @@ class _ComposeMessageState extends State<ComposeMessage> {
             MyTextButton(
               text: 'Chat',
               onPressed: () {
-                if (recipients.length == 1) {
-                  Navigator.popUntil(context, ModalRoute.withName("/"));
-                  Navigator.of(context, rootNavigator: true).push(myPageRoute(
-                    builder: (context) => MessagingScreen(
-                      Chat([tahlia, recipients[0]]),
-                      isNew: true,
-                    ),
-                  ));
-                } else if (recipients.length > 1) {
-                  Navigator.of(context).push(myPageRoute(
-                      builder: (context) => ConfigureGroup(recipients)));
-                }
+                Navigator.popUntil(context, ModalRoute.withName("/"));
+                Navigator.of(context, rootNavigator: true).push(myPageRoute(
+                  builder: (context) => MessagingScreen(
+                    Chat([tahlia, ...recipients]),
+                    isNew: true,
+                  ),
+                ));
               },
               enabled: recipients.length >= 1,
             )

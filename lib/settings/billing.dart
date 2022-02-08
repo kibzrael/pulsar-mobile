@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/info/info.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -15,7 +17,13 @@ class _BillingState extends State<Billing> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Billing'),
-        actions: [IconButton(icon: Icon(MyIcons.info), onPressed: () {})],
+        actions: [
+          IconButton(
+              icon: Icon(MyIcons.info),
+              onPressed: () {
+                openBottomSheet(context, (context) => InfoSheet());
+              })
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(

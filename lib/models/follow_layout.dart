@@ -47,6 +47,7 @@ class FollowLayout extends StatelessWidget {
                   child: Card(
                     elevation: 4,
                     margin: EdgeInsets.zero,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18),
                     ),
@@ -65,6 +66,7 @@ class FollowLayout extends StatelessWidget {
                 child: Card(
                   elevation: 4,
                   margin: EdgeInsets.zero,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18),
                   ),

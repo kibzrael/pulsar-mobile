@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
+import 'package:pulsar/settings/account/change_password.dart';
+import 'package:pulsar/settings/account/email.dart';
+import 'package:pulsar/settings/account/phone.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
+import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class ManageAccount extends StatefulWidget {
@@ -58,16 +62,22 @@ class _ManageAccountState extends State<ManageAccount> {
                 title: 'Email',
                 trailingText: 'kibraphael7@gmail.com',
                 flexRatio: [2, 3],
+                onPressed: () => Navigator.of(context)
+                    .push(myPageRoute(builder: (context) => ChangeEmail())),
               ),
               MyListTile(
                 title: 'Phone',
                 trailingText: '0723573568',
                 flexRatio: [2, 3],
+                onPressed: () => Navigator.of(context)
+                    .push(myPageRoute(builder: (context) => ChangePhone())),
               ),
               MyListTile(
                 title: 'Password',
                 trailingText: '********',
                 flexRatio: [2, 3],
+                onPressed: () => Navigator.of(context)
+                    .push(myPageRoute(builder: (context) => ChangePassword())),
               ),
               SizedBox(
                 height: 30,
