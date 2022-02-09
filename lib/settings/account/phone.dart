@@ -10,6 +10,6 @@ class ChangePhone extends StatefulWidget {
 class _ChangePhoneState extends State<ChangePhone> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Change phone')));
+    return Scaffold(appBar: AppBar(title: const Text('Change phone')));
   }
 }

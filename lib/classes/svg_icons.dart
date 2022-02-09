@@ -6,7 +6,7 @@ class SvgIcons {
   static const _kFontFam = 'SvgIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData home_outline =
+  static const IconData homeOutline =
       IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData google =
       IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
@@ -28,11 +28,11 @@ class SvgIcons {
       IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData share =
       IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData user_outline =
+  static const IconData userOutline =
       IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData pin =
       IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData chat_outline =
+  static const IconData chatOutline =
       IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData instagram =
       IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);

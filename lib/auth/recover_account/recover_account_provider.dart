@@ -30,13 +30,13 @@ class RecoverAccountProvider extends ChangeNotifier {
 
   verifyCode(String code) async {
     // token, user_id, code
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
   resetPassword(String password) async {
     // token, user_id, password
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 }

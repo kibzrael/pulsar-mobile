@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PhotoView extends StatelessWidget {
   final String tag;
   final String photo;
-  PhotoView(this.photo, {this.tag = ''});
+  const PhotoView(this.photo, {Key? key, this.tag = ''}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

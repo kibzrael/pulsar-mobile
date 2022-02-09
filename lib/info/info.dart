@@ -6,7 +6,7 @@ class InfoSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyBottomSheet(
+    return const MyBottomSheet(
       child: SizedBox(
         height: 300,
       ),

@@ -7,6 +7,8 @@ import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/transitions.dart';
 
 class PostAudio extends StatefulWidget {
+  const PostAudio({Key? key}) : super(key: key);
+
   @override
   _PostAudioState createState() => _PostAudioState();
 }

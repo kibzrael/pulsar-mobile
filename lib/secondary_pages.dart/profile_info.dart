@@ -5,7 +5,7 @@ class ProfileInfo extends StatefulWidget {
   final String info;
   final int maxCharacters;
   final bool multiline;
-  ProfileInfo(this.info, {required this.maxCharacters, this.multiline = false});
+  const ProfileInfo(this.info, {Key? key, required this.maxCharacters, this.multiline = false}) : super(key: key);
 
   @override
   _ProfileInfoState createState() => _ProfileInfoState();
@@ -23,7 +23,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
       ),
       body: SingleChildScrollView(
           child: Container(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         height: size,
         child: Column(
           children: [
@@ -32,7 +32,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText1,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextField(
@@ -48,13 +48,13 @@ class _ProfileInfoState extends State<ProfileInfo> {
                   required bool isFocused,
                 }) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 5),
+                    padding: const EdgeInsets.only(right: 5),
                     child: Text(
                       '${maxLength! - currentLength}',
                     ),
                   );
                 }),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       )),

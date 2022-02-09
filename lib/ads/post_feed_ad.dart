@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PostFeedAd extends StatefulWidget {
+  const PostFeedAd({Key? key}) : super(key: key);
+
   @override
   _PostFeedAdState createState() => _PostFeedAdState();
 }

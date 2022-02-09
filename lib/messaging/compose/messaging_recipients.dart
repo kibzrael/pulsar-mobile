@@ -9,11 +9,11 @@ class MessagingRecipients extends StatefulWidget {
   final Function(User user) onRemove;
   final Function() onClear;
   final ScrollController recipientsController;
-  MessagingRecipients(
-      {required this.recipients,
+  const MessagingRecipients(
+      {Key? key, required this.recipients,
       required this.onRemove,
       required this.onClear,
-      required this.recipientsController});
+      required this.recipientsController}) : super(key: key);
   @override
   _MessagingRecipientsState createState() => _MessagingRecipientsState();
 }
@@ -29,18 +29,18 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
       trailing: InkWell(
           onTap: widget.onClear,
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Icon(MyIcons.clearAll),
           )),
       child: Container(
-        constraints: BoxConstraints(maxHeight: 35),
+        constraints: const BoxConstraints(maxHeight: 35),
         height: 35,
         alignment: Alignment.centerLeft,
-        child: recipients!.length == 0
+        child: recipients!.isEmpty
             ? Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Text(
                     'Select users to chat with...',
                     style: Theme.of(context)
@@ -55,12 +55,12 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 reverse: true,
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 controller: widget.recipientsController,
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: Chip(
                       elevation: 1,
                       label: Text('@${recipients![index].username}'),
@@ -68,7 +68,7 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                           shaderCallback: (rect) =>
                               secondaryGradient(begin: Alignment.topLeft)
                                   .createShader(rect),
-                          child: Icon(
+                          child: const Icon(
                             Icons.cancel,
                             color: Colors.white,
                           )),

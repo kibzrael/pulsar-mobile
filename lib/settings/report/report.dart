@@ -8,7 +8,7 @@ import 'package:pulsar/widgets/custom_tab.dart';
 
 class ReportScreen extends StatefulWidget {
   final int initialIndex;
-  ReportScreen({this.initialIndex = 0});
+  const ReportScreen({Key? key, this.initialIndex = 0}) : super(key: key);
 
   @override
   _ReportScreenState createState() => _ReportScreenState();
@@ -22,19 +22,19 @@ class _ReportScreenState extends State<ReportScreen> {
       initialIndex: widget.initialIndex,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Report'),
+          title: const Text('Report'),
           actions: [
             IconButton(
                 onPressed: () {
-                  openBottomSheet(context, (context) => InfoSheet());
+                  openBottomSheet(context, (context) => const InfoSheet());
                 },
                 icon: Icon(MyIcons.info))
           ],
           bottom: TabBar(
-            indicator: BoxDecoration(),
+            indicator: const BoxDecoration(),
             labelPadding: EdgeInsets.zero,
             unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-            tabs: [
+            tabs: const [
               CustomTab('Issue'),
               CustomTab(
                 'Inappropriate',
@@ -45,7 +45,7 @@ class _ReportScreenState extends State<ReportScreen> {
         ),
         body: Container(
           color: Theme.of(context).colorScheme.surface,
-          child: TabBarView(
+          child: const TabBarView(
             children: [ReportIssue(), ReportInappropriate()],
           ),
         ),

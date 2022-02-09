@@ -4,6 +4,8 @@ import 'package:pulsar/settings/language.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class SelectLanguage extends StatefulWidget {
+  const SelectLanguage({Key? key}) : super(key: key);
+
   @override
   _SelectLanguageState createState() => _SelectLanguageState();
 }
@@ -12,22 +14,22 @@ class _SelectLanguageState extends State<SelectLanguage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
           print('Clicked');
           Navigator.of(context)
-              .push(myPageRoute(builder: (context) => Language()));
+              .push(myPageRoute(builder: (context) => const Language()));
         },
         child: Container(
           width: double.infinity,
           height: 50,
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 4),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'English',
                 style: TextStyle(
                   fontSize: 18,

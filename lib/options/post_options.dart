@@ -7,7 +7,7 @@ import 'package:pulsar/options/options.dart';
 class PostOptions extends StatelessWidget {
   final Post post;
 
-  PostOptions(this.post);
+  const PostOptions(this.post, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

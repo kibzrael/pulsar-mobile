@@ -24,14 +24,14 @@ List<InlineSpan> captionText(String caption) {
           } else if (letter == '#' && hashtag != '') {
             span.add(TextSpan(
                 text: '#$hashtag${spoilt ? '' : ' '}',
-                style: TextStyle(color: Colors.blue)));
+                style: const TextStyle(color: Colors.blue)));
             hashtag = '';
           }
         }
       }
       span.add(TextSpan(
           text: '#$hashtag${spoilt ? '' : ' '}',
-          style: TextStyle(color: Colors.blue)));
+          style: const TextStyle(color: Colors.blue)));
       if (spoilt) {
         String suffix = '';
         String splitCopy = split.replaceAll('#$hashtag', '');

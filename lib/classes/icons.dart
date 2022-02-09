@@ -6,7 +6,7 @@ import 'package:pulsar/classes/svg_icons.dart';
 class MyIcons {
   MyIcons._();
 
-  static IconData account = myIcon(SvgIcons.user, SvgIcons.user_outline);
+  static IconData account = myIcon(SvgIcons.user, SvgIcons.userOutline);
 
   static IconData acting = myIcon(Icons.people, Icons.people);
 
@@ -131,7 +131,7 @@ class MyIcons {
   static IconData message = myIcon(SvgIcons.chat, SvgIcons.chat);
 
   static IconData messageOutline =
-      myIcon(SvgIcons.chat_outline, SvgIcons.chat_outline);
+      myIcon(SvgIcons.chatOutline, SvgIcons.chatOutline);
 
   static IconData mic = myIcon(Icons.mic, Icons.mic);
 

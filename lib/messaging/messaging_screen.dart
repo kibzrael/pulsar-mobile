@@ -19,7 +19,7 @@ import 'package:pulsar/widgets/text_input.dart';
 class MessagingScreen extends StatefulWidget {
   final Chat chat;
   final bool isNew;
-  MessagingScreen(this.chat, {this.isNew = false});
+  const MessagingScreen(this.chat, {Key? key, this.isNew = false}) : super(key: key);
   @override
   _MessagingScreenState createState() => _MessagingScreenState();
 }
@@ -79,7 +79,7 @@ class _MessagingScreenState extends State<MessagingScreen>
   }
 
   fetchMessages() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     if (!widget.isNew) {
       for (String testMessage in testMessages) {
         User sender = chat.isGroup ? chat.members.first : user!;
@@ -92,31 +92,33 @@ class _MessagingScreenState extends State<MessagingScreen>
                 messagesList.length % 7 == 0 ? adventure.coverPhoto : null));
       }
     }
-    if (mounted)
+    if (mounted) {
       setState(() {
         isSearching = false;
         if (widget.isNew) {
           canLoadMore = false;
         }
       });
+    }
   }
 
   fetchMoreMessages() async {
     setState(() {
       isSearching = true;
     });
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     messagesList = [...messagesList.reversed, ...messagesList];
 
-    if (mounted)
+    if (mounted) {
       setState(() {
         isSearching = false;
         if (messagesList.length > 30) canLoadMore = false;
       });
+    }
   }
 
   moreOnChats() {
-    openBottomSheet(context, (context) => ChatOptions());
+    openBottomSheet(context, (context) => const ChatOptions());
   }
 
   @override
@@ -138,9 +140,10 @@ class _MessagingScreenState extends State<MessagingScreen>
             ],
             title: InkWell(
               onTap: () {
-                if (!chat.isGroup)
+                if (!chat.isGroup) {
                   Navigator.of(context).push(
                       myPageRoute(builder: (context) => ProfilePage(user!)));
+                }
               },
               child: Text(
                 '@${chat.isGroup ? name! : user!.username}',
@@ -148,173 +151,171 @@ class _MessagingScreenState extends State<MessagingScreen>
               ),
             ),
           ),
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                if (isSearching && messagesList.length < 1)
-                  MyProgressIndicator(),
-                Flexible(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount:
-                        isSearching && messagesList.length >= 1 && canLoadMore
-                            ? messagesList.length + 1
-                            : messagesList.length,
-                    reverse: true,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == messagesList.length) {
-                        return Center(
-                          child: Container(
-                            constraints:
-                                BoxConstraints(maxWidth: 30, maxHeight: 30),
-                            margin: EdgeInsets.all(5.0),
-                            height: 30,
-                            width: 30,
-                            child: Card(
-                              elevation: 1.5,
-                              shape: CircleBorder(),
-                              margin: EdgeInsets.zero,
-                              color: Theme.of(context).canvasColor,
-                              child: MyProgressIndicator(
-                                size: 20,
-                                margin: EdgeInsets.all(5),
-                              ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              if (isSearching && messagesList.isEmpty)
+                const MyProgressIndicator(),
+              Flexible(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount:
+                      isSearching && messagesList.isNotEmpty && canLoadMore
+                          ? messagesList.length + 1
+                          : messagesList.length,
+                  reverse: true,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == messagesList.length) {
+                      return Center(
+                        child: Container(
+                          constraints:
+                              const BoxConstraints(maxWidth: 30, maxHeight: 30),
+                          margin: const EdgeInsets.all(5.0),
+                          height: 30,
+                          width: 30,
+                          child: Card(
+                            elevation: 1.5,
+                            shape: const CircleBorder(),
+                            margin: EdgeInsets.zero,
+                            color: Theme.of(context).canvasColor,
+                            child: const MyProgressIndicator(
+                              size: 20,
+                              margin: EdgeInsets.all(5),
                             ),
                           ),
+                        ),
+                      );
+                    }
+
+                    List<Message> messages = messagesList.reversed.toList();
+
+                    Message thisMessage = messages[index];
+                    Message? previousMessage =
+                        (index - 1) < 0 ? null : messages[index - 1];
+                    DateTime previousDate = previousMessage == null
+                        ? DateTime.now()
+                        : previousMessage.time;
+
+                    Widget returnMessage() {
+                      if (index % 2 == 0) {
+                        return MessagingCard(
+                          received: true,
+                          message: messages[index],
                         );
+                      } else {
+                        return MessagingCard(
+                            received: false, message: messages[index]);
                       }
+                    }
 
-                      List<Message> messages = messagesList.reversed.toList();
-
-                      Message thisMessage = messages[index];
-                      Message? previousMessage =
-                          (index - 1) < 0 ? null : messages[index - 1];
-                      DateTime previousDate = previousMessage == null
-                          ? DateTime.now()
-                          : previousMessage.time;
-
-                      Widget returnMessage() {
-                        if (index % 2 == 0) {
-                          return MessagingCard(
-                            received: true,
-                            message: messages[index],
-                          );
-                        } else {
-                          return MessagingCard(
-                              received: false, message: messages[index]);
-                        }
-                      }
-
-                      if (thisMessage.time.day != previousDate.day) {
-                        DateTime markerDate = previousDate;
-                        previousDate = thisMessage.time;
-                        return Column(
-                          children: [
-                            returnMessage(),
-                            if (previousMessage != null) dateMarker(markerDate),
-                          ],
-                        );
-                      }
+                    if (thisMessage.time.day != previousDate.day) {
+                      DateTime markerDate = previousDate;
                       previousDate = thisMessage.time;
+                      return Column(
+                        children: [
+                          returnMessage(),
+                          if (previousMessage != null) dateMarker(markerDate),
+                        ],
+                      );
+                    }
+                    previousDate = thisMessage.time;
 
-                      return returnMessage();
-                    },
+                    return returnMessage();
+                  },
+                ),
+              ),
+              if (widget.chat.isSpam) const Divider(),
+              if (widget.chat.isSpam) spamOptions(),
+              if (!widget.chat.isSpam)
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: MyTextInput(
+                          controller: messageController,
+                          hintText: 'Write a message...',
+                          maxLines: 7,
+                          height: null,
+                          padding: EdgeInsets.fromLTRB(
+                              4, 2, message.isEmpty ? 4 : 8, 2),
+                          prefix: Padding(
+                              padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                              child:
+                                  ProfilePic(tahlia.profilePic, radius: 18)),
+                          onChanged: (text) {
+                            setState(() {
+                              message = text;
+                              if (text.isNotEmpty && text.trim() == '') {
+                                isTyping = false;
+                              } else {
+                                isTyping = true;
+                              }
+                            });
+                          },
+                          onSubmitted: (text) {},
+                          suffix: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(MyIcons.camera),
+                              ),
+                              if (message.isEmpty)
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(MyIcons.mic),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      InkWell(
+                        onTap: () {
+                          if (message.isNotEmpty && message.trim() != '') {
+                            setState(() {
+                              messagesList.add(Message(
+                                  message: message.trim(),
+                                  user: tahlia,
+                                  time: DateTime.now()));
+                              messageController.text = '';
+                              message = '';
+                              isTyping = false;
+                            });
+                          }
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.all(2),
+                          elevation: 4,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(21)),
+                          child: Container(
+                            child: Icon(
+                              MyIcons.send,
+                              color: Colors.white,
+                            ),
+                            height: 42,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(21),
+                                gradient: primaryGradient()),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 5),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                if (widget.chat.isSpam) Divider(),
-                if (widget.chat.isSpam) spamOptions(),
-                if (!widget.chat.isSpam)
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: MyTextInput(
-                            controller: messageController,
-                            hintText: 'Write a message...',
-                            maxLines: 7,
-                            height: null,
-                            padding: EdgeInsets.fromLTRB(
-                                4, 2, message.length < 1 ? 4 : 8, 2),
-                            prefix: Padding(
-                                padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                child:
-                                    ProfilePic(tahlia.profilePic, radius: 18)),
-                            onChanged: (text) {
-                              setState(() {
-                                message = text;
-                                if (text.length > 0 && text.trim() == '') {
-                                  isTyping = false;
-                                } else {
-                                  isTyping = true;
-                                }
-                              });
-                            },
-                            onSubmitted: (text) {},
-                            suffix: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Icon(MyIcons.camera),
-                                ),
-                                if (message.length < 1)
-                                  Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Icon(MyIcons.mic),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 5),
-                        InkWell(
-                          onTap: () {
-                            if (message.length > 0 && message.trim() != '') {
-                              setState(() {
-                                messagesList.add(Message(
-                                    message: message.trim(),
-                                    user: tahlia,
-                                    time: DateTime.now()));
-                                messageController.text = '';
-                                message = '';
-                                isTyping = false;
-                              });
-                            }
-                          },
-                          child: Card(
-                            margin: EdgeInsets.all(2),
-                            elevation: 4,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(21)),
-                            child: Container(
-                              child: Icon(
-                                MyIcons.send,
-                                color: Colors.white,
-                              ),
-                              height: 42,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21),
-                                  gradient: primaryGradient()),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 5),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
-            ),
+            ],
           )),
     );
   }
 
   Widget dateMarker(DateTime date) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      margin: EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
           borderRadius: BorderRadius.circular(30)),
@@ -324,7 +325,7 @@ class _MessagingScreenState extends State<MessagingScreen>
 
   Widget spamOptions() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -332,16 +333,16 @@ class _MessagingScreenState extends State<MessagingScreen>
             'Spam Messenger?',
             style: Theme.of(context).textTheme.bodyText1,
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             'This user is not among your accepted messengers.\nAccept if your interested in chatting.\nBlock if it is a disturbance.',
             style:
                 Theme.of(context).textTheme.subtitle2!.copyWith(fontSize: 13.5),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 Flexible(
@@ -353,7 +354,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                     onPressed: () {},
                   ),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 Flexible(
                   child: ActionButton(
                     title: 'Accept',

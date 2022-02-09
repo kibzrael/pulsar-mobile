@@ -9,6 +9,8 @@ import 'package:pulsar/secondary_pages.dart/following_posts.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -27,13 +29,15 @@ class _HomePageState extends State<HomePage> {
       observers: [MyRouteObserver(context, 0)],
       onGenerateRoute: (settings) {
         return myPageRoute(
-            settings: settings, builder: (context) => RootHomePage());
+            settings: settings, builder: (context) => const RootHomePage());
       },
     );
   }
 }
 
 class RootHomePage extends StatefulWidget {
+  const RootHomePage({Key? key}) : super(key: key);
+
   @override
   _RootHomePageState createState() => _RootHomePageState();
 }
@@ -93,36 +97,34 @@ class _RootHomePageState extends State<RootHomePage>
               titleSpacing: 0.0,
               elevation: 0.0,
               backgroundColor: Colors.transparent,
-              title: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SegmentObject(
-                      'Following',
-                      0,
-                      pageIndex: pageIndex,
-                      onPressed: onPageChanged,
-                    ),
-                    Container(
-                      width: 0.75,
-                      height: 12,
-                      margin: EdgeInsets.symmetric(horizontal: 4),
-                      color: Colors.white54,
-                    ),
-                    SegmentObject(
-                      'Discover',
-                      1,
-                      pageIndex: pageIndex,
-                      onPressed: onPageChanged,
-                    )
-                  ],
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SegmentObject(
+                    'Following',
+                    0,
+                    pageIndex: pageIndex,
+                    onPressed: onPageChanged,
+                  ),
+                  Container(
+                    width: 0.75,
+                    height: 12,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    color: Colors.white54,
+                  ),
+                  SegmentObject(
+                    'Discover',
+                    1,
+                    pageIndex: pageIndex,
+                    onPressed: onPageChanged,
+                  )
+                ],
               ),
             ),
             body: PageView(
               controller: controller,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [
                 FollowingPosts(),
                 DiscoverPosts()
                 // PostsForYou(controller: forYouController)
@@ -140,8 +142,8 @@ class SegmentObject extends StatefulWidget {
   final int pageIndex;
   final Function(int index) onPressed;
 
-  SegmentObject(this.text, this.index,
-      {required this.pageIndex, required this.onPressed});
+  const SegmentObject(this.text, this.index,
+      {Key? key, required this.pageIndex, required this.onPressed}) : super(key: key);
 
   @override
   _SegmentObjectState createState() => _SegmentObjectState();
@@ -150,10 +152,10 @@ class SegmentObject extends StatefulWidget {
 class _SegmentObjectState extends State<SegmentObject> {
   int? oldIndex;
 
-  TextStyle active = TextStyle(
+  TextStyle active = const TextStyle(
       color: Colors.white, fontWeight: FontWeight.w800, fontSize: 18.5);
 
-  TextStyle inactive = TextStyle(
+  TextStyle inactive = const TextStyle(
       color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 16.5);
 
   @override
@@ -166,7 +168,7 @@ class _SegmentObjectState extends State<SegmentObject> {
       child: InkWell(
         onTap: () => widget.onPressed(widget.index),
         child: Container(
-            padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
             alignment: widget.index == 0
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
@@ -175,7 +177,7 @@ class _SegmentObjectState extends State<SegmentObject> {
               fit: BoxFit.scaleDown,
               child: TweenAnimationBuilder<TextStyle>(
                   tween: tween,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   curve: Curves.decelerate,
                   builder: (context, style, _) {
                     return Text(widget.text, maxLines: 1, style: style);

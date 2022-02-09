@@ -6,7 +6,7 @@ class SearchInput extends StatelessWidget {
   final double height;
   final Function()? onPressed;
 
-  SearchInput({this.onPressed, this.text = 'Search', this.height = 37.5});
+  const SearchInput({Key? key, this.onPressed, this.text = 'Search', this.height = 37.5}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class SearchInput extends StatelessWidget {
           children: [
             Icon(MyIcons.search,
                 color: Theme.of(context).inputDecorationTheme.hintStyle!.color),
-            SizedBox(
+            const SizedBox(
               width: 12,
             ),
             Text(

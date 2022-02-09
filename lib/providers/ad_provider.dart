@@ -11,7 +11,7 @@ class AdProvider {
 
   BannerAdListener get bannerAdListener => _bannerAdListener;
 
-  BannerAdListener _bannerAdListener = BannerAdListener(
+  final BannerAdListener _bannerAdListener = BannerAdListener(
     onAdLoaded: (ad) {
       print('Ad Loaded');
     },

@@ -11,6 +11,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
 class ChooseCategory extends StatefulWidget {
+  const ChooseCategory({Key? key}) : super(key: key);
+
   @override
   _ChooseCategoryState createState() => _ChooseCategoryState();
 }
@@ -27,7 +29,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
 
   search() {
     Navigator.of(context)
-        .push(myPageRoute(builder: (context) => SearchCategory()));
+        .push(myPageRoute(builder: (context) => const SearchCategory()));
   }
 
   @override
@@ -57,13 +59,13 @@ class _ChooseCategoryState extends State<ChooseCategory>
             }),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             height: size,
             child: Column(
               children: [
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                  margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                   alignment: Alignment.center,
                   child: Text(
                     'Who do you consider yoursel${isSolo ? 'f' : 'ves'} to be?',
@@ -74,11 +76,11 @@ class _ChooseCategoryState extends State<ChooseCategory>
                         .copyWith(fontSize: 24),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Hero(
                       tag: 'searchCategory',
                       child: SearchInput(
@@ -91,13 +93,13 @@ class _ChooseCategoryState extends State<ChooseCategory>
                         height: 50,
                       ),
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Flexible(
                   child: GridView.builder(
                       itemCount: categories.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 21,
                           mainAxisSpacing: 15,
@@ -112,73 +114,71 @@ class _ChooseCategoryState extends State<ChooseCategory>
                                 selectedCategory = category;
                               });
                             },
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      Container(
-                                        width: double.infinity,
-                                        height: snapshot.maxWidth,
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .inputDecorationTheme
-                                              .fillColor,
-                                          image: DecorationImage(
-                                              image: CachedNetworkImageProvider(
-                                                  category.coverPhoto!),
-                                              fit: BoxFit.cover),
-                                          shape: BoxShape.circle,
-                                        ),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      height: snapshot.maxWidth,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .inputDecorationTheme
+                                            .fillColor,
+                                        image: DecorationImage(
+                                            image: CachedNetworkImageProvider(
+                                                category.coverPhoto!),
+                                            fit: BoxFit.cover),
+                                        shape: BoxShape.circle,
                                       ),
-                                      if (selected)
-                                        Align(
-                                          alignment: Alignment.topRight,
+                                    ),
+                                    if (selected)
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(4),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Theme.of(context)
+                                                  .scaffoldBackgroundColor),
                                           child: Container(
-                                            padding: EdgeInsets.all(4),
+                                            width: 27,
+                                            height: 27,
+                                            padding: const EdgeInsets.all(4),
                                             decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Theme.of(context)
-                                                    .scaffoldBackgroundColor),
-                                            child: Container(
-                                              width: 27,
-                                              height: 27,
-                                              padding: EdgeInsets.all(4),
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                gradient: secondaryGradient(
-                                                    begin: Alignment.topLeft),
-                                              ),
-                                              child: FittedBox(
-                                                fit: BoxFit.scaleDown,
-                                                child: Icon(
-                                                  MyIcons.check,
-                                                  color: Colors.white,
-                                                ),
+                                              shape: BoxShape.circle,
+                                              gradient: secondaryGradient(
+                                                  begin: Alignment.topLeft),
+                                            ),
+                                            child: FittedBox(
+                                              fit: BoxFit.scaleDown,
+                                              child: Icon(
+                                                MyIcons.check,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ),
-                                        )
-                                    ],
+                                        ),
+                                      )
+                                  ],
+                                ),
+                                const Spacer(),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    isSolo
+                                        ? category.category
+                                        : category.pCategory ??
+                                            category.category,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        fontSize: 16.5,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                  Spacer(),
-                                  FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(
-                                      isSolo
-                                          ? category.category
-                                          : category.pCategory ??
-                                              category.category,
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      style: TextStyle(
-                                          fontSize: 16.5,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Spacer()
-                                ],
-                              ),
+                                ),
+                                const Spacer()
+                              ],
                             ),
                           );
                         });

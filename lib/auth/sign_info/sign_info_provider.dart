@@ -85,7 +85,7 @@ class SignInfoProvider extends ChangeNotifier {
     }
 
     if (response.statusCode == 200) {
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
 
       notifyListeners();
     }
@@ -132,7 +132,7 @@ class SignInfoProvider extends ChangeNotifier {
     // print(request.fields);
     // print(request.files);
     // http.StreamedResponse response = await request.send();
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     // http.Response response = await http.post(Uri.parse(profileUrl), headers: {
     //   'Authorization': token!

@@ -7,7 +7,7 @@ import 'package:pulsar/widgets/text_button.dart';
 
 class Filters extends StatefulWidget {
   final PostProvider postProvider;
-  Filters(this.postProvider);
+  const Filters(this.postProvider, {Key? key}) : super(key: key);
   @override
   _FiltersState createState() => _FiltersState();
 }
@@ -33,7 +33,7 @@ class _FiltersState extends State<Filters> {
   Widget build(BuildContext context) {
     return MyBottomSheet(
       title: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -44,12 +44,12 @@ class _FiltersState extends State<Filters> {
       ),
       child: Container(
         height: 125,
-        margin: EdgeInsets.only(bottom: 18, top: 4),
+        margin: const EdgeInsets.only(bottom: 18, top: 4),
         child: ListView.builder(
             itemCount: filters.length,
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 5),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             itemBuilder: (context, index) {
               bool isSelected = widget.postProvider.filter == filters[index];
               return InkWell(
@@ -72,12 +72,12 @@ class _FiltersState extends State<Filters> {
 class FilterWidget extends StatelessWidget {
   final Filter filter;
   final bool selected;
-  FilterWidget(this.filter, {required this.selected});
+  const FilterWidget(this.filter, {Key? key, required this.selected}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 2.5, vertical: 4),
-      padding: EdgeInsets.all(4),
+      margin: const EdgeInsets.symmetric(horizontal: 2.5, vertical: 4),
+      padding: const EdgeInsets.all(4),
       width: 100,
       decoration: BoxDecoration(
           color: selected
@@ -96,7 +96,7 @@ class FilterWidget extends StatelessWidget {
               backgroundImage: CachedNetworkImageProvider(beth.profilePic!),
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(

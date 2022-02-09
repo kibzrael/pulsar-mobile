@@ -10,6 +10,6 @@ class ChangeEmail extends StatefulWidget {
 class _ChangeEmailState extends State<ChangeEmail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Change email')));
+    return Scaffold(appBar: AppBar(title: const Text('Change email')));
   }
 }

@@ -11,7 +11,7 @@ class SelectedAudio extends StatefulWidget {
   final Audio audio;
   final Function() onBack;
   final Function() pop;
-  SelectedAudio(this.audio, {required this.onBack, required this.pop});
+  const SelectedAudio(this.audio, {Key? key, required this.onBack, required this.pop}) : super(key: key);
   @override
   _SelectedAudioState createState() => _SelectedAudioState();
 }
@@ -29,13 +29,13 @@ class _SelectedAudioState extends State<SelectedAudio> {
         AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: Text('Audio'),
+          title: const Text('Audio'),
           leading: IconButton(
             icon: Icon(MyIcons.back),
             onPressed: () {
               openDialog(
                       context,
-                      (context) => MyDialog(
+                      (context) => const MyDialog(
                             title: 'Caution!',
                             body:
                                 'The selected audio and changes you\'ve made would be lost if you quit.',
@@ -68,7 +68,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
         Container(
           width: MediaQuery.of(context).size.width / 3,
           height: MediaQuery.of(context).size.width / 3,
-          margin: EdgeInsets.symmetric(vertical: 7.5),
+          margin: const EdgeInsets.symmetric(vertical: 7.5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Colors.white12,
@@ -97,7 +97,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
               widget.onBack();
             },
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 15),
+              margin: const EdgeInsets.symmetric(vertical: 15),
               child: Column(
                 children: [
                   Icon(
@@ -105,7 +105,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
                     size: 45,
                     color: Theme.of(context).colorScheme.error,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     'Remove',
                     style: Theme.of(context).textTheme.bodyText1,
@@ -115,11 +115,11 @@ class _SelectedAudioState extends State<SelectedAudio> {
             ),
           ),
         ),
-        Spacer(),
-        AudioWidget(),
-        Spacer(flex: 2),
+        const Spacer(),
+        const AudioWidget(),
+        const Spacer(flex: 2),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7.5),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -145,7 +145,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7.5),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7.5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -171,7 +171,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
             ],
           ),
         ),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }

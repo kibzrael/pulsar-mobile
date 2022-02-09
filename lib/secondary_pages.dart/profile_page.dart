@@ -16,7 +16,7 @@ import 'package:pulsar/widgets/route.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
-  ProfilePage(this.user);
+  const ProfilePage(this.user, {Key? key}) : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -59,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 
@@ -89,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage>
                         scrollController: scrollController!,
                       ),
                       FollowLayout(
-                          middle: Image(
+                          middle: const Image(
                             image:
                                 AssetImage('assets/images/logos/instagram.png'),
                             width: 24,
@@ -120,7 +120,7 @@ class _ProfilePageState extends State<ProfilePage>
               children: <Widget>[
                 TabBar(
                   controller: tabController,
-                  indicator: BoxDecoration(),
+                  indicator: const BoxDecoration(),
                   labelPadding: EdgeInsets.zero,
                   unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
                   tabs: <Widget>[
@@ -138,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage>
                 Expanded(
                   child: Container(
                     color: Theme.of(context).colorScheme.surface,
-                    constraints: BoxConstraints(minHeight: 100),
+                    constraints: const BoxConstraints(minHeight: 100),
                     child: TabBarView(
                       controller: tabController,
                       children: <Widget>[

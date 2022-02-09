@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AudioWidget extends StatefulWidget {
+  const AudioWidget({Key? key}) : super(key: key);
+
   @override
   _AudioWidgetState createState() => _AudioWidgetState();
 }
@@ -9,7 +11,7 @@ class _AudioWidgetState extends State<AudioWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: SizedBox(
         height: 120,
         child: Stack(
@@ -27,7 +29,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                 child: ListView.builder(
                     itemCount: 15,
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Container(
                         width: 75,
@@ -47,8 +49,8 @@ class _AudioWidgetState extends State<AudioWidget> {
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(15))),
-                child: ClipRRect(
+                        const BorderRadius.horizontal(right: Radius.circular(15))),
+                child: const ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(right: Radius.circular(15)),
                 ),
@@ -62,8 +64,8 @@ class _AudioWidgetState extends State<AudioWidget> {
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
                     borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(15))),
-                child: ClipRRect(
+                        const BorderRadius.horizontal(left: Radius.circular(15))),
+                child: const ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(left: Radius.circular(15)),
                 ),
@@ -99,7 +101,7 @@ class _AudioWidgetState extends State<AudioWidget> {
                     gradient:
                         LinearGradient(begin: Alignment.topCenter, colors: [
                       Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.primaryVariant,
+                      Theme.of(context).colorScheme.primaryContainer,
                     ])),
               ),
             )

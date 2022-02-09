@@ -10,6 +10,6 @@ class EditBirthday extends StatefulWidget {
 class _EditBirthdayState extends State<EditBirthday> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Birthday')));
+    return Scaffold(appBar: AppBar(title: const Text('Birthday')));
   }
 }

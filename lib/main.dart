@@ -32,7 +32,7 @@ void main() async {
   });
 
   List<Map<String, dynamic>> users = await db.query('users');
-  bool loggedIn = users.length > 0;
+  bool loggedIn = users.isNotEmpty;
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
   runApp(Pulsar(
     loggedIn: loggedIn,
@@ -44,7 +44,7 @@ class Pulsar extends StatefulWidget {
   final bool loggedIn;
   final Map<String, dynamic>? user;
 
-  Pulsar({required this.loggedIn, this.user});
+  const Pulsar({Key? key, required this.loggedIn, this.user}) : super(key: key);
 
   @override
   _PulsarState createState() => _PulsarState();
@@ -123,7 +123,7 @@ class _PulsarState extends State<Pulsar> {
               scrollBehavior: MyScrollBehavior(),
               routes: {
                 '/': (context) =>
-                    loginProvider.loggedIn! ? BasicRoot() : IntroPage(),
+                    loginProvider.loggedIn! ? const BasicRoot() : const IntroPage(),
               },
             );
           });

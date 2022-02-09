@@ -10,7 +10,7 @@ class InteractionNotificationCard extends StatefulWidget {
   final User user;
   final Post? post;
   final Interaction type;
-  InteractionNotificationCard(this.user, {required this.type, this.post});
+  const InteractionNotificationCard(this.user, {Key? key, required this.type, this.post}) : super(key: key);
 
   @override
   _InteractionNotificationCardState createState() =>
@@ -41,15 +41,15 @@ class _InteractionNotificationCardState
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(vertical: 4),
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
               onTap: openUser,
               child: Padding(
-                padding: EdgeInsets.only(right: 15),
+                padding: const EdgeInsets.only(right: 15),
                 child: ProfilePic(
                   user.profilePic,
                   radius: 24,
@@ -64,7 +64,7 @@ class _InteractionNotificationCardState
                     InkWell(
                       onTap: openUser,
                       child: Container(
-                        padding: EdgeInsets.only(bottom: 5),
+                        padding: const EdgeInsets.only(bottom: 5),
                         child: Row(
                           children: [
                             Text(
@@ -74,7 +74,7 @@ class _InteractionNotificationCardState
                                   .subtitle1!
                                   .copyWith(fontSize: 16.5),
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(
                               'Yesterday',
                               style: Theme.of(context).textTheme.subtitle2,
@@ -98,13 +98,13 @@ class _InteractionNotificationCardState
                     ),
                   ]),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             if (type == Interaction.follow)
               Padding(
-                padding: EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.only(top: 4),
                 child: FollowButton(
                   height: 30,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   isFollowing: isFollowing,
                   onPressed: () {
                     setState(() {

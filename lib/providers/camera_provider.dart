@@ -34,7 +34,7 @@ class CameraProvider extends ChangeNotifier {
     if (cameras.isEmpty) {
       snapshot.error = await getCameras() ? null : CameraError.access;
     }
-    if (cameras.length > 0) {
+    if (cameras.isNotEmpty) {
       snapshot.error = await initCamera(cameras[0]) ? null : CameraError.init;
     } else {
       snapshot.error = CameraError.notAvailable;

@@ -9,6 +9,8 @@ import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/data/challenges.dart';
 
 class PinnedChallenges extends StatefulWidget {
+  const PinnedChallenges({Key? key}) : super(key: key);
+
   @override
   _PinnedChallengesState createState() => _PinnedChallengesState();
 }
@@ -44,29 +46,29 @@ class _PinnedChallengesState extends State<PinnedChallenges>
       title: "Challenges",
       child: Container(
         height: 125,
-        margin: EdgeInsets.only(top: 5),
+        margin: const EdgeInsets.only(top: 5),
         child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             controller: scrollController,
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             itemCount: challenges.length,
             separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
+              return const SizedBox(
                 width: 15,
               );
             },
             itemBuilder: (BuildContext context, int index) {
               Challenge challenge = challenges[index];
               return Padding(
-                padding: EdgeInsets.only(left: 5),
+                padding: const EdgeInsets.only(left: 5),
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(myPageRoute(
                         builder: (context) => ChallengePage(challenge)));
                   },
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(
                         21,
                       ),
@@ -91,20 +93,20 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                   : null,
                             ),
                             foregroundDecoration:
-                                BoxDecoration(color: Colors.black12),
+                                const BoxDecoration(color: Colors.black12),
                           ),
                         ),
                         Container(
                           height: 125,
                           width: 175,
                           alignment: Alignment.bottomCenter,
-                          padding: EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(4),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                '${challenge.name}',
+                                challenge.name,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1
@@ -117,20 +119,20 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                 textAlign: TextAlign.center,
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(
+                                margin: const EdgeInsets.symmetric(
                                     horizontal: 15, vertical: 7.5),
                                 child: Row(
                                   children: <Widget>[
                                     Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 3),
+                                          const EdgeInsets.symmetric(horizontal: 3),
                                       child: Icon(
                                         MyIcons.play,
                                         color: Colors.white,
                                         size: 15,
                                       ),
                                     ),
-                                    Expanded(
+                                    const Expanded(
                                       flex: 2,
                                       child: Text(
                                         '3.14K',
@@ -140,14 +142,14 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                     ),
                                     Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 3),
+                                          const EdgeInsets.symmetric(horizontal: 3),
                                       child: Icon(
                                         MyIcons.pin,
                                         color: Colors.white,
                                         size: 15,
                                       ),
                                     ),
-                                    Expanded(
+                                    const Expanded(
                                       flex: 1,
                                       child: Text(
                                         '4.5K',
@@ -164,12 +166,12 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                         Container(
                             height: 125,
                             width: 175,
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             alignment: Alignment.topLeft,
                             child: Transform.rotate(
                               angle: 45,
                               child: Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Icon(MyIcons.pin, color: Colors.white),
                               ),
                             ))

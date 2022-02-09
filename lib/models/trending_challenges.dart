@@ -8,6 +8,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class TrendingChallenges extends StatefulWidget {
+  const TrendingChallenges({Key? key}) : super(key: key);
+
   @override
   _TrendingChallengesState createState() => _TrendingChallengesState();
 }
@@ -23,7 +25,7 @@ class _TrendingChallengesState extends State<TrendingChallenges> {
         itemCount: 3,
         shrinkWrap: true,
         padding: EdgeInsets.zero,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return TrendingChallengeWidget(challenges[index]);
         },
@@ -34,7 +36,7 @@ class _TrendingChallengesState extends State<TrendingChallenges> {
 
 class TrendingChallengeWidget extends StatefulWidget {
   final Challenge challenge;
-  TrendingChallengeWidget(this.challenge);
+  const TrendingChallengeWidget(this.challenge, {Key? key}) : super(key: key);
   @override
   _TrendingChallengeWidgetState createState() =>
       _TrendingChallengeWidgetState();
@@ -53,7 +55,7 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
             .push(myPageRoute(builder: (context) => ChallengePage(challenge)));
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
         elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(21),
@@ -62,10 +64,10 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
           Container(
             height: 75,
             width: 90,
-            margin: EdgeInsets.only(right: 15),
+            margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
                 color: Theme.of(context).inputDecorationTheme.fillColor,
-                borderRadius: BorderRadius.horizontal(
+                borderRadius: const BorderRadius.horizontal(
                   left: Radius.circular(15),
                 ),
                 image: DecorationImage(
@@ -80,11 +82,11 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
                     .copyWith(fontSize: 19.5)),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: FollowButton(
               height: 32,
               width: 72,
-              text: {true: 'Pinned', false: 'Pin'},
+              text: const {true: 'Pinned', false: 'Pin'},
               isFollowing: isPinned,
               onPressed: () => setState(() => isPinned = !isPinned),
             ),

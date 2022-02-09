@@ -11,7 +11,7 @@ class CommentCard extends StatefulWidget {
   final Function(Comment comment) onReply;
   final List<Comment> replies;
 
-  CommentCard(this.comment, {required this.onReply, this.replies = const []});
+  const CommentCard(this.comment, {Key? key, required this.onReply, this.replies = const []}) : super(key: key);
 
   @override
   _CommentCardState createState() => _CommentCardState();
@@ -42,25 +42,25 @@ class _CommentCardState extends State<CommentCard> {
           child: InkWell(
             onTap: onPressed,
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
               child: Text(
-                '${roundCount(number)}',
-                style: TextStyle(fontSize: 12),
+                roundCount(number),
+                style: const TextStyle(fontSize: 12),
               ),
             ),
           ),
         );
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-      margin: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
               onTap: openProfile,
               child: ProfilePic(comment.user.profilePic, radius: 18)),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -76,7 +76,7 @@ class _CommentCardState extends State<CommentCard> {
                               .textTheme
                               .subtitle1!
                               .copyWith(fontSize: 16.5)),
-                      SizedBox(width: 5),
+                      const SizedBox(width: 5),
                       Text(
                         '2min',
                         style: Theme.of(context)

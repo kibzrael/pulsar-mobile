@@ -5,6 +5,8 @@ import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class CountryCodes extends StatefulWidget {
+  const CountryCodes({Key? key}) : super(key: key);
+
   @override
   _CountryCodesState createState() => _CountryCodesState();
 }
@@ -23,13 +25,13 @@ class _CountryCodesState extends State<CountryCodes> {
           FocusScope.of(context).unfocus();
         },
         child: Container(
-            padding: EdgeInsets.fromLTRB(30, 4, 30, 12),
+            padding: const EdgeInsets.fromLTRB(30, 4, 30, 12),
             color: Theme.of(context).scaffoldBackgroundColor,
             child: MyTextInput(
               hintText: 'Country Code',
               height: 42,
               prefix: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   MyIcons.search,
                   color:
@@ -48,10 +50,10 @@ class _CountryCodesState extends State<CountryCodes> {
             itemCount: codes.length,
             itemBuilder: (context, index) {
               return MyListTile(
-                leading: Icon(Icons.flag_outlined),
+                leading: const Icon(Icons.flag_outlined),
                 title: codes[index]['country'],
                 trailingText: codes[index]['code'],
-                flexRatio: [3, 1],
+                flexRatio: const [3, 1],
               );
             }),
       ),

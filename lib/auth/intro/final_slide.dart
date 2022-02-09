@@ -8,6 +8,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/select_language.dart';
 
 class IntroPage extends StatefulWidget {
+  const IntroPage({Key? key}) : super(key: key);
+
   @override
   _IntroPageState createState() => _IntroPageState();
 }
@@ -19,7 +21,7 @@ class _IntroPageState extends State<IntroPage> {
       initialRoute: '/',
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-          builder: (BuildContext context) => RootIntroPage(),
+          builder: (BuildContext context) => const RootIntroPage(),
           settings: settings,
         );
       },
@@ -28,6 +30,8 @@ class _IntroPageState extends State<IntroPage> {
 }
 
 class RootIntroPage extends StatefulWidget {
+  const RootIntroPage({Key? key}) : super(key: key);
+
   @override
   _RootIntroPageState createState() => _RootIntroPageState();
 }
@@ -37,7 +41,7 @@ class _RootIntroPageState extends State<RootIntroPage> {
 
   void toRegister() {
     Navigator.of(context).pushReplacement(myPageRoute(
-      builder: (context) => AuthScreen(
+      builder: (context) => const AuthScreen(
         initialPage: 1,
       ),
     ));
@@ -45,7 +49,7 @@ class _RootIntroPageState extends State<RootIntroPage> {
 
   void toLogin() {
     Navigator.of(context).pushReplacement(myPageRoute(
-        builder: (context) => AuthScreen(
+        builder: (context) => const AuthScreen(
               initialPage: 0,
             )));
   }
@@ -62,14 +66,14 @@ class _RootIntroPageState extends State<RootIntroPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: SelectLanguage(),
+          title: const SelectLanguage(),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               height: constraints.maxHeight,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage('assets/images/intro.jpg'),
                       fit: BoxFit.cover)),
@@ -77,19 +81,19 @@ class _RootIntroPageState extends State<RootIntroPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: topPadding + kToolbarHeight),
-                    Spacer(),
+                    const Spacer(),
                     PulsarLogo(size: MediaQuery.of(context).size.width / 2.4),
-                    PulsarTextLogo(),
-                    SizedBox(height: 30),
+                    const PulsarTextLogo(),
+                    const SizedBox(height: 30),
                     Container(
                         width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 15),
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(children: [
                           ActionButton(
                             title: 'Register',
                             onPressed: toRegister,
                           ),
-                          SizedBox(height: 15),
+                          const SizedBox(height: 15),
                           ActionButton(
                             title: 'Login',
                             backgroundColor: Colors.white,
@@ -97,12 +101,12 @@ class _RootIntroPageState extends State<RootIntroPage> {
                             onPressed: toLogin,
                           )
                         ])),
-                    LinkedAccountLogin(
+                    const LinkedAccountLogin(
                       color: Colors.white,
                       dividerColor: Colors.white54,
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
                       child: Row(
                         children: [
                           Checkbox(
@@ -126,16 +130,16 @@ class _RootIntroPageState extends State<RootIntroPage> {
                                                 .primary,
                                             Theme.of(context)
                                                 .colorScheme
-                                                .primaryVariant,
+                                                .primaryContainer,
                                           ]).createShader(rect);
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           'terms and conditions',
                                           style: TextStyle(
                                               decoration:
                                                   TextDecoration.underline),
                                         ))),
-                                TextSpan(text: ' of use and the '),
+                                const TextSpan(text: ' of use and the '),
                                 WidgetSpan(
                                     child: ShaderMask(
                                         shaderCallback: (rect) {
@@ -145,10 +149,10 @@ class _RootIntroPageState extends State<RootIntroPage> {
                                                 .primary,
                                             Theme.of(context)
                                                 .colorScheme
-                                                .primaryVariant,
+                                                .primaryContainer,
                                           ]).createShader(rect);
                                         },
-                                        child: Text(
+                                        child: const Text(
                                           'privacy policy.',
                                           style: TextStyle(
                                               decoration:

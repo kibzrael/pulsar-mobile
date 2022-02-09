@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 
 class ListTileAd extends StatefulWidget {
+  const ListTileAd({Key? key}) : super(key: key);
+
   @override
   _ListTileAdState createState() => _ListTileAdState();
 }
@@ -60,13 +62,13 @@ class _ListTileAdState extends State<ListTileAd>
     super.build(context);
     return Container(
         width: double.infinity,
-        margin: EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         height: 72,
         color: Theme.of(context).colorScheme.surface,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             child: Text(
               'Ad.',
               style: Theme.of(context).textTheme.bodyText1,

@@ -6,7 +6,7 @@ class MessagingCard extends StatefulWidget {
   /// to be removed
   final bool received;
   final Message message;
-  MessagingCard({required this.received, required this.message});
+  const MessagingCard({Key? key, required this.received, required this.message}) : super(key: key);
 
   @override
   _MessagingCardState createState() => _MessagingCardState();
@@ -25,19 +25,19 @@ class _MessagingCardState extends State<MessagingCard> {
 
   @override
   Widget build(BuildContext context) {
-    Radius radius = Radius.circular(15);
+    Radius radius = const Radius.circular(15);
     return Padding(
-      padding: EdgeInsets.fromLTRB(5, 7.5, 5, 7.5),
+      padding: const EdgeInsets.fromLTRB(5, 7.5, 5, 7.5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment:
             received ? MainAxisAlignment.start : MainAxisAlignment.end,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(bottom: 16.5),
+            margin: const EdgeInsets.only(bottom: 16.5),
             child: received
                 ? Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 5),
                     child: ProfilePic(message.user.profilePic, radius: 16.5),
                   )
                 : Container(),
@@ -53,7 +53,7 @@ class _MessagingCardState extends State<MessagingCard> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  margin: EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: received
                         ? Colors.transparent
@@ -70,7 +70,7 @@ class _MessagingCardState extends State<MessagingCard> {
                     children: [
                       if (message.attachment != null)
                         Padding(
-                          padding: EdgeInsets.all(1),
+                          padding: const EdgeInsets.all(1),
                           child: ClipRRect(
                               borderRadius: BorderRadius.only(
                                   topLeft: radius, topRight: radius
@@ -89,7 +89,7 @@ class _MessagingCardState extends State<MessagingCard> {
                               )),
                         ),
                       Padding(
-                        padding: EdgeInsets.all(7.5),
+                        padding: const EdgeInsets.all(7.5),
                         child: Text(
                           message.message,
                         ),
@@ -97,10 +97,10 @@ class _MessagingCardState extends State<MessagingCard> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 16.5,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     child: Text(
                       '${message.time.hour}:${message.time.minute < 10 ? '0' : ''}${message.time.minute}',
                       style: Theme.of(context)

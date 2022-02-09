@@ -12,7 +12,7 @@ import 'package:pulsar/widgets/text_button.dart';
 
 class LoginPage extends StatefulWidget {
   final Function(int page) onChange;
-  LoginPage({required this.onChange});
+  const LoginPage({Key? key, required this.onChange}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -60,14 +60,14 @@ class _LoginPageState extends State<LoginPage>
       (context) => MyDialog(
         title: statusCodes[response.statusCode]!,
         body: response.body!['message'],
-        actions: ['Ok'],
+        actions: const ['Ok'],
       ),
     );
   }
 
   void onForgotPassword() {
     Navigator.of(context)
-        .push(myPageRoute(builder: (context) => RecoverAccountScreen()));
+        .push(myPageRoute(builder: (context) => const RecoverAccountScreen()));
   }
 
   @override
@@ -99,17 +99,17 @@ class _LoginPageState extends State<LoginPage>
         appBar: AppBar(),
         body: SingleChildScrollView(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               height: size,
               child: Column(
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Login',
                           style: TextStyle(
                             fontSize: 48,
@@ -119,16 +119,16 @@ class _LoginPageState extends State<LoginPage>
                         InkWell(
                           onTap: () {},
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Icon(MyIcons.menu, size: 30),
                           ),
                         )
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
                         hintText: 'Username/ Email',
@@ -141,7 +141,7 @@ class _LoginPageState extends State<LoginPage>
                           setState(() {});
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       LogTextInput(
                         hintText: 'Password',
                         isPassword: true,
@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage>
                         keyboardType: TextInputType.visiblePassword,
                         onFieldSubmitted: (_) {
                           if (!isSubmitting &&
-                              !inputs.any((element) => element.length < 1)) {
+                              !inputs.any((element) => element.isEmpty)) {
                             login();
                           }
                         },
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage>
                     ]),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
                       title: "Login",
@@ -180,8 +180,8 @@ class _LoginPageState extends State<LoginPage>
                       inputs: inputs,
                     ),
                   ),
-                  LinkedAccountLogin(),
-                  Spacer(),
+                  const LinkedAccountLogin(),
+                  const Spacer(),
                   ToggleAuthScreen(
                     isLogin: true,
                     onChange: widget.onChange,

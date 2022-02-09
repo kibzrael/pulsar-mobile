@@ -13,7 +13,7 @@ class Trimmer extends StatefulWidget {
   final Function(double start, double end) onUpdate;
   final PostProvider provider;
 
-  Trimmer({
+  const Trimmer({Key? key, 
     required this.position,
     required this.duration,
     required this.speed,
@@ -21,7 +21,7 @@ class Trimmer extends StatefulWidget {
     required this.onUpdate,
     required this.thumbnails,
     required this.provider,
-  });
+  }) : super(key: key);
 
   @override
   _TrimmerState createState() => _TrimmerState();
@@ -97,7 +97,7 @@ class _TrimmerState extends State<Trimmer> {
     double thumbsWidth = (widget.duration * (widthNoCursor + 42)) / maxMilli;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: SizedBox(
         height: 120,
         child: Stack(
@@ -147,15 +147,15 @@ class _TrimmerState extends State<Trimmer> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                child: Text('${videoDuration(trimStart ~/ 1000)}'),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                child: Text(videoDuration(trimStart ~/ 1000)),
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                child: Text('${videoDuration(trimEnd ~/ 1000)}'),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                child: Text(videoDuration(trimEnd ~/ 1000)),
               ),
             ),
             // Align(
@@ -193,10 +193,10 @@ class _TrimmerState extends State<Trimmer> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(15))),
+                          const BorderRadius.horizontal(right: Radius.circular(15))),
                   child: ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(15)),
+                        const BorderRadius.horizontal(right: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -244,10 +244,10 @@ class _TrimmerState extends State<Trimmer> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
-                          BorderRadius.horizontal(left: Radius.circular(15))),
+                          const BorderRadius.horizontal(left: Radius.circular(15))),
                   child: ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(15)),
+                        const BorderRadius.horizontal(left: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

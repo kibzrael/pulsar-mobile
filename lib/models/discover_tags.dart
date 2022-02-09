@@ -7,7 +7,7 @@ class DiscoverTags extends StatefulWidget {
   final String selected;
   final Function(String value) onChanged;
 
-  DiscoverTags({required this.selected, required this.onChanged});
+  const DiscoverTags({Key? key, required this.selected, required this.onChanged}) : super(key: key);
 
   @override
   _DiscoverTagsState createState() => _DiscoverTagsState();
@@ -25,8 +25,8 @@ class _DiscoverTagsState extends State<DiscoverTags> {
       alignment: Alignment.centerLeft,
       child: ListView.builder(
           itemCount: tags.length + 2,
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.fromLTRB(12, 0, 12, 10),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             String name = index == 0
@@ -48,18 +48,18 @@ class TagWidget extends StatelessWidget {
   final bool isSelected;
   final Function(String interest) onPressed;
 
-  TagWidget(
-      {required this.text, required this.isSelected, required this.onPressed});
+  const TagWidget(
+      {Key? key, required this.text, required this.isSelected, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onPressed(text),
       child: AnimatedContainer(
-        margin: EdgeInsets.only(right: 8),
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         alignment: Alignment.center,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1.5,

@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -6,29 +8,40 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class LogTextDecoration extends InputDecoration {
+  @override
   final String hintText;
+  @override
   final EdgeInsetsGeometry contentPadding =
-      EdgeInsets.symmetric(horizontal: 18, vertical: 0);
+      const EdgeInsets.symmetric(horizontal: 18, vertical: 0);
+  @override
   final InputBorder focusedBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
     borderSide: BorderSide.none,
   );
+  @override
   final InputBorder enabledBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
     borderSide: BorderSide.none,
   );
+  @override
   final InputBorder errorBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
     borderSide: BorderSide.none,
   );
+  @override
   final InputBorder focusedErrorBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(30),
     borderSide: BorderSide.none,
   );
+  @override
   final int errorMaxLines = 1;
+  @override
   final bool filled = true;
+  @override
   final Color? fillColor;
+  @override
   final Widget? suffixIcon;
+  @override
   final Widget? prefixIcon;
   LogTextDecoration(
       {this.hintText = '',
@@ -49,8 +62,8 @@ class LogTextInput extends StatefulWidget {
   final bool isPassword;
   final Widget? prefixIcon;
   final Widget? prefix;
-  LogTextInput(
-      {this.controller,
+  const LogTextInput(
+      {Key? key, this.controller,
       this.focusNode,
       this.hintText = '',
       this.inputFormatters = const [],
@@ -60,7 +73,7 @@ class LogTextInput extends StatefulWidget {
       this.onFieldSubmitted,
       this.keyboardType = TextInputType.text,
       this.prefix,
-      this.prefixIcon});
+      this.prefixIcon}) : super(key: key);
   @override
   _LogTextInputState createState() => _LogTextInputState();
 }
@@ -115,7 +128,7 @@ class _LogTextInputState extends State<LogTextInput> {
                             shaderCallback: (bounds) =>
                                 primaryGradient().createShader(bounds),
                             child: Text(passwordObscure ? 'Show' : 'Hide',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16.5,
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500)),
@@ -145,17 +158,17 @@ class ToggleAuthScreen extends StatelessWidget {
   final Function(int page) onChange;
   final bool isLogin;
 
-  ToggleAuthScreen({required this.onChange, this.isLogin = true});
+  const ToggleAuthScreen({Key? key, required this.onChange, this.isLogin = true}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
             isLogin ? "Don't have an account?" : 'Already have an account?',
-            style: TextStyle(fontSize: 16.5),
+            style: const TextStyle(fontSize: 16.5),
           ),
           MyTextButton(
               text: isLogin ? 'Signup' : 'Login',
@@ -174,29 +187,29 @@ class AuthButton extends StatelessWidget {
   final List<String> inputs;
 
   final String title;
-  AuthButton({
+  const AuthButton({Key? key, 
     this.isSubmitting,
     this.inputs = const [],
     required this.title,
     required this.onPressed,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     bool enabled =
-        !isSubmitting! && !inputs.any((element) => element.length < 1);
+        !isSubmitting! && !inputs.any((element) => element.isEmpty);
     return InkWell(
       onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
         width: double.infinity,
         height: 50,
-        margin: EdgeInsets.symmetric(vertical: 12),
+        margin: const EdgeInsets.symmetric(vertical: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: primaryGradient(),
           borderRadius: BorderRadius.circular(30),
         ),
         child: isSubmitting!
-            ? SizedBox(
+            ? const SizedBox(
                 height: 32,
                 width: 32,
                 child: MyProgressIndicator(
@@ -205,7 +218,7 @@ class AuthButton extends StatelessWidget {
                 ))
             : Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
@@ -220,7 +233,7 @@ class LinkedAccountLogin extends StatelessWidget {
   final Color? color;
   final Color? dividerColor;
 
-  LinkedAccountLogin({this.color, this.dividerColor});
+  const LinkedAccountLogin({Key? key, this.color, this.dividerColor}) : super(key: key);
 
   void onGoogle() {}
   void onFacebook() {}
@@ -229,7 +242,7 @@ class LinkedAccountLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
       child: Column(
         children: [
           MyDivider(
@@ -266,19 +279,19 @@ class LinkedAccountWidget extends StatelessWidget {
   final Function() onPressed;
   final Color? color;
 
-  LinkedAccountWidget(
-      {required this.icon, required this.onPressed, this.color});
+ const LinkedAccountWidget(
+      {Key? key, required this.icon, required this.onPressed, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       child: Card(
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         elevation: 3,
         color: color ?? Theme.of(context).cardColor,
         child: Container(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           width: 27,
           height: 27,
           decoration:

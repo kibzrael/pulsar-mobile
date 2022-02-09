@@ -10,28 +10,28 @@ class OptionTile extends StatelessWidget {
   final String? subtitle;
   final Function? onPressed;
 
-  OptionTile(
-      {this.leading,
+  const OptionTile(
+      {Key? key, this.leading,
       this.onPressed,
       this.subtitle,
       required this.title,
       this.trailing,
       this.trailingArrow = true,
-      this.trailingText});
+      this.trailingText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed as void Function()?,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Column(
           children: [
             Row(
               children: [
                 if (leading != null)
                   Padding(
-                    padding: EdgeInsets.only(right: 12.0),
+                    padding: const EdgeInsets.only(right: 12.0),
                     child: leading,
                   ),
                 Expanded(
@@ -45,7 +45,7 @@ class OptionTile extends StatelessWidget {
                             style: Theme.of(context).textTheme.subtitle1),
                       ]),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 if (trailingText != null)
                   Expanded(
                     child: Text(trailingText!,
@@ -55,7 +55,7 @@ class OptionTile extends StatelessWidget {
                         style: Theme.of(context).textTheme.subtitle2),
                   )
                 else
-                  Spacer(),
+                  const Spacer(),
                 if (trailing != null) trailing!,
                 if (trailingArrow)
                   Icon(
@@ -65,7 +65,7 @@ class OptionTile extends StatelessWidget {
               ],
             ),
             if (subtitle != null)
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
             if (subtitle != null)

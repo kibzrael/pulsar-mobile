@@ -52,7 +52,7 @@ class CaptureTimer extends StatefulWidget {
   final double initial;
   final Function(int index) onPressed;
 
-  CaptureTimer({required this.initial, required this.onPressed});
+  const CaptureTimer({Key? key, required this.initial, required this.onPressed}) : super(key: key);
 
   @override
   _CaptureTimerState createState() => _CaptureTimerState();
@@ -75,7 +75,7 @@ class _CaptureTimerState extends State<CaptureTimer> {
       return InkWell(
           onTap: () {
             controller.animateToPage(index,
-                duration: Duration(milliseconds: 300));
+                duration: const Duration(milliseconds: 300));
           },
           child: Center(child: Text('${timer.toString()}s')));
     }
@@ -126,7 +126,7 @@ class _CaptureTimerState extends State<CaptureTimer> {
           Container(
             width: 6,
             height: 6,
-            margin: EdgeInsets.only(bottom: 6),
+            margin: const EdgeInsets.only(bottom: 6),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Theme.of(context).colorScheme.primary),

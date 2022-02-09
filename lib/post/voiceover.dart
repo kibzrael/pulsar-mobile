@@ -78,30 +78,30 @@ class _VoiceoverState extends State<Voiceover> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('Voiceover')),
+      appBar: AppBar(centerTitle: true, title: const Text('Voiceover')),
       body: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         alignment: Alignment.center,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(audio ?? 'Record...'),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             ElevatedButton.icon(
                 onPressed: record,
                 icon: Icon(MyIcons.mic),
-                label: Text('Record')),
-            SizedBox(height: 15),
+                label: const Text('Record')),
+            const SizedBox(height: 15),
             Text('State: ${recorder.recorderState.name}'),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text('Duration: ${disposition?.duration.toString()}'),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Text('Decibles: ${disposition?.decibels}'),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             ElevatedButton.icon(
                 onPressed: stopRecording,
-                icon: Icon(Icons.stop),
-                label: Text('Stop')),
+                icon: const Icon(Icons.stop),
+                label: const Text('Stop')),
           ],
         ),
       ),

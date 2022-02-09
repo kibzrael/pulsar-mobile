@@ -3,6 +3,8 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class Language extends StatefulWidget {
+  const Language({Key? key}) : super(key: key);
+
   @override
   _LanguageState createState() => _LanguageState();
 }
@@ -22,7 +24,7 @@ class _LanguageState extends State<Language> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Language'),
+        title: const Text('Select Language'),
       ),
       body: ListView.builder(
         itemCount: languages.length,

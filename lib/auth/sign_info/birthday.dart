@@ -7,6 +7,8 @@ import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 
 class BirthdayPage extends StatefulWidget {
+  const BirthdayPage({Key? key}) : super(key: key);
+
   @override
   _BirthdayPageState createState() => _BirthdayPageState();
 }
@@ -43,7 +45,7 @@ class _BirthdayPageState extends State<BirthdayPage>
             }),
         body: SingleChildScrollView(
             child: Container(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           height: size,
           child: Column(
             children: [
@@ -55,7 +57,7 @@ class _BirthdayPageState extends State<BirthdayPage>
                     .headline1!
                     .copyWith(fontSize: 24),
               ),
-              Spacer(
+              const Spacer(
                 flex: 2,
               ),
 
@@ -67,20 +69,20 @@ class _BirthdayPageState extends State<BirthdayPage>
                       child: Container(
                           height: 50,
                           alignment: Alignment.center,
-                          margin: EdgeInsets.symmetric(horizontal: 15),
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
                           decoration: BoxDecoration(
                               gradient: primaryGradient(),
                               borderRadius: BorderRadius.circular(30)),
                           child: Text(
                             birthday,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )),
                     ),
                     Container(
                       height: 50,
                       width: 100,
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
                           color:
                               Theme.of(context).inputDecorationTheme.fillColor,
@@ -96,13 +98,13 @@ class _BirthdayPageState extends State<BirthdayPage>
               //   readOnly: true,
               //   decoration: InputDecoration(hintText: 'Birthday'),
               // ),
-              Spacer(
+              const Spacer(
                 flex: 2,
               ),
               CupertinoTheme(
                 data: CupertinoThemeData(
                     brightness: Theme.of(context).brightness),
-                child: Container(
+                child: SizedBox(
                     height: 150,
                     child: CupertinoDatePicker(
                         maximumDate: DateTime.now(),
@@ -117,10 +119,10 @@ class _BirthdayPageState extends State<BirthdayPage>
                           });
                         })),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
-              SizedBox(height: kToolbarHeight)
+              const SizedBox(height: kToolbarHeight)
             ],
           ),
         )),

@@ -5,7 +5,7 @@ import 'package:pulsar/widgets/transitions.dart';
 
 class AuthScreen extends StatefulWidget {
   final int initialPage;
-  AuthScreen({this.initialPage = 0});
+  const AuthScreen({Key? key, this.initialPage = 0}) : super(key: key);
   @override
   _AuthScreenState createState() => _AuthScreenState();
 }

@@ -24,6 +24,8 @@ class PickImageSheet extends StatelessWidget {
     }
   ];
 
+  PickImageSheet({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MyBottomSheet(
@@ -32,11 +34,11 @@ class PickImageSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           PickImageOption(options[0]),
-          Divider(height: 1),
+          const Divider(height: 1),
           PickImageOption(options[1]),
           Container(
             color: Theme.of(context).colorScheme.surface,
-            padding: EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: PickImageOption(
               options[2],
               color: Theme.of(context).colorScheme.error,
@@ -51,7 +53,7 @@ class PickImageSheet extends StatelessWidget {
 class PickImageOption extends StatelessWidget {
   final Map option;
   final Color? color;
-  PickImageOption(this.option, {this.color});
+  const PickImageOption(this.option, {Key? key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -72,7 +74,7 @@ class PickImageOption extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Text(
           option['label'],
           style: Theme.of(context).textTheme.subtitle1!.copyWith(color: color),

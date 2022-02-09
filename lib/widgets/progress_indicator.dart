@@ -5,7 +5,7 @@ class MyProgressIndicator extends StatelessWidget {
   final double size;
   final EdgeInsets margin;
 
-  MyProgressIndicator({this.size = 50, this.margin = const EdgeInsets.all(24)});
+  const MyProgressIndicator({Key? key, this.size = 50, this.margin = const EdgeInsets.all(24)}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,8 @@ import 'package:pulsar/auth/recover_account/reset_password.dart';
 import 'package:pulsar/auth/recover_account/select_account.dart';
 
 class RecoverAccountScreen extends StatefulWidget {
+  const RecoverAccountScreen({Key? key}) : super(key: key);
+
   @override
   _RecoverAccountScreenState createState() => _RecoverAccountScreenState();
 }
@@ -26,8 +28,8 @@ class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
             return Scaffold(
               body: PageView(
                 controller: provider.pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
+                physics: const NeverScrollableScrollPhysics(),
+                children: const [
                   SelectAccount(),
                   RecoveryCode(),
                   ResetPassword(),

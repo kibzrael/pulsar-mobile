@@ -20,7 +20,7 @@ import 'package:video_player/video_player.dart';
 
 class EditScreen extends StatefulWidget {
   final VideoCapture video;
-  EditScreen(this.video);
+  const EditScreen(this.video, {Key? key}) : super(key: key);
   @override
   _EditScreenState createState() => _EditScreenState();
 }
@@ -65,7 +65,7 @@ class _EditScreenState extends State<EditScreen> {
 
     Widget editLabel(String text) {
       return Text(text,
-          style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w500));
+          style: const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w500));
     }
 
     return Theme(
@@ -89,7 +89,7 @@ class _EditScreenState extends State<EditScreen> {
               controller.value.isInitialized
                   ? SizedBox.expand(
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: kToolbarHeight),
+                        padding: const EdgeInsets.only(bottom: kToolbarHeight),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: InkWell(
@@ -125,7 +125,7 @@ class _EditScreenState extends State<EditScreen> {
                           onPressed: () {
                             openDialog(
                                     context,
-                                    (context) => MyDialog(
+                                    (context) => const MyDialog(
                                           title: 'Caution!',
                                           body:
                                               'The changes you\'ve made would be lost if you quit.',
@@ -169,15 +169,15 @@ class _EditScreenState extends State<EditScreen> {
                         )
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 21),
+                      padding: const EdgeInsets.symmetric(vertical: 21),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           InkWell(
                             onTap: () {
-                              openBottomSheet(context, (context) => PostAudio(),
+                              openBottomSheet(context, (context) => const PostAudio(),
                                   root: false);
                             },
                             child: Column(
@@ -186,7 +186,7 @@ class _EditScreenState extends State<EditScreen> {
                                   Container(
                                     width: 42,
                                     height: 42,
-                                    margin: EdgeInsets.all(2),
+                                    margin: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                       color: Colors.white12,
                                       borderRadius: BorderRadius.circular(6),
@@ -199,7 +199,7 @@ class _EditScreenState extends State<EditScreen> {
                                   ),
                                 if (provider.audio == null)
                                   Padding(
-                                    padding: EdgeInsets.all(8.0),
+                                    padding: const EdgeInsets.all(8.0),
                                     child: Icon(
                                       MyIcons.music,
                                       size: 36,
@@ -212,12 +212,12 @@ class _EditScreenState extends State<EditScreen> {
                           InkWell(
                             onTap: () {
                               Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => Voiceover()));
+                                  builder: (context) => const Voiceover()));
                             },
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     MyIcons.mic,
                                     size: 36,
@@ -235,7 +235,7 @@ class _EditScreenState extends State<EditScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     MyIcons.filters,
                                     size: 36,
@@ -254,7 +254,7 @@ class _EditScreenState extends State<EditScreen> {
                             child: Column(
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.all(8.0),
                                   child: Icon(
                                     MyIcons.thumbnail,
                                     size: 36,

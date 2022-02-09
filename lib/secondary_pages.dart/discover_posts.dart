@@ -24,8 +24,8 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
   List<Map<String, dynamic>> data = [];
 
   Future<List<Map<String, dynamic>>> fetchData(int index) async {
-    String storedCategory = '$category';
-    await Future.delayed(Duration(seconds: 2));
+    String storedCategory = category;
+    await Future.delayed(const Duration(seconds: 2));
     List<Map<String, dynamic>> postResults = [
       ...posts.map((e) => e.toJson(context))
     ];
@@ -58,9 +58,9 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                       child: data.isEmpty
                           ? snapshot.errorLoading
                               ? Text('${snapshot.error} $data')
-                              : Center(child: MyProgressIndicator())
+                              : const Center(child: MyProgressIndicator())
                           : dataCategory != category
-                              ? Center(child: MyProgressIndicator())
+                              ? const Center(child: MyProgressIndicator())
                               : RefreshIndicator(
                                   onRefresh: snapshot.refreshCallback,
                                   triggerMode:
@@ -75,7 +75,7 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                               .padding
                                               .bottom),
                                       gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 2,
                                               childAspectRatio: 0.75,
                                               crossAxisSpacing: 8,
@@ -86,7 +86,7 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                           onTap: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    settings: RouteSettings(
+                                                    settings: const RouteSettings(
                                                         name: 'postView'),
                                                     builder: (context) =>
                                                         PostScreen(

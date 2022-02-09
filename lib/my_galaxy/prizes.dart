@@ -18,6 +18,8 @@ import 'package:flutter/material.dart';
 // }
 
 class ChallengePrizes extends StatefulWidget {
+  const ChallengePrizes({Key? key}) : super(key: key);
+
   @override
   _ChallengePrizesState createState() => _ChallengePrizesState();
 }
@@ -95,7 +97,7 @@ class _ChallengePrizesState extends State<ChallengePrizes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Prizes'),
+        title: const Text('Prizes'),
       ),
       body: RawGestureDetector(
         gestures: <Type, GestureRecognizerFactory>{
@@ -116,7 +118,7 @@ class _ChallengePrizesState extends State<ChallengePrizes> {
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            Center(child: Text('Page 1')),
+            const Center(child: Text('Page 1')),
             ListView(
               controller: _listScrollController,
               physics: const NeverScrollableScrollPhysics(),

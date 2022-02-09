@@ -18,6 +18,8 @@ import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({Key? key}) : super(key: key);
+
   @override
   _MyProfilePageState createState() => _MyProfilePageState();
 }
@@ -35,13 +37,15 @@ class _MyProfilePageState extends State<MyProfilePage> {
       observers: [MyRouteObserver(context, 4)],
       onGenerateRoute: (settings) {
         return myPageRoute(
-            settings: settings, builder: (context) => RootProfilePage());
+            settings: settings, builder: (context) => const RootProfilePage());
       },
     );
   }
 }
 
 class RootProfilePage extends StatefulWidget {
+  const RootProfilePage({Key? key}) : super(key: key);
+
   @override
   _RootProfilePageState createState() => _RootProfilePageState();
 }
@@ -86,7 +90,7 @@ class _RootProfilePageState extends State<RootProfilePage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 
@@ -108,7 +112,7 @@ class _RootProfilePageState extends State<RootProfilePage>
               icon: Icon(MyIcons.tune),
               onPressed: () {
                 Navigator.of(context, rootNavigator: true)
-                    .push(myPageRoute(builder: (context) => SettingsPage()));
+                    .push(myPageRoute(builder: (context) => const SettingsPage()));
               })
         ],
       ),
@@ -127,7 +131,7 @@ class _RootProfilePageState extends State<RootProfilePage>
                       ),
                       Container(
                         margin:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 45),
+                            const EdgeInsets.symmetric(vertical: 5, horizontal: 45),
                         child: Row(
                           children: [
                             Flexible(
@@ -137,16 +141,16 @@ class _RootProfilePageState extends State<RootProfilePage>
                                   Navigator.push(
                                       context,
                                       myPageRoute(
-                                          builder: (context) => EditProfile()));
+                                          builder: (context) => const EditProfile()));
                                 },
                                 height: 37.5,
                               ),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(myPageRoute(
-                                    builder: (context) => Promote()));
+                                    builder: (context) => const Promote()));
                               },
                               child: Card(
                                 elevation: 4,
@@ -155,14 +159,14 @@ class _RootProfilePageState extends State<RootProfilePage>
                                   borderRadius: BorderRadius.circular(18),
                                 ),
                                 child: Container(
-                                  child: Text(
+                                  child: const Text(
                                     'Promote',
                                     style:
                                         TextStyle(fontWeight: FontWeight.w600),
                                   ),
                                   height: 35,
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 5),
                                 ),
                               ),
@@ -185,7 +189,7 @@ class _RootProfilePageState extends State<RootProfilePage>
               children: <Widget>[
                 TabBar(
                   controller: tabController,
-                  indicator: BoxDecoration(),
+                  indicator: const BoxDecoration(),
                   labelPadding: EdgeInsets.zero,
                   unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
                   tabs: <Widget>[

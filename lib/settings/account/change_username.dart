@@ -10,6 +10,6 @@ class ChangeUsername extends StatefulWidget {
 class _ChangeUsernameState extends State<ChangeUsername> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Change username')));
+    return Scaffold(appBar: AppBar(title: const Text('Change username')));
   }
 }

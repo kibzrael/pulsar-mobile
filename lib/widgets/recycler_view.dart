@@ -9,13 +9,13 @@ class RecyclerView extends StatefulWidget {
   final bool reversed;
   final int dataLength;
   final double bufferExtent;
-  RecyclerView(
-      {required this.itemBuilder,
+  const RecyclerView(
+      {Key? key, required this.itemBuilder,
       // required this.scrollController,
       required this.target,
       this.reversed = false,
       this.dataLength = 10,
-      this.bufferExtent = 1});
+      this.bufferExtent = 1}) : super(key: key);
   @override
   _RecyclerViewState createState() => _RecyclerViewState();
 }
@@ -57,7 +57,7 @@ class _RecyclerViewState extends State<RecyclerView> {
       try {
         data = await widget
             .target(isRefreshing ? 0 : index)
-            .timeout(Duration(seconds: 15), onTimeout: () async {
+            .timeout(const Duration(seconds: 15), onTimeout: () async {
           // timeout (Raise an error)
           return [];
         });
@@ -132,10 +132,11 @@ class _RecyclerViewState extends State<RecyclerView> {
   }
 
   void onRetry() {
-    if (!fetchedInitial)
+    if (!fetchedInitial) {
       refreshCallback();
-    else
+    } else {
       isBuffering = true;
+    }
     snapshot.isLoading = true;
 
     fetchData();
@@ -201,7 +202,7 @@ class Snapshot {
 
   bool get errorLoading => !(isLoading ?? true);
 
-  bool get errorLoadingMore => data.length > 0 && error != null;
+  bool get errorLoadingMore => data.isNotEmpty && error != null;
 
   bool get noData => error == ApiError.noData;
 

@@ -10,8 +10,8 @@ class PostsView extends StatefulWidget {
   final int postInView;
   final CarouselController? controller;
 
-  PostsView(
-      {this.initialPosts = const [], this.postInView = 0, this.controller});
+  const PostsView(
+      {Key? key, this.initialPosts = const [], this.postInView = 0, this.controller}) : super(key: key);
 
   @override
   _PostsViewState createState() => _PostsViewState();
@@ -32,7 +32,7 @@ class _PostsViewState extends State<PostsView> {
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 

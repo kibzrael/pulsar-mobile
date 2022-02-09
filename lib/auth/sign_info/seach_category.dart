@@ -3,6 +3,8 @@ import 'package:pulsar/widgets/search_field.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class SearchCategory extends StatefulWidget {
+  const SearchCategory({Key? key}) : super(key: key);
+
   @override
   _SearchCategoryState createState() => _SearchCategoryState();
 }

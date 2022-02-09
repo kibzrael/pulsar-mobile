@@ -4,6 +4,8 @@ import 'package:pulsar/classes/option.dart';
 import 'package:pulsar/options/options.dart';
 
 class ChatOptions extends StatelessWidget {
+  const ChatOptions({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Option favorite = Option(

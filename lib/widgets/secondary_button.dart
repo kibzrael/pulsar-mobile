@@ -6,16 +6,16 @@ class SecondaryButton extends StatelessWidget {
   final double? width;
   final double? height;
 
-  SecondaryButton({this.height, required this.text, this.width});
+  const SecondaryButton({Key? key, this.height, required this.text, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-        padding: EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
         width: width,
         height: height,
         alignment: Alignment.center,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(

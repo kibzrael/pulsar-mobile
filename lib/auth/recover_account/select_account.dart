@@ -6,6 +6,8 @@ import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class SelectAccount extends StatefulWidget {
+  const SelectAccount({Key? key}) : super(key: key);
+
   @override
   _SelectAccountState createState() => _SelectAccountState();
 }
@@ -47,12 +49,12 @@ class _SelectAccountState extends State<SelectAccount> {
               Navigator.pop(context);
             },
           ),
-          title: Text('Recover Account'),
+          title: const Text('Recover Account'),
         ),
         body: SingleChildScrollView(
           child: Container(
               height: size,
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
                   Text(
@@ -60,13 +62,13 @@ class _SelectAccountState extends State<SelectAccount> {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline1,
                   ),
-                  Spacer(flex: 2),
+                  const Spacer(flex: 2),
                   MyTextInput(
                     hintText: 'Username/Phone/Email',
                     onChanged: onChanged,
                     onSubmitted: onSubmitted,
                   ),
-                  Spacer(flex: 1),
+                  const Spacer(flex: 1),
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -83,7 +85,7 @@ class _SelectAccountState extends State<SelectAccount> {
                                         Theme.of(context).textTheme.subtitle2)
                               ]),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         RichText(
@@ -101,7 +103,7 @@ class _SelectAccountState extends State<SelectAccount> {
                               ]),
                         )
                       ]),
-                  Spacer(flex: 1),
+                  const Spacer(flex: 1),
                   Row(
                     children: [
                       Flexible(
@@ -114,7 +116,7 @@ class _SelectAccountState extends State<SelectAccount> {
                           onPressed: onEmail,
                         ),
                       ),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       Flexible(
                         child: ActionButton(
                           title: 'Phone',
@@ -124,7 +126,7 @@ class _SelectAccountState extends State<SelectAccount> {
                       )
                     ],
                   ),
-                  Spacer(
+                  const Spacer(
                     flex: 3,
                   )
                 ],

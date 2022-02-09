@@ -29,7 +29,7 @@ import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
   final double duration;
-  CaptureScreen(this.video, {required this.duration});
+  const CaptureScreen(this.video, {Key? key, required this.duration}) : super(key: key);
   @override
   _CaptureScreenState createState() => _CaptureScreenState();
 }
@@ -62,7 +62,7 @@ class _CaptureScreenState extends State<CaptureScreen>
     super.initState();
     video = widget.video;
     duration = widget.duration;
-    _ticker = this.createTicker((elapsed) {
+    _ticker = createTicker((elapsed) {
       position = controller.value.position.inMilliseconds.toDouble();
 
       if ((position >= (trimEnd * speed)) || (position < (trimStart * speed))) {
@@ -104,7 +104,7 @@ class _CaptureScreenState extends State<CaptureScreen>
 
   String state = 'none';
 
-  Future<Null> trim() async {
+  Future<void> trim() async {
     state = 'initial';
     Permission storage = Permission.storage;
     Permission manageStorage = Permission.manageExternalStorage;
@@ -172,7 +172,7 @@ class _CaptureScreenState extends State<CaptureScreen>
               onPressed: () {
                 openDialog(
                         context,
-                        (context) => MyDialog(
+                        (context) => const MyDialog(
                               title: 'Caution!',
                               body:
                                   'The selected video and changes you\'ve made would be lost if you quit.',
@@ -218,7 +218,7 @@ class _CaptureScreenState extends State<CaptureScreen>
               controller.value.isInitialized
                   ? SizedBox.expand(
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: kToolbarHeight),
+                        padding: const EdgeInsets.only(bottom: kToolbarHeight),
                         child: FittedBox(
                           fit: video.camera && (rotate == 0 || rotate == 180)
                               ? BoxFit.cover
@@ -243,7 +243,7 @@ class _CaptureScreenState extends State<CaptureScreen>
                 color: Colors.black12,
                 child: Column(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Text(state),
                     Trimmer(
                       position: position,
@@ -262,23 +262,24 @@ class _CaptureScreenState extends State<CaptureScreen>
                     Container(
                       height: kToolbarHeight,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: InkWell(
                         onTap: () {
-                          if (provider.rotate < 270)
+                          if (provider.rotate < 270) {
                             provider.rotate += 90;
-                          else
+                          } else {
                             provider.rotate = 0;
+                          }
                           provider.notify();
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(8.0),
                               child: Icon(MyIcons.rotate),
                             ),
-                            Text(
+                            const Text(
                               'Rotate',
                               style: TextStyle(
                                 fontSize: 18,

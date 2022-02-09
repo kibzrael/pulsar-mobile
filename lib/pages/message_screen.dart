@@ -16,6 +16,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
 class MessageScreen extends StatefulWidget {
+  const MessageScreen({Key? key}) : super(key: key);
+
   @override
   _MessageScreenState createState() => _MessageScreenState();
 }
@@ -34,13 +36,15 @@ class _MessageScreenState extends State<MessageScreen> {
       observers: [MyRouteObserver(context, 3)],
       onGenerateRoute: (settings) {
         return myPageRoute(
-            settings: settings, builder: (context) => RootMessageScreen());
+            settings: settings, builder: (context) => const RootMessageScreen());
       },
     );
   }
 }
 
 class RootMessageScreen extends StatefulWidget {
+  const RootMessageScreen({Key? key}) : super(key: key);
+
   @override
   _RootMessageScreenState createState() => _RootMessageScreenState();
 }
@@ -60,12 +64,12 @@ class _RootMessageScreenState extends State<RootMessageScreen>
   }
 
   moreOnMessages() {
-    openBottomSheet(context, (context) => MessageOptions());
+    openBottomSheet(context, (context) => const MessageOptions());
   }
 
   void openNotifications() {
     Navigator.of(context)
-        .push(myPageRoute(builder: (context) => NotificationsPage()));
+        .push(myPageRoute(builder: (context) => const NotificationsPage()));
   }
 
   @override
@@ -99,7 +103,7 @@ class _RootMessageScreenState extends State<RootMessageScreen>
             : OpenContainer(
                 openElevation: 0.0,
                 closedElevation: 0.0,
-                transitionDuration: Duration(milliseconds: 500),
+                transitionDuration: const Duration(milliseconds: 500),
                 closedColor: Colors.transparent,
                 closedBuilder: (context, open) {
                   return Hero(
@@ -110,7 +114,7 @@ class _RootMessageScreenState extends State<RootMessageScreen>
                     ),
                   );
                 },
-                openBuilder: (context, action) => SearchMessages(),
+                openBuilder: (context, action) => const SearchMessages(),
               ),
         actions: [
           selectMode
@@ -119,13 +123,13 @@ class _RootMessageScreenState extends State<RootMessageScreen>
                   icon: Icon(MyIcons.spam),
                   onPressed: () {
                     Navigator.of(context)
-                        .push(myPageRoute(builder: (context) => SpamInbox()));
+                        .push(myPageRoute(builder: (context) => const SpamInbox()));
                   },
                 ),
           // : IconButton(icon: Icon(MyIcons.sort), onPressed: () {})
         ],
         bottom: PreferredSize(
-            child: HighlightUsers(),
+            child: const HighlightUsers(),
             preferredSize: Size(MediaQuery.of(context).size.width, 100)),
       ),
       body: Container(

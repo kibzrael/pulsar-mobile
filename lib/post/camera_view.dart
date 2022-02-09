@@ -5,7 +5,7 @@ import 'package:pulsar/providers/theme_provider.dart';
 
 class CameraView extends StatefulWidget {
   final CameraProvider provider;
-  CameraView(this.provider);
+  const CameraView(this.provider, {Key? key}) : super(key: key);
 
   @override
   _CameraViewState createState() => _CameraViewState();
@@ -44,7 +44,7 @@ class _CameraViewState extends State<CameraView> {
   Widget build(BuildContext context) {
     controller = provider.controller;
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         bottom: kToolbarHeight,
       ),
       child: ClipRRect(
@@ -54,7 +54,7 @@ class _CameraViewState extends State<CameraView> {
           height: double.infinity,
           decoration:
               BoxDecoration(color: darkTheme.inputDecorationTheme.fillColor),
-          foregroundDecoration: BoxDecoration(color: Colors.black12),
+          foregroundDecoration: const BoxDecoration(color: Colors.black12),
           child: controller != null
               ? controller!.value.isInitialized
                   ? SizedBox.expand(

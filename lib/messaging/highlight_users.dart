@@ -22,6 +22,8 @@ Map<HighlightMode, String> highlightTitles = {
 };
 
 class HighlightUsers extends StatefulWidget {
+  const HighlightUsers({Key? key}) : super(key: key);
+
   @override
   _HighlightUsersState createState() => _HighlightUsersState();
 }
@@ -40,31 +42,31 @@ class _HighlightUsersState extends State<HighlightUsers> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(),
+      decoration: const BoxDecoration(),
       height: 100,
-      padding: EdgeInsets.only(bottom: 5, top: 5),
+      padding: const EdgeInsets.only(bottom: 5, top: 5),
       child: ListView.builder(
           itemCount: users.length + 1,
           scrollDirection: Axis.horizontal,
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(
-                      myPageRoute(builder: (context) => ComposeMessage()));
+                      myPageRoute(builder: (context) => const ComposeMessage()));
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  constraints: BoxConstraints(minWidth: 90, maxWidth: 120),
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  constraints: const BoxConstraints(minWidth: 90, maxWidth: 120),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Card(
-                        shape: CircleBorder(),
-                        margin: EdgeInsets.all(4),
-                        child: Container(
+                        shape: const CircleBorder(),
+                        margin: const EdgeInsets.all(4),
+                        child: SizedBox(
                           width: 52,
                           height: 52,
                           child: ShaderMask(
@@ -94,8 +96,8 @@ class _HighlightUsersState extends State<HighlightUsers> {
             } else {
               index = index - 1;
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 5),
-                constraints: BoxConstraints(minWidth: 90, maxWidth: 120),
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                constraints: const BoxConstraints(minWidth: 90, maxWidth: 120),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[

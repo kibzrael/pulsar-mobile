@@ -7,7 +7,7 @@ import 'package:pulsar/options/options.dart';
 class ChallengeOptions extends StatelessWidget {
   final Challenge challenge;
 
-  ChallengeOptions(this.challenge);
+  const ChallengeOptions(this.challenge, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

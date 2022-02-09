@@ -10,6 +10,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class ManageAccount extends StatefulWidget {
+  const ManageAccount({Key? key}) : super(key: key);
+
   @override
   _ManageAccountState createState() => _ManageAccountState();
 }
@@ -21,20 +23,20 @@ class _ManageAccountState extends State<ManageAccount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Manage Account'),
+        title: const Text('Manage Account'),
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ProfilePic(user.profilePic, radius: 36),
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -43,10 +45,10 @@ class _ManageAccountState extends State<ManageAccount> {
                                   .textTheme
                                   .subtitle1!
                                   .copyWith(fontSize: 21)),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
-                          Text('${user.category}',
+                          Text(user.category,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2!
@@ -55,31 +57,31 @@ class _ManageAccountState extends State<ManageAccount> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               MyListTile(
                 title: 'Email',
                 trailingText: 'kibraphael7@gmail.com',
-                flexRatio: [2, 3],
+                flexRatio: const [2, 3],
                 onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => ChangeEmail())),
+                    .push(myPageRoute(builder: (context) => const ChangeEmail())),
               ),
               MyListTile(
                 title: 'Phone',
                 trailingText: '0723573568',
-                flexRatio: [2, 3],
+                flexRatio: const [2, 3],
                 onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => ChangePhone())),
+                    .push(myPageRoute(builder: (context) => const ChangePhone())),
               ),
               MyListTile(
                 title: 'Password',
                 trailingText: '********',
-                flexRatio: [2, 3],
+                flexRatio: const [2, 3],
                 onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => ChangePassword())),
+                    .push(myPageRoute(builder: (context) => const ChangePassword())),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Section(
@@ -87,7 +89,7 @@ class _ManageAccountState extends State<ManageAccount> {
                 child: Column(children: [
                   MyListTile(
                     title: 'Facebook',
-                    leading: Image(
+                    leading: const Image(
                       image: AssetImage('assets/images/logos/facebook.png'),
                       width: 36,
                     ),
@@ -95,7 +97,7 @@ class _ManageAccountState extends State<ManageAccount> {
                   ),
                   MyListTile(
                     title: 'Google',
-                    leading: Image(
+                    leading: const Image(
                       image: AssetImage('assets/images/logos/google.png'),
                       width: 36,
                     ),
@@ -103,7 +105,7 @@ class _ManageAccountState extends State<ManageAccount> {
                   ),
                   MyListTile(
                     title: 'Twitter',
-                    leading: Image(
+                    leading: const Image(
                       image: AssetImage('assets/images/logos/twitter.png'),
                       width: 36,
                     ),
@@ -111,7 +113,7 @@ class _ManageAccountState extends State<ManageAccount> {
                   ),
                   MyListTile(
                     title: 'Instagram',
-                    leading: Image(
+                    leading: const Image(
                       image: AssetImage('assets/images/logos/instagram.png'),
                       width: 36,
                     ),

@@ -8,7 +8,7 @@ import 'package:pulsar/widgets/section.dart';
 
 class HighlightChallege extends StatefulWidget {
   final Challenge challenge;
-  HighlightChallege(this.challenge);
+  const HighlightChallege(this.challenge, {Key? key}) : super(key: key);
 
   @override
   _HighlightChallegeState createState() => _HighlightChallegeState();
@@ -27,7 +27,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
               myPageRoute(builder: (context) => ChallengePage(challenge)));
         },
         child: Card(
-            margin: EdgeInsets.symmetric(horizontal: 15),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
             elevation: 4,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(21)),
@@ -39,7 +39,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                     height: constraints.maxWidth / 2,
                     decoration: BoxDecoration(
                         color: Theme.of(context).inputDecorationTheme.fillColor,
-                        borderRadius: BorderRadius.horizontal(
+                        borderRadius: const BorderRadius.horizontal(
                           left: Radius.circular(21),
                         ),
                         image: DecorationImage(
@@ -49,7 +49,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                   ),
                   Flexible(
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
                       height: constraints.maxWidth / 2,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,20 +76,20 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                     height: 32,
                                     width: width * 0.6,
                                     isFollowing: isPinned,
-                                    text: {true: "Pinned", false: "Pin"},
+                                    text: const {true: "Pinned", false: "Pin"},
                                     onPressed: () =>
                                         setState(() => isPinned = !isPinned),
                                   ),
                                   Card(
                                     elevation: 4,
-                                    margin: EdgeInsets.only(left: 12),
+                                    margin: const EdgeInsets.only(left: 12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18),
                                     ),
                                     child: Container(
                                         width: width * 0.4,
                                         height: 32,
-                                        padding: EdgeInsets.all(4),
+                                        padding: const EdgeInsets.all(4),
                                         alignment: Alignment.center,
                                         // decoration: BoxDecoration(
                                         //     borderRadius: BorderRadius.circular(30),
@@ -104,7 +104,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                         //     color: Theme.of(context)
                                         //         .inputDecorationTheme
                                         //         .fillColor),
-                                        child: Text('Join',
+                                        child: const Text('Join',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w600))),
                                   )

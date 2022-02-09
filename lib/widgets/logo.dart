@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class PulsarLogo extends StatelessWidget {
   final double size;
-  PulsarLogo({this.size = 24});
+  const PulsarLogo({Key? key, this.size = 24}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ColorFiltered(
       colorFilter: Theme.of(context).brightness == Brightness.dark
-          ? ColorFilter.matrix(<double>[
+          ? const ColorFilter.matrix(<double>[
               -1,
               0,
               0,
@@ -30,7 +30,7 @@ class PulsarLogo extends StatelessWidget {
               1,
               0,
             ])
-          : ColorFilter.matrix(<double>[
+          : const ColorFilter.matrix(<double>[
               1,
               0,
               0,
@@ -59,9 +59,11 @@ class PulsarLogo extends StatelessWidget {
 }
 
 class PulsarTextLogo extends StatelessWidget {
+  const PulsarTextLogo({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Text('Pulsar',
+    return const Text('Pulsar',
         style: TextStyle(
             fontSize: 100,
             fontFamily: 'Champagne',

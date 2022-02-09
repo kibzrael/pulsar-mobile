@@ -9,7 +9,7 @@ import 'package:flutter_social_textfield/flutter_social_textfield.dart';
 
 class UploadScreen extends StatefulWidget {
   final String caption;
-  UploadScreen({required this.caption});
+  const UploadScreen({Key? key, required this.caption}) : super(key: key);
 
   @override
   _UploadScreenState createState() => _UploadScreenState();
@@ -46,19 +46,19 @@ class _UploadScreenState extends State<UploadScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Upload'),
+          title: const Text('Upload'),
         ),
         body: LayoutBuilder(builder: (context, constraints) {
-          return Container(
+          return SizedBox(
             height: constraints.maxHeight,
             child: SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
                     Container(
                       margin:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -74,11 +74,11 @@ class _UploadScreenState extends State<UploadScreen> {
                                   color: Theme.of(context)
                                       .inputDecorationTheme
                                       .fillColor,
-                                  image: DecorationImage(
+                                  image: const DecorationImage(
                                       image:
                                           AssetImage('assets/intro/solo.jpg'),
                                       fit: BoxFit.cover)),
-                              child: Padding(
+                              child: const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 12),
                                 child: Text(
                                   'Preview',
@@ -90,10 +90,10 @@ class _UploadScreenState extends State<UploadScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Expanded(
                               child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  padding: const EdgeInsets.symmetric(vertical: 8),
                                   child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
@@ -102,7 +102,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                         Flexible(
                                           child: TextField(
                                             decoration:
-                                                InputDecoration.collapsed(
+                                                const InputDecoration.collapsed(
                                               hintText: 'Caption...',
                                             ),
                                             maxLength: 80,
@@ -115,7 +115,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                             },
                                           ),
                                         ),
-                                        SizedBox(height: 12),
+                                        const SizedBox(height: 12),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -140,8 +140,8 @@ class _UploadScreenState extends State<UploadScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 12),
-                    Padding(
+                    const SizedBox(height: 12),
+                    const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child:
                           //  ExtendedTextField(
@@ -166,17 +166,17 @@ class _UploadScreenState extends State<UploadScreen> {
                         minLines: 1,
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     MyListTile(
                       title: 'Challenge',
                       trailingText: provider.challenge?.name ?? 'None',
-                      flexRatio: [2, 3],
+                      flexRatio: const [2, 3],
                     ),
-                    MyListTile(
+                    const MyListTile(
                       title: 'Allow Comments',
                       subtitle: 'Allow all',
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Row(
                       children: [
                         Flexible(
@@ -189,7 +189,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                 Theme.of(context).textTheme.bodyText2!.color,
                           ),
                         ),
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
                         Flexible(
                           child: ActionButton(
                               title: 'Post',

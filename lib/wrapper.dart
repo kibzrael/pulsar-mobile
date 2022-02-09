@@ -6,7 +6,7 @@ import 'package:pulsar/providers/login_provider.dart';
 
 class Wrapper extends StatefulWidget {
   final Widget child;
-  Wrapper({required this.child});
+  const Wrapper({Key? key, required this.child}) : super(key: key);
   @override
   _WrapperState createState() => _WrapperState();
 }
@@ -21,10 +21,10 @@ class _WrapperState extends State<Wrapper> {
       if (loggedIn != provider.loggedIn) {
         if (provider.loggedIn == false) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => IntroPage()));
+              MaterialPageRoute(builder: (context) => const IntroPage()));
         } else if (provider.loggedIn == true) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => BasicRoot()));
+              MaterialPageRoute(builder: (context) => const BasicRoot()));
         }
       }
     }

@@ -7,11 +7,11 @@ class TrimVideo extends StatefulWidget {
   final double speed;
   final Function(double start, double end) onUpdate;
 
-  TrimVideo(
-      {required this.position,
+  const TrimVideo(
+      {Key? key, required this.position,
       required this.duration,
       required this.speed,
-      required this.onUpdate});
+      required this.onUpdate}) : super(key: key);
 
   @override
   _TrimVideoState createState() => _TrimVideoState();
@@ -54,7 +54,7 @@ class _TrimVideoState extends State<TrimVideo> {
         (duration - ((rightHandle / widthNoCursor) * duration)) / widget.speed;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: SizedBox(
         height: 120,
         child: Stack(
@@ -71,7 +71,7 @@ class _TrimVideoState extends State<TrimVideo> {
                 child: ListView.builder(
                     itemCount: 15,
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Container(
                         width: 50,
@@ -86,15 +86,15 @@ class _TrimVideoState extends State<TrimVideo> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                child: Text('${videoDuration(trimStart ~/ 1000)}'),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                child: Text(videoDuration(trimStart ~/ 1000)),
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-                child: Text('${videoDuration(trimEnd ~/ 1000)}'),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                child: Text(videoDuration(trimEnd ~/ 1000)),
               ),
             ),
             Positioned(
@@ -121,10 +121,10 @@ class _TrimVideoState extends State<TrimVideo> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(15))),
+                          const BorderRadius.horizontal(right: Radius.circular(15))),
                   child: ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(15)),
+                        const BorderRadius.horizontal(right: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -172,10 +172,10 @@ class _TrimVideoState extends State<TrimVideo> {
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius:
-                          BorderRadius.horizontal(left: Radius.circular(15))),
+                          const BorderRadius.horizontal(left: Radius.circular(15))),
                   child: ClipRRect(
                     borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(15)),
+                        const BorderRadius.horizontal(left: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -229,7 +229,7 @@ class _TrimVideoState extends State<TrimVideo> {
                     gradient:
                         LinearGradient(begin: Alignment.topCenter, colors: [
                       Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.primaryVariant,
+                      Theme.of(context).colorScheme.primaryContainer,
                     ])),
               ),
             )

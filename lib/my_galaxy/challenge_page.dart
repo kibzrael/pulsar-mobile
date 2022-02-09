@@ -21,7 +21,7 @@ import 'package:pulsar/classes/challenge.dart';
 
 class ChallengePage extends StatefulWidget {
   final Challenge challenge;
-  ChallengePage(this.challenge);
+  const ChallengePage(this.challenge, {Key? key}) : super(key: key);
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -57,7 +57,7 @@ class _ChallengePageState extends State<ChallengePage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 
@@ -72,7 +72,7 @@ class _ChallengePageState extends State<ChallengePage>
         pinnedHeaderSliverHeightBuilder: () {
           return kToolbarHeight + MediaQuery.of(context).padding.top;
         },
-        headerSliverBuilder: (context, bool) {
+        headerSliverBuilder: (context, bool _) {
           double opacity = scrollPosition / (200 - kToolbarHeight);
           double padding = scrollPosition > 45 ? 45 : scrollPosition;
           return [
@@ -94,7 +94,7 @@ class _ChallengePageState extends State<ChallengePage>
                   expandedHeight: 200,
                   actions: [
                     IconButton(
-                      icon: Icon(Icons.more_horiz),
+                      icon: const Icon(Icons.more_horiz),
                       iconSize: 30,
                       onPressed: moreOnChallenge,
                     )
@@ -103,7 +103,7 @@ class _ChallengePageState extends State<ChallengePage>
                     titlePadding: EdgeInsetsDirectional.only(
                         start: 56, bottom: 17.5, end: padding),
                     title: Text(
-                      '${challenge.name}',
+                      challenge.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -127,7 +127,7 @@ class _ChallengePageState extends State<ChallengePage>
                         )),
                         Positioned.fill(
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -154,12 +154,12 @@ class _ChallengePageState extends State<ChallengePage>
             SliverList(
                 delegate: SliverChildListDelegate(
               [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 4),
                   child: ListTileAd(),
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: ProfileStats(
                     isPin: true,
                     pins: 11700,
@@ -172,7 +172,7 @@ class _ChallengePageState extends State<ChallengePage>
                     postOnPressed: () {
                       scrollController!.animateTo(
                           scrollController!.position.maxScrollExtent,
-                          duration: Duration(milliseconds: 700),
+                          duration: const Duration(milliseconds: 700),
                           curve: Curves.ease);
                     },
                     posts: 620000,
@@ -180,7 +180,7 @@ class _ChallengePageState extends State<ChallengePage>
                 ),
                 if (challenge.description != null)
                   Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 30, 5),
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 5),
                     child: Text(
                       challenge.description!,
                       textAlign: TextAlign.center,
@@ -194,7 +194,7 @@ class _ChallengePageState extends State<ChallengePage>
                       Navigator.of(context).push(myPageRoute(
                           builder: (context) => Leaderboard(challenge)));
                     },
-                    child: Text(
+                    child: const Text(
                       'Join',
                       style: TextStyle(
                           //color: Theme.of(context).buttonColor,
@@ -213,7 +213,7 @@ class _ChallengePageState extends State<ChallengePage>
                         isFollowed = !isFollowed;
                       });
                     }),
-                SizedBox(height: 3)
+                const SizedBox(height: 3)
               ],
             ))
           ];
@@ -223,10 +223,10 @@ class _ChallengePageState extends State<ChallengePage>
           children: [
             TabBar(
               controller: tabController,
-              indicator: BoxDecoration(),
+              indicator: const BoxDecoration(),
               unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
               labelPadding: EdgeInsets.zero,
-              tabs: <Widget>[
+              tabs: const <Widget>[
                 CustomTab('Recent'),
                 CustomTab(
                   'Trending',
@@ -237,7 +237,7 @@ class _ChallengePageState extends State<ChallengePage>
             Expanded(
               child: Container(
                 color: Theme.of(context).colorScheme.surface,
-                constraints: BoxConstraints(minHeight: 100),
+                constraints: const BoxConstraints(minHeight: 100),
                 child: TabBarView(
                   controller: tabController,
                   children: [

@@ -5,7 +5,7 @@ class CaptureSpeed extends StatefulWidget {
   final double initial;
   final Function(int index) onPressed;
 
-  CaptureSpeed({required this.initial, required this.onPressed});
+  const CaptureSpeed({Key? key, required this.initial, required this.onPressed}) : super(key: key);
 
   @override
   _CaptureSpeedState createState() => _CaptureSpeedState();
@@ -32,7 +32,7 @@ class _CaptureSpeedState extends State<CaptureSpeed> {
 
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       child: CupertinoSegmentedControl<int>(
           borderColor: Colors.transparent,
           unselectedColor: Colors.black26,

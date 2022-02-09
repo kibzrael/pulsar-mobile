@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // import 'package:video_player/video_player.dart';
 
 class VideoProgress extends StatefulWidget {
+  const VideoProgress({Key? key}) : super(key: key);
+
   @override
   _VideoProgressState createState() => _VideoProgressState();
 }
@@ -35,7 +37,7 @@ class _VideoProgressState extends State<VideoProgress> {
     return Container(
       height: 5,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           gradient: LinearGradient(

@@ -10,6 +10,6 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Change password')));
+    return Scaffold(appBar: AppBar(title: const Text('Change password')));
   }
 }

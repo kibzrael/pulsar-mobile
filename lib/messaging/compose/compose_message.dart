@@ -10,6 +10,8 @@ import 'package:pulsar/messaging/compose/messaging_recipients.dart';
 import 'package:pulsar/messaging/compose/recommended_chats.dart';
 
 class ComposeMessage extends StatefulWidget {
+  const ComposeMessage({Key? key}) : super(key: key);
+
   @override
   _ComposeMessageState createState() => _ComposeMessageState();
 }
@@ -49,9 +51,10 @@ class _ComposeMessageState extends State<ComposeMessage> {
     });
     // if not effective
     // use WidgetsBinding.instance.addPostFrameCallback
-    if (recipientsController!.hasClients)
+    if (recipientsController!.hasClients) {
       recipientsController!.animateTo(0.0,
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
+    }
   }
 
   void removeRecipient(User user) {
@@ -92,7 +95,7 @@ class _ComposeMessageState extends State<ComposeMessage> {
                   ),
                 ));
               },
-              enabled: recipients.length >= 1,
+              enabled: recipients.isNotEmpty,
             )
           ],
         ),
@@ -105,7 +108,7 @@ class _ComposeMessageState extends State<ComposeMessage> {
               onClear: clearRecipients,
               recipientsController: recipientsController!,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Flexible(
               child: RecommendedChats(
                   recipients: recipients,

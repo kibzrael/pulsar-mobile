@@ -7,17 +7,17 @@ class MyTextButton extends StatelessWidget {
   final bool enabled;
   final double fontSize;
 
-  MyTextButton(
-      {this.enabled = true,
+  const MyTextButton(
+      {Key? key, this.enabled = true,
       required this.text,
       required this.onPressed,
       this.fontSize = 18,
-      this.color});
+      this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: ButtonStyle(splashFactory: NoSplash.splashFactory),
+      style: const ButtonStyle(splashFactory: NoSplash.splashFactory),
       child: ShaderMask(
         shaderCallback: (rect) {
           return LinearGradient(
@@ -26,7 +26,7 @@ class MyTextButton extends StatelessWidget {
                       ? color == null
                           ? [
                               Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.primaryVariant
+                              Theme.of(context).colorScheme.primaryContainer
                             ]
                           : [color!, color!]
                       : [

@@ -12,7 +12,7 @@ class MyListTile extends StatelessWidget {
   final List<int> flexRatio;
   final CrossAxisAlignment? crossAxisAlignment;
 
-  MyListTile({
+  const MyListTile({Key? key, 
     this.flexRatio = const [10, 1],
     this.leading,
     this.onPressed,
@@ -22,20 +22,20 @@ class MyListTile extends StatelessWidget {
     this.trailingArrow = true,
     this.trailingText,
     this.crossAxisAlignment,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed as void Function()?,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: Row(
           crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
           children: [
             if (leading != null)
               Padding(
-                padding: EdgeInsets.only(right: 12.0),
+                padding: const EdgeInsets.only(right: 12.0),
                 child: leading,
               ),
             Expanded(
@@ -49,7 +49,7 @@ class MyListTile extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.subtitle1),
                     if (subtitle != null)
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                     if (subtitle != null)
@@ -59,7 +59,7 @@ class MyListTile extends StatelessWidget {
                           style: Theme.of(context).textTheme.subtitle2)
                   ]),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             if (trailingText != null)
               Expanded(
                 flex: flexRatio[1],
@@ -70,12 +70,12 @@ class MyListTile extends StatelessWidget {
                     style: Theme.of(context).textTheme.subtitle2),
               )
             else
-              Spacer(),
+              const Spacer(),
             if (trailing != null)
               DefaultTextStyle(
                   style: Theme.of(context).textTheme.subtitle2!,
                   child: trailing!),
-            if (trailingArrow) TraillingArrow()
+            if (trailingArrow) const TraillingArrow()
           ],
         ),
       ),
@@ -85,11 +85,11 @@ class MyListTile extends StatelessWidget {
 
 class TraillingArrow extends StatelessWidget {
   final double size;
-  TraillingArrow({this.size = 15});
+  const TraillingArrow({Key? key, this.size = 15}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 12),
+      padding: const EdgeInsets.only(left: 12),
       child: Icon(
         MyIcons.trailingArrow,
         color: Theme.of(context).textTheme.subtitle2!.color,

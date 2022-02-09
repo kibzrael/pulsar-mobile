@@ -8,7 +8,7 @@ import 'package:pulsar/widgets/profile_pic.dart';
 class RecipientCard extends StatelessWidget {
   final User receipient;
   final bool isSelected;
-  RecipientCard(this.receipient, {this.isSelected = false});
+  const RecipientCard(this.receipient, {Key? key, this.isSelected = false}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MyListTile(

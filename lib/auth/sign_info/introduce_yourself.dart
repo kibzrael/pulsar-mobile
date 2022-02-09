@@ -4,6 +4,8 @@ import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 
 class IntroduceYourself extends StatefulWidget {
+  const IntroduceYourself({Key? key}) : super(key: key);
+
   @override
   _IntroduceYourselfState createState() => _IntroduceYourselfState();
 }
@@ -28,7 +30,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
 
     Widget border({required Widget child}) {
       return Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -76,7 +78,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       margin: EdgeInsets.only(
                           top: deviceWidth / 2 - (8 + 5),
                           left: deviceWidth / 3 - (8 + 5)),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('assets/intro/group.jpg'),
                               fit: BoxFit.cover)),
@@ -99,7 +101,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       margin: EdgeInsets.only(
                           bottom: deviceWidth / 2.4 - (8 + 5),
                           right: deviceWidth / 2.4 - (8 + 5)),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('assets/intro/solo.jpg'),
                               fit: BoxFit.cover)),
@@ -110,7 +112,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
             ),
             Center(
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
@@ -123,10 +125,10 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                           .headline1!
                           .copyWith(fontSize: 48),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                       child: ActionButton(
                         title: 'Solo',
                         onPressed: () {
@@ -137,7 +139,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                       child: ActionButton(
                         title: 'Group',
                         onPressed: () {

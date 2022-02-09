@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 
 class LoadingDialog extends StatefulWidget {
-  final Future<Null> Function() process;
+  final Future<void> Function() process;
   final String text;
-  LoadingDialog(this.process, {this.text = 'Processing'});
+  const LoadingDialog(this.process, {Key? key, this.text = 'Processing'}) : super(key: key);
 
   @override
   _LoadingDialogState createState() => _LoadingDialogState();
@@ -25,22 +25,22 @@ class _LoadingDialogState extends State<LoadingDialog> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 36),
+      padding: const EdgeInsets.symmetric(horizontal: 36),
       child: CupertinoAlertDialog(
         content: Container(
-          padding: EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              MyProgressIndicator(
+              const MyProgressIndicator(
                 margin: EdgeInsets.zero,
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
                   '${widget.text}...',
-                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w600),
                 ),
               )
             ],

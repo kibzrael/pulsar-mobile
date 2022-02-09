@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
 
 class ChallengesPage extends StatefulWidget {
+  const ChallengesPage({Key? key}) : super(key: key);
+
   @override
   _ChallengesPageState createState() => _ChallengesPageState();
 }
@@ -34,13 +38,15 @@ class _ChallengesPageState extends State<ChallengesPage> {
       observers: [MyRouteObserver(context, 1)],
       onGenerateRoute: (settings) {
         return myPageRoute(
-            settings: settings, builder: (context) => RootGalaxy());
+            settings: settings, builder: (context) => const RootGalaxy());
       },
     );
   }
 }
 
 class RootGalaxy extends StatefulWidget {
+  const RootGalaxy({Key? key}) : super(key: key);
+
   @override
   _RootGalaxyState createState() => _RootGalaxyState();
 }
@@ -74,7 +80,7 @@ class _RootGalaxyState extends State<RootGalaxy>
   }
 
   Future onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
@@ -89,7 +95,7 @@ class _RootGalaxyState extends State<RootGalaxy>
     double barScale = (maxScroll - scrollExtent) / maxScroll;
     if (barScale < 0) barScale = 0;
 
-    Widget space = SizedBox(height: 8);
+    Widget space = const SizedBox(height: 8);
 
     return Scaffold(
       body: NestedScrollViewRefreshIndicator(
@@ -107,11 +113,11 @@ class _RootGalaxyState extends State<RootGalaxy>
                   expandedHeight: 200,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
                       alignment: Alignment.centerLeft,
-                      child: Text(
+                      child: const Text(
                         'Join Challenges\nAnd Earn Points',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 36, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -122,11 +128,11 @@ class _RootGalaxyState extends State<RootGalaxy>
                       child: Container(
                         alignment: Alignment.center,
                         height: kToolbarHeight,
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: OpenContainer(
                           openElevation: 0.0,
                           closedElevation: 0.0,
-                          transitionDuration: Duration(milliseconds: 500),
+                          transitionDuration: const Duration(milliseconds: 500),
                           closedColor: Colors.transparent,
                           closedBuilder: (context, open) {
                             return Hero(
@@ -138,26 +144,26 @@ class _RootGalaxyState extends State<RootGalaxy>
                               ),
                             );
                           },
-                          openBuilder: (context, action) => SearchScreen(),
+                          openBuilder: (context, action) => const SearchScreen(),
                         ),
                       )),
                 ),
               ];
             },
             body: ListView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).padding.bottom),
               children: [
                 space,
-                PinnedChallenges(),
+                const PinnedChallenges(),
                 space,
-                TrendingChallenges(),
-                ChallengesAd(),
+                const TrendingChallenges(),
+                const ChallengesAd(),
                 space,
                 HighlightChallege(cuisines),
                 space,
-                DiscoverChallenges(),
+                const DiscoverChallenges(),
 
                 // RecommendedChallenges(),
                 // space,

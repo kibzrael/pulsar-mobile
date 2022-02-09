@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/text_button.dart';
 class SearchAudio extends StatefulWidget {
   final Function(Audio selected) onSelect;
   final Function() pop;
-  SearchAudio({required this.onSelect, required this.pop});
+  const SearchAudio({Key? key, required this.onSelect, required this.pop}) : super(key: key);
 
   @override
   _SearchAudioState createState() => _SearchAudioState();
@@ -90,18 +90,18 @@ class _SearchAudioState extends State<SearchAudio> {
                     ),
                     trailingArrow: false,
                     trailing: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.white12),
                       child: Row(
                         children: [
                           Icon(MyIcons.play, size: 21),
-                          Text(
+                          const Text(
                             '1:30',
                             style: TextStyle(fontSize: 12),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 2,
                           )
                         ],

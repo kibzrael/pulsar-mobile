@@ -5,7 +5,7 @@ import 'package:pulsar/classes/challenge.dart';
 class ChallengeRules extends StatefulWidget {
   final Challenge challenge;
   final String rules;
-  ChallengeRules(this.challenge, {required this.rules});
+  const ChallengeRules(this.challenge, {Key? key, required this.rules}) : super(key: key);
   @override
   _ChallengeRulesState createState() => _ChallengeRulesState();
 }
@@ -15,12 +15,12 @@ class _ChallengeRulesState extends State<ChallengeRules> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Challenge Instructions'),
+        title: const Text('Challenge Instructions'),
       ),
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             child: Text(
               '#${widget.challenge.name}',
               style:
@@ -29,7 +29,7 @@ class _ChallengeRulesState extends State<ChallengeRules> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             child: Text(
               widget.rules,
               textAlign: TextAlign.center,
@@ -39,8 +39,8 @@ class _ChallengeRulesState extends State<ChallengeRules> {
                   .copyWith(fontStyle: FontStyle.italic, fontSize: 16.5),
             ),
           ),
-          SizedBox(height: 15),
-          ListTileAd()
+          const SizedBox(height: 15),
+          const ListTileAd()
         ],
       ),
     );

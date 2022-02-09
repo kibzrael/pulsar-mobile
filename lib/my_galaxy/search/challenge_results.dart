@@ -6,6 +6,8 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
 class ChallengeResults extends StatefulWidget {
+  const ChallengeResults({Key? key}) : super(key: key);
+
   @override
   _ChallengeResultsState createState() => _ChallengeResultsState();
 }
@@ -15,7 +17,7 @@ class _ChallengeResultsState extends State<ChallengeResults>
   @override
   bool get wantKeepAlive => true;
   Future<List<Map<String, dynamic>>?> search(int index) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     List<Map<String, dynamic>> results = [
       for (Challenge challenge in allChallenges) {'challenge': challenge}
     ];
@@ -33,7 +35,7 @@ class _ChallengeResultsState extends State<ChallengeResults>
           return data.isEmpty
               ? snapshot.errorLoading
                   ? Text('${snapshot.error} $data')
-                  : Center(child: MyProgressIndicator())
+                  : const Center(child: MyProgressIndicator())
               : RefreshIndicator(
                   onRefresh: snapshot.refreshCallback,
                   child: ListView.builder(

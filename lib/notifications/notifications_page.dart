@@ -5,6 +5,8 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/notifications/notification_card.dart';
 
 class NotificationsPage extends StatefulWidget {
+  const NotificationsPage({Key? key}) : super(key: key);
+
   @override
   _NotificationsPageState createState() => _NotificationsPageState();
 }
@@ -32,7 +34,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   ];
 
   Future onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
@@ -40,7 +42,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
         actions: [IconButton(icon: Icon(MyIcons.tune), onPressed: () {})],
       ),
       body: RefreshIndicator(
@@ -52,7 +54,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 type: types[index % 4]);
           },
           separatorBuilder: (context, index) {
-            return SizedBox(
+            return const SizedBox(
               height: 12,
             );
           },

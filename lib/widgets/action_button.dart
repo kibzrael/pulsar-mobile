@@ -9,13 +9,13 @@ class ActionButton extends StatelessWidget {
   final double height;
   final double width;
 
-  ActionButton(
-      {this.backgroundColor,
+  const ActionButton(
+      {Key? key, this.backgroundColor,
       this.height = 50,
       this.width = double.infinity,
       this.onPressed,
       required this.title,
-      this.titleColor});
+      this.titleColor}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,12 +24,12 @@ class ActionButton extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             gradient: backgroundColor != null ? null : primaryGradient(),
             color: backgroundColor ??
-                Theme.of(context).colorScheme.primaryVariant),
+                Theme.of(context).colorScheme.primaryContainer),
         child: Center(
             child: FittedBox(
           fit: BoxFit.scaleDown,

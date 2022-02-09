@@ -12,7 +12,7 @@ class PostVideo extends StatefulWidget {
 
   final bool isInView;
 
-  PostVideo(this.video, {this.isInView = false});
+  const PostVideo(this.video, {Key? key, this.isInView = false}) : super(key: key);
 
   @override
   _PostVideoState createState() => _PostVideoState();
@@ -148,7 +148,7 @@ class _PostVideoState extends State<PostVideo> {
 class PausePlay extends StatelessWidget {
   final bool paused;
 
-  PausePlay(this.paused);
+   const PausePlay(this.paused, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

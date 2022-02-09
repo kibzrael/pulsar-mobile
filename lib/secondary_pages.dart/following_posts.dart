@@ -12,6 +12,8 @@ import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class FollowingPosts extends StatefulWidget {
+  const FollowingPosts({Key? key}) : super(key: key);
+
   @override
   _FollowingPostsState createState() => _FollowingPostsState();
 }
@@ -35,12 +37,12 @@ class _FollowingPostsState extends State<FollowingPosts> {
 
   Future<List<Map<String, dynamic>>> fetchUsers(int index) async {
     List<Map<String, dynamic>> results = [...users];
-    if (index != 0) await Future.delayed(Duration(seconds: 2));
+    if (index != 0) await Future.delayed(const Duration(seconds: 2));
     return results;
   }
 
   Future onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
@@ -53,65 +55,63 @@ class _FollowingPostsState extends State<FollowingPosts> {
         onRefresh: onRefresh,
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         child: SingleChildScrollView(
-            child: Container(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                child: Text(
-                  'No posts',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(fontSize: 24),
-                  maxLines: 1,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  child: Text(
+                    'No posts',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(fontSize: 24),
+                    maxLines: 1,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                child: Text(
-                  'There are no posts to show you.\nFollow users or challenges to view their posts.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontSize: 16.5),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  child: Text(
+                    'There are no posts to show you.\nFollow users or challenges to view their posts.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .copyWith(fontSize: 16.5),
+                  ),
                 ),
-              ),
-              Container(
-                  height: height,
-                  margin: EdgeInsets.symmetric(vertical: 12),
-                  child: RecyclerView(
-                      target: fetchUsers,
-                      itemBuilder: (context, snapshot) {
-                        List<Map<String, dynamic>> snapshotData = snapshot.data;
-                        return snapshotData.isEmpty
-                            ? Center(
-                                child: Text('Error loading!'),
-                              )
-                            : CarouselSlider(
-                                carouselController: controller,
-                                options: CarouselOptions(
-                                  height: height,
-                                  viewportFraction: 0.6,
-                                  enableInfiniteScroll: false,
-                                  enlargeCenterPage: true,
-                                  initialPage: 0,
-                                ),
-                                items: snapshotData
-                                    .map((info) => DiscoverPeopleCard(
-                                          info,
-                                          onPinned: () {
-                                            controller.nextPage();
-                                          },
-                                        ))
-                                    .toList(),
-                              );
-                      })),
-              ListTileAd()
-            ],
-          ),
-        )),
+                Container(
+                    height: height,
+                    margin: const EdgeInsets.symmetric(vertical: 12),
+                    child: RecyclerView(
+                        target: fetchUsers,
+                        itemBuilder: (context, snapshot) {
+                          List<Map<String, dynamic>> snapshotData = snapshot.data;
+                          return snapshotData.isEmpty
+                              ? const Center(
+                                  child: Text('Error loading!'),
+                                )
+                              : CarouselSlider(
+                                  carouselController: controller,
+                                  options: CarouselOptions(
+                                    height: height,
+                                    viewportFraction: 0.6,
+                                    enableInfiniteScroll: false,
+                                    enlargeCenterPage: true,
+                                    initialPage: 0,
+                                  ),
+                                  items: snapshotData
+                                      .map((info) => DiscoverPeopleCard(
+                                            info,
+                                            onPinned: () {
+                                              controller.nextPage();
+                                            },
+                                          ))
+                                      .toList(),
+                                );
+                        })),
+                const ListTileAd()
+              ],
+            )),
       ),
     );
   }
@@ -121,7 +121,7 @@ class DiscoverPeopleCard extends StatefulWidget {
   final Map<String, dynamic> user;
   final Function onPinned;
 
-  DiscoverPeopleCard(this.user, {required this.onPinned});
+  const DiscoverPeopleCard(this.user, {Key? key, required this.onPinned}) : super(key: key);
 
   @override
   _DiscoverPeopleCardState createState() => _DiscoverPeopleCardState();
@@ -150,7 +150,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
-        margin: EdgeInsets.fromLTRB(8, 0, 8, 8),
+        margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
         child: Container(
           width: double.infinity,
           height: double.infinity,
@@ -161,7 +161,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                   image: CachedNetworkImageProvider(widget.user['cover']))),
           child: Container(
             alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               color: Colors.black12,
               borderRadius: BorderRadius.circular(15),
@@ -174,9 +174,9 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                   radius: 30,
                   onMedia: true,
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
-                  '${user.username}',
+                  user.username,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
@@ -184,7 +184,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                       .copyWith(fontSize: 16.5),
                 ),
                 Text(
-                  '${user.category}',
+                  user.category,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
@@ -192,7 +192,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                       .copyWith(fontSize: 15, color: Colors.white70),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(8, 4, 8, 2),
+                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 2),
                   child: FollowButton(
                     height: 32,
                     width: double.infinity,

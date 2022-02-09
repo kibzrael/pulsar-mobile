@@ -18,7 +18,7 @@ import 'package:pulsar/widgets/section.dart';
 
 class Leaderboard extends StatefulWidget {
   final Challenge challenge;
-  Leaderboard(this.challenge);
+  const Leaderboard(this.challenge, {Key? key}) : super(key: key);
   @override
   _LeaderboardState createState() => _LeaderboardState();
 }
@@ -42,7 +42,7 @@ class _LeaderboardState extends State<Leaderboard> {
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 
@@ -50,11 +50,11 @@ class _LeaderboardState extends State<Leaderboard> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Leaderboard'),
+          title: const Text('Leaderboard'),
           actions: [
             IconButton(
                 onPressed: () {
-                  openBottomSheet(context, (context) => InfoSheet());
+                  openBottomSheet(context, (context) => const InfoSheet());
                 },
                 icon: Icon(MyIcons.info))
           ],
@@ -89,7 +89,7 @@ class _LeaderboardState extends State<Leaderboard> {
                         //   ),
                         // ),
                         Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 12),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,11 +101,11 @@ class _LeaderboardState extends State<Leaderboard> {
                             ],
                           ),
                         ),
-                        ListTileAd(),
+                        const ListTileAd(),
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.symmetric(vertical: 4),
                           child: SectionTitle(
-                            title: '${challenge.name}',
+                            title: challenge.name,
                             trailing: Text(
                               '12K posts',
                               style: Theme.of(context).textTheme.subtitle2,
@@ -122,7 +122,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 onlyOneScrollInBody: true,
                 body: Column(
                   children: [
-                    MyListTile(
+                    const MyListTile(
                       title: 'You',
                       subtitle: 'Current Position',
                       leading: CircleAvatar(
@@ -153,9 +153,9 @@ class _LeaderboardState extends State<Leaderboard> {
                                     radius: 21,
                                   ),
                                   trailing: Card(
-                                    shape: CircleBorder(),
+                                    shape: const CircleBorder(),
                                     child: Padding(
-                                        padding: EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
                                         child: Text(
                                           '${index + 4}',
                                           style: Theme.of(context)
@@ -164,7 +164,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                         )),
                                   ),
                                   trailingArrow: false,
-                                  flexRatio: [4, 1],
+                                  flexRatio: const [4, 1],
                                 );
                               })),
                     ),
@@ -212,7 +212,7 @@ class _LeaderboardState extends State<Leaderboard> {
                   shape: BoxShape.circle,
                   gradient: LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primaryVariant
+                    Theme.of(context).colorScheme.primaryContainer
                   ]),
                 ),
                 child: Text(
@@ -225,7 +225,7 @@ class _LeaderboardState extends State<Leaderboard> {
               )
             ],
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Text(
             '@${user.username}',
             style:

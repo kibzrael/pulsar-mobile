@@ -6,7 +6,7 @@ import 'package:pulsar/options/options.dart';
 class TagOptions extends StatelessWidget {
   final String tag;
 
-  TagOptions(this.tag);
+  const TagOptions(this.tag, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

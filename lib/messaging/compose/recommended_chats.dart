@@ -8,8 +8,8 @@ class RecommendedChats extends StatefulWidget {
   final List<User> recipients;
   final Function onAdd;
   final Function onRemove;
-  RecommendedChats(
-      {required this.recipients, required this.onAdd, required this.onRemove});
+  const RecommendedChats(
+      {Key? key, required this.recipients, required this.onAdd, required this.onRemove}) : super(key: key);
   @override
   _RecommendedChatsState createState() => _RecommendedChatsState();
 }

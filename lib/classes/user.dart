@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/report.dart';
+import 'package:pulsar/urls/user.dart';
 
 class User {
   int id;
@@ -72,15 +73,15 @@ class User {
 
   toJson(BuildContext context) {
     return {
-      'id': this.id,
-      'username': this.username,
-      'bio': this.bio,
-      'category': this.category,
-      'email': this.email,
-      'fullname': this.fullname,
-      'phone': this.phone,
-      'profilePic': this.profilePic,
-      'portfolio': this.portfolio,
+      'id': id,
+      'username': username,
+      'bio': bio,
+      'category': category,
+      'email': email,
+      'fullname': fullname,
+      'phone': phone,
+      'profilePic': profilePic,
+      'portfolio': portfolio,
       'token': token
     };
   }
@@ -106,7 +107,8 @@ class User {
 
   String? get getProfileUrl {
     // User user = this;
-    // String url = UserUrls.profile(user);
+    String url = UserUrls.profile(id);
+    return url;
   }
 
   bool get profileIsComplete {
@@ -148,7 +150,7 @@ class User {
   ///
   /// Note: editProfile uses the current class values.
   Future<User> editProfile(BuildContext context) async {
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 4));
     return this;
   }
 

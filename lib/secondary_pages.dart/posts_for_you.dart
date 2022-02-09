@@ -7,7 +7,7 @@ import 'package:pulsar/models/posts_view.dart';
 class PostsForYou extends StatefulWidget {
   final CarouselController controller;
 
-  PostsForYou({required this.controller});
+  const PostsForYou({Key? key, required this.controller}) : super(key: key);
 
   @override
   _PostsForYouState createState() => _PostsForYouState();

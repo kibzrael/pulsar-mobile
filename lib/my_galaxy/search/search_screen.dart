@@ -6,6 +6,8 @@ import 'package:pulsar/my_galaxy/search/challenge_results.dart';
 import 'package:pulsar/my_galaxy/search/user_results.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -49,11 +51,11 @@ class _SearchScreenState extends State<SearchScreen>
           ),
           actions: [MyTextButton(text: 'Search', onPressed: () {})],
           bottom: TabBar(
-              indicator: BoxDecoration(),
+              indicator: const BoxDecoration(),
               unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
               labelPadding: EdgeInsets.zero,
               controller: tabController,
-              tabs: [
+              tabs: const [
                 CustomTab('Users'),
                 CustomTab(
                   'Challenges',
@@ -65,7 +67,7 @@ class _SearchScreenState extends State<SearchScreen>
           color: Theme.of(context).colorScheme.surface,
           child: TabBarView(
             controller: tabController,
-            children: [
+            children: const [
               UserResults(),
               ChallengeResults(),
             ],

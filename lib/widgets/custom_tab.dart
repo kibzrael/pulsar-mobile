@@ -4,10 +4,10 @@ class CustomTab extends StatelessWidget {
   final String text;
   final bool divider;
   final IconData? icon;
-  CustomTab(this.text, {this.divider = true, this.icon});
+  const CustomTab(this.text, {Key? key, this.divider = true, this.icon}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Tab(
         child: Stack(
@@ -17,11 +17,11 @@ class CustomTab extends StatelessWidget {
               width: double.infinity,
               alignment: Alignment.center,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: icon == null
                     ? Text(
                         text,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     : Icon(icon),

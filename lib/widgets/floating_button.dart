@@ -5,7 +5,7 @@ class MyFloatingActionButton extends StatelessWidget {
   final Function()? onPressed;
   final Color? color;
 
-  MyFloatingActionButton({this.child, required this.onPressed, this.color});
+  const MyFloatingActionButton({Key? key, this.child, required this.onPressed, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MyFloatingActionButton extends StatelessWidget {
                 colors: color == null
                     ? [
                         Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.primaryVariant,
+                        Theme.of(context).colorScheme.primaryContainer,
                       ]
                     : [color!, color!])),
         child: child,

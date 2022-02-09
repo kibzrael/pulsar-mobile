@@ -9,6 +9,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class LatestChallenges extends StatefulWidget {
+  const LatestChallenges({Key? key}) : super(key: key);
+
   @override
   _LatestChallengesState createState() => _LatestChallengesState();
 }
@@ -22,7 +24,7 @@ class _LatestChallengesState extends State<LatestChallenges> {
       title: 'Latest Challenges',
       child: ListView.builder(
           itemCount: challenges.length,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           itemBuilder: (context, index) {
@@ -35,7 +37,7 @@ class _LatestChallengesState extends State<LatestChallenges> {
 class LatestChallengeCard extends StatefulWidget {
   final Challenge challenge;
 
-  LatestChallengeCard(this.challenge);
+  const LatestChallengeCard(this.challenge, {Key? key}) : super(key: key);
   @override
   _LatestChallengeCardState createState() => _LatestChallengeCardState();
 }
@@ -46,7 +48,7 @@ class _LatestChallengeCardState extends State<LatestChallengeCard> {
   @override
   Widget build(BuildContext context) {
     return MyListTile(
-      title: '${widget.challenge.name}',
+      title: widget.challenge.name,
       subtitle: 'Category',
       onPressed: () {
         Navigator.of(context).push(
@@ -72,7 +74,7 @@ class _LatestChallengeCardState extends State<LatestChallengeCard> {
         height: 30,
         width: 75,
         isFollowing: isJoined,
-        text: {true: 'Pinned', false: 'Pin'},
+        text: const {true: 'Pinned', false: 'Pin'},
         onPressed: () {
           setState(() {
             isJoined = !isJoined;

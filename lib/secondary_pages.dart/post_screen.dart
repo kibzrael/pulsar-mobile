@@ -9,10 +9,10 @@ class PostScreen extends StatefulWidget {
   final int postInView;
   final String title;
 
-  PostScreen(
-      {required this.initialPosts, // = const [],
+  const PostScreen(
+      {Key? key, required this.initialPosts, // = const [],
       required this.title,
-      this.postInView = 0});
+      this.postInView = 0}) : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();

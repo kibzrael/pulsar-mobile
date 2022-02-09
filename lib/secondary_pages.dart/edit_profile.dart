@@ -24,6 +24,8 @@ import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -50,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
   exit() {
     openDialog(
             context,
-            (context) => MyDialog(
+            (context) => const MyDialog(
                   title: 'Caution!',
                   body: 'The changes that you\'ve made would be lost.',
                   actions: ['Cancel', 'Ok'],
@@ -108,19 +110,19 @@ class _EditProfileState extends State<EditProfile> {
               icon: Icon(MyIcons.close),
               onPressed: exit,
             ),
-            title: Text('Edit Profile'),
+            title: const Text('Edit Profile'),
             actions: [MyTextButton(text: 'Update', onPressed: submit)],
           ),
           body: Container(
             color: Theme.of(context).colorScheme.surface,
             height: double.infinity,
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: kToolbarHeight),
+              padding: const EdgeInsets.only(bottom: kToolbarHeight),
               child: Column(
                 children: [
                   Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 5, vertical: 21),
+                          const EdgeInsets.symmetric(horizontal: 5, vertical: 21),
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -138,13 +140,14 @@ class _EditProfileState extends State<EditProfile> {
                                   File? image = await openBottomSheet(
                                       context, (context) => PickImageSheet());
                                   File? croppedImage;
-                                  if (image != null)
+                                  if (image != null) {
                                     croppedImage = await ImageCropper.cropImage(
                                       sourcePath: image.path,
                                       aspectRatio:
-                                          CropAspectRatio(ratioX: 1, ratioY: 1),
+                                          const CropAspectRatio(ratioX: 1, ratioY: 1),
                                       cropStyle: CropStyle.circle,
                                     );
+                                  }
                                   setState(() {
                                     if (croppedImage != null) {
                                       profilePic = croppedImage.path;
@@ -153,7 +156,7 @@ class _EditProfileState extends State<EditProfile> {
                                   });
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.all(3),
+                                  padding: const EdgeInsets.all(3),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       color: Theme.of(context)
@@ -178,17 +181,17 @@ class _EditProfileState extends State<EditProfile> {
                               )
                             ],
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           MyListTile(
                             title: 'Username',
                             onPressed: () {
                               Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => ChangeUsername()));
+                                  builder: (context) => const ChangeUsername()));
                             },
-                            flexRatio: [2, 3],
+                            flexRatio: const [2, 3],
                             trailingText: '@${user.username}',
                             trailing: Padding(
-                              padding: EdgeInsets.only(left: 8),
+                              padding: const EdgeInsets.only(left: 8),
                               child: Icon(MyIcons.edit,
                                   size: 16.5,
                                   color: Theme.of(context)
@@ -200,7 +203,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           MyListTile(
                               title: 'Full name',
-                              flexRatio: [2, 3],
+                              flexRatio: const [2, 3],
                               trailingArrow: false,
                               trailing: Expanded(
                                   flex: 3,
@@ -223,7 +226,7 @@ class _EditProfileState extends State<EditProfile> {
                                   ))),
                           MyListTile(
                               title: 'Bio',
-                              flexRatio: [1, 4],
+                              flexRatio: const [1, 4],
                               crossAxisAlignment: CrossAxisAlignment.start,
                               trailingArrow: false,
                               trailing: Expanded(
@@ -250,7 +253,7 @@ class _EditProfileState extends State<EditProfile> {
                                   ))),
                           MyListTile(
                               title: 'Website',
-                              flexRatio: [2, 3],
+                              flexRatio: const [2, 3],
                               trailingArrow: false,
                               trailing: Expanded(
                                   flex: 3,
@@ -273,25 +276,25 @@ class _EditProfileState extends State<EditProfile> {
                                   ))),
                         ],
                       )),
-                  SectionTitle(title: 'Additional Information'),
+                  const SectionTitle(title: 'Additional Information'),
                   MyListTile(
                     title: 'Category',
                     onPressed: () => Navigator.of(context).push(
-                        myPageRoute(builder: (context) => EditCategory())),
-                    flexRatio: [2, 3],
-                    subtitle: '${user.category}',
+                        myPageRoute(builder: (context) => const EditCategory())),
+                    flexRatio: const [2, 3],
+                    subtitle: user.category,
                   ),
                   MyListTile(
                       title: 'Interests',
                       onPressed: () => Navigator.of(context).push(
-                          myPageRoute(builder: (context) => EditInterests())),
-                      flexRatio: [2, 3],
+                          myPageRoute(builder: (context) => const EditInterests())),
+                      flexRatio: const [2, 3],
                       subtitle: 'Art, Music +4'),
                   MyListTile(
                       title: 'Birthday',
                       onPressed: () => Navigator.of(context).push(
-                          myPageRoute(builder: (context) => EditBirthday())),
-                      flexRatio: [2, 3],
+                          myPageRoute(builder: (context) => const EditBirthday())),
+                      flexRatio: const [2, 3],
                       subtitle: '9th July 2001'),
                 ],
               ),

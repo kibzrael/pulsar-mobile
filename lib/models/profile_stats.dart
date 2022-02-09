@@ -8,12 +8,12 @@ class ProfileStats extends StatelessWidget {
   final void Function() pinsOnPressed;
   final bool isPin;
 
-  ProfileStats(
-      {required this.pins,
+  const ProfileStats(
+      {Key? key, required this.pins,
       required this.pinsOnPressed,
       required this.postOnPressed,
       required this.posts,
-      this.isPin = false});
+      this.isPin = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ProfileStats extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Container(
-          padding: EdgeInsets.all(5),
+          padding: const EdgeInsets.all(5),
           height: 63,
           child: Row(children: [
             Expanded(
@@ -36,7 +36,7 @@ class ProfileStats extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text('${posts == null ? ' - ' : roundCount(posts!)}',
+                    Text(posts == null ? ' - ' : roundCount(posts!),
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!
@@ -51,7 +51,7 @@ class ProfileStats extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(vertical: 18),
               child: VerticalDivider(),
             ),
@@ -62,7 +62,7 @@ class ProfileStats extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Text('${pins == null ? ' - ' : roundCount(pins!)}',
+                    Text(pins == null ? ' - ' : roundCount(pins!),
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!

@@ -7,11 +7,11 @@ class MyBottomSheet extends StatelessWidget {
   final Widget? title;
   final double maxRatio;
   final bool fullDialog;
-  MyBottomSheet(
-      {required this.child,
+  const MyBottomSheet(
+      {Key? key, required this.child,
       this.title,
       this.maxRatio = 1,
-      this.fullDialog = false});
+      this.fullDialog = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class MyBottomSheet extends StatelessWidget {
                 color: Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: fullDialog
                     ? null
-                    : BorderRadius.vertical(top: Radius.circular(15)),
+                    : const BorderRadius.vertical(top: Radius.circular(15)),
               ),
               child: Column(
                 mainAxisSize: fullDialog ? MainAxisSize.max : MainAxisSize.min,
@@ -57,7 +57,7 @@ class MyBottomSheet extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15)),
                         height: 5,
                         width: 150,
-                        margin: EdgeInsets.only(bottom: 15),
+                        margin: const EdgeInsets.only(bottom: 15),
                       ),
                     ),
                   if (fullDialog)

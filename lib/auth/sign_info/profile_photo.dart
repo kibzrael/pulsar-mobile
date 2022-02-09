@@ -13,6 +13,8 @@ import 'package:pulsar/widgets/pick_image_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
 class ProfilePhoto extends StatefulWidget {
+  const ProfilePhoto({Key? key}) : super(key: key);
+
   @override
   _ProfilePhotoState createState() => _ProfilePhotoState();
 }
@@ -35,7 +37,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
 
     Widget border({required Widget child}) {
       return Container(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -67,7 +69,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                   child: Container(
                     margin: EdgeInsets.only(left: deviceWidth / 4 - (8 + 5)),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/intro/profile 1.jpg'),
                             fit: BoxFit.cover)),
@@ -88,7 +90,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                   child: Container(
                     margin: EdgeInsets.only(left: deviceWidth / 5 - (8 + 5)),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/intro/profile 4.jpg'),
                             fit: BoxFit.cover)),
@@ -109,7 +111,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                   child: Container(
                     margin: EdgeInsets.only(right: deviceWidth / 6 - (8 + 5)),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/intro/profile 3.jpg'),
                             fit: BoxFit.cover)),
@@ -132,7 +134,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                     margin: EdgeInsets.only(
                         bottom: deviceWidth / 2 - (8 + 5),
                         right: deviceWidth / 2 - (8 + 5)),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/intro/profile 6.jpg'),
                             fit: BoxFit.cover)),
@@ -150,7 +152,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
               decoration: BoxDecoration(
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                   shape: BoxShape.circle,
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       image: AssetImage('assets/intro/profile 5.jpg'),
                       fit: BoxFit.cover),
                   border: Border.all(color: Theme.of(context).dividerColor)),
@@ -165,7 +167,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
               decoration: BoxDecoration(
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                   shape: BoxShape.circle,
-                  image: DecorationImage(
+                  image: const DecorationImage(
                       image: AssetImage('assets/intro/profile 2.jpg'),
                       fit: BoxFit.cover),
                   border: Border.all(color: Theme.of(context).dividerColor)),
@@ -182,18 +184,19 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                     File? image = await openBottomSheet(
                         context, (context) => PickImageSheet());
                     File? croppedImage;
-                    if (image != null)
+                    if (image != null) {
                       croppedImage = await ImageCropper.cropImage(
                         sourcePath: image.path,
-                        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+                        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
                         cropStyle: CropStyle.circle,
                       );
+                    }
                     setState(() {
                       profilePic = croppedImage?.path;
                     });
                   },
                   child: Container(
-                    padding: EdgeInsets.all(3),
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Theme.of(context).scaffoldBackgroundColor),

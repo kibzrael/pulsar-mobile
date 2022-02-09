@@ -10,6 +10,6 @@ class EditInterests extends StatefulWidget {
 class _EditInterestsState extends State<EditInterests> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Interests')));
+    return Scaffold(appBar: AppBar(title: const Text('Interests')));
   }
 }

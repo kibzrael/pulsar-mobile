@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class VideoEdits extends StatefulWidget {
+  const VideoEdits({Key? key}) : super(key: key);
+
   @override
   _VideoEditsState createState() => _VideoEditsState();
 }

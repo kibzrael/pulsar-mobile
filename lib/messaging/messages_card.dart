@@ -12,7 +12,7 @@ import 'package:pulsar/widgets/route.dart';
 
 class MessagesCard extends StatefulWidget {
   final Message message;
-  MessagesCard(this.message);
+  const MessagesCard(this.message, {Key? key}) : super(key: key);
   @override
   _MessagesCardState createState() => _MessagesCardState();
 }
@@ -41,7 +41,7 @@ class _MessagesCardState extends State<MessagesCard> {
   @override
   Widget build(BuildContext context) {
     messagesProvider = Provider.of<MessagesProvider>(context);
-    bool selectMode = messagesProvider!.selectedMessages.length >= 1;
+    bool selectMode = messagesProvider!.selectedMessages.isNotEmpty;
 
     isSelected = messagesProvider!.selectedMessages.any(
         (Message element) => element.user.username == message.user.username);
@@ -58,7 +58,7 @@ class _MessagesCardState extends State<MessagesCard> {
       },
       onLongPress: handleSelect,
       child: Container(
-        padding: EdgeInsets.fromLTRB(15, 7.5, 5, 5),
+        padding: const EdgeInsets.fromLTRB(15, 7.5, 5, 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -72,7 +72,7 @@ class _MessagesCardState extends State<MessagesCard> {
                         shape: BoxShape.circle,
                         color: Theme.of(context).scaffoldBackgroundColor),
                     child: Container(
-                      padding: EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(3),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Theme.of(context).colorScheme.surface),
@@ -98,12 +98,12 @@ class _MessagesCardState extends State<MessagesCard> {
                   )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 6),
+                padding: const EdgeInsets.symmetric(vertical: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -117,14 +117,14 @@ class _MessagesCardState extends State<MessagesCard> {
                               .subtitle1!
                               .copyWith(fontSize: 16.5),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Text(
                           'Yesterday',
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 8,
                     ),
                     Text(
@@ -137,12 +137,12 @@ class _MessagesCardState extends State<MessagesCard> {
             ),
             if (!message.isRead)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
-                margin: EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
+                margin: const EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     gradient: secondaryGradient(begin: Alignment.topLeft)),
-                child: Text(
+                child: const Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 13.5),
                 ),

@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 
 class GridPosts extends StatefulWidget {
   final User user;
-  GridPosts(this.user);
+  const GridPosts(this.user, {Key? key}) : super(key: key);
 
   @override
   _GridPostsState createState() => _GridPostsState();
@@ -27,16 +27,17 @@ class _GridPostsState extends State<GridPosts>
   List<Post> posts = [];
 
   fetchPosts() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     List<Post> _posts =
         allPosts.where((element) => element.user.id == user.id).toList();
 
-    if (mounted)
+    if (mounted) {
       setState(() {
         posts = [...posts, ..._posts];
         isLoading = false;
       });
+    }
   }
 
   @override
@@ -51,20 +52,20 @@ class _GridPostsState extends State<GridPosts>
     super.build(context);
 
     return isLoading
-        ? Align(
+        ? const Align(
             alignment: Alignment.topCenter,
             child: MyProgressIndicator(),
           )
         : posts.isEmpty
-            ? NoPosts()
+            ? const NoPosts()
             : Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                constraints: BoxConstraints(minHeight: 100),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                constraints: const BoxConstraints(minHeight: 100),
                 child: GridView.builder(
                     itemCount: posts.length,
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     padding: MediaQuery.of(context).padding.copyWith(top: 0),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         childAspectRatio: 0.75,
                         crossAxisCount: 3,
                         crossAxisSpacing: 5,
@@ -73,7 +74,7 @@ class _GridPostsState extends State<GridPosts>
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              settings: RouteSettings(name: 'postView'),
+                              settings: const RouteSettings(name: 'postView'),
                               builder: (context) => PostScreen(
                                     initialPosts: posts,
                                     title: '@${user.username}',

@@ -9,6 +9,8 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class DiscoverChallenges extends StatefulWidget {
+  const DiscoverChallenges({Key? key}) : super(key: key);
+
   @override
   _DiscoverChallengesState createState() => _DiscoverChallengesState();
 }
@@ -46,15 +48,15 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
   Widget build(BuildContext context) {
     super.build(context);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 56,
             child: ListView.builder(
                 itemCount: tags.length,
                 scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 itemBuilder: (context, index) {
                   return ChallengeTag(
                     tags[index],
@@ -65,12 +67,12 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
           ),
           Container(
             height: 225,
-            margin: EdgeInsets.only(top: 12),
+            margin: const EdgeInsets.only(top: 12),
             child: ListView.builder(
               itemCount: challenges.length,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 7.5),
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 7.5),
               itemBuilder: (context, index) {
                 Challenge challenge = challenges[index];
                 return InkWell(
@@ -79,16 +81,16 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                         builder: (context) => ChallengePage(challenge)));
                   },
                   child: Card(
-                    margin: EdgeInsets.fromLTRB(7.5, 0, 7.5,
+                    margin: const EdgeInsets.fromLTRB(7.5, 0, 7.5,
                         10), //symmetric(horizontal: 7.5, vertical: 5),
                     elevation: 4,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.vertical(
                             top: Radius.circular(12),
                             bottom: Radius.circular(15))),
                     child: Container(
                       width: 180,
-                      padding: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Column(
                         children: [
                           Container(
@@ -97,14 +99,14 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                 color: Theme.of(context)
                                     .inputDecorationTheme
                                     .fillColor,
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
                                         challenge.coverPhoto!),
                                     fit: BoxFit.cover)),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Text(
                             challenge.name,
                             style: Theme.of(context)
@@ -121,14 +123,14 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                 .copyWith(fontSize: 16.5),
                             maxLines: 1,
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
-                            margin: EdgeInsets.symmetric(
+                            margin: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 5),
                             child: Row(
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 4),
                                   child: Icon(
                                     MyIcons.play,
                                     size: 24,
@@ -147,7 +149,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                  padding: const EdgeInsets.symmetric(horizontal: 4),
                                   child: Icon(
                                     MyIcons.pin,
                                     size: 16.5,
@@ -186,7 +188,7 @@ class ChallengeTag extends StatefulWidget {
   final String tag;
   final bool isSelected;
   final Function() onPressed;
-  ChallengeTag(this.tag, {required this.isSelected, required this.onPressed});
+  const ChallengeTag(this.tag, {Key? key, required this.isSelected, required this.onPressed}) : super(key: key);
 
   @override
   _ChallengeTagState createState() => _ChallengeTagState();
@@ -201,11 +203,11 @@ class _ChallengeTagState extends State<ChallengeTag> {
       onTap: widget.onPressed,
       child: Card(
         elevation: 3,
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         child: AnimatedContainer(
-          padding: EdgeInsets.only(left: 8, right: 12),
-          duration: Duration(milliseconds: 300),
+          padding: const EdgeInsets.only(left: 8, right: 12),
+          duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
               gradient: isSelected ? secondaryGradient() : null,
               borderRadius: BorderRadius.circular(30)),
@@ -214,7 +216,7 @@ class _ChallengeTagState extends State<ChallengeTag> {
               radius: 15,
               backgroundColor: Theme.of(context).dividerColor,
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Text(
               widget.tag,
               style: TextStyle(

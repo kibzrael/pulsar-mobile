@@ -14,6 +14,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/upload_progress.dart';
 
 class BasicRoot extends StatefulWidget {
+  const BasicRoot({Key? key}) : super(key: key);
+
   @override
   _BasicRootState createState() => _BasicRootState();
 }
@@ -33,7 +35,7 @@ class _BasicRootState extends State<BasicRoot> {
   void navigationChange(int index) {
     if (index == 2) {
       Navigator.of(context, rootNavigator: true)
-          .push(myPageRoute(builder: (context) => PostProcess()));
+          .push(myPageRoute(builder: (context) => const PostProcess()));
     } else {
       if (pageController!.page != index) {
         setState(() {
@@ -52,9 +54,10 @@ class _BasicRootState extends State<BasicRoot> {
               // CarouselController controller = pageController;
               // controller.animateToPage(0,
               //     duration: Duration(seconds: 1), curve: Curves.ease);
-            } else if (pageController!.hasClients)
+            } else if (pageController!.hasClients) {
               pageController!.animateTo(0.0,
-                  duration: Duration(seconds: 1), curve: Curves.ease);
+                  duration: const Duration(seconds: 1), curve: Curves.ease);
+            }
           }
         }
       }
@@ -122,13 +125,13 @@ class _BasicRootState extends State<BasicRoot> {
                 body: PageView(
                   controller: pageController,
                   onPageChanged: onPageChanged,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    HomePage(),
-                    ChallengesPage(),
+                    const HomePage(),
+                    const ChallengesPage(),
                     Container(),
-                    MessageScreen(),
-                    MyProfilePage(),
+                    const MessageScreen(),
+                    const MyProfilePage(),
                   ],
                 ),
                 bottomNavigationBar: BottomAppBar(
@@ -150,7 +153,7 @@ class _BasicRootState extends State<BasicRoot> {
                           UploadProgress(bgOperations.uploadPost!,
                               barIsTransparent: barIsTransparent),
                         Padding(
-                          padding: EdgeInsets.only(top: 6.0),
+                          padding: const EdgeInsets.only(top: 6.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -192,7 +195,7 @@ class _BasicRootState extends State<BasicRoot> {
                                                   .bottomNavigationBarTheme
                                                   .backgroundColor),
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
+                                        padding: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 5),
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
@@ -206,7 +209,7 @@ class _BasicRootState extends State<BasicRoot> {
                                                   : Colors.white,
                                               Theme.of(context)
                                                   .colorScheme
-                                                  .primaryVariant,
+                                                  .primaryContainer,
                                             ],
                                           ),
                                         ),
@@ -396,13 +399,13 @@ class NavigationBarItem extends StatelessWidget {
 
   final Function(int index) onTap;
 
-  NavigationBarItem(this.index,
-      {required this.label,
+  const NavigationBarItem(this.index,
+      {Key? key, required this.label,
       required this.selected,
       required this.icon,
       required this.onTap,
       required this.barIsTransparent,
-      this.iconSize = 27});
+      this.iconSize = 27}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -429,7 +432,7 @@ class NavigationBarItem extends StatelessWidget {
               size: iconSize,
               color: isSelected ? activeColor : inactiveColor,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               label,
               style: CupertinoTheme.of(context)

@@ -4,6 +4,8 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class SelectTheme extends StatefulWidget {
+  const SelectTheme({Key? key}) : super(key: key);
+
   @override
   _SelectThemeState createState() => _SelectThemeState();
 }
@@ -24,7 +26,7 @@ class _SelectThemeState extends State<SelectTheme> {
     themeProvider = Provider.of<ThemeProvider>(context);
     value = themeProvider.themeValue;
     return Scaffold(
-      appBar: AppBar(title: Text('Theme')),
+      appBar: AppBar(title: const Text('Theme')),
       body: Consumer<ThemeProvider>(
         builder: (context, provider, child) {
           return Column(

@@ -10,6 +10,6 @@ class EditCategory extends StatefulWidget {
 class _EditCategoryState extends State<EditCategory> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('Category')));
+    return Scaffold(appBar: AppBar(title: const Text('Category')));
   }
 }

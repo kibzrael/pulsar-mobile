@@ -49,11 +49,11 @@ class Post {
 
   Map<String, dynamic> toJson(BuildContext context) {
     return {
-      'id': this.id,
-      'user': this.user.toJson(context),
-      'caption': this.caption,
-      'video': this.video.toJson(),
-      'time': this.time
+      'id': id,
+      'user': user.toJson(context),
+      'caption': caption,
+      'video': video.toJson(),
+      'time': time
     };
   }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/data/users.dart';
@@ -11,7 +13,7 @@ import 'package:pulsar/widgets/profile_pic.dart';
 class PostPreview extends StatefulWidget {
   final PostProvider provider;
 
-  PostPreview(this.provider);
+  const PostPreview(this.provider, {Key? key}) : super(key: key);
 
   @override
   _PostPreviewState createState() => _PostPreviewState();
@@ -23,14 +25,14 @@ class _PostPreviewState extends State<PostPreview> {
   @override
   Widget build(BuildContext context) {
     Widget stat(int number) => Padding(
-          padding: EdgeInsets.only(bottom: 5),
+          padding: const EdgeInsets.only(bottom: 5),
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
             child: FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.center,
-                child: Text('${roundCount(number)}',
-                    style: TextStyle(fontWeight: FontWeight.w500))),
+                child: Text(roundCount(number),
+                    style: const TextStyle(fontWeight: FontWeight.w500))),
           ),
         );
 
@@ -39,7 +41,7 @@ class _PostPreviewState extends State<PostPreview> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          title: Text('@username'),
+          title: const Text('@username'),
           centerTitle: true,
           backgroundColor: Colors.black.withOpacity(0.0),
         ),
@@ -48,22 +50,22 @@ class _PostPreviewState extends State<PostPreview> {
             Column(children: [
               SafeArea(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: const BoxDecoration(
                             color: Colors.white12, shape: BoxShape.circle),
                         child: Icon(
                           MyIcons.music,
                         ),
                       ),
-                      SizedBox(width: 15),
-                      Text(
+                      const SizedBox(width: 15),
+                      const Text(
                         'Calum Scott - Biblical',
                         maxLines: 1,
                       )
@@ -71,9 +73,9 @@ class _PostPreviewState extends State<PostPreview> {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Container(
-                margin: EdgeInsets.only(bottom: 5, left: 21),
+                margin: const EdgeInsets.only(bottom: 5, left: 21),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -82,7 +84,7 @@ class _PostPreviewState extends State<PostPreview> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 2, vertical: 4),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,7 +94,7 @@ class _PostPreviewState extends State<PostPreview> {
                                   radius: 21,
                                   onMedia: true,
                                 ),
-                                SizedBox(width: 5),
+                                const SizedBox(width: 5),
                                 Flexible(
                                   child: Column(
                                       crossAxisAlignment:
@@ -113,10 +115,10 @@ class _PostPreviewState extends State<PostPreview> {
                                                       .copyWith(
                                                           fontSize: 16.5)),
                                             ),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             Padding(
                                               padding:
-                                                  EdgeInsets.only(bottom: 2.0),
+                                                  const EdgeInsets.only(bottom: 2.0),
                                               child: Text(
                                                 '2min',
                                                 style: Theme.of(context)
@@ -127,11 +129,11 @@ class _PostPreviewState extends State<PostPreview> {
                                                         color: Colors.white),
                                               ),
                                             ),
-                                            SizedBox(width: 5),
+                                            const SizedBox(width: 5),
                                             InkWell(
                                               onTap: () {},
                                               child: Container(
-                                                padding: EdgeInsets.all(1.5),
+                                                padding: const EdgeInsets.all(1.5),
                                                 child: ShaderMask(
                                                   shaderCallback: (rect) {
                                                     return LinearGradient(
@@ -143,7 +145,7 @@ class _PostPreviewState extends State<PostPreview> {
                                                               .primary,
                                                           Theme.of(context)
                                                               .colorScheme
-                                                              .primaryVariant
+                                                              .primaryContainer
                                                         ]).createShader(rect);
                                                   },
                                                   child: Row(
@@ -151,10 +153,10 @@ class _PostPreviewState extends State<PostPreview> {
                                                       Container(
                                                         width: 5,
                                                         height: 5,
-                                                        margin: EdgeInsets.only(
+                                                        margin: const EdgeInsets.only(
                                                             right: 2.5),
                                                         decoration:
-                                                            BoxDecoration(
+                                                            const BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
                                                                 color: Colors
@@ -175,7 +177,7 @@ class _PostPreviewState extends State<PostPreview> {
                                             )
                                           ],
                                         ),
-                                        SizedBox(height: 2.5),
+                                        const SizedBox(height: 2.5),
                                         Flexible(
                                           child: Text('Challenge',
                                               maxLines: 1,
@@ -191,7 +193,7 @@ class _PostPreviewState extends State<PostPreview> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 4),
+                            padding: const EdgeInsets.symmetric(vertical: 4),
                             child: Text(
                               'Caption of the post. Has soft wrap\nOccupies max of three lines\nno read more...',
                               maxLines: 3,
@@ -203,7 +205,7 @@ class _PostPreviewState extends State<PostPreview> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: 4),
+                            padding: const EdgeInsets.only(top: 4),
                             child: Wrap(
                               crossAxisAlignment: WrapCrossAlignment.start,
                               spacing: 8,
@@ -211,9 +213,9 @@ class _PostPreviewState extends State<PostPreview> {
                               alignment: WrapAlignment.start,
                               runAlignment: WrapAlignment.start,
                               children: [
-                                Tag('photography'),
-                                Tag('music'),
-                                Tag('dance'),
+                                const Tag('photography'),
+                                const Tag('music'),
+                                const Tag('dance'),
                               ],
                             ),
                           )
@@ -226,7 +228,7 @@ class _PostPreviewState extends State<PostPreview> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          LikeButton(
+                          const LikeButton(
                             liked: false,
                             size: 36,
                           ),
@@ -234,13 +236,13 @@ class _PostPreviewState extends State<PostPreview> {
                           Builder(builder: (_) {
                             return Theme(
                               data: Theme.of(context),
-                              child: CommentButton(
+                              child: const CommentButton(
                                 size: 36,
                               ),
                             );
                           }),
                           stat(24360),
-                          RepostButton(
+                          const RepostButton(
                             reposted: false,
                             size: 36,
                           ),
@@ -248,7 +250,7 @@ class _PostPreviewState extends State<PostPreview> {
                           Builder(builder: (_) {
                             return Theme(
                               data: Theme.of(context),
-                              child: ShareButton(
+                              child: const ShareButton(
                                 size: 36,
                               ),
                             );
@@ -265,7 +267,7 @@ class _PostPreviewState extends State<PostPreview> {
               //   height:
               //       MediaQuery.of(context).padding.bottom - kToolbarHeight,
               // )
-              SizedBox(
+              const SizedBox(
                 height: kToolbarHeight,
               )
             ])

@@ -3,6 +3,8 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class Cache extends StatefulWidget {
+  const Cache({Key? key}) : super(key: key);
+
   @override
   _CacheState createState() => _CacheState();
 }
@@ -18,7 +20,7 @@ class _CacheState extends State<Cache> {
       ),
       trailingArrow: false,
       trailingText: '24mb',
-      flexRatio: [2, 1],
+      flexRatio: const [2, 1],
     );
   }
 }

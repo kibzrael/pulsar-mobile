@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/route.dart';
 class ChallengeCard extends StatefulWidget {
   final Challenge challenge;
 
-  ChallengeCard(this.challenge);
+  const ChallengeCard(this.challenge, {Key? key}) : super(key: key);
 
   @override
   _ChallengeCardState createState() => _ChallengeCardState();
@@ -37,14 +37,14 @@ class _ChallengeCardState extends State<ChallengeCard> {
         Navigator.of(context)
             .push(myPageRoute(builder: (context) => ChallengePage(challenge)));
       },
-      title: '${challenge.name}',
+      title: challenge.name,
       subtitle: '24K posts',
       trailingArrow: false,
       trailing: FollowButton(
         width: 72,
         height: 30,
         isFollowing: isPinned,
-        text: {true: 'Pinned', false: 'Pin'},
+        text: const {true: 'Pinned', false: 'Pin'},
         onPressed: () {
           setState(() {
             isPinned = !isPinned;

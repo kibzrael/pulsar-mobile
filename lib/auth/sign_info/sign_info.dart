@@ -11,14 +11,16 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class SignInfo extends StatelessWidget {
+  const SignInfo({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<SignInfoProvider>(builder: (context, provider, child) {
       return Scaffold(
         body: PageView(
             controller: provider.pageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [
               IntroduceYourself(),
               ChooseCategory(),
               BirthdayPage(),
@@ -33,14 +35,14 @@ class SignInfo extends StatelessWidget {
 class SignInfoBackButton extends StatelessWidget {
   final void Function() onPressed;
 
-  SignInfoBackButton({required this.onPressed});
+  const SignInfoBackButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           left: 12,
         ),
         height: kToolbarHeight,
@@ -59,7 +61,7 @@ class SignInfoBackButton extends StatelessWidget {
 class SignInfoForwardButton extends StatelessWidget {
   final void Function() onPressed;
 
-  SignInfoForwardButton({required this.onPressed});
+  const SignInfoForwardButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +69,11 @@ class SignInfoForwardButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         height: kToolbarHeight,
-        padding: EdgeInsets.only(right: 15),
+        padding: const EdgeInsets.only(right: 15),
         alignment: Alignment.center,
         child: ShaderMask(
           shaderCallback: (bounds) => primaryGradient().createShader(bounds),
-          child: Text(
+          child: const Text(
             'Next',
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
@@ -105,7 +107,7 @@ AppBar signInfoAppBar(
     title: Text(title),
     actions: [
       Padding(
-        padding: EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.only(right: 12),
         child: MyTextButton(text: 'Next', onPressed: onForward),
       ),
     ],

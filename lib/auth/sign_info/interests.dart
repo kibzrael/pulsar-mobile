@@ -11,6 +11,8 @@ import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 
 class InterestsPage extends StatefulWidget {
+  const InterestsPage({Key? key}) : super(key: key);
+
   @override
   _InterestsPageState createState() => _InterestsPageState();
 }
@@ -60,7 +62,7 @@ class _InterestsPageState extends State<InterestsPage>
               return Container(
                 width: double.infinity,
                 alignment: Alignment.center,
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: Text(
                   'Select the fields you\nare interested in',
                   textAlign: TextAlign.center,
@@ -96,16 +98,17 @@ class _InterestsPageState extends State<InterestsPage>
                     trailing: InkWell(
                       onTap: () {
                         setState(() {
-                          if (isSelected)
+                          if (isSelected) {
                             selected.remove(interest);
-                          else
+                          } else {
                             selected.add(interest);
+                          }
                         });
                       },
                       child: Card(
-                        shape: CircleBorder(),
+                        shape: const CircleBorder(),
                         child: Container(
-                            padding: EdgeInsets.all(4),
+                            padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient:
@@ -116,8 +119,8 @@ class _InterestsPageState extends State<InterestsPage>
                       ),
                     )),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.only(bottom: 12),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.only(bottom: 12),
                   child: Wrap(
                     spacing: 8,
                     runSpacing: 4,
@@ -128,17 +131,18 @@ class _InterestsPageState extends State<InterestsPage>
                           return InkWell(
                             onTap: () {
                               setState(() {
-                                if (isSelected)
+                                if (isSelected) {
                                   selected.remove(subInterests[i]);
-                                else
+                                } else {
                                   selected.add(subInterests[i]);
+                                }
                               });
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30)),
                               child: Container(
-                                padding: EdgeInsets.all(4),
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(30),
                                     gradient:
@@ -148,7 +152,7 @@ class _InterestsPageState extends State<InterestsPage>
                                   children: [
                                     Padding(
                                       padding:
-                                          EdgeInsets.symmetric(horizontal: 8),
+                                          const EdgeInsets.symmetric(horizontal: 8),
                                       child: Text(subInterests[i].name,
                                           style: TextStyle(
                                               color: isSelected

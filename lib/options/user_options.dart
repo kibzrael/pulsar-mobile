@@ -10,7 +10,7 @@ import 'package:pulsar/widgets/route.dart';
 class UserOptions extends StatelessWidget {
   final User user;
 
-  UserOptions(this.user);
+  const UserOptions(this.user, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class UserOptions extends StatelessWidget {
         color: Theme.of(context).colorScheme.error,
         onPressed: (context) {
           Navigator.of(context).push(myPageRoute(
-              builder: (context) => ReportScreen(
+              builder: (context) => const ReportScreen(
                     initialIndex: 1,
                   )));
         });

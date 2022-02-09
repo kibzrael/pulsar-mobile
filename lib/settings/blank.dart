@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Blank extends StatefulWidget {
+  const Blank({Key? key}) : super(key: key);
+
   @override
   _BlankState createState() => _BlankState();
 }
@@ -10,7 +12,7 @@ class _BlankState extends State<Blank> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Blank'),
+        title: const Text('Blank'),
       ),
     );
   }

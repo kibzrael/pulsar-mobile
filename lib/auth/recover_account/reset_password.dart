@@ -8,6 +8,8 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
   @override
   _ResetPasswordState createState() => _ResetPasswordState();
 }
@@ -28,7 +30,7 @@ class _ResetPasswordState extends State<ResetPassword> {
     if (password != confirmPassword) {
       openDialog(
         context,
-        (context) => MyDialog(
+        (context) => const MyDialog(
           title: 'Warning!',
           body: "The two passwords you've entered do not match.",
           actions: ['Ok'],
@@ -41,7 +43,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       setState(() => isSubmitting = false);
       await openDialog(
         context,
-        (context) => MyDialog(
+        (context) => const MyDialog(
           title: 'Success',
           body: "You have successfully changed your password.",
           actions: ['Ok'],
@@ -71,18 +73,18 @@ class _ResetPasswordState extends State<ResetPassword> {
                 recoverAccountProvider.previousPage();
               },
             ),
-            title: Text('Reset Password')),
+            title: const Text('Reset Password')),
         body: SingleChildScrollView(
             child: Container(
           height: size,
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: [
               Text(
                   'Please enter your new password. Be sure to remember this one.',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline1),
-              Spacer(flex: 1),
+              const Spacer(flex: 1),
               MyTextInput(
                   hintText: 'Password',
                   obscureText: obscureText,
@@ -91,7 +93,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
@@ -104,7 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               MyTextInput(
@@ -120,7 +122,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: Text(
                     match ? '' : 'The passwords do not match!',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
@@ -130,7 +132,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   ),
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               InkWell(
                 onTap: () {
                   setState(() {
@@ -138,7 +140,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   });
                 },
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -155,7 +157,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ]),
                 ),
               ),
-              Spacer(
+              const Spacer(
                 flex: 1,
               ),
               AuthButton(
@@ -164,7 +166,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 onPressed: onReset,
                 inputs: [password, confirmPassword],
               ),
-              Spacer(
+              const Spacer(
                 flex: 2,
               ),
             ],

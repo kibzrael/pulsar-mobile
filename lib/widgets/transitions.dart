@@ -5,16 +5,16 @@ class ScaledTransition extends StatelessWidget {
   final Widget child;
   final bool reverse;
   final Color fill;
-  ScaledTransition(
-      {required this.reverse,
+  const ScaledTransition(
+      {Key? key, required this.reverse,
       required this.child,
-      this.fill = Colors.transparent});
+      this.fill = Colors.transparent}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
       child: child,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       reverse: reverse,
       transitionBuilder: (child, animation, secondaryAnimation) {
         return SharedAxisTransition(
@@ -31,13 +31,13 @@ class ScaledTransition extends StatelessWidget {
 class FadingTransition extends StatelessWidget {
   final Widget child;
   final bool reverse;
-  FadingTransition({required this.reverse, required this.child});
+   const FadingTransition({Key? key, required this.reverse, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PageTransitionSwitcher(
       child: child,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       reverse: reverse,
       transitionBuilder: (child, animation, secondaryAnimation) {
         return FadeThroughTransition(

@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Blue
-Color kPrimary = Color(0xFF2196F3);
+Color kPrimary = const Color(0xFF2196F3);
 
 /// Purple
-Color kPrimaryVariant = Color(0xFF7F20F3);
+Color kPrimaryVariant = const Color(0xFF7F20F3);
 
 /// Orange
-Color kSecondary = Color(0xFFFF6E40);
+Color kSecondary = const Color(0xFFFF6E40);
 
-Color kBackgroundColor = Color(0xFF131313);
-Color kCardColor = Color(0xFF242424);
-Color kInputColor = Color(0xFF202020);
-Color kSurfaceColor = Color(0xFF181818);
-Color kDividerColor = Color(0xFF424242);
+Color kBackgroundColor = const Color(0xFF131313);
+Color kCardColor = const Color(0xFF242424);
+Color kInputColor = const Color(0xFF202020);
+Color kSurfaceColor = const Color(0xFF181818);
+Color kDividerColor = const Color(0xFF424242);
 
 LinearGradient primaryGradient({
   Alignment begin = Alignment.centerLeft,
@@ -57,13 +57,13 @@ ThemeData lightTheme = ThemeData(
   textSelectionTheme: TextSelectionThemeData(cursorColor: kSecondary),
   inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.grey[200],
-      hintStyle: TextStyle(fontSize: 16.5, color: Colors.grey)),
-  appBarTheme: AppBarTheme(
+      hintStyle: const TextStyle(fontSize: 16.5, color: Colors.grey)),
+  appBarTheme: const AppBarTheme(
     color: Colors.white,
     elevation: 0.0,
     foregroundColor: Colors.black,
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       elevation: 0.0,
       selectedItemColor: Colors.black,
@@ -75,9 +75,9 @@ ThemeData lightTheme = ThemeData(
   pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
       primary: kPrimary,
-      primaryVariant: kPrimaryVariant,
+      primaryContainer: kPrimaryVariant,
       secondary: kSecondary,
-      secondaryVariant: kSecondary,
+      secondaryContainer: kSecondary,
       surface: Colors.grey.shade50,
       background: Colors.white,
       error: Colors.red,
@@ -117,9 +117,9 @@ ThemeData darkTheme = ThemeData(
   pageTransitionsTheme: pageTransitionsTheme,
   colorScheme: ColorScheme(
       primary: kPrimary,
-      primaryVariant: kPrimaryVariant,
+      primaryContainer: kPrimaryVariant,
       secondary: kSecondary,
-      secondaryVariant: Colors.deepOrange,
+      secondaryContainer: Colors.deepOrange,
       surface: kSurfaceColor,
       background: Colors.grey.shade900,
       error: Colors.redAccent,
@@ -132,7 +132,7 @@ ThemeData darkTheme = ThemeData(
 );
 
 TextTheme textTheme(Brightness brightness) => TextTheme(
-    bodyText1: TextStyle(
+    bodyText1: const TextStyle(
       fontSize: 16.5,
       fontWeight: FontWeight.w500,
     ),
@@ -141,7 +141,7 @@ TextTheme textTheme(Brightness brightness) => TextTheme(
       fontWeight: FontWeight.bold,
       color: Colors.grey[brightness == Brightness.light ? 600 : 350],
     ),
-    subtitle1: TextStyle(
+    subtitle1: const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w600,
     ),
@@ -157,7 +157,7 @@ ChipThemeData chipTheme(Brightness brightness) {
     disabledColor: Colors.grey,
     selectedColor: kSecondary,
     secondarySelectedColor: kSecondary,
-    padding: EdgeInsets.all(4),
+    padding: const EdgeInsets.all(4),
     labelStyle: TextStyle(
         fontSize: 16.5,
         fontWeight: FontWeight.w600,
@@ -170,7 +170,7 @@ ChipThemeData chipTheme(Brightness brightness) {
   );
 }
 
-PageTransitionsTheme pageTransitionsTheme = PageTransitionsTheme(builders: {
+PageTransitionsTheme pageTransitionsTheme = const PageTransitionsTheme(builders: {
   TargetPlatform.android: ZoomPageTransitionsBuilder(),
   TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
 });
@@ -180,7 +180,7 @@ SliderThemeData sliderThemeData = SliderThemeData(
     trackShape: CustomTrackShape(),
     valueIndicatorShape: SliderComponentShape.noThumb,
     disabledThumbColor: Colors.transparent,
-    thumbShape: RoundSliderThumbShape(
+    thumbShape: const RoundSliderThumbShape(
         elevation: 0, pressedElevation: 0, enabledThumbRadius: 0),
     overlayColor: Colors.transparent,
     thumbColor: Colors.transparent);
@@ -270,6 +270,7 @@ class ThemeProvider extends ChangeNotifier {
 }
 
 class CustomTrackShape extends RoundedRectSliderTrackShape {
+  @override
   Rect getPreferredRect({
     required RenderBox parentBox,
     Offset offset = Offset.zero,

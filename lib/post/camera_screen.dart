@@ -23,7 +23,7 @@ import 'package:pulsar/widgets/transitions.dart';
 
 class CameraScreen extends StatefulWidget {
   final Function onPop;
-  CameraScreen({required this.onPop});
+  const CameraScreen({Key? key, required this.onPop}) : super(key: key);
   @override
   _CameraScreenState createState() => _CameraScreenState();
 }
@@ -59,12 +59,12 @@ class _CameraScreenState extends State<CameraScreen>
   @override
   void initState() {
     super.initState();
-    _ticker = this.createTicker((elapsed) {
+    _ticker = createTicker((elapsed) {
       recordingDurationNotifier.setDuration(elapsed.inMilliseconds.toDouble());
       checkPermissions();
     });
     _switchAnimationController = AnimationController(
-        vsync: this, duration: Duration(seconds: 1), value: 0);
+        vsync: this, duration: const Duration(seconds: 1), value: 0);
   }
 
   @override
@@ -87,10 +87,11 @@ class _CameraScreenState extends State<CameraScreen>
 
     if (snapshot == null) return;
 
-    if (snapshot.hasError)
+    if (snapshot.hasError) {
       Fluttertoast.showToast(msg: '${snapshot.error!.description}');
-    else
+    } else {
       _ticker.start();
+    }
 
     setState(() {});
   }
@@ -102,8 +103,9 @@ class _CameraScreenState extends State<CameraScreen>
       Fluttertoast.showToast(msg: '$snapshot');
       return;
     }
-    if (snapshot.hasError)
+    if (snapshot.hasError) {
       Fluttertoast.showToast(msg: '${snapshot.error!.description}');
+    }
 
     if (snapshot.video != null) {
       _ticker.stop();
@@ -142,10 +144,11 @@ class _CameraScreenState extends State<CameraScreen>
             isRecording: isRecording,
             onPressed: () {
               if (provider.controller != null) {
-                if (isRecording)
+                if (isRecording) {
                   stopRecording(duration: duration);
-                else
+                } else {
                   onCapture();
+                }
               }
             },
             position: duration,
@@ -209,267 +212,267 @@ class _CameraScreenState extends State<CameraScreen>
                                 borderRadius: BorderRadius.circular(15),
                               ),
                               child: overlay!)
-                          : Container(
-                              child: Column(
-                                children: [
-                                  AppBar(
-                                    backgroundColor: Colors.transparent,
-                                    leading: IconButton(
-                                      icon: Icon(
-                                        MyIcons.back,
-                                        size: 30,
-                                      ),
-                                      onPressed: () {
-                                        if (provider.controller != null) {
-                                          if (!isRecording) {
-                                            widget.onPop();
-                                          }
-                                        } else {
-                                          widget.onPop();
-                                        }
-                                      },
-                                    ),
-                                    actions: [
-                                      Container(
-                                        width: 100,
-                                        alignment: Alignment.center,
-                                        child: RotationTransition(
-                                          alignment: Alignment.center,
-                                          turns:
-                                              _switchAnimationController.view,
-                                          child: IconButton(
-                                            icon: Icon(
-                                              MyIcons.switchCamera,
-                                              size: 30,
-                                            ),
-                                            onPressed: () {
-                                              if (provider.flash)
-                                                provider.switchFlash();
-                                              provider.switchLens();
-                                              cameraPreviewScale = 1;
-                                              cameraSecondaryScale = 1;
-                                              double value =
-                                                  _switchAnimationController
-                                                              .value ==
-                                                          0
-                                                      ? 0.5
-                                                      : 0;
-                                              _switchAnimationController
-                                                  .animateTo(value);
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                          : Column(
+                            children: [
+                              AppBar(
+                                backgroundColor: Colors.transparent,
+                                leading: IconButton(
+                                  icon: Icon(
+                                    MyIcons.back,
+                                    size: 30,
                                   ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Container(
-                                      width: 100,
-                                      child: Column(children: [
-                                        InkWell(
-                                          onTap: () {
-                                            provider.switchFlash();
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  provider.flash
-                                                      ? MyIcons.flash
-                                                      : MyIcons.flashOff,
-                                                  size: 30,
-                                                ),
-                                              ),
-                                              Text('Flash'),
-                                              Text(provider.flash
-                                                  ? 'on'
-                                                  : 'off'),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              showTimer = !showTimer;
-                                            });
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  MyIcons.timer,
-                                                  size: 30,
-                                                ),
-                                              ),
-                                              Text('Timer'),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () {
-                                            openBottomSheet(
-                                                context,
-                                                (context) =>
-                                                    Filters(postProvider));
-                                          },
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Icon(
-                                                  MyIcons.filters,
-                                                  size: 30,
-                                                ),
-                                              ),
-                                              Text('Filters'),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () {
-                                            openBottomSheet(context,
-                                                (context) => PostAudio(),
-                                                root: false);
-                                          },
-                                          child: Column(
-                                            children: [
-                                              if (postProvider.audio != null)
-                                                Container(
-                                                  width: 42,
-                                                  height: 42,
-                                                  margin: EdgeInsets.all(2),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white12,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            6),
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          postProvider.audio!
-                                                              .coverPhoto),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              if (postProvider.audio == null)
-                                                Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Icon(
-                                                    MyIcons.music,
-                                                    size: 30,
-                                                  ),
-                                                ),
-                                              Text('Sounds'),
-                                            ],
-                                          ),
-                                        ),
-                                      ]),
-                                    ),
-                                  ),
-                                  Spacer(),
+                                  onPressed: () {
+                                    if (provider.controller != null) {
+                                      if (!isRecording) {
+                                        widget.onPop();
+                                      }
+                                    } else {
+                                      widget.onPop();
+                                    }
+                                  },
+                                ),
+                                actions: [
                                   Container(
-                                    height: 150,
-                                    alignment: Alignment.bottomCenter,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        // if (showTimer && !showFilters)
-                                        //   CaptureTimer(
-                                        //       initial: speed,
-                                        //       onPressed: setTimer),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                XFile? pickedFile =
-                                                    await ImagePicker()
-                                                        .pickVideo(
-                                                            source: ImageSource
-                                                                .gallery);
-                                                File? file;
-                                                if (pickedFile != null)
-                                                  file = File(pickedFile.path);
-                                                if (file != null) {
-                                                  VideoData? data =
-                                                      await FlutterVideoInfo()
-                                                          .getVideoInfo(
-                                                              file.path);
-                                                  Navigator.of(context).push(
-                                                      myPageRoute(
-                                                          builder: (context) =>
-                                                              CaptureScreen(
-                                                                VideoCapture(
-                                                                    file!,
-                                                                    camera:
-                                                                        false),
-                                                                duration:
-                                                                    data?.duration ??
-                                                                        3000,
-                                                              )));
-                                                }
-                                                // openBottomSheet(context,
-                                                //     (context) => Gallery(),
-                                                //     root: false);
-                                              },
-                                              child: Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 12),
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      height: 60,
-                                                      width: 60,
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .dividerColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  'assets/images/dance.jpg'),
-                                                              fit:
-                                                                  BoxFit.cover),
-                                                          border: Border.all(
-                                                              width: 2,
-                                                              color: Colors
-                                                                  .white)),
-                                                    ),
-                                                    SizedBox(height: 3),
-                                                    Text(
-                                                      'Upload',
-                                                      style: TextStyle(
-                                                          fontSize: 16.5,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            captureButton(),
-                                            Container(
-                                              width: 60,
-                                            ),
-                                          ],
+                                    width: 100,
+                                    alignment: Alignment.center,
+                                    child: RotationTransition(
+                                      alignment: Alignment.center,
+                                      turns:
+                                          _switchAnimationController.view,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          MyIcons.switchCamera,
+                                          size: 30,
                                         ),
-                                      ],
+                                        onPressed: () {
+                                          if (provider.flash) {
+                                            provider.switchFlash();
+                                          }
+                                          provider.switchLens();
+                                          cameraPreviewScale = 1;
+                                          cameraSecondaryScale = 1;
+                                          double value =
+                                              _switchAnimationController
+                                                          .value ==
+                                                      0
+                                                  ? 0.5
+                                                  : 0;
+                                          _switchAnimationController
+                                              .animateTo(value);
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: SizedBox(
+                                  width: 100,
+                                  child: Column(children: [
+                                    InkWell(
+                                      onTap: () {
+                                        provider.switchFlash();
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              provider.flash
+                                                  ? MyIcons.flash
+                                                  : MyIcons.flashOff,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          const Text('Flash'),
+                                          Text(provider.flash
+                                              ? 'on'
+                                              : 'off'),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          showTimer = !showTimer;
+                                        });
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              MyIcons.timer,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          const Text('Timer'),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    InkWell(
+                                      onTap: () {
+                                        openBottomSheet(
+                                            context,
+                                            (context) =>
+                                                Filters(postProvider));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(
+                                              MyIcons.filters,
+                                              size: 30,
+                                            ),
+                                          ),
+                                          const Text('Filters'),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    InkWell(
+                                      onTap: () {
+                                        openBottomSheet(context,
+                                            (context) => const PostAudio(),
+                                            root: false);
+                                      },
+                                      child: Column(
+                                        children: [
+                                          if (postProvider.audio != null)
+                                            Container(
+                                              width: 42,
+                                              height: 42,
+                                              margin: const EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white12,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        6),
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      postProvider.audio!
+                                                          .coverPhoto),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          if (postProvider.audio == null)
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Icon(
+                                                MyIcons.music,
+                                                size: 30,
+                                              ),
+                                            ),
+                                          const Text('Sounds'),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                height: 150,
+                                alignment: Alignment.bottomCenter,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // if (showTimer && !showFilters)
+                                    //   CaptureTimer(
+                                    //       initial: speed,
+                                    //       onPressed: setTimer),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            XFile? pickedFile =
+                                                await ImagePicker()
+                                                    .pickVideo(
+                                                        source: ImageSource
+                                                            .gallery);
+                                            File? file;
+                                            if (pickedFile != null) {
+                                              file = File(pickedFile.path);
+                                            }
+                                            if (file != null) {
+                                              VideoData? data =
+                                                  await FlutterVideoInfo()
+                                                      .getVideoInfo(
+                                                          file.path);
+                                              Navigator.of(context).push(
+                                                  myPageRoute(
+                                                      builder: (context) =>
+                                                          CaptureScreen(
+                                                            VideoCapture(
+                                                                file!,
+                                                                camera:
+                                                                    false),
+                                                            duration:
+                                                                data?.duration ??
+                                                                    3000,
+                                                          )));
+                                            }
+                                            // openBottomSheet(context,
+                                            //     (context) => Gallery(),
+                                            //     root: false);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 60,
+                                                  width: 60,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          Theme.of(context)
+                                                              .dividerColor,
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(12),
+                                                      image: const DecorationImage(
+                                                          image: AssetImage(
+                                                              'assets/images/dance.jpg'),
+                                                          fit:
+                                                              BoxFit.cover),
+                                                      border: Border.all(
+                                                          width: 2,
+                                                          color: Colors
+                                                              .white)),
+                                                ),
+                                                const SizedBox(height: 3),
+                                                const Text(
+                                                  'Upload',
+                                                  style: TextStyle(
+                                                      fontSize: 16.5,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        captureButton(),
+                                        Container(
+                                          width: 60,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                 ),
               ),
               Align(

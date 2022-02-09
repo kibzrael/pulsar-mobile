@@ -13,7 +13,7 @@ import 'package:video_player/video_player.dart';
 class PostCover extends StatefulWidget {
   final VideoCapture video;
   final double duration;
-  PostCover({required this.video, required this.duration});
+  const PostCover({Key? key, required this.video, required this.duration}) : super(key: key);
   @override
   _PostCoverState createState() => _PostCoverState();
 }
@@ -77,14 +77,14 @@ class _PostCoverState extends State<PostCover> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Cover'),
+          title: const Text('Cover'),
           leading: IconButton(
             icon: Icon(MyIcons.close),
             onPressed: () {
-              if (postProvider.thumbnail.position != position)
+              if (postProvider.thumbnail.position != position) {
                 openDialog(
                         context,
-                        (context) => MyDialog(
+                        (context) => const MyDialog(
                               title: 'Caution!',
                               body:
                                   'The selected cover and changes you\'ve made would be lost if you quit.',
@@ -95,8 +95,9 @@ class _PostCoverState extends State<PostCover> {
                     .then((value) {
                   if (value == 'Ok') Navigator.pop(context);
                 });
-              else
+              } else {
                 Navigator.pop(context);
+              }
             },
           ),
           actions: [
@@ -132,13 +133,13 @@ class _PostCoverState extends State<PostCover> {
               ),
             )),
             Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 height: 120,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 7.5),
+                      padding: const EdgeInsets.symmetric(vertical: 7.5),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: Container(
@@ -181,9 +182,9 @@ class _PostCoverState extends State<PostCover> {
                         height: 75,
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.horizontal(
+                            borderRadius: const BorderRadius.horizontal(
                                 right: Radius.circular(15))),
-                        child: ClipRRect(
+                        child: const ClipRRect(
                           borderRadius: BorderRadius.horizontal(
                               right: Radius.circular(15)),
                         ),
@@ -196,9 +197,9 @@ class _PostCoverState extends State<PostCover> {
                         height: 75,
                         decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.secondary,
-                            borderRadius: BorderRadius.horizontal(
+                            borderRadius: const BorderRadius.horizontal(
                                 left: Radius.circular(15))),
-                        child: ClipRRect(
+                        child: const ClipRRect(
                           borderRadius: BorderRadius.horizontal(
                               left: Radius.circular(15)),
                         ),
@@ -220,7 +221,7 @@ class _PostCoverState extends State<PostCover> {
                         },
                         child: Card(
                           elevation: 3,
-                          margin: EdgeInsets.fromLTRB(0, 8, 2, 8),
+                          margin: const EdgeInsets.fromLTRB(0, 8, 2, 8),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                           child: Container(

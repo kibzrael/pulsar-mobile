@@ -7,7 +7,7 @@ class UploadProgress extends StatefulWidget {
   final UploadPost uploadPost;
   final bool barIsTransparent;
 
-  UploadProgress(this.uploadPost, {this.barIsTransparent = false});
+  const UploadProgress(this.uploadPost, {Key? key, this.barIsTransparent = false}) : super(key: key);
 
   @override
   _UploadProgressState createState() => _UploadProgressState();
@@ -28,7 +28,7 @@ class _UploadProgressState extends State<UploadProgress> {
     return Container(
       height: kToolbarHeight,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       alignment: Alignment.center,
       decoration: BoxDecoration(
           border: Border(
@@ -39,7 +39,7 @@ class _UploadProgressState extends State<UploadProgress> {
                 width: 1),
           ),
           gradient: barIsTransparent
-              ? LinearGradient(
+              ? const LinearGradient(
                   colors: [Colors.transparent, Colors.black54, Colors.black],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter)
@@ -49,13 +49,13 @@ class _UploadProgressState extends State<UploadProgress> {
           Container(
             width: 50,
             height: double.infinity,
-            margin: EdgeInsets.only(right: 7.5),
+            margin: const EdgeInsets.only(right: 7.5),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6),
                 color: barIsTransparent
                     ? Colors.white12
                     : Theme.of(context).inputDecorationTheme.fillColor),
-            child: Center(
+            child: const Center(
                 child: MyProgressIndicator(
               size: 21,
               margin: EdgeInsets.zero,
@@ -77,7 +77,7 @@ class _UploadProgressState extends State<UploadProgress> {
                 shaderCallback: (bounds) {
                   return LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primaryVariant
+                    Theme.of(context).colorScheme.primaryContainer
                   ]).createShader(bounds);
                 },
                 child: Text(
@@ -93,7 +93,7 @@ class _UploadProgressState extends State<UploadProgress> {
               ShaderMask(
                 shaderCallback: (rect) {
                   return SweepGradient(
-                      transform: GradientRotation(4.75),
+                      transform: const GradientRotation(4.75),
                       stops: [
                         0.0, (progress / 100) * 0.5,
                         progress / 100,
@@ -122,7 +122,7 @@ class _UploadProgressState extends State<UploadProgress> {
                 ),
               ),
               Container(
-                  padding: EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(2),
                   width: 24,
                   height: 21,
                   alignment: Alignment.center,
@@ -138,7 +138,7 @@ class _UploadProgressState extends State<UploadProgress> {
                   ))
             ],
           ),
-          SizedBox(width: 5),
+          const SizedBox(width: 5),
           MyTextButton(
               text: 'Cancel',
               onPressed: () {},

@@ -7,21 +7,21 @@ class MyDialog extends StatelessWidget {
   final List<String> actions;
   final String destructive;
 
-  MyDialog(
-      {required this.title,
+  const MyDialog(
+      {Key? key, required this.title,
       required this.body,
       required this.actions,
-      this.destructive = ''});
+      this.destructive = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: Padding(
-        padding: EdgeInsets.only(bottom: 8.0),
+        padding: const EdgeInsets.only(bottom: 8.0),
         child: Text(title),
       ),
       content: Padding(
-        padding: EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Text(body),
       ),
       actions: [

@@ -13,11 +13,11 @@ class ProfilePic extends StatelessWidget {
 
   final bool onMedia;
 
-  ProfilePic(this.url,
-      {required this.radius,
+  const ProfilePic(this.url,
+      {Key? key, required this.radius,
       this.provider = MyImageProvider.network,
       this.bytes,
-      this.onMedia = false});
+      this.onMedia = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

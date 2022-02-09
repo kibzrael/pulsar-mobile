@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class UserBlogPosts extends StatefulWidget {
+  const UserBlogPosts({Key? key}) : super(key: key);
+
   @override
   _UserBlogPostsState createState() => _UserBlogPostsState();
 }
@@ -19,7 +21,7 @@ class _UserBlogPostsState extends State<UserBlogPosts>
     //
     // create a common getPosts function
     // for grid posts, reposts and saved posts
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
 
     List<String> _posts = [
       'assets/capture15.JPG',
@@ -46,12 +48,13 @@ class _UserBlogPostsState extends State<UserBlogPosts>
       'assets/images (8).jpeg',
     ];
     // use this method just within the future for lazy loading
-    if (mounted)
+    if (mounted) {
       setState(() {
         posts = [...posts, ..._posts];
         isLoading = false;
         // errorLoading = true;
       });
+    }
   }
 
   onRetry() async {
@@ -80,12 +83,12 @@ class _UserBlogPostsState extends State<UserBlogPosts>
         // color: Theme.of(context).brightness == Brightness.dark
         //     ? Colors.grey.withOpacity(0.05)
         //     : Colors.grey[50],
-        padding: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-        constraints: BoxConstraints(minHeight: 100),
+        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+        constraints: const BoxConstraints(minHeight: 100),
         child: GridView.builder(
             itemCount: posts.length,
             //padding: EdgeInsets.only(bottom: bottomPadding),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 0.75,
                 crossAxisCount: 3,
                 crossAxisSpacing: 2,

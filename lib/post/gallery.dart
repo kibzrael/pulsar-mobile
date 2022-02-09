@@ -244,8 +244,8 @@ class _GalleryState extends State<Gallery> {
             return Card(
               child: ListTile(
                 leading: FileManager.isFile(entities[index])
-                    ? Icon(Icons.feed_outlined)
-                    : Icon(Icons.folder),
+                    ? const Icon(Icons.feed_outlined)
+                    : const Icon(Icons.folder),
                 title: Text(FileManager.basename(entities[index])),
                 onTap: () {
                   if (FileManager.isDirectory(entities[index])) {

@@ -15,6 +15,8 @@ import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -22,8 +24,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   Map<String, Map<String, Map<String, dynamic>>> settings = {
     'Account': {
-      'Manage Account': {'icon': MyIcons.account, 'page': ManageAccount()},
-      'Billing': {'icon': MyIcons.billing, 'page': Billing()},
+      'Manage Account': {'icon': MyIcons.account, 'page': const ManageAccount()},
+      'Billing': {'icon': MyIcons.billing, 'page': const Billing()},
     },
 
     // 'Ads': {
@@ -32,13 +34,13 @@ class _SettingsPageState extends State<SettingsPage> {
     // },
 
     'Display & Media': {
-      'Data Saver': {'icon': MyIcons.dataSaver, 'page': DataSaver()},
-      'Theme': {'icon': MyIcons.theme, 'page': SelectTheme()},
-      'Language': {'icon': MyIcons.language, 'page': Language()},
+      'Data Saver': {'icon': MyIcons.dataSaver, 'page': const DataSaver()},
+      'Theme': {'icon': MyIcons.theme, 'page': const SelectTheme()},
+      'Language': {'icon': MyIcons.language, 'page': const Language()},
     },
     'Support': {
-      'Privacy': {'icon': MyIcons.privacy, 'page': Privacy()},
-      'Report': {'icon': MyIcons.report, 'page': ReportScreen()},
+      'Privacy': {'icon': MyIcons.privacy, 'page': const Privacy()},
+      'Report': {'icon': MyIcons.report, 'page': const ReportScreen()},
     },
     'About': {
       'Terms of use': {'icon': MyIcons.terms, 'page': null},
@@ -49,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: const Text('Settings'),
         ),
         body: ListView(children: <Widget>[
           for (String key in settings.keys.toList())
@@ -66,14 +68,14 @@ class _SettingsPageState extends State<SettingsPage> {
                             Navigator.of(context).push(myPageRoute(
                                 builder: (context) =>
                                     settings[key]![subKey]!['page'] ??
-                                    Blank()));
+                                    const Blank()));
                           },
                           title: subKey,
                           leading: Icon(
                             settings[key]![subKey]!['icon'],
                           ),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Divider(
                             thickness: 1.2,
@@ -84,20 +86,20 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
-          Cache(),
+          const Cache(),
           Container(
             color: Theme.of(context).colorScheme.surface,
             child: Column(
               children: [
                 Column(
                   children: [
-                    LogOut(),
+                    const LogOut(),
                     Container(
                         width: double.infinity,
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        padding: EdgeInsets.only(bottom: 15),
+                        margin: const EdgeInsets.symmetric(vertical: 15),
+                        padding: const EdgeInsets.only(bottom: 15),
                         alignment: Alignment.center,
-                        child: Text('V1.0.0'))
+                        child: const Text('V1.0.0'))
                   ],
                 ),
               ],

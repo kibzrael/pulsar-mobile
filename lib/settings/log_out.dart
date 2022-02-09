@@ -7,6 +7,8 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class LogOut extends StatefulWidget {
+  const LogOut({Key? key}) : super(key: key);
+
   @override
   _LogOutState createState() => _LogOutState();
 }
@@ -17,7 +19,7 @@ class _LogOutState extends State<LogOut> {
   Widget build(BuildContext context) {
     loginProvider = Provider.of<LoginProvider>(context);
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15),
       child: MyListTile(
         title: 'Log out',
         trailingArrow: false,
@@ -25,7 +27,7 @@ class _LogOutState extends State<LogOut> {
         onPressed: () async {
           var response = await openDialog(
             context,
-            (context) => MyDialog(
+            (context) => const MyDialog(
               title: 'Log out?',
               body: "Confirm that you want to log out",
               actions: ['Cancel', 'Log out'],

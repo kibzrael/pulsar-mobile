@@ -14,7 +14,7 @@ import 'package:pulsar/widgets/refresh_indicator.dart';
 
 class TagPage extends StatefulWidget {
   final String tag;
-  TagPage(this.tag);
+  const TagPage(this.tag, {Key? key}) : super(key: key);
 
   @override
   _TagPageState createState() => _TagPageState();
@@ -61,7 +61,7 @@ class _TagPageState extends State<TagPage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return true;
   }
 
@@ -84,76 +84,74 @@ class _TagPageState extends State<TagPage>
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      Container(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 6),
-                              child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .push(MaterialPageRoute(
-                                            builder: (context) => PhotoView(
-                                                rael.profilePic!,
-                                                tag: 'tagPic')));
-                                  },
-                                  child: Hero(
-                                      tag: 'tagPic',
-                                      child: ProfilePic(rael.profilePic,
-                                          radius: 60))
-
-                                  // MyAvatar(user.tagPic, 45.0)
-                                  ),
-                            ),
-                            Text(
-                              '#$tag',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1!
-                                  .copyWith(fontSize: 21),
-                            ),
-                            SizedBox(height: 1.5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  MyIcons.play,
-                                  size: 21,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .color,
-                                ),
-                                Text(
-                                  '2.7M posts',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .copyWith(fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 12),
-                            FollowLayout(
-                                child: Text(
-                                  'Post',
-                                ),
-                                isFollowed: isFollowed,
-                                onChildPressed: () {
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 6),
+                            child: InkWell(
+                                onTap: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              PostProcess(tag: tag)));
+                                          builder: (context) => PhotoView(
+                                              rael.profilePic!,
+                                              tag: 'tagPic')));
                                 },
-                                onFollow: () {
-                                  setState(() {
-                                    isFollowed = !isFollowed;
-                                  });
-                                })
-                          ],
-                        ),
+                                child: Hero(
+                                    tag: 'tagPic',
+                                    child: ProfilePic(rael.profilePic,
+                                        radius: 60))
+
+                                // MyAvatar(user.tagPic, 45.0)
+                                ),
+                          ),
+                          Text(
+                            '#$tag',
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1!
+                                .copyWith(fontSize: 21),
+                          ),
+                          const SizedBox(height: 1.5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                MyIcons.play,
+                                size: 21,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .color,
+                              ),
+                              Text(
+                                '2.7M posts',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2!
+                                    .copyWith(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          FollowLayout(
+                              child: const Text(
+                                'Post',
+                              ),
+                              isFollowed: isFollowed,
+                              onChildPressed: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            PostProcess(tag: tag)));
+                              },
+                              onFollow: () {
+                                setState(() {
+                                  isFollowed = !isFollowed;
+                                });
+                              })
+                        ],
                       ),
                     ],
                   ),
@@ -171,10 +169,10 @@ class _TagPageState extends State<TagPage>
               children: <Widget>[
                 TabBar(
                   controller: tabController,
-                  indicator: BoxDecoration(),
+                  indicator: const BoxDecoration(),
                   labelPadding: EdgeInsets.zero,
                   unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-                  tabs: <Widget>[
+                  tabs: const <Widget>[
                     CustomTab(
                       'Recent',
                     ),
@@ -187,7 +185,7 @@ class _TagPageState extends State<TagPage>
                 Expanded(
                   child: Container(
                     color: Theme.of(context).colorScheme.surface,
-                    constraints: BoxConstraints(minHeight: 100),
+                    constraints: const BoxConstraints(minHeight: 100),
                     child: TabBarView(
                       controller: tabController,
                       children: <Widget>[

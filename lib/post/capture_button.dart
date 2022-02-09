@@ -8,11 +8,11 @@ class CaptureButton extends StatefulWidget {
 
   final double position;
   final double max;
-  CaptureButton(
-      {required this.isRecording,
+  const CaptureButton(
+      {Key? key, required this.isRecording,
       required this.onPressed,
       required this.position,
-      required this.max});
+      required this.max}) : super(key: key);
 
   @override
   _CaptureButtonState createState() => _CaptureButtonState();
@@ -66,7 +66,7 @@ class _CaptureButtonState extends State<CaptureButton> {
           ShaderMask(
             shaderCallback: (rect) {
               return SweepGradient(
-                  transform: GradientRotation(4.75),
+                  transform: const GradientRotation(4.75),
                   stops: widget.isRecording
                       ? [
                           0.0, (widget.position / widget.max) * 0.5,
@@ -85,8 +85,8 @@ class _CaptureButtonState extends State<CaptureButton> {
                   ]).createShader(rect);
             },
             child: Container(
-              margin: EdgeInsets.all(12),
-              constraints: BoxConstraints(maxHeight: 100, maxWidth: 100),
+              margin: const EdgeInsets.all(12),
+              constraints: const BoxConstraints(maxHeight: 100, maxWidth: 100),
               decoration: BoxDecoration(
                   color: Colors.white10,
                   shape: BoxShape.circle,
@@ -94,8 +94,8 @@ class _CaptureButtonState extends State<CaptureButton> {
             ),
           ),
           AnimatedContainer(
-              padding: EdgeInsets.all(4),
-              duration: Duration(seconds: 1),
+              padding: const EdgeInsets.all(4),
+              duration: const Duration(seconds: 1),
               width: 72,
               height: 72,
               alignment: Alignment.center,
@@ -113,7 +113,7 @@ class _CaptureButtonState extends State<CaptureButton> {
                 child: widget.isRecording
                     ? Text(
                         '${((widget.max - widget.position) / 1000).ceil()}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 21, fontWeight: FontWeight.w800),
                       )
                     : Icon(

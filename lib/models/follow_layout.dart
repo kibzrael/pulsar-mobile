@@ -11,7 +11,7 @@ class FollowLayout extends StatelessWidget {
 
   final bool isPin;
 
-  FollowLayout({
+  const FollowLayout({Key? key, 
     required this.child,
     required this.isFollowed,
     this.isPin = false,
@@ -19,13 +19,13 @@ class FollowLayout extends StatelessWidget {
     required this.onFollow,
     this.middle,
     this.onMiddlePressed,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return IconTheme(
       data: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         child: LayoutBuilder(builder: (context, constraints) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +40,7 @@ class FollowLayout extends StatelessWidget {
                 height: 35,
                 width: constraints.maxWidth / 2 - (middle == null ? 0 : 45),
               ),
-              SizedBox(width: 15),
+              const SizedBox(width: 15),
               if (middle != null)
                 InkWell(
                   onTap: onMiddlePressed,
@@ -56,11 +56,11 @@ class FollowLayout extends StatelessWidget {
                       height: 35,
                       alignment: Alignment.center,
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                     ),
                   ),
                 ),
-              if (middle != null) SizedBox(width: 15),
+              if (middle != null) const SizedBox(width: 15),
               InkWell(
                 onTap: onChildPressed,
                 child: Card(
@@ -74,7 +74,7 @@ class FollowLayout extends StatelessWidget {
                     child: child,
                     height: 35,
                     alignment: Alignment.center,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   ),
                 ),
               ),

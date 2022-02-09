@@ -6,10 +6,11 @@ class Video {
 
   Video.fromJson(Map info)
       : assert(info['source'] != null),
+        // ignore: unnecessary_this
         this.source = info['source'],
-        this.thumbnail = info['thumbnail'];
+        thumbnail = info['thumbnail'];
 
   toJson() {
-    return {'source': this.source, 'thumbnail': this.thumbnail};
+    return {'source': source, 'thumbnail': thumbnail};
   }
 }

@@ -13,14 +13,14 @@ class FollowButton extends StatelessWidget {
 
   final Color? border;
 
-  FollowButton(
-      {this.height = 45,
+  const FollowButton(
+      {Key? key, this.height = 45,
       this.isFollowing = false,
       this.onPressed,
       this.text = const {true: 'Following', false: 'Follow'},
       this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       this.border,
-      this.width});
+      this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,17 +31,17 @@ class FollowButton extends StatelessWidget {
         height: height,
         alignment: Alignment.center,
         padding: padding,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: isFollowing
                 ? Colors.transparent
-                : Theme.of(context).colorScheme.primaryVariant,
+                : Theme.of(context).colorScheme.primaryContainer,
             gradient: isFollowing
                 ? null
                 : LinearGradient(colors: [
                     Theme.of(context).colorScheme.primary,
-                    Theme.of(context).colorScheme.primaryVariant
+                    Theme.of(context).colorScheme.primaryContainer
                   ]),
             border: isFollowing
                 ? Border.all(

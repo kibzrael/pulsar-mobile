@@ -15,7 +15,7 @@ import 'package:pulsar/widgets/text_input.dart';
 
 class CommentPage extends StatefulWidget {
   final Post post;
-  CommentPage(this.post);
+  const CommentPage(this.post, {Key? key}) : super(key: key);
   @override
   _CommentPageState createState() => _CommentPageState();
 }
@@ -38,7 +38,7 @@ class _CommentPageState extends State<CommentPage> {
 
   Future<List<Map<String, dynamic>>> fetchComments(int index) async {
     List<Map<String, dynamic>> comments = [];
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     for (int i = 0; i < 12; i++) {
       comments.add({
         'id': i,
@@ -86,11 +86,11 @@ class _CommentPageState extends State<CommentPage> {
                       return data.isEmpty
                           ? snapshot.errorLoading
                               ? snapshot.noData
-                                  ? Center(
+                                  ? const Center(
                                       child: Text(
                                           'There are no comments\nfor this post yet.'))
-                                  : Center(child: Text('No Network'))
-                              : Center(child: MyProgressIndicator())
+                                  : const Center(child: Text('No Network'))
+                              : const Center(child: MyProgressIndicator())
                           : RefreshIndicator(
                               onRefresh: snapshot.refreshCallback,
                               child: ListView.builder(
@@ -113,7 +113,7 @@ class _CommentPageState extends State<CommentPage> {
               ),
               if (replyTo != null)
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
                     border: Border.symmetric(
                       horizontal: BorderSide(
@@ -125,7 +125,7 @@ class _CommentPageState extends State<CommentPage> {
                   child: Row(
                     children: [
                       ProfilePic(replyTo?.user.profilePic, radius: 18),
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +135,7 @@ class _CommentPageState extends State<CommentPage> {
                               text: TextSpan(text: 'replying to', children: [
                                 TextSpan(
                                     text: ' @${replyTo?.user.username}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontSize: 16.5))
                               ]),
@@ -152,7 +152,7 @@ class _CommentPageState extends State<CommentPage> {
                       InkWell(
                         onTap: () => setState(() => replyTo = null),
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Icon(MyIcons.close),
                         ),
                       )
@@ -160,7 +160,7 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                 ),
               Container(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Row(
                   children: [
                     Flexible(
@@ -170,9 +170,9 @@ class _CommentPageState extends State<CommentPage> {
                         height: null,
                         controller: commentController,
                         padding: EdgeInsets.fromLTRB(
-                            4, 2, comment.length < 1 ? 4 : 8, 2),
+                            4, 2, comment.isEmpty ? 4 : 8, 2),
                         prefix: Padding(
-                            padding: EdgeInsets.fromLTRB(2, 2, 8, 2),
+                            padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
                             child: ProfilePic(tahlia.profilePic, radius: 18)),
                         onChanged: (text) {
                           setState(() {
@@ -180,17 +180,17 @@ class _CommentPageState extends State<CommentPage> {
                           });
                         },
                         onSubmitted: (text) {
-                          if (comment.length > 0 && comment.trim() != '') {
+                          if (comment.isNotEmpty && comment.trim() != '') {
                             setState(() {});
                             // await for message to be added
                           }
                         },
                       ),
                     ),
-                    SizedBox(width: 5),
+                    const SizedBox(width: 5),
                     InkWell(
                       onTap: () {
-                        if (comment.length > 0 && comment.trim() != '') {
+                        if (comment.isNotEmpty && comment.trim() != '') {
                           setState(() {
                             userComments.add({
                               'id': 21,
@@ -209,7 +209,7 @@ class _CommentPageState extends State<CommentPage> {
                         }
                       },
                       child: Card(
-                        margin: EdgeInsets.all(2),
+                        margin: const EdgeInsets.all(2),
                         elevation: 4,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(21)),
@@ -223,7 +223,7 @@ class _CommentPageState extends State<CommentPage> {
                               borderRadius: BorderRadius.circular(21),
                               gradient: primaryGradient()),
                           padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                              const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                         ),
                       ),
                     ),

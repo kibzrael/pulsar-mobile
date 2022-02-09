@@ -42,11 +42,11 @@ class TagText extends SpecialText {
         deleteAll: false,
         child: GestureDetector(
           child: Padding(
-            padding: EdgeInsets.only(right: 5.0, top: 2.0, bottom: 2.0),
+            padding: const EdgeInsets.only(right: 5.0, top: 2.0, bottom: 2.0),
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                 child: Container(
-                  padding: EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5.0),
                   color: Colors.orange,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -56,11 +56,11 @@ class TagText extends SpecialText {
                         text.trim(),
                         //style: textStyle?.copyWith(color: Colors.orange),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5.0,
                       ),
                       InkWell(
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           size: 15.0,
                         ),
@@ -90,12 +90,12 @@ class TagText extends SpecialText {
                       ),
                       Material(
                           child: Padding(
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: TextField(
                           controller: textEditingController,
                           decoration: InputDecoration(
                               suffixIcon: TextButton(
-                            child: Text("OK"),
+                            child: const Text("OK"),
                             onPressed: () {
                               controller.value = controller.value.copyWith(
                                   text: controller.text.replaceRange(

@@ -14,7 +14,7 @@ class Options extends StatelessWidget {
   final bool share;
   final String shareText;
 
-  Options(this.options, {required this.share, this.shareText = ''});
+  const Options(this.options, {Key? key, required this.share, this.shareText = ''}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class Options extends StatelessWidget {
         color: Theme.of(context).colorScheme.primary,
         onPressed: (context) {
           Navigator.of(context)
-              .push(myPageRoute(builder: (context) => ComposeMessage()));
+              .push(myPageRoute(builder: (context) => const ComposeMessage()));
         });
 
     Option link = Option(
@@ -50,7 +50,7 @@ class Options extends StatelessWidget {
           ? Section(
               title: 'Share${shareText != '' ? ' ' : ''}$shareText with:',
               child: Padding(
-                padding: EdgeInsets.fromLTRB(
+                padding: const EdgeInsets.fromLTRB(
                     15, 2, 15, 12), //  symmetric(horizontal: 15, vertical: 12),
                 child: Row(
                   children: [
@@ -66,11 +66,11 @@ class Options extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         width: double.infinity,
         height: 120,
-        padding: EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         child: ListView(
           scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          physics: BouncingScrollPhysics(),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          physics: const BouncingScrollPhysics(),
           children: [
             for (Option option in options) OptionLayout(option, share: false)
           ],
@@ -84,7 +84,7 @@ class OptionLayout extends StatelessWidget {
   final Option option;
   final bool share;
 
-  OptionLayout(this.option, {this.share = true});
+  const OptionLayout(this.option, {Key? key, this.share = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class OptionLayout extends StatelessWidget {
             Card(
               margin: EdgeInsets.symmetric(horizontal: margin, vertical: 8),
               elevation: 4,
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
               child: Container(
                 height: width - (margin * 2),
                 alignment: Alignment.center,

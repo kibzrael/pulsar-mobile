@@ -3,6 +3,8 @@ import 'package:pulsar/secondary_pages.dart/tag_page.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class FollowedTags extends StatefulWidget {
+  const FollowedTags({Key? key}) : super(key: key);
+
   @override
   _FollowedTagsState createState() => _FollowedTagsState();
 }
@@ -14,17 +16,17 @@ class _FollowedTagsState extends State<FollowedTags> {
     return Container(
         height: 35,
         width: double.infinity,
-        margin: EdgeInsets.only(top: 5),
+        margin: const EdgeInsets.only(top: 5),
         alignment: Alignment.bottomCenter,
         child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             shrinkWrap: true,
             itemCount: tags.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 child: InkWell(
                     borderRadius: BorderRadius.circular(30),
                     onTap: () {
@@ -32,8 +34,8 @@ class _FollowedTagsState extends State<FollowedTags> {
                           builder: (context) => TagPage(tags[index])));
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      margin: EdgeInsets.symmetric(vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      margin: const EdgeInsets.symmetric(vertical: 2),
                       decoration: BoxDecoration(
                           border: Border.all(
                               width: 1.2,

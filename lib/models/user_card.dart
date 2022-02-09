@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/route.dart';
 class UserCard extends StatefulWidget {
   final User user;
 
-  UserCard(this.user);
+  const UserCard(this.user, {Key? key}) : super(key: key);
 
   @override
   _UserCardState createState() => _UserCardState();
@@ -41,7 +41,7 @@ class _UserCardState extends State<UserCard> {
       trailingArrow: false,
       trailing: FollowButton(
         height: 30,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         isFollowing: isFollowing,
         onPressed: () {
           setState(() {

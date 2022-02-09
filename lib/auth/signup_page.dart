@@ -12,7 +12,7 @@ import 'package:pulsar/widgets/route.dart';
 
 class SignupPage extends StatefulWidget {
   final Function(int page) onChange;
-  SignupPage({required this.onChange});
+   const SignupPage({Key? key, required this.onChange}) : super(key: key);
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -69,7 +69,7 @@ class _SignupPageState extends State<SignupPage>
       setState(() {
         isSubmitted = true;
       });
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       provider.fetchInterests(context);
 
       provider.user.id = response.body!['user']['id'];
@@ -79,7 +79,7 @@ class _SignupPageState extends State<SignupPage>
       await loginProvider.signup(context,
           token: response.body!['jwtToken'], user: response.body!['user']);
       Navigator.of(context, rootNavigator: true)
-          .pushReplacement(myPageRoute(builder: (context) => SignInfo()));
+          .pushReplacement(myPageRoute(builder: (context) => const SignInfo()));
       return;
     }
 
@@ -88,7 +88,7 @@ class _SignupPageState extends State<SignupPage>
       (context) => MyDialog(
         title: statusCodes[response.statusCode]!,
         body: response.body!['message'],
-        actions: ['Ok'],
+        actions: const ['Ok'],
       ),
     );
   }
@@ -129,17 +129,17 @@ class _SignupPageState extends State<SignupPage>
         appBar: AppBar(),
         body: SingleChildScrollView(
           child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               height: size,
               child: Column(
                 children: [
                   Container(
                     alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'Register',
                           style: TextStyle(
                             fontSize: 48,
@@ -149,16 +149,16 @@ class _SignupPageState extends State<SignupPage>
                         InkWell(
                           onTap: () {},
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: Icon(MyIcons.menu, size: 30),
                           ),
                         )
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
                         hintText: 'Email',
@@ -172,7 +172,7 @@ class _SignupPageState extends State<SignupPage>
                           usernameNode.requestFocus();
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       LogTextInput(
                         hintText: 'Username',
                         controller: usernameController,
@@ -184,7 +184,7 @@ class _SignupPageState extends State<SignupPage>
                           setState(() {});
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       LogTextInput(
                         hintText: 'Password',
                         isPassword: true,
@@ -194,7 +194,7 @@ class _SignupPageState extends State<SignupPage>
                         keyboardType: TextInputType.visiblePassword,
                         onFieldSubmitted: (_) {
                           if (!isSubmitting &&
-                              !inputs.any((element) => element.length < 1)) {
+                              !inputs.any((element) => element.isEmpty)) {
                             signup();
                           }
                         },
@@ -202,11 +202,11 @@ class _SignupPageState extends State<SignupPage>
                           setState(() {});
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                     ]),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 15),
+                    margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
                       title: 'Register',
@@ -214,8 +214,8 @@ class _SignupPageState extends State<SignupPage>
                       inputs: inputs,
                     ),
                   ),
-                  LinkedAccountLogin(),
-                  Spacer(),
+                  const LinkedAccountLogin(),
+                  const Spacer(),
                   ToggleAuthScreen(
                     isLogin: false,
                     onChange: widget.onChange,
@@ -232,8 +232,8 @@ class SelectCountry extends StatefulWidget {
   final Function() onPressed;
   final String code;
   final bool show;
-  SelectCountry(
-      {required this.code, required this.show, required this.onPressed});
+   const SelectCountry(
+      {Key? key, required this.code, required this.show, required this.onPressed}) : super(key: key);
 
   @override
   _SelectCountryState createState() => _SelectCountryState();
@@ -247,7 +247,7 @@ class _SelectCountryState extends State<SelectCountry>
   void initState() {
     super.initState();
     animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 300), value: 0);
+        vsync: this, duration: const Duration(milliseconds: 300), value: 0);
 
     animationController.animateTo(1);
   }
@@ -274,19 +274,19 @@ class _SelectCountryState extends State<SelectCountry>
                 child: Card(
                   elevation: 3,
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  margin: EdgeInsets.fromLTRB(3, 2, 8, 2),
+                  margin: const EdgeInsets.fromLTRB(3, 2, 8, 2),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)),
                   child: Container(
                     height: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           widget.code,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16.5, fontWeight: FontWeight.w500),
                         ),
                         Icon(MyIcons.expand)
@@ -298,9 +298,9 @@ class _SelectCountryState extends State<SelectCountry>
             ),
           ),
         ),
-        secondChild: Container(width: 1, height: 1),
+        secondChild: const SizedBox(width: 1, height: 1),
         crossFadeState:
             widget.show ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-        duration: Duration(milliseconds: 300));
+        duration: const Duration(milliseconds: 300));
   }
 }

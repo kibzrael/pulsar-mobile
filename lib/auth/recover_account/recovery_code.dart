@@ -6,6 +6,8 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
 class RecoveryCode extends StatefulWidget {
+  const RecoveryCode({Key? key}) : super(key: key);
+
   @override
   _RecoveryCodeState createState() => _RecoveryCodeState();
 }
@@ -30,23 +32,23 @@ class _RecoveryCodeState extends State<RecoveryCode> {
       onBack: recoverAccountProvider.previousPage,
       onDone: recoverAccountProvider.nextPage,
       leading: Container(
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-        margin: EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+        margin: const EdgeInsets.only(bottom: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ProfilePic(user.profilePic, radius: 36),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('@${user.username}',
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
                       .copyWith(fontSize: 21)),
-              SizedBox(
+              const SizedBox(
                 height: 2.5,
               ),
-              Text('${user.category}',
+              Text(user.category,
                   style: Theme.of(context)
                       .textTheme
                       .subtitle2!

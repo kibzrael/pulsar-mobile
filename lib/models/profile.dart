@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/route.dart';
 class Profile extends StatefulWidget {
   final User user;
   final ScrollController scrollController;
-  Profile(this.user, {required this.scrollController});
+  const Profile(this.user, {Key? key, required this.scrollController}) : super(key: key);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -29,24 +29,25 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(children: [
         Container(
-          margin: EdgeInsets.only(top: 5),
+          margin: const EdgeInsets.only(top: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(bottom: 6),
+                padding: const EdgeInsets.only(bottom: 6),
                 child: InkWell(
                     onTap: () {
-                      if (user.profilePic != null)
+                      if (user.profilePic != null) {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
                                 builder: (context) => PhotoView(
                                     user.profilePic!,
                                     tag: '${user.id}ProfilePic')));
+                      }
                     },
                     child: HeroMode(
                       enabled: true,
@@ -59,7 +60,7 @@ class _ProfileState extends State<Profile> {
                     ),
               ),
               Text(
-                '${user.username}',
+                user.username,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
@@ -67,7 +68,7 @@ class _ProfileState extends State<Profile> {
                     .copyWith(fontSize: 21),
               ),
               Text(
-                '${user.category}',
+                user.category,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
@@ -88,12 +89,12 @@ class _ProfileState extends State<Profile> {
             postOnPressed: () {
               widget.scrollController.animateTo(
                   widget.scrollController.position.maxScrollExtent,
-                  duration: Duration(milliseconds: 700),
+                  duration: const Duration(milliseconds: 700),
                   curve: Curves.ease);
             },
             posts: 7),
         //if (user.bio != null)
-        Padding(
+        const Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.0),
           child: Text(
             'It\'s just love\n@fletcher',
@@ -102,7 +103,7 @@ class _ProfileState extends State<Profile> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         // Container(
         //   margin: EdgeInsets.symmetric(vertical: 5),
         //   alignment: Alignment.center,
@@ -145,20 +146,20 @@ class LinkedAccountLabel extends StatelessWidget {
   final IconData icon;
   final String user;
   final List<Color> colors;
-  LinkedAccountLabel({
+   const LinkedAccountLabel({Key? key, 
     required this.colors,
     required this.icon,
     required this.user,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: CircleBorder(),
+      shape: const CircleBorder(),
       elevation: 3,
       color: Theme.of(context).colorScheme.surface,
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: ShaderMask(
           shaderCallback: (rect) {
             return LinearGradient(

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class MyDivider extends StatelessWidget {
   final Color? color;
 
-  MyDivider({this.color});
+  const MyDivider({Key? key, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 18),
+      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 18),
       child: Row(
         children: [
           Expanded(
@@ -17,7 +17,7 @@ class MyDivider extends StatelessWidget {
               height: 1,
             ),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 12),
             child: Text(
               'or',
