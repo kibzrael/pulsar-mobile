@@ -54,12 +54,13 @@ class _HighlightUsersState extends State<HighlightUsers> {
             if (index == 0) {
               return InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                      myPageRoute(builder: (context) => const ComposeMessage()));
+                  Navigator.of(context).push(myPageRoute(
+                      builder: (context) => const ComposeMessage()));
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
-                  constraints: const BoxConstraints(minWidth: 90, maxWidth: 120),
+                  constraints:
+                      const BoxConstraints(minWidth: 90, maxWidth: 120),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -104,7 +105,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                     Stack(
                       alignment: Alignment.bottomRight,
                       children: <Widget>[
-                        ProfilePic(users[index].profilePic, radius: 30),
+                        ProfilePic(users[index].profilePic?.photo, radius: 30),
                         // if (online)
                         //   Container(
                         //     padding: EdgeInsets.all(2.5),

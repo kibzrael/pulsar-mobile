@@ -87,7 +87,8 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => ThemeProvider(systemBrightness),
         ),
         ChangeNotifierProvider<ConnectivityProvider>(
-          create: (_) => ConnectivityProvider(),
+          create: (_) => ConnectivityProvider(
+              dataSaver: true), // Get datasaver from settings
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),
@@ -122,8 +123,9 @@ class _PulsarState extends State<Pulsar> {
               themeMode: themeProvider.themeMode,
               scrollBehavior: MyScrollBehavior(),
               routes: {
-                '/': (context) =>
-                    loginProvider.loggedIn! ? const BasicRoot() : const IntroPage(),
+                '/': (context) => loginProvider.loggedIn!
+                    ? const BasicRoot()
+                    : const IntroPage(),
               },
             );
           });

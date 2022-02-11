@@ -1,8 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:pulsar/classes/media.dart';
+
+part 'interest.g.dart';
+
+@JsonSerializable()
 class Interest {
   String name;
   String? pCategory;
   String category;
-  String? coverPhoto;
+  Photo? coverPhoto;
 
   Interest? parent;
 
@@ -13,4 +19,8 @@ class Interest {
     this.coverPhoto,
     this.parent,
   });
+
+  factory Interest.fromJson(Map<String, dynamic> json) =>
+      _$InterestFromJson(json);
+  Map<String, dynamic> toJson() => _$InterestToJson(this);
 }

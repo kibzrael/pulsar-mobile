@@ -26,9 +26,7 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
   Future<List<Map<String, dynamic>>> fetchData(int index) async {
     String storedCategory = category;
     await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> postResults = [
-      ...posts.map((e) => e.toJson(context))
-    ];
+    List<Map<String, dynamic>> postResults = [...posts.map((e) => e.toJson())];
     postResults.shuffle();
     dataCategory = storedCategory;
     return postResults;
@@ -86,8 +84,9 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                           onTap: () {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
-                                                    settings: const RouteSettings(
-                                                        name: 'postView'),
+                                                    settings:
+                                                        const RouteSettings(
+                                                            name: 'postView'),
                                                     builder: (context) =>
                                                         PostScreen(
                                                           initialPosts:
@@ -112,8 +111,8 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                                       image: DecorationImage(
                                                           image:
                                                               CachedNetworkImageProvider(
-                                                                  post.video
-                                                                      .thumbnail),
+                                                                  post.thumbnail
+                                                                      .photo),
                                                           fit: BoxFit.cover),
                                                     ),
                                                   ),

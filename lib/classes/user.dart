@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/urls/user.dart';
 
+part 'user.g.dart';
+
+@JsonSerializable()
 class User {
   int id;
   String username;
   String category;
   String? fullname;
-  String? profilePic;
+  Photo? profilePic;
   String? bio;
   String? portfolio;
-  List<Interest> interests;
+  List<Interest>? interests;
   String? email;
   String? phone;
   DateTime? dateOfBirth;
@@ -36,7 +41,7 @@ class User {
       this.dateOfBirth,
       this.email,
       this.fullname,
-      this.interests = const [],
+      this.interests,
       this.isBlocked,
       this.isFollowing,
       this.phone,
@@ -50,41 +55,8 @@ class User {
   //
   // map should contain id and username fields
 
-  User.fromJson(Map<String, dynamic> info)
-      : assert(info['id'] != null),
-        assert(info['username'] != null),
-        assert(info['username'] is String),
-        id = info['id'] is int ? info['id'] : int.tryParse(info['id']),
-        username = info['username'],
-        bio = info['bio'],
-        category = info['category'] ?? "Personal Account",
-        dateOfBirth = DateTime.tryParse(info['dateOfBirth'] ?? ''),
-        email = info['email'],
-        fullname = info['fullname'],
-        isBlocked = info['isBlocked'],
-        isFollowing = info['isFollowing'],
-        interests = info['interests'] ?? [],
-        phone = info['phone'],
-        followers = info['followers'],
-        portfolio = info['portfolio'],
-        posts = info['posts'],
-        profilePic = info['profilePic'],
-        isSuperuser = info['superuser'] ?? false;
-
-  toJson(BuildContext context) {
-    return {
-      'id': id,
-      'username': username,
-      'bio': bio,
-      'category': category,
-      'email': email,
-      'fullname': fullname,
-      'phone': phone,
-      'profilePic': profilePic,
-      'portfolio': portfolio,
-      'token': token
-    };
-  }
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   follow(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 

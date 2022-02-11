@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -119,34 +120,38 @@ class SignInfoProvider extends ChangeNotifier {
 
     String profileUrl = getUrl(UserUrls.profile(user.id!));
 
-    // var request = http.MultipartRequest('POST', Uri.parse(profileUrl));
-    // //   ..fields['fullname'] = user.username!;
-    // // if (user.birthday != null)
-    // //   request.fields['DOB'] =
-    // //       '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}';
-    // if (profilePic != null)
-    //   request.files.add(await http.MultipartFile.fromPath(
-    //       'profilePic', profilePic.path,
-    //       contentType: parser.MediaType('images', 'jpeg')));
+    Dio dio = Dio();
 
-    // print(request.fields);
-    // print(request.files);
-    // http.StreamedResponse response = await request.send();
-    await Future.delayed(const Duration(seconds: 2));
+    FormData form = FormData.fromMap({
+      'category': user.category,
+      'fullname': user.username,
+      'DOB': user.birthday,
+      'type': '',
+      'interests': [],
+      'profilePic': profilePic == null
+          ? null
+          : {
+              'image': await MultipartFile.fromFile(profilePic.path,
+                  filename: 'profile.jpg',
+                  contentType: parser.MediaType('image', 'jpeg')),
+              "type": "image/jpg"
+            }
+    });
 
-    // http.Response response = await http.post(Uri.parse(profileUrl), headers: {
-    //   'Authorization': token!
-    // }, body: {
-    //   'fullname': user.username,
-    //   'DOB': user.birthday == null
-    //       ? null
-    //       : '${user.birthday!.year}-${user.birthday!.month}-${user.birthday!.day}',
-    //   'profilePic': profilePic == null
-    //       ? null
-    //       : http.MultipartFile.fromPath('profilePic', profilePic.path)
-    // });
+    Response response = await dio.post(
+      profileUrl,
+      options: Options(headers: {
+        'Authorization': token!,
+        "Content-type": "multipart/form-data",
+      }),
+      data: form,
+      onSendProgress: (int sent, int total) {
+        debugPrint("sent${sent.toString()} total${total.toString()}");
+      },
+    );
 
-    // print(response.statusCode);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.data);
 
     return;
   }

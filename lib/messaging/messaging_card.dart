@@ -6,7 +6,8 @@ class MessagingCard extends StatefulWidget {
   /// to be removed
   final bool received;
   final Message message;
-  const MessagingCard({Key? key, required this.received, required this.message}) : super(key: key);
+  const MessagingCard({Key? key, required this.received, required this.message})
+      : super(key: key);
 
   @override
   _MessagingCardState createState() => _MessagingCardState();
@@ -38,7 +39,8 @@ class _MessagingCardState extends State<MessagingCard> {
             child: received
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: ProfilePic(message.user.profilePic, radius: 16.5),
+                    child: ProfilePic(message.user.profilePic?.photo,
+                        radius: 16.5),
                   )
                 : Container(),
           ),
@@ -100,7 +102,8 @@ class _MessagingCardState extends State<MessagingCard> {
                 SizedBox(
                   height: 16.5,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     child: Text(
                       '${message.time.hour}:${message.time.minute < 10 ? '0' : ''}${message.time.minute}',
                       style: Theme.of(context)

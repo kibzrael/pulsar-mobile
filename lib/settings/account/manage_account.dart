@@ -31,11 +31,12 @@ class _ManageAccountState extends State<ManageAccount> {
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProfilePic(user.profilePic, radius: 36),
+                    ProfilePic(user.profilePic?.photo, radius: 36),
                     const SizedBox(width: 15),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,22 +65,22 @@ class _ManageAccountState extends State<ManageAccount> {
                 title: 'Email',
                 trailingText: 'kibraphael7@gmail.com',
                 flexRatio: const [2, 3],
-                onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => const ChangeEmail())),
+                onPressed: () => Navigator.of(context).push(
+                    myPageRoute(builder: (context) => const ChangeEmail())),
               ),
               MyListTile(
                 title: 'Phone',
                 trailingText: '0723573568',
                 flexRatio: const [2, 3],
-                onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => const ChangePhone())),
+                onPressed: () => Navigator.of(context).push(
+                    myPageRoute(builder: (context) => const ChangePhone())),
               ),
               MyListTile(
                 title: 'Password',
                 trailingText: '********',
                 flexRatio: const [2, 3],
-                onPressed: () => Navigator.of(context)
-                    .push(myPageRoute(builder: (context) => const ChangePassword())),
+                onPressed: () => Navigator.of(context).push(
+                    myPageRoute(builder: (context) => const ChangePassword())),
               ),
               const SizedBox(
                 height: 30,

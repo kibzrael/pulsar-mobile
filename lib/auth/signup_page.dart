@@ -12,7 +12,7 @@ import 'package:pulsar/widgets/route.dart';
 
 class SignupPage extends StatefulWidget {
   final Function(int page) onChange;
-   const SignupPage({Key? key, required this.onChange}) : super(key: key);
+  const SignupPage({Key? key, required this.onChange}) : super(key: key);
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -55,6 +55,7 @@ class _SignupPageState extends State<SignupPage>
   // }
 
   void signup() async {
+    FocusScope.of(context).unfocus();
     String email = usernameController.text;
     String username = usernameController.text;
     String password = passwordController.text;
@@ -158,7 +159,8 @@ class _SignupPageState extends State<SignupPage>
                   ),
                   const SizedBox(height: 30),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
                         hintText: 'Email',
@@ -232,8 +234,12 @@ class SelectCountry extends StatefulWidget {
   final Function() onPressed;
   final String code;
   final bool show;
-   const SelectCountry(
-      {Key? key, required this.code, required this.show, required this.onPressed}) : super(key: key);
+  const SelectCountry(
+      {Key? key,
+      required this.code,
+      required this.show,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   _SelectCountryState createState() => _SelectCountryState();
@@ -279,7 +285,8 @@ class _SelectCountryState extends State<SelectCountry>
                       borderRadius: BorderRadius.circular(30)),
                   child: Container(
                     height: double.infinity,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     alignment: Alignment.center,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

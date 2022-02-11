@@ -60,7 +60,7 @@ class _LatestChallengeCardState extends State<LatestChallengeCard> {
         decoration: BoxDecoration(
             color: Theme.of(context).dividerColor,
             image: DecorationImage(
-                image: AssetImage(widget.challenge.coverPhoto!),
+                image: AssetImage(widget.challenge.coverPhoto.photo),
                 fit: BoxFit.cover),
             borderRadius: BorderRadius.circular(12)),
         child: Icon(

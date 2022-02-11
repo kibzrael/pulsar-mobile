@@ -11,7 +11,9 @@ class CommentCard extends StatefulWidget {
   final Function(Comment comment) onReply;
   final List<Comment> replies;
 
-  const CommentCard(this.comment, {Key? key, required this.onReply, this.replies = const []}) : super(key: key);
+  const CommentCard(this.comment,
+      {Key? key, required this.onReply, this.replies = const []})
+      : super(key: key);
 
   @override
   _CommentCardState createState() => _CommentCardState();
@@ -59,7 +61,7 @@ class _CommentCardState extends State<CommentCard> {
         children: [
           InkWell(
               onTap: openProfile,
-              child: ProfilePic(comment.user.profilePic, radius: 18)),
+              child: ProfilePic(comment.user.profilePic?.photo, radius: 18)),
           const SizedBox(width: 5),
           Expanded(
             child: Column(

@@ -37,8 +37,8 @@ class LoginProvider extends ChangeNotifier {
     if (body is Map) {
       response.body = body;
     }
-    print(response.statusCode);
-    print(response.body);
+    debugPrint(response.statusCode.toString());
+    debugPrint(response.body.toString());
     if (response.statusCode == 200) {
       await saveLogin(context,
           token: response.body!['jwtToken'], user: response.body!['user']);

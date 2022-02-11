@@ -9,7 +9,8 @@ import 'package:pulsar/widgets/route.dart';
 class Profile extends StatefulWidget {
   final User user;
   final ScrollController scrollController;
-  const Profile(this.user, {Key? key, required this.scrollController}) : super(key: key);
+  const Profile(this.user, {Key? key, required this.scrollController})
+      : super(key: key);
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -45,7 +46,7 @@ class _ProfileState extends State<Profile> {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
                                 builder: (context) => PhotoView(
-                                    user.profilePic!,
+                                    user.profilePic!.photo,
                                     tag: '${user.id}ProfilePic')));
                       }
                     },
@@ -53,7 +54,8 @@ class _ProfileState extends State<Profile> {
                       enabled: true,
                       child: Hero(
                           tag: '${user.id}ProfilePic',
-                          child: ProfilePic(user.profilePic, radius: 60)),
+                          child:
+                              ProfilePic(user.profilePic?.photo, radius: 60)),
                     )
 
                     // MyAvatar(user.profilePic, 45.0)
@@ -146,7 +148,8 @@ class LinkedAccountLabel extends StatelessWidget {
   final IconData icon;
   final String user;
   final List<Color> colors;
-   const LinkedAccountLabel({Key? key, 
+  const LinkedAccountLabel({
+    Key? key,
     required this.colors,
     required this.icon,
     required this.user,

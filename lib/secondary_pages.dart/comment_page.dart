@@ -113,7 +113,8 @@ class _CommentPageState extends State<CommentPage> {
               ),
               if (replyTo != null)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   decoration: BoxDecoration(
                     border: Border.symmetric(
                       horizontal: BorderSide(
@@ -124,7 +125,7 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                   child: Row(
                     children: [
-                      ProfilePic(replyTo?.user.profilePic, radius: 18),
+                      ProfilePic(replyTo?.user.profilePic?.photo, radius: 18),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -160,7 +161,8 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                 ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 child: Row(
                   children: [
                     Flexible(
@@ -173,7 +175,8 @@ class _CommentPageState extends State<CommentPage> {
                             4, 2, comment.isEmpty ? 4 : 8, 2),
                         prefix: Padding(
                             padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                            child: ProfilePic(tahlia.profilePic, radius: 18)),
+                            child: ProfilePic(tahlia.profilePic?.photo,
+                                radius: 18)),
                         onChanged: (text) {
                           setState(() {
                             comment = text;
@@ -222,8 +225,8 @@ class _CommentPageState extends State<CommentPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(21),
                               gradient: primaryGradient()),
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 5),
                         ),
                       ),
                     ),

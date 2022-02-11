@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/upload_post.dart';
 import 'package:pulsar/post/filters.dart';
@@ -71,7 +72,7 @@ class VideoThumbnail {
 
 class Audio {
   int id;
-  String coverPhoto;
+  Photo coverPhoto;
   String name;
   String artist;
 

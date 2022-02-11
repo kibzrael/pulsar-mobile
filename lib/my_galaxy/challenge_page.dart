@@ -117,12 +117,10 @@ class _ChallengePageState extends State<ChallengePage>
                                 color: Theme.of(context)
                                     .inputDecorationTheme
                                     .fillColor,
-                                image: challenge.coverPhoto != null
-                                    ? DecorationImage(
-                                        image: CachedNetworkImageProvider(
-                                            challenge.coverPhoto!),
-                                        fit: BoxFit.cover)
-                                    : null),
+                                image: DecorationImage(
+                                    image: CachedNetworkImageProvider(
+                                        challenge.coverPhoto.photo),
+                                    fit: BoxFit.cover)),
                           ),
                         )),
                         Positioned.fill(
@@ -178,11 +176,11 @@ class _ChallengePageState extends State<ChallengePage>
                     posts: 620000,
                   ),
                 ),
-                if (challenge.description != null)
+                if (challenge.description != '')
                   Padding(
                     padding: const EdgeInsets.fromLTRB(30, 0, 30, 5),
                     child: Text(
-                      challenge.description!,
+                      challenge.description,
                       textAlign: TextAlign.center,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,

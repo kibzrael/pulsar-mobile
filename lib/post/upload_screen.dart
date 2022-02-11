@@ -1,3 +1,5 @@
+import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
+import 'package:detectable_text_field/widgets/detectable_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/post/post_preview.dart';
@@ -57,8 +59,8 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: Column(
                   children: [
                     Container(
-                      margin:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 12),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -93,14 +95,15 @@ class _UploadScreenState extends State<UploadScreen> {
                           const SizedBox(width: 15),
                           Expanded(
                               child: Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 8),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
                                   child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Flexible(
-                                          child: TextField(
+                                          child: DetectableTextField(
                                             decoration:
                                                 const InputDecoration.collapsed(
                                               hintText: 'Caption...',
@@ -113,6 +116,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                                 provider.caption = text;
                                               });
                                             },
+                                            detectionRegExp: detectionRegExp()!,
                                           ),
                                         ),
                                         const SizedBox(height: 12),

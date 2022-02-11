@@ -44,6 +44,7 @@ class _LoginPageState extends State<LoginPage>
   }
 
   void login() async {
+    FocusScope.of(context).unfocus();
     String info = userController.text;
     String password = passwordController.text;
     setState(() {
@@ -128,7 +129,8 @@ class _LoginPageState extends State<LoginPage>
                   ),
                   const SizedBox(height: 30),
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
                         hintText: 'Username/ Email',

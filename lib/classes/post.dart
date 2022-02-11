@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/comment.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/classes/video.dart';
 
+part 'post.g.dart';
+
+@JsonSerializable()
 class Post {
   int id;
   User user;
-  Video video;
+  Video source;
+  Photo thumbnail;
   String? caption;
-  bool? allowComments;
+  Challenge? challenge;
+  bool allowComments;
+
   int? likes;
   int? comments;
   int? reposts;
@@ -23,8 +31,10 @@ class Post {
   Post(
     this.id, {
     required this.user,
-    required this.video,
-    this.allowComments,
+    required this.source,
+    required this.thumbnail,
+    this.challenge,
+    this.allowComments = true,
     this.caption,
     this.isLiked,
     this.isReposted,
@@ -32,30 +42,8 @@ class Post {
     this.time,
   });
 
-  Post.fromJson(Map<String, dynamic> info)
-      : assert(info['id'] != null),
-        assert(info['id'] is int),
-        assert(info['user'] != null),
-        id = info['id'],
-        user = User.fromJson(info['user']),
-        allowComments = info['allowComment'],
-        caption = info['caption'],
-        video = Video.fromJson(info['video']),
-        comments = info['comments'],
-        isLiked = info['isLiked'],
-        isReposted = info['isReposted'],
-        likes = info['likes'],
-        time = DateTime.tryParse(info['time'] ?? '');
-
-  Map<String, dynamic> toJson(BuildContext context) {
-    return {
-      'id': id,
-      'user': user.toJson(context),
-      'caption': caption,
-      'video': video.toJson(),
-      'time': time
-    };
-  }
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
 
   // app level
   markAsSeen(BuildContext context) {}

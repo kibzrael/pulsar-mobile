@@ -1,0 +1,42 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'post.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Post _$PostFromJson(Map<String, dynamic> json) => Post(
+      json['id'] as int,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      source: Video.fromJson(json['source'] as Map<String, dynamic>),
+      thumbnail: Photo.fromJson(json['thumbnail'] as Map<String, dynamic>),
+      challenge: json['challenge'] == null
+          ? null
+          : Challenge.fromJson(json['challenge'] as Map<String, dynamic>),
+      allowComments: json['allowComments'] as bool? ?? true,
+      caption: json['caption'] as String?,
+      isLiked: json['isLiked'] as bool?,
+      isReposted: json['isReposted'] as bool?,
+      likes: json['likes'] as int?,
+      time:
+          json['time'] == null ? null : DateTime.parse(json['time'] as String),
+    )
+      ..comments = json['comments'] as int?
+      ..reposts = json['reposts'] as int?;
+
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'id': instance.id,
+      'user': instance.user,
+      'source': instance.source,
+      'thumbnail': instance.thumbnail,
+      'caption': instance.caption,
+      'challenge': instance.challenge,
+      'allowComments': instance.allowComments,
+      'likes': instance.likes,
+      'comments': instance.comments,
+      'reposts': instance.reposts,
+      'time': instance.time?.toIso8601String(),
+      'isLiked': instance.isLiked,
+      'isReposted': instance.isReposted,
+    };

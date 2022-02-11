@@ -14,7 +14,7 @@ class MyRouteObserver extends RouteObserver<PageRoute<dynamic>> {
         Provider.of<BasicRootProvider>(context, listen: false);
     provider.navigatorsTop.update(index, (value) => '$screenName');
     provider.notify();
-    print('${provider.navigatorsTop}');
+    debugPrint('${provider.navigatorsTop}');
   }
 
   @override

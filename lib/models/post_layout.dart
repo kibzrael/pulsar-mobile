@@ -1,3 +1,5 @@
+import 'package:detectable_text_field/detectable_text_field.dart';
+import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -9,7 +11,6 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/secondary_pages.dart/tag_page.dart';
-import 'package:pulsar/widgets/caption_text.dart';
 import 'package:pulsar/widgets/interactions.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -19,7 +20,9 @@ class PostLayout extends StatefulWidget {
   final Post post;
   final bool isInView;
   final bool stretch;
-   const PostLayout(this.post, {Key? key, this.isInView = false, required this.stretch}) : super(key: key);
+  const PostLayout(this.post,
+      {Key? key, this.isInView = false, required this.stretch})
+      : super(key: key);
 
   @override
   _PostLayoutState createState() => _PostLayoutState();
@@ -92,7 +95,8 @@ class _PostLayoutState extends State<PostLayout> {
     return Stack(
       children: [
         PostVideo(
-          post.video,
+          post.source,
+          post.thumbnail,
           isInView: widget.isInView,
         ),
         Column(children: [
@@ -143,7 +147,7 @@ class _PostLayoutState extends State<PostLayout> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ProfilePic(
-                                post.user.profilePic,
+                                post.user.profilePic?.photo,
                                 radius: 21,
                                 onMedia: true,
                               ),
@@ -166,13 +170,12 @@ class _PostLayoutState extends State<PostLayout> {
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .subtitle1!
-                                                    .copyWith(
-                                                        fontSize: 16.5)),
+                                                    .copyWith(fontSize: 16.5)),
                                           ),
                                           const SizedBox(width: 5),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(bottom: 2.0),
+                                            padding: const EdgeInsets.only(
+                                                bottom: 2.0),
                                             child: Text(
                                               '2min',
                                               style: Theme.of(context)
@@ -187,12 +190,13 @@ class _PostLayoutState extends State<PostLayout> {
                                           InkWell(
                                             onTap: () {},
                                             child: Container(
-                                              padding: const EdgeInsets.all(1.5),
+                                              padding:
+                                                  const EdgeInsets.all(1.5),
                                               child: ShaderMask(
                                                 shaderCallback: (rect) {
                                                   return LinearGradient(
-                                                      begin: Alignment
-                                                          .centerLeft,
+                                                      begin:
+                                                          Alignment.centerLeft,
                                                       colors: [
                                                         Theme.of(context)
                                                             .colorScheme
@@ -207,14 +211,15 @@ class _PostLayoutState extends State<PostLayout> {
                                                     Container(
                                                       width: 5,
                                                       height: 5,
-                                                      margin: const EdgeInsets.only(
-                                                          right: 2.5),
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 2.5),
                                                       decoration:
                                                           const BoxDecoration(
                                                               shape: BoxShape
                                                                   .circle,
-                                                              color: Colors
-                                                                  .white),
+                                                              color:
+                                                                  Colors.white),
                                                     ),
                                                     Text(
                                                       'Follow',
@@ -238,8 +243,7 @@ class _PostLayoutState extends State<PostLayout> {
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2!
-                                                .copyWith(
-                                                    color: Colors.white)),
+                                                .copyWith(color: Colors.white)),
                                       ),
                                     ]),
                               )
@@ -248,19 +252,36 @@ class _PostLayoutState extends State<PostLayout> {
                         ),
                       ),
                       Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: RichText(
-                            text: TextSpan(
-                              children: captionText(
-                                  'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more...'),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(fontWeight: FontWeight.w500),
-                            ),
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: DetectableText(
+                          text:
+                              'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more',
+                          detectionRegExp: detectionRegExp()!,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                          basicStyle: Theme.of(context)
+                              .textTheme
+                              .bodyText2!
+                              .copyWith(fontWeight: FontWeight.w500),
+                          detectedStyle: const TextStyle(color: Colors.blue),
+                          onTap: (String text) {
+                            debugPrint(text);
+                          },
+                        ),
+                      ),
+
+                      // RichText(
+                      //   text: TextSpan(
+                      //     children: captionText(
+                      //         'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more...'),
+                      //     style: Theme.of(context)
+                      //         .textTheme
+                      //         .bodyText2!
+                      //         .copyWith(fontWeight: FontWeight.w500),
+                      //   ),
+                      //   maxLines: 4,
+                      //   overflow: TextOverflow.ellipsis,
+                      // )),
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Wrap(
@@ -328,8 +349,7 @@ class _PostLayoutState extends State<PostLayout> {
                               child: ShareButton(
                                 size: 36,
                                 onPressed: () {
-                                  openBottomSheet(
-                                      _, (_) => PostOptions(post));
+                                  openBottomSheet(_, (_) => PostOptions(post));
                                 },
                               ),
                             );
@@ -370,7 +390,7 @@ class ThemeBugFix extends StatelessWidget {
 
 class Tag extends StatelessWidget {
   final String text;
-   const Tag(this.text, {Key? key}) : super(key: key);
+  const Tag(this.text, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

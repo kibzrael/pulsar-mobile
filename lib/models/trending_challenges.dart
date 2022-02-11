@@ -71,7 +71,8 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
                   left: Radius.circular(15),
                 ),
                 image: DecorationImage(
-                    image: CachedNetworkImageProvider(challenge.coverPhoto!),
+                    image:
+                        CachedNetworkImageProvider(challenge.coverPhoto.photo),
                     fit: BoxFit.cover)),
           ),
           Expanded(

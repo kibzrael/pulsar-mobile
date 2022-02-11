@@ -37,7 +37,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ProfilePic(user.profilePic, radius: 36),
+            ProfilePic(user.profilePic?.photo, radius: 36),
             const SizedBox(width: 15),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('@${user.username}',

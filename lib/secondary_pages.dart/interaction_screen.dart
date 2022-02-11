@@ -12,7 +12,8 @@ class InteractionScreen extends StatefulWidget {
   final User? user;
   final Challenge? challenge;
 
-  const InteractionScreen({Key? key, 
+  const InteractionScreen({
+    Key? key,
     this.user,
     this.challenge,
   }) : super(key: key);
@@ -75,7 +76,8 @@ class _InteractionScreenState extends State<InteractionScreen> {
                 target: fetchData,
                 itemBuilder: (context, snapshot) {
                   List<Map<String, dynamic>>? data = snapshot.data;
-                  if (snapshot.errorLoading) print(snapshot.error);
+                  if (snapshot.errorLoading)
+                    debugPrint(snapshot.error.toString());
                   return data.isEmpty
                       ? snapshot.errorLoading
                           ? Text('${snapshot.error} $data')

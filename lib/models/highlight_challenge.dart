@@ -44,7 +44,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                         ),
                         image: DecorationImage(
                             image: CachedNetworkImageProvider(
-                                challenge.coverPhoto!),
+                                challenge.coverPhoto.photo),
                             fit: BoxFit.cover)),
                   ),
                   Flexible(
@@ -64,7 +64,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                               maxLines: 2,
                             ),
                             Text(
-                              challenge.description ?? 'Lorem ipsum dolor',
+                              challenge.description,
                               maxLines: 4,
                               overflow: TextOverflow.ellipsis,
                             ),

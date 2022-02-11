@@ -2,17 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/video.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class PostVideo extends StatefulWidget {
   final Video video;
+  final Photo thumbnail;
 
   final bool isInView;
 
-  const PostVideo(this.video, {Key? key, this.isInView = false}) : super(key: key);
+  const PostVideo(this.video, this.thumbnail, {Key? key, this.isInView = false})
+      : super(key: key);
 
   @override
   _PostVideoState createState() => _PostVideoState();
@@ -48,9 +50,9 @@ class _PostVideoState extends State<PostVideo> {
     super.dispose();
   }
 
-  initVideo() {
-    videoProvider.initializeVideo(video.source);
-  }
+  // initVideo() {
+  //   videoProvider.initializeVideo(video.video);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class _PostVideoState extends State<PostVideo> {
     if (!videoIsInitialized && widget.isInView) {
       videoIsInitialized = true;
 
-      videoProvider.initializeVideo(video.source).then((_) {
+      videoProvider.initializeVideo(video.video).then((_) {
         setState(() {
           if (widget.isInView && visible) {
             controller = videoProvider.videoPlayerController;
@@ -79,7 +81,7 @@ class _PostVideoState extends State<PostVideo> {
       decoration: BoxDecoration(
         color: Theme.of(context).inputDecorationTheme.fillColor,
         image: DecorationImage(
-            image: CachedNetworkImageProvider(video.thumbnail),
+            image: CachedNetworkImageProvider(widget.thumbnail.photo),
             fit: BoxFit.cover),
       ),
     );
@@ -100,11 +102,11 @@ class _PostVideoState extends State<PostVideo> {
       },
       child: VisibilityDetector(
         onVisibilityChanged: (info) {
-          print(info.visibleFraction);
+          debugPrint(info.visibleFraction.toString());
           if (info.visibleFraction < 0.5) {
             visible = false;
             if (controller != null) {
-              if (video.source == controller!.dataSource) {
+              if (video.video == controller!.dataSource) {
                 isPlaying = false;
                 controller?.pause();
               }
@@ -113,7 +115,7 @@ class _PostVideoState extends State<PostVideo> {
           if (info.visibleFraction > 0.5) {
             visible = true;
             if (controller != null && !isPlaying && !isPaused) {
-              if (video.source == controller!.dataSource) {
+              if (video.video == controller!.dataSource) {
                 controller?.play();
                 isPlaying = true;
               }
@@ -124,7 +126,7 @@ class _PostVideoState extends State<PostVideo> {
         child: Stack(
           children: [
             controller != null
-                ? controller!.dataSource == video.source &&
+                ? controller!.dataSource == video.video &&
                         controller!.value.isInitialized
                     ? SizedBox.expand(
                         child: FittedBox(
@@ -148,7 +150,7 @@ class _PostVideoState extends State<PostVideo> {
 class PausePlay extends StatelessWidget {
   final bool paused;
 
-   const PausePlay(this.paused, {Key? key}) : super(key: key);
+  const PausePlay(this.paused, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdProvider {
@@ -13,19 +14,19 @@ class AdProvider {
 
   final BannerAdListener _bannerAdListener = BannerAdListener(
     onAdLoaded: (ad) {
-      print('Ad Loaded');
+      debugPrint('Ad Loaded');
     },
     onAdClosed: (ad) {
-      print('Ad Closed');
+      debugPrint('Ad Closed');
     },
     onAdFailedToLoad: (ad, error) {
-      print('Ad Failed');
+      debugPrint('Ad Failed');
     },
     onAdOpened: (ad) {
-      print('Ad Opened');
+      debugPrint('Ad Opened');
     },
     onAdImpression: (ad) {
-      print('Ad Impression');
+      debugPrint('Ad Impression');
     },
     onPaidEvent: (ad, valueMicros, precision, currencyCode) {},
     onAdWillDismissScreen: (ad) {},

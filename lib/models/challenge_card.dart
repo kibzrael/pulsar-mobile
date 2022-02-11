@@ -31,7 +31,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
       leading: CircleAvatar(
         radius: 24,
         backgroundColor: Theme.of(context).dividerColor,
-        backgroundImage: CachedNetworkImageProvider(challenge.coverPhoto!),
+        backgroundImage: CachedNetworkImageProvider(challenge.coverPhoto.photo),
       ),
       onPressed: () {
         Navigator.of(context)

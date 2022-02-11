@@ -62,7 +62,8 @@ class _InterestsPageState extends State<InterestsPage>
               return Container(
                 width: double.infinity,
                 alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: Text(
                   'Select the fields you\nare interested in',
                   textAlign: TextAlign.center,
@@ -91,8 +92,8 @@ class _InterestsPageState extends State<InterestsPage>
                       radius: 24,
                       backgroundColor:
                           Theme.of(context).inputDecorationTheme.fillColor,
-                      backgroundImage:
-                          CachedNetworkImageProvider(interest.coverPhoto!),
+                      backgroundImage: CachedNetworkImageProvider(
+                          interest.coverPhoto!.photo),
                     ),
                     trailingArrow: false,
                     trailing: InkWell(
@@ -151,8 +152,8 @@ class _InterestsPageState extends State<InterestsPage>
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(horizontal: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
                                       child: Text(subInterests[i].name,
                                           style: TextStyle(
                                               color: isSelected

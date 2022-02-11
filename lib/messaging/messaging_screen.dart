@@ -19,7 +19,8 @@ import 'package:pulsar/widgets/text_input.dart';
 class MessagingScreen extends StatefulWidget {
   final Chat chat;
   final bool isNew;
-  const MessagingScreen(this.chat, {Key? key, this.isNew = false}) : super(key: key);
+  const MessagingScreen(this.chat, {Key? key, this.isNew = false})
+      : super(key: key);
   @override
   _MessagingScreenState createState() => _MessagingScreenState();
 }
@@ -88,8 +89,9 @@ class _MessagingScreenState extends State<MessagingScreen>
             user: sender,
             time: DateTime.now()
                 .subtract(Duration(days: (messagesList.length / 4).floor())),
-            attachment:
-                messagesList.length % 7 == 0 ? adventure.coverPhoto : null));
+            attachment: messagesList.length % 7 == 0
+                ? adventure.coverPhoto.photo
+                : null));
       }
     }
     if (mounted) {
@@ -229,7 +231,8 @@ class _MessagingScreenState extends State<MessagingScreen>
               if (widget.chat.isSpam) spamOptions(),
               if (!widget.chat.isSpam)
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                   child: Row(
                     children: [
                       Flexible(
@@ -242,8 +245,8 @@ class _MessagingScreenState extends State<MessagingScreen>
                               4, 2, message.isEmpty ? 4 : 8, 2),
                           prefix: Padding(
                               padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child:
-                                  ProfilePic(tahlia.profilePic, radius: 18)),
+                              child: ProfilePic(tahlia.profilePic?.photo,
+                                  radius: 18)),
                           onChanged: (text) {
                             setState(() {
                               message = text;

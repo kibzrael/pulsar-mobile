@@ -50,7 +50,8 @@ class _PostPreviewState extends State<PostPreview> {
             Column(children: [
               SafeArea(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,7 +91,7 @@ class _PostPreviewState extends State<PostPreview> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 ProfilePic(
-                                  tahlia.profilePic,
+                                  tahlia.profilePic?.photo,
                                   radius: 21,
                                   onMedia: true,
                                 ),
@@ -117,8 +118,8 @@ class _PostPreviewState extends State<PostPreview> {
                                             ),
                                             const SizedBox(width: 5),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.only(bottom: 2.0),
+                                              padding: const EdgeInsets.only(
+                                                  bottom: 2.0),
                                               child: Text(
                                                 '2min',
                                                 style: Theme.of(context)
@@ -133,7 +134,8 @@ class _PostPreviewState extends State<PostPreview> {
                                             InkWell(
                                               onTap: () {},
                                               child: Container(
-                                                padding: const EdgeInsets.all(1.5),
+                                                padding:
+                                                    const EdgeInsets.all(1.5),
                                                 child: ShaderMask(
                                                   shaderCallback: (rect) {
                                                     return LinearGradient(
@@ -153,8 +155,8 @@ class _PostPreviewState extends State<PostPreview> {
                                                       Container(
                                                         width: 5,
                                                         height: 5,
-                                                        margin: const EdgeInsets.only(
-                                                            right: 2.5),
+                                                        margin: const EdgeInsets
+                                                            .only(right: 2.5),
                                                         decoration:
                                                             const BoxDecoration(
                                                                 shape: BoxShape

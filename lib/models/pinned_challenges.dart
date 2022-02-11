@@ -85,12 +85,10 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                               color: Theme.of(context)
                                   .inputDecorationTheme
                                   .fillColor,
-                              image: challenge.coverPhoto != null
-                                  ? DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                          challenge.coverPhoto!),
-                                      fit: BoxFit.cover)
-                                  : null,
+                              image: DecorationImage(
+                                  image: CachedNetworkImageProvider(
+                                      challenge.coverPhoto.photo),
+                                  fit: BoxFit.cover),
                             ),
                             foregroundDecoration:
                                 const BoxDecoration(color: Colors.black12),
@@ -124,8 +122,8 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                 child: Row(
                                   children: <Widget>[
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(horizontal: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 3),
                                       child: Icon(
                                         MyIcons.play,
                                         color: Colors.white,
@@ -141,8 +139,8 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                       ),
                                     ),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(horizontal: 3),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 3),
                                       child: Icon(
                                         MyIcons.pin,
                                         color: Colors.white,

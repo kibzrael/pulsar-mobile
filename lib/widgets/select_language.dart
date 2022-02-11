@@ -17,7 +17,7 @@ class _SelectLanguageState extends State<SelectLanguage> {
       padding: const EdgeInsets.only(bottom: 12),
       child: InkWell(
         onTap: () {
-          print('Clicked');
+          debugPrint('Clicked');
           Navigator.of(context)
               .push(myPageRoute(builder: (context) => const Language()));
         },

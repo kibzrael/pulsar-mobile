@@ -68,6 +68,7 @@ dependencies:
 
   # performance
   json_serializable:
+  json_annotation:
   provider: ^6.0.0
 
   share_plus: ^3.0.4
@@ -81,6 +82,7 @@ dependencies:
   extended_text_field: ^10.0.0
   extended_text: ^9.0.0
   flutter_social_textfield: ^0.1.0
+  detectable_text_field: ^2.0.3
 
   # widgets
   pin_code_fields: ^7.1.0
@@ -96,6 +98,7 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^1.0.4
+  build_runner:
   flutter_test:
     sdk: flutter
 

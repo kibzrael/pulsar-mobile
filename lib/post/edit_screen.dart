@@ -177,7 +177,8 @@ class _EditScreenState extends State<EditScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              openBottomSheet(context, (context) => const PostAudio(),
+                              openBottomSheet(
+                                  context, (context) => const PostAudio(),
                                   root: false);
                             },
                             child: Column(
@@ -192,7 +193,7 @@ class _EditScreenState extends State<EditScreen> {
                                       borderRadius: BorderRadius.circular(6),
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                            provider.audio!.coverPhoto),
+                                            provider.audio!.coverPhoto.photo),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

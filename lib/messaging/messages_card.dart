@@ -65,7 +65,7 @@ class _MessagesCardState extends State<MessagesCard> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                ProfilePic(message.user.profilePic, radius: 30),
+                ProfilePic(message.user.profilePic?.photo, radius: 30),
                 if (isSelected!)
                   Container(
                     decoration: BoxDecoration(
@@ -137,7 +137,8 @@ class _MessagesCardState extends State<MessagesCard> {
             ),
             if (!message.isRead)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                 margin: const EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),

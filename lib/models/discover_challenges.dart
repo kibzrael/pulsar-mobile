@@ -103,7 +103,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        challenge.coverPhoto!),
+                                        challenge.coverPhoto.photo),
                                     fit: BoxFit.cover)),
                           ),
                           const Spacer(),
@@ -130,7 +130,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                             child: Row(
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
                                   child: Icon(
                                     MyIcons.play,
                                     size: 24,
@@ -149,7 +150,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
                                   child: Icon(
                                     MyIcons.pin,
                                     size: 16.5,
@@ -188,7 +190,9 @@ class ChallengeTag extends StatefulWidget {
   final String tag;
   final bool isSelected;
   final Function() onPressed;
-  const ChallengeTag(this.tag, {Key? key, required this.isSelected, required this.onPressed}) : super(key: key);
+  const ChallengeTag(this.tag,
+      {Key? key, required this.isSelected, required this.onPressed})
+      : super(key: key);
 
   @override
   _ChallengeTagState createState() => _ChallengeTagState();

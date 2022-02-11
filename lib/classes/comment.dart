@@ -1,6 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 
+part 'comment.g.dart';
+
+@JsonSerializable()
 class Comment {
   int id;
   User user;
@@ -20,6 +24,10 @@ class Comment {
       this.likes = 0,
       this.replies = 0,
       required this.time});
+
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      _$CommentFromJson(json);
+  Map<String, dynamic> toJson() => _$CommentToJson(this);
 
   like() async {}
 

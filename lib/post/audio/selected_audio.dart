@@ -11,7 +11,9 @@ class SelectedAudio extends StatefulWidget {
   final Audio audio;
   final Function() onBack;
   final Function() pop;
-  const SelectedAudio(this.audio, {Key? key, required this.onBack, required this.pop}) : super(key: key);
+  const SelectedAudio(this.audio,
+      {Key? key, required this.onBack, required this.pop})
+      : super(key: key);
   @override
   _SelectedAudioState createState() => _SelectedAudioState();
 }
@@ -73,7 +75,8 @@ class _SelectedAudioState extends State<SelectedAudio> {
               borderRadius: BorderRadius.circular(15),
               color: Colors.white12,
               image: DecorationImage(
-                  image: NetworkImage(audio.coverPhoto), fit: BoxFit.cover)),
+                  image: NetworkImage(audio.coverPhoto.photo),
+                  fit: BoxFit.cover)),
         ),
         Text(
           audio.name,

@@ -36,7 +36,7 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
               alignment: Alignment.bottomRight,
               children: [
                 ProfilePic(
-                  widget.message.user.profilePic,
+                  widget.message.user.profilePic?.photo,
                   radius: 30,
                 ),
                 if (isSelected)
@@ -139,7 +139,8 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
             ),
             if (!widget.message.isRead)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                 margin: const EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),

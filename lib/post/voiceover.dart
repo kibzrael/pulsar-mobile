@@ -61,9 +61,9 @@ class _VoiceoverState extends State<Voiceover> {
     await recorder.startRecorder(
       toFile: path,
     );
-    print('started...');
+    debugPrint('started...');
     recorder.onProgress?.listen((RecordingDisposition event) {
-      print('recording....');
+      debugPrint('recording....');
       setState(() {
         disposition = event;
       });

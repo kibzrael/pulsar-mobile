@@ -10,7 +10,9 @@ class InteractionNotificationCard extends StatefulWidget {
   final User user;
   final Post? post;
   final Interaction type;
-  const InteractionNotificationCard(this.user, {Key? key, required this.type, this.post}) : super(key: key);
+  const InteractionNotificationCard(this.user,
+      {Key? key, required this.type, this.post})
+      : super(key: key);
 
   @override
   _InteractionNotificationCardState createState() =>
@@ -51,7 +53,7 @@ class _InteractionNotificationCardState
               child: Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfilePic(
-                  user.profilePic,
+                  user.profilePic?.photo,
                   radius: 24,
                 ),
               ),
@@ -104,7 +106,8 @@ class _InteractionNotificationCardState
                 padding: const EdgeInsets.only(top: 4),
                 child: FollowButton(
                   height: 30,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   isFollowing: isFollowing,
                   onPressed: () {
                     setState(() {

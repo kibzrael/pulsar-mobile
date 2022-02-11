@@ -65,11 +65,12 @@ class _GridPostsState extends State<GridPosts>
                     itemCount: posts.length,
                     physics: const ClampingScrollPhysics(),
                     padding: MediaQuery.of(context).padding.copyWith(top: 0),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 0.75,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.75,
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
@@ -90,7 +91,7 @@ class _GridPostsState extends State<GridPosts>
                                     .fillColor,
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        posts[index].video.thumbnail),
+                                        posts[index].thumbnail.photo),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(8))),
                       );

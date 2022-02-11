@@ -8,14 +8,15 @@ import 'package:pulsar/widgets/profile_pic.dart';
 class RecipientCard extends StatelessWidget {
   final User receipient;
   final bool isSelected;
-  const RecipientCard(this.receipient, {Key? key, this.isSelected = false}) : super(key: key);
+  const RecipientCard(this.receipient, {Key? key, this.isSelected = false})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MyListTile(
       title: '@${receipient.username}',
       subtitle: receipient.category,
       leading: ProfilePic(
-        receipient.profilePic,
+        receipient.profilePic?.photo,
         radius: 27,
       ),
       trailingArrow: false,
@@ -36,11 +37,13 @@ class RecipientCard extends StatelessWidget {
             shape: BoxShape.circle,
             gradient:
                 isSelected ? secondaryGradient(begin: Alignment.topLeft) : null,
-            border:isSelected? null: Border.all(
-                width: 3,
-                color: isSelected
-                    ? Theme.of(context).colorScheme.secondary
-                    : Theme.of(context).dividerColor)),
+            border: isSelected
+                ? null
+                : Border.all(
+                    width: 3,
+                    color: isSelected
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).dividerColor)),
       ),
     );
 

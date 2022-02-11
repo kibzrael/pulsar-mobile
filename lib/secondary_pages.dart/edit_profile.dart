@@ -34,12 +34,14 @@ class _EditProfileState extends State<EditProfile> {
   late UserProvider provider;
   User user = tahlia;
 
-  String profilePic = tahlia.profilePic!;
+  String profilePic = tahlia.profilePic!.photo;
   MyImageProvider imageProvider = MyImageProvider.network;
 
   late TextEditingController fullnameController;
   late TextEditingController bioController;
   late TextEditingController portfolioController;
+
+  String? birthday;
 
   @override
   void initState() {
@@ -75,6 +77,7 @@ class _EditProfileState extends State<EditProfile> {
               bio: bioController.text,
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
+              birthday: birthday,
               profilePic: imageProvider == MyImageProvider.file
                   ? File(profilePic)
                   : null);
@@ -121,8 +124,8 @@ class _EditProfileState extends State<EditProfile> {
               child: Column(
                 children: [
                   Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 5, vertical: 21),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 21),
                       color: Theme.of(context).scaffoldBackgroundColor,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -143,8 +146,8 @@ class _EditProfileState extends State<EditProfile> {
                                   if (image != null) {
                                     croppedImage = await ImageCropper.cropImage(
                                       sourcePath: image.path,
-                                      aspectRatio:
-                                          const CropAspectRatio(ratioX: 1, ratioY: 1),
+                                      aspectRatio: const CropAspectRatio(
+                                          ratioX: 1, ratioY: 1),
                                       cropStyle: CropStyle.circle,
                                     );
                                   }
@@ -186,7 +189,8 @@ class _EditProfileState extends State<EditProfile> {
                             title: 'Username',
                             onPressed: () {
                               Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => const ChangeUsername()));
+                                  builder: (context) =>
+                                      const ChangeUsername()));
                             },
                             flexRatio: const [2, 3],
                             trailingText: '@${user.username}',
@@ -279,21 +283,21 @@ class _EditProfileState extends State<EditProfile> {
                   const SectionTitle(title: 'Additional Information'),
                   MyListTile(
                     title: 'Category',
-                    onPressed: () => Navigator.of(context).push(
-                        myPageRoute(builder: (context) => const EditCategory())),
+                    onPressed: () => Navigator.of(context).push(myPageRoute(
+                        builder: (context) => const EditCategory())),
                     flexRatio: const [2, 3],
                     subtitle: user.category,
                   ),
                   MyListTile(
                       title: 'Interests',
-                      onPressed: () => Navigator.of(context).push(
-                          myPageRoute(builder: (context) => const EditInterests())),
+                      onPressed: () => Navigator.of(context).push(myPageRoute(
+                          builder: (context) => const EditInterests())),
                       flexRatio: const [2, 3],
                       subtitle: 'Art, Music +4'),
                   MyListTile(
                       title: 'Birthday',
-                      onPressed: () => Navigator.of(context).push(
-                          myPageRoute(builder: (context) => const EditBirthday())),
+                      onPressed: () => Navigator.of(context).push(myPageRoute(
+                          builder: (context) => const EditBirthday())),
                       flexRatio: const [2, 3],
                       subtitle: '9th July 2001'),
                 ],

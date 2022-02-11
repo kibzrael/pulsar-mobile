@@ -15,14 +15,11 @@ class _SearchCategoryState extends State<SearchCategory> {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0.0,
-        title: Hero(
-          tag: 'searchCategory',
-          child: SearchField(
-            onChanged: (text) {},
-            onSubmitted: (text) {},
-            hintText: 'Search Categories...',
-            autofocus: true,
-          ),
+        title: SearchField(
+          onChanged: (text) {},
+          onSubmitted: (text) {},
+          hintText: 'Search Categories...',
+          autofocus: true,
         ),
         actions: [MyTextButton(text: 'Search', onPressed: () {})],
       ),

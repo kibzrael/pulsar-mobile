@@ -17,7 +17,9 @@ class _SelectAccountState extends State<SelectAccount> {
 
   void onChanged(text) {}
 
-  void onSubmitted(text) {}
+  void onSubmitted(text) {
+    recoverAccountProvider.recoverAccount(text);
+  }
 
   String email = 'kib*******7@gmail.com';
   String phone = '+254734****86';

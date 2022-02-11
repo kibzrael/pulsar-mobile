@@ -7,4 +7,8 @@ class UserUrls {
   static String follow(int id) => '/users/$id/followers';
 
   static String posts(int id) => '/users/$id/posts';
+
+  static String changeUsername = '/change_username';
+
+  static String changePassword = '/change_password';
 }

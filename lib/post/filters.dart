@@ -72,7 +72,8 @@ class _FiltersState extends State<Filters> {
 class FilterWidget extends StatelessWidget {
   final Filter filter;
   final bool selected;
-  const FilterWidget(this.filter, {Key? key, required this.selected}) : super(key: key);
+  const FilterWidget(this.filter, {Key? key, required this.selected})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -93,7 +94,8 @@ class FilterWidget extends StatelessWidget {
             child: CircleAvatar(
               radius: 36,
               backgroundColor: Colors.white12,
-              backgroundImage: CachedNetworkImageProvider(beth.profilePic!),
+              backgroundImage:
+                  CachedNetworkImageProvider(beth.profilePic!.photo),
             ),
           ),
           const SizedBox(height: 4),

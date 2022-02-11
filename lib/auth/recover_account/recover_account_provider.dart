@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
+import 'package:pulsar/urls/auth.dart';
+import 'package:pulsar/urls/get_url.dart';
 
 class RecoverAccountProvider extends ChangeNotifier {
   PageController? get pageController => _pageController;
@@ -28,6 +30,8 @@ class RecoverAccountProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
+  recoverAccount(String info) async {}
+
   verifyCode(String code) async {
     // token, user_id, code
     await Future.delayed(const Duration(seconds: 2));
@@ -36,6 +40,9 @@ class RecoverAccountProvider extends ChangeNotifier {
 
   resetPassword(String password) async {
     // token, user_id, password
+
+    String resetPasswordUrl = getUrl(AuthUrls.resetPassword);
+
     await Future.delayed(const Duration(seconds: 2));
     return;
   }

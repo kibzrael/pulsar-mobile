@@ -81,17 +81,10 @@ class _ChooseCategoryState extends State<ChooseCategory>
                 ),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Hero(
-                      tag: 'searchCategory',
-                      child: SearchInput(
-                        onPressed: search,
-                        text: (isSolo
-                                ? selectedCategory?.category
-                                : selectedCategory?.pCategory ??
-                                    selectedCategory?.category) ??
-                            'Category',
-                        height: 50,
-                      ),
+                    child: SearchInput(
+                      onPressed: search,
+                      text: 'Search Categores',
+                      height: 50,
                     )),
                 const SizedBox(
                   height: 30,
@@ -99,11 +92,12 @@ class _ChooseCategoryState extends State<ChooseCategory>
                 Flexible(
                   child: GridView.builder(
                       itemCount: categories.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 21,
-                          mainAxisSpacing: 15,
-                          childAspectRatio: 0.75),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 21,
+                              mainAxisSpacing: 15,
+                              childAspectRatio: 0.75),
                       itemBuilder: (context, index) {
                         Interest category = categories[index];
                         bool selected = category == selectedCategory;
@@ -127,7 +121,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
                                             .fillColor,
                                         image: DecorationImage(
                                             image: CachedNetworkImageProvider(
-                                                category.coverPhoto!),
+                                                category.coverPhoto!.photo),
                                             fit: BoxFit.cover),
                                         shape: BoxShape.circle,
                                       ),

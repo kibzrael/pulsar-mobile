@@ -111,8 +111,8 @@ class _RootProfilePageState extends State<RootProfilePage>
           IconButton(
               icon: Icon(MyIcons.tune),
               onPressed: () {
-                Navigator.of(context, rootNavigator: true)
-                    .push(myPageRoute(builder: (context) => const SettingsPage()));
+                Navigator.of(context, rootNavigator: true).push(
+                    myPageRoute(builder: (context) => const SettingsPage()));
               })
         ],
       ),
@@ -130,8 +130,8 @@ class _RootProfilePageState extends State<RootProfilePage>
                         scrollController: scrollController,
                       ),
                       Container(
-                        margin:
-                            const EdgeInsets.symmetric(vertical: 5, horizontal: 45),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 45),
                         child: Row(
                           children: [
                             Flexible(
@@ -141,7 +141,8 @@ class _RootProfilePageState extends State<RootProfilePage>
                                   Navigator.push(
                                       context,
                                       myPageRoute(
-                                          builder: (context) => const EditProfile()));
+                                          builder: (context) =>
+                                              const EditProfile()));
                                 },
                                 height: 37.5,
                               ),
@@ -155,6 +156,8 @@ class _RootProfilePageState extends State<RootProfilePage>
                               child: Card(
                                 elevation: 4,
                                 margin: EdgeInsets.zero,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18),
                                 ),

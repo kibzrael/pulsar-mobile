@@ -9,7 +9,8 @@ import 'package:pulsar/widgets/text_button.dart';
 class SearchAudio extends StatefulWidget {
   final Function(Audio selected) onSelect;
   final Function() pop;
-  const SearchAudio({Key? key, required this.onSelect, required this.pop}) : super(key: key);
+  const SearchAudio({Key? key, required this.onSelect, required this.pop})
+      : super(key: key);
 
   @override
   _SearchAudioState createState() => _SearchAudioState();
@@ -18,27 +19,27 @@ class SearchAudio extends StatefulWidget {
 class _SearchAudioState extends State<SearchAudio> {
   List<Audio> audios = [
     Audio(1,
-        coverPhoto: litByFire.coverPhoto!,
+        coverPhoto: litByFire.coverPhoto,
         name: 'Fire on fire',
         artist: 'Sam Smith'),
     Audio(2,
-        coverPhoto: photographyChallenge.coverPhoto!,
+        coverPhoto: photographyChallenge.coverPhoto,
         name: 'Photograph',
         artist: 'Ed Sheeran'),
     Audio(3,
-        coverPhoto: breakup.coverPhoto!,
+        coverPhoto: breakup.coverPhoto,
         name: 'Call you mine',
         artist: 'Bebe Rexha'),
     Audio(4,
-        coverPhoto: danceChallenge.coverPhoto!,
+        coverPhoto: danceChallenge.coverPhoto,
         name: 'Jump',
         artist: 'Julia Micheals'),
     Audio(5,
-        coverPhoto: adventure.coverPhoto!,
+        coverPhoto: adventure.coverPhoto,
         name: 'Castle on the hill',
         artist: 'Ed Sheeran'),
     Audio(6,
-        coverPhoto: urbanPortraits.coverPhoto!,
+        coverPhoto: urbanPortraits.coverPhoto,
         name: 'Take my breath',
         artist: 'The Weeknd')
   ];
@@ -83,14 +84,15 @@ class _SearchAudioState extends State<SearchAudio> {
                         color: Colors.white12,
                         borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
-                          image: NetworkImage(audio.coverPhoto),
+                          image: NetworkImage(audio.coverPhoto.photo),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
                     trailingArrow: false,
                     trailing: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 2),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.white12),
