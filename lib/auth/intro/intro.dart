@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/auth.dart';
 import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/logo.dart';
@@ -84,7 +86,10 @@ class _RootIntroPageState extends State<RootIntroPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            openBottomSheet(
+                                context, (context) => const AuthMenu());
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(
@@ -120,7 +125,8 @@ class _RootIntroPageState extends State<RootIntroPage> {
                       dividerColor: Colors.white54,
                     ),
                     Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 8),
                       child: Row(
                         children: [
                           Checkbox(

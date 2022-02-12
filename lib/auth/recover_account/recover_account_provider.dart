@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 
@@ -13,11 +15,11 @@ class RecoverAccountProvider extends ChangeNotifier {
 
   User? user;
 
+  int? code;
   String? token;
 
   RecoverAccountProvider() {
     _pageController = PageController();
-    user = melissa;
   }
 
   previousPage() {
@@ -30,20 +32,61 @@ class RecoverAccountProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
-  recoverAccount(String info) async {}
+  Future<RecoverAccountResponse> recoverAccount(String info) async {
+    String recoverAccountUrl = getUrl(AuthUrls.recoverAccount);
 
-  verifyCode(String code) async {
-    // token, user_id, code
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+    http.Response requestResponse =
+        await http.post(Uri.parse(recoverAccountUrl), body: {'info': info});
+
+    RecoverAccountResponse response = RecoverAccountResponse();
+    response.statusCode = requestResponse.statusCode;
+    //
+    var body = jsonDecode(requestResponse.body);
+    if (body is Map) {
+      response.body = body;
+      code = body['code'];
+      user = User.fromJson(body['user']);
+      token = user?.token;
+    } else {
+      response.body = {
+        'message':
+            'There has been a problem processing your request. Please try again later.'
+      };
+    }
+    return response;
   }
 
-  resetPassword(String password) async {
-    // token, user_id, password
+  int verifyCode(String codeEntry) {
+    if (code.toString() == codeEntry) {
+      return 0;
+    } else {
+      return 1;
+    }
+  }
 
+  Future<RecoverAccountResponse> resetPassword(String password) async {
     String resetPasswordUrl = getUrl(AuthUrls.resetPassword);
 
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+    http.Response requestResponse = await http.post(Uri.parse(resetPasswordUrl),
+        headers: {'Authorization': token!}, body: {'password': password});
+
+    RecoverAccountResponse response = RecoverAccountResponse();
+    response.statusCode = requestResponse.statusCode;
+    //
+    var body = jsonDecode(requestResponse.body);
+    if (body is Map) {
+      response.body = body;
+    } else {
+      response.body = {
+        'message':
+            'There has been a problem processing your request. Please try again later.'
+      };
+    }
+    return response;
   }
+}
+
+class RecoverAccountResponse {
+  int? statusCode;
+  Map? body;
 }

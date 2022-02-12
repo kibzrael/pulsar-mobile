@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/recover_account/recover_account.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -118,7 +120,10 @@ class _LoginPageState extends State<LoginPage>
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            openBottomSheet(
+                                context, (context) => const AuthMenu());
+                          },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(MyIcons.menu, size: 30),

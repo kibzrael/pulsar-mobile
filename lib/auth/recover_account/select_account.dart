@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/widgets/action_button.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class SelectAccount extends StatefulWidget {
@@ -14,22 +17,28 @@ class SelectAccount extends StatefulWidget {
 
 class _SelectAccountState extends State<SelectAccount> {
   late RecoverAccountProvider recoverAccountProvider;
+  bool isSubmitting = false;
 
-  void onChanged(text) {}
+  String info = '';
 
-  void onSubmitted(text) {
-    recoverAccountProvider.recoverAccount(text);
-  }
+  recover() async {
+    setState(() => isSubmitting = true);
+    RecoverAccountResponse response =
+        await recoverAccountProvider.recoverAccount(info);
+    setState(() => isSubmitting = false);
+    if (response.statusCode == 200) {
+      recoverAccountProvider.nextPage();
+      return;
+    }
 
-  String email = 'kib*******7@gmail.com';
-  String phone = '+254734****86';
-
-  void onEmail() {
-    recoverAccountProvider.nextPage();
-  }
-
-  void onPhone() {
-    recoverAccountProvider.nextPage();
+    openDialog(
+      context,
+      (context) => MyDialog(
+        title: statusCodes[response.statusCode]!,
+        body: response.body!['message'],
+        actions: const ['Ok'],
+      ),
+    );
   }
 
   @override
@@ -67,66 +76,15 @@ class _SelectAccountState extends State<SelectAccount> {
                   const Spacer(flex: 2),
                   MyTextInput(
                     hintText: 'Username/Phone/Email',
-                    onChanged: onChanged,
-                    onSubmitted: onSubmitted,
+                    onChanged: (text) => info = text,
+                    onSubmitted: (text) => info = text,
                   ),
                   const Spacer(flex: 1),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        RichText(
-                          softWrap: false,
-                          maxLines: 1,
-                          text: TextSpan(
-                              text: 'Email:    ',
-                              style: Theme.of(context).textTheme.subtitle1,
-                              children: [
-                                TextSpan(
-                                    text: email,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2)
-                              ]),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        RichText(
-                          softWrap: false,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          text: TextSpan(
-                              text: 'Phone:    ',
-                              style: Theme.of(context).textTheme.subtitle1,
-                              children: [
-                                TextSpan(
-                                    text: phone,
-                                    style:
-                                        Theme.of(context).textTheme.subtitle2)
-                              ]),
-                        )
-                      ]),
-                  const Spacer(flex: 1),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: ActionButton(
-                          title: 'Email',
-                          height: 50,
-                          backgroundColor: Theme.of(context).disabledColor,
-                          titleColor:
-                              Theme.of(context).textTheme.bodyText2!.color,
-                          onPressed: onEmail,
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Flexible(
-                        child: ActionButton(
-                          title: 'Phone',
-                          height: 50,
-                          onPressed: onPhone,
-                        ),
-                      )
-                    ],
+                  AuthButton(
+                    title: 'Confirm',
+                    onPressed: recover,
+                    isSubmitting: isSubmitting,
+                    inputs: [info],
                   ),
                   const Spacer(
                     flex: 3,

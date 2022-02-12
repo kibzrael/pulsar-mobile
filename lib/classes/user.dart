@@ -22,6 +22,7 @@ class User {
   DateTime? dateOfBirth;
   bool isSuperuser;
 
+// name as jwtToken
   String? token;
 
   int? followers;

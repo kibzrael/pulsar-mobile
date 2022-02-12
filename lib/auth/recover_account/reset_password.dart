@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
@@ -39,18 +40,21 @@ class _ResetPasswordState extends State<ResetPassword> {
       );
     } else {
       setState(() => isSubmitting = true);
-      await recoverAccountProvider.resetPassword(password);
+      RecoverAccountResponse response =
+          await recoverAccountProvider.resetPassword(password);
       setState(() => isSubmitting = false);
       await openDialog(
         context,
-        (context) => const MyDialog(
-          title: 'Success',
-          body: "You have successfully changed your password.",
-          actions: ['Ok'],
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
         ),
         dismissible: true,
       );
-      Navigator.pop(context);
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -93,7 +97,8 @@ class _ResetPasswordState extends State<ResetPassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
@@ -122,7 +127,8 @@ class _ResetPasswordState extends State<ResetPassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: Text(
                     match ? '' : 'The passwords do not match!',
                     style: Theme.of(context).textTheme.subtitle2!.copyWith(
@@ -140,7 +146,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                   });
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

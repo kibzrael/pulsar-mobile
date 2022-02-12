@@ -76,8 +76,9 @@ class _InteractionScreenState extends State<InteractionScreen> {
                 target: fetchData,
                 itemBuilder: (context, snapshot) {
                   List<Map<String, dynamic>>? data = snapshot.data;
-                  if (snapshot.errorLoading)
+                  if (snapshot.errorLoading) {
                     debugPrint(snapshot.error.toString());
+                  }
                   return data.isEmpty
                       ? snapshot.errorLoading
                           ? Text('${snapshot.error} $data')

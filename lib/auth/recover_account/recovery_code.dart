@@ -24,13 +24,16 @@ class _RecoveryCodeState extends State<RecoveryCode> {
 
     user = recoverAccountProvider.user!;
 
-    String account = 'kib*******7@gmail.com';
+    String account = user.email!;
 
     return VerifyCode(
       account: account,
       verify: recoverAccountProvider.verifyCode,
       onBack: recoverAccountProvider.previousPage,
       onDone: recoverAccountProvider.nextPage,
+      resend: () {
+        recoverAccountProvider.recoverAccount(user.email!);
+      },
       leading: Container(
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         margin: const EdgeInsets.only(bottom: 15),

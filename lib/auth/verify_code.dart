@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class VerifyCode extends StatefulWidget {
@@ -10,14 +12,18 @@ class VerifyCode extends StatefulWidget {
   final Widget? leading;
   final Function()? onBack;
   final Function() onDone;
+  final Function() resend;
   final Function(String code) verify;
 
-  const VerifyCode(
-      {Key? key, required this.account,
-      this.leading,
-      required this.verify,
-      this.onBack,
-      required this.onDone}) : super(key: key);
+  const VerifyCode({
+    Key? key,
+    required this.account,
+    this.leading,
+    required this.verify,
+    this.onBack,
+    required this.onDone,
+    required this.resend,
+  }) : super(key: key);
 
   @override
   _VerifyCodeState createState() => _VerifyCodeState();
@@ -28,13 +34,42 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   String code = '';
 
-  bool isSubmitting = false;
+  @override
+  void initState() {
+    super.initState();
+    countdown();
+  }
 
-  verify() async {
-    setState(() => isSubmitting = true);
-    await widget.verify(code);
-    setState(() => isSubmitting = false);
-    widget.onDone();
+  countdown() async {
+    if (timeCountdown > 0) {
+      await Future.delayed(const Duration(seconds: 1));
+      setState(() => timeCountdown -= 1);
+      countdown();
+    }
+  }
+
+  verify() {
+    int response = widget.verify(code);
+    if (response == 0) {
+      widget.onDone();
+    } else {
+      openDialog(
+        context,
+        (context) => const MyDialog(
+          title: 'Invalid',
+          body:
+              'The code entered does not match the one sent. Please try again.',
+          actions: ['Ok'],
+        ),
+      );
+    }
+  }
+
+  resend() {
+    if (timeCountdown > 0) {
+      return;
+    }
+    widget.resend();
   }
 
   @override
@@ -103,13 +138,12 @@ class _VerifyCodeState extends State<VerifyCode> {
                 child: MyTextButton(
                     text: "Resend Code in $timeCountdown seconds?",
                     fontSize: 16.5,
-                    onPressed: () {}),
+                    onPressed: resend),
               ),
               const Spacer(flex: 1),
               AuthButton(
                 title: 'Confirm',
                 onPressed: verify,
-                isSubmitting: isSubmitting,
                 inputs: [code],
               ),
               const Spacer(flex: 3)
