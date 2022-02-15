@@ -91,7 +91,7 @@ class _GridPostsState extends State<GridPosts>
                                     .fillColor,
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        posts[index].thumbnail.photo),
+                                        posts[index].thumbnail.thumbnail),
                                     fit: BoxFit.cover),
                                 borderRadius: BorderRadius.circular(8))),
                       );

@@ -36,7 +36,7 @@ class _ManageAccountState extends State<ManageAccount> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ProfilePic(user.profilePic?.photo, radius: 36),
+                    ProfilePic(user.profilePic?.thumbnail, radius: 36),
                     const SizedBox(width: 15),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +49,7 @@ class _ManageAccountState extends State<ManageAccount> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(user.category,
+                          Text(user.category ?? 'Personal Account',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2!

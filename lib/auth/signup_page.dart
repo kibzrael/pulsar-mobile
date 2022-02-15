@@ -77,10 +77,11 @@ class _SignupPageState extends State<SignupPage>
 
       provider.user.id = response.body!['user']['id'];
       provider.user.username = response.body!['user']['username'];
-      provider.token = response.body!['jwtToken'];
+      provider.token = response.body!['user']['jwtToken'];
 
       await loginProvider.signup(context,
-          token: response.body!['jwtToken'], user: response.body!['user']);
+          token: response.body!['user']['jwtToken'],
+          user: response.body!['user']);
       Navigator.of(context, rootNavigator: true)
           .pushReplacement(myPageRoute(builder: (context) => const SignInfo()));
       return;

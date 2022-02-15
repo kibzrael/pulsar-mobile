@@ -34,7 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   late UserProvider provider;
   User user = tahlia;
 
-  String profilePic = tahlia.profilePic!.photo;
+  String profilePic = tahlia.profilePic!.thumbnail;
   MyImageProvider imageProvider = MyImageProvider.network;
 
   late TextEditingController fullnameController;

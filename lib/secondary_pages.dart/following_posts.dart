@@ -175,7 +175,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ProfilePic(
-                  user.profilePic?.photo,
+                  user.profilePic?.thumbnail,
                   radius: 30,
                   onMedia: true,
                 ),
@@ -189,7 +189,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                       .copyWith(fontSize: 16.5),
                 ),
                 Text(
-                  user.category,
+                  user.category ?? 'Personal Account',
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme

@@ -105,7 +105,8 @@ class _HighlightUsersState extends State<HighlightUsers> {
                     Stack(
                       alignment: Alignment.bottomRight,
                       children: <Widget>[
-                        ProfilePic(users[index].profilePic?.photo, radius: 30),
+                        ProfilePic(users[index].profilePic?.thumbnail,
+                            radius: 30),
                         // if (online)
                         //   Container(
                         //     padding: EdgeInsets.all(2.5),

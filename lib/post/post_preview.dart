@@ -91,7 +91,7 @@ class _PostPreviewState extends State<PostPreview> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 ProfilePic(
-                                  tahlia.profilePic?.photo,
+                                  tahlia.profilePic?.thumbnail,
                                   radius: 21,
                                   onMedia: true,
                                 ),

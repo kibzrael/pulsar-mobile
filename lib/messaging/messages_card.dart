@@ -65,7 +65,7 @@ class _MessagesCardState extends State<MessagesCard> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                ProfilePic(message.user.profilePic?.photo, radius: 30),
+                ProfilePic(message.user.profilePic?.thumbnail, radius: 30),
                 if (isSelected!)
                   Container(
                     decoration: BoxDecoration(

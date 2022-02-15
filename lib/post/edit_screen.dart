@@ -192,8 +192,8 @@ class _EditScreenState extends State<EditScreen> {
                                       color: Colors.white12,
                                       borderRadius: BorderRadius.circular(6),
                                       image: DecorationImage(
-                                        image: NetworkImage(
-                                            provider.audio!.coverPhoto.photo),
+                                        image: NetworkImage(provider
+                                            .audio!.coverPhoto.thumbnail),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

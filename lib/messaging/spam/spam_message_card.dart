@@ -36,7 +36,7 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
               alignment: Alignment.bottomRight,
               children: [
                 ProfilePic(
-                  widget.message.user.profilePic?.photo,
+                  widget.message.user.profilePic?.thumbnail,
                   radius: 30,
                 ),
                 if (isSelected)

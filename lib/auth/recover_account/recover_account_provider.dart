@@ -46,7 +46,7 @@ class RecoverAccountProvider extends ChangeNotifier {
       response.body = body;
       code = body['code'];
       user = User.fromJson(body['user']);
-      token = user?.token;
+      token = body['user']['jwtToken'];
     } else {
       response.body = {
         'message':

@@ -62,7 +62,7 @@ class _PostVideoState extends State<PostVideo> {
     if (!videoIsInitialized && widget.isInView) {
       videoIsInitialized = true;
 
-      videoProvider.initializeVideo(video.video).then((_) {
+      videoProvider.initializeVideo(video.video(context)).then((_) {
         setState(() {
           if (widget.isInView && visible) {
             controller = videoProvider.videoPlayerController;
@@ -81,7 +81,7 @@ class _PostVideoState extends State<PostVideo> {
       decoration: BoxDecoration(
         color: Theme.of(context).inputDecorationTheme.fillColor,
         image: DecorationImage(
-            image: CachedNetworkImageProvider(widget.thumbnail.photo),
+            image: CachedNetworkImageProvider(widget.thumbnail.photo(context)),
             fit: BoxFit.cover),
       ),
     );
@@ -106,7 +106,7 @@ class _PostVideoState extends State<PostVideo> {
           if (info.visibleFraction < 0.5) {
             visible = false;
             if (controller != null) {
-              if (video.video == controller!.dataSource) {
+              if (video.video(context) == controller!.dataSource) {
                 isPlaying = false;
                 controller?.pause();
               }
@@ -115,7 +115,7 @@ class _PostVideoState extends State<PostVideo> {
           if (info.visibleFraction > 0.5) {
             visible = true;
             if (controller != null && !isPlaying && !isPaused) {
-              if (video.video == controller!.dataSource) {
+              if (video.video(context) == controller!.dataSource) {
                 controller?.play();
                 isPlaying = true;
               }
@@ -126,7 +126,7 @@ class _PostVideoState extends State<PostVideo> {
         child: Stack(
           children: [
             controller != null
-                ? controller!.dataSource == video.video &&
+                ? controller!.dataSource == video.video(context) &&
                         controller!.value.isInitialized
                     ? SizedBox.expand(
                         child: FittedBox(

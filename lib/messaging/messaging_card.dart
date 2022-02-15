@@ -39,7 +39,7 @@ class _MessagingCardState extends State<MessagingCard> {
             child: received
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: ProfilePic(message.user.profilePic?.photo,
+                    child: ProfilePic(message.user.profilePic?.thumbnail,
                         radius: 16.5),
                   )
                 : Container(),

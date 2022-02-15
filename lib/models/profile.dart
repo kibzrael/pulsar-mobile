@@ -46,7 +46,7 @@ class _ProfileState extends State<Profile> {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(
                                 builder: (context) => PhotoView(
-                                    user.profilePic!.photo,
+                                    user.profilePic!.photo(context),
                                     tag: '${user.id}ProfilePic')));
                       }
                     },
@@ -54,8 +54,9 @@ class _ProfileState extends State<Profile> {
                       enabled: true,
                       child: Hero(
                           tag: '${user.id}ProfilePic',
-                          child:
-                              ProfilePic(user.profilePic?.photo, radius: 60)),
+                          child: ProfilePic(
+                              user.profilePic?.photo(context, max: 'medium'),
+                              radius: 60)),
                     )
 
                     // MyAvatar(user.profilePic, 45.0)
@@ -70,7 +71,7 @@ class _ProfileState extends State<Profile> {
                     .copyWith(fontSize: 21),
               ),
               Text(
-                user.category,
+                user.category ?? 'Personal Account',
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme

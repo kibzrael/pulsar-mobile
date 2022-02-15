@@ -86,8 +86,9 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                   .inputDecorationTheme
                                   .fillColor,
                               image: DecorationImage(
-                                  image: CachedNetworkImageProvider(
-                                      challenge.coverPhoto.photo),
+                                  image: CachedNetworkImageProvider(challenge
+                                      .coverPhoto
+                                      .photo(context, max: 'medium')),
                                   fit: BoxFit.cover),
                             ),
                             foregroundDecoration:

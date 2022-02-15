@@ -121,7 +121,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
                                             .fillColor,
                                         image: DecorationImage(
                                             image: CachedNetworkImageProvider(
-                                                category.coverPhoto!.photo),
+                                                category.coverPhoto!.thumbnail),
                                             fit: BoxFit.cover),
                                         shape: BoxShape.circle,
                                       ),

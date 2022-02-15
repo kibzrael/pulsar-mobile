@@ -125,7 +125,8 @@ class _CommentPageState extends State<CommentPage> {
                   ),
                   child: Row(
                     children: [
-                      ProfilePic(replyTo?.user.profilePic?.photo, radius: 18),
+                      ProfilePic(replyTo?.user.profilePic?.thumbnail,
+                          radius: 18),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -175,7 +176,7 @@ class _CommentPageState extends State<CommentPage> {
                             4, 2, comment.isEmpty ? 4 : 8, 2),
                         prefix: Padding(
                             padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                            child: ProfilePic(tahlia.profilePic?.photo,
+                            child: ProfilePic(tahlia.profilePic?.thumbnail,
                                 radius: 18)),
                         onChanged: (text) {
                           setState(() {

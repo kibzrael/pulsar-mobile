@@ -119,7 +119,7 @@ class _ChallengePageState extends State<ChallengePage>
                                     .fillColor,
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        challenge.coverPhoto.photo),
+                                        challenge.coverPhoto.photo(context)),
                                     fit: BoxFit.cover)),
                           ),
                         )),

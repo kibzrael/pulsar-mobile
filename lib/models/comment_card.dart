@@ -61,7 +61,8 @@ class _CommentCardState extends State<CommentCard> {
         children: [
           InkWell(
               onTap: openProfile,
-              child: ProfilePic(comment.user.profilePic?.photo, radius: 18)),
+              child:
+                  ProfilePic(comment.user.profilePic?.thumbnail, radius: 18)),
           const SizedBox(width: 5),
           Expanded(
             child: Column(

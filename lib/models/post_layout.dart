@@ -147,7 +147,7 @@ class _PostLayoutState extends State<PostLayout> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ProfilePic(
-                                post.user.profilePic?.photo,
+                                post.user.profilePic?.thumbnail,
                                 radius: 21,
                                 onMedia: true,
                               ),

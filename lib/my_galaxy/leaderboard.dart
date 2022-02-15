@@ -149,7 +149,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                             ProfilePage(user)));
                                   },
                                   leading: ProfilePic(
-                                    user.profilePic?.photo,
+                                    user.profilePic?.thumbnail,
                                     radius: 21,
                                   ),
                                   trailing: Card(
@@ -200,7 +200,7 @@ class _LeaderboardState extends State<Leaderboard> {
                       color: Theme.of(context).inputDecorationTheme.fillColor,
                       image: DecorationImage(
                           image: CachedNetworkImageProvider(
-                              user.profilePic!.photo),
+                              user.profilePic!.thumbnail),
                           fit: BoxFit.cover),
                       border: Border.all(
                           width: 3,

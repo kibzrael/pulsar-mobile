@@ -103,7 +103,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        challenge.coverPhoto.photo),
+                                        challenge.coverPhoto.thumbnail),
                                     fit: BoxFit.cover)),
                           ),
                           const Spacer(),

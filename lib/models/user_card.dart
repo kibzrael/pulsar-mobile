@@ -29,7 +29,7 @@ class _UserCardState extends State<UserCard> {
   Widget build(BuildContext context) {
     return MyListTile(
       leading: ProfilePic(
-        user.profilePic?.photo,
+        user.profilePic?.thumbnail,
         radius: 24,
       ),
       onPressed: () {

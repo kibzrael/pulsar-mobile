@@ -353,8 +353,10 @@ class _CameraScreenState extends State<CameraScreen>
                                                       BorderRadius.circular(6),
                                                   image: DecorationImage(
                                                     image: NetworkImage(
-                                                        postProvider.audio!
-                                                            .coverPhoto.photo),
+                                                        postProvider
+                                                            .audio!
+                                                            .coverPhoto
+                                                            .thumbnail),
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),

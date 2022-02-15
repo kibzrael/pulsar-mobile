@@ -16,7 +16,7 @@ class RecipientCard extends StatelessWidget {
       title: '@${receipient.username}',
       subtitle: receipient.category,
       leading: ProfilePic(
-        receipient.profilePic?.photo,
+        receipient.profilePic?.thumbnail,
         radius: 27,
       ),
       trailingArrow: false,

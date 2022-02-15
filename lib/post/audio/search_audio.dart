@@ -84,7 +84,7 @@ class _SearchAudioState extends State<SearchAudio> {
                         color: Colors.white12,
                         borderRadius: BorderRadius.circular(6),
                         image: DecorationImage(
-                          image: NetworkImage(audio.coverPhoto.photo),
+                          image: NetworkImage(audio.coverPhoto.thumbnail),
                           fit: BoxFit.cover,
                         ),
                       ),

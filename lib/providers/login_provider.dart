@@ -41,7 +41,8 @@ class LoginProvider extends ChangeNotifier {
     debugPrint(response.body.toString());
     if (response.statusCode == 200) {
       await saveLogin(context,
-          token: response.body!['jwtToken'], user: response.body!['user']);
+          token: response.body!['user']['jwtToken'],
+          user: response.body!['user']);
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
         _loggedIn = true;
         notifyListeners();

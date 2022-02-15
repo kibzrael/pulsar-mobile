@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/providers/connectivity_provider.dart';
 
 part 'media.g.dart';
 
@@ -9,7 +12,22 @@ class Photo {
   String? high;
 
   // change to source and get resolution
-  String get photo => thumbnail;
+  String photo(BuildContext context, {String max = 'high'}) {
+    Resolution resolution =
+        Provider.of<ConnectivityProvider>(context).resolution;
+
+    String result = resolution == Resolution.low
+        ? thumbnail
+        : resolution == Resolution.medium
+            ? medium ?? thumbnail
+            : high ?? medium ?? thumbnail;
+
+    return max == 'thumbnail'
+        ? thumbnail
+        : max == 'medium' && result == 'high'
+            ? medium ?? thumbnail
+            : result;
+  }
 
   Photo({required this.thumbnail, this.medium, this.high});
 
@@ -24,7 +42,15 @@ class Video {
   String? high;
 
   // change to source and get resolution
-  String get video => small;
+  String video(BuildContext context) {
+    Resolution resolution =
+        Provider.of<ConnectivityProvider>(context).resolution;
+    return resolution == Resolution.low
+        ? small
+        : resolution == Resolution.medium
+            ? medium ?? small
+            : high ?? medium ?? small;
+  }
 
   Video({required this.small, this.medium, this.high});
 

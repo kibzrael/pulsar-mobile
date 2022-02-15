@@ -95,7 +95,7 @@ class FilterWidget extends StatelessWidget {
               radius: 36,
               backgroundColor: Colors.white12,
               backgroundImage:
-                  CachedNetworkImageProvider(beth.profilePic!.photo),
+                  CachedNetworkImageProvider(beth.profilePic!.thumbnail),
             ),
           ),
           const SizedBox(height: 4),

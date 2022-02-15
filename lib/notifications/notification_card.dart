@@ -53,7 +53,7 @@ class _InteractionNotificationCardState
               child: Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfilePic(
-                  user.profilePic?.photo,
+                  user.profilePic?.thumbnail,
                   radius: 24,
                 ),
               ),

@@ -93,7 +93,7 @@ class _InterestsPageState extends State<InterestsPage>
                       backgroundColor:
                           Theme.of(context).inputDecorationTheme.fillColor,
                       backgroundImage: CachedNetworkImageProvider(
-                          interest.coverPhoto!.photo),
+                          interest.coverPhoto!.thumbnail),
                     ),
                     trailingArrow: false,
                     trailing: InkWell(

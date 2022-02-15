@@ -90,7 +90,7 @@ class _MessagingScreenState extends State<MessagingScreen>
             time: DateTime.now()
                 .subtract(Duration(days: (messagesList.length / 4).floor())),
             attachment: messagesList.length % 7 == 0
-                ? adventure.coverPhoto.photo
+                ? adventure.coverPhoto.photo(context)
                 : null));
       }
     }
@@ -245,7 +245,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                               4, 2, message.isEmpty ? 4 : 8, 2),
                           prefix: Padding(
                               padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child: ProfilePic(tahlia.profilePic?.photo,
+                              child: ProfilePic(tahlia.profilePic?.thumbnail,
                                   radius: 18)),
                           onChanged: (text) {
                             setState(() {

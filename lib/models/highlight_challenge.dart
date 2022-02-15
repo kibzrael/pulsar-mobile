@@ -43,8 +43,9 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                           left: Radius.circular(21),
                         ),
                         image: DecorationImage(
-                            image: CachedNetworkImageProvider(
-                                challenge.coverPhoto.photo),
+                            image: CachedNetworkImageProvider(challenge
+                                .coverPhoto
+                                .photo(context, max: 'medium')),
                             fit: BoxFit.cover)),
                   ),
                   Flexible(

@@ -11,7 +11,8 @@ part 'user.g.dart';
 class User {
   int id;
   String username;
-  String category;
+  // remove nullable
+  String? category;
   String? fullname;
   Photo? profilePic;
   String? bio;

@@ -112,7 +112,7 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
                                                           image:
                                                               CachedNetworkImageProvider(
                                                                   post.thumbnail
-                                                                      .photo),
+                                                                      .thumbnail),
                                                           fit: BoxFit.cover),
                                                     ),
                                                   ),
