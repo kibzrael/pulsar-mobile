@@ -4,7 +4,7 @@ import 'package:pulsar/classes/user.dart';
 
 part 'comment.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Comment {
   int id;
   User user;

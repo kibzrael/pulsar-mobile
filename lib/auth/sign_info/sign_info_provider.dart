@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -46,7 +47,7 @@ class SignInfoProvider extends ChangeNotifier {
         name: key,
         category: item['user'],
         pCategory: item['users'],
-        coverPhoto: item['cover'],
+        coverPhoto: Photo(thumbnail: item['cover']),
       );
       interests.add(interest);
       Map<String, dynamic>? subcategories = item['subcategories'];
@@ -57,7 +58,9 @@ class SignInfoProvider extends ChangeNotifier {
                 name: key,
                 category: item['user'] ?? interest.category,
                 pCategory: item['users'] ?? interest.pCategory,
-                coverPhoto: item['cover'] ?? interest.coverPhoto,
+                coverPhoto: item['cover'] != null
+                    ? Photo(thumbnail: item['cover'])
+                    : interest.coverPhoto,
                 parent: interest),
           );
         });

@@ -5,7 +5,7 @@ import 'package:pulsar/providers/connectivity_provider.dart';
 
 part 'media.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Photo {
   String thumbnail;
   String? medium;
@@ -35,7 +35,7 @@ class Photo {
   Map<String, dynamic> toJson() => _$PhotoToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Video {
   String small;
   String? medium;

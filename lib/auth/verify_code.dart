@@ -43,13 +43,16 @@ class _VerifyCodeState extends State<VerifyCode> {
   countdown() async {
     if (timeCountdown > 0) {
       await Future.delayed(const Duration(seconds: 1));
-      setState(() => timeCountdown -= 1);
-      countdown();
+      if (mounted) {
+        setState(() => timeCountdown -= 1);
+        countdown();
+      }
     }
   }
 
   verify() {
     int response = widget.verify(code);
+    print(response);
     if (response == 0) {
       widget.onDone();
     } else {
@@ -132,6 +135,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                     selectedColor: Theme.of(context).dividerColor,
                     disabledColor: fillColor),
                 onChanged: (text) => code = text,
+                onCompleted: (_) => verify(),
               ),
               Align(
                 alignment: Alignment.centerRight,

@@ -27,11 +27,11 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'id': instance.id,
-      'user': instance.user,
-      'source': instance.source,
-      'thumbnail': instance.thumbnail,
+      'user': instance.user.toJson(),
+      'source': instance.source.toJson(),
+      'thumbnail': instance.thumbnail.toJson(),
       'caption': instance.caption,
-      'challenge': instance.challenge,
+      'challenge': instance.challenge?.toJson(),
       'allowComments': instance.allowComments,
       'likes': instance.likes,
       'comments': instance.comments,

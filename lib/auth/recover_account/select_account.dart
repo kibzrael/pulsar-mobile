@@ -27,6 +27,12 @@ class _SelectAccountState extends State<SelectAccount> {
         await recoverAccountProvider.recoverAccount(info);
     setState(() => isSubmitting = false);
     if (response.statusCode == 200) {
+      await openDialog(
+          context,
+          (context) => MyDialog(
+              title: statusCodes[response.statusCode]!,
+              body: response.body.toString(),
+              actions: ['Ok']));
       recoverAccountProvider.nextPage();
       return;
     }
@@ -77,7 +83,10 @@ class _SelectAccountState extends State<SelectAccount> {
                   MyTextInput(
                     hintText: 'Username/Phone/Email',
                     onChanged: (text) => info = text,
-                    onSubmitted: (text) => info = text,
+                    onSubmitted: (text) {
+                      info = text;
+                      recover();
+                    },
                   ),
                   const Spacer(flex: 1),
                   AuthButton(

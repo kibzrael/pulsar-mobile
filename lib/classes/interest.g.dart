@@ -22,6 +22,6 @@ Map<String, dynamic> _$InterestToJson(Interest instance) => <String, dynamic>{
       'name': instance.name,
       'pCategory': instance.pCategory,
       'category': instance.category,
-      'coverPhoto': instance.coverPhoto,
-      'parent': instance.parent,
+      'coverPhoto': instance.coverPhoto?.toJson(),
+      'parent': instance.parent?.toJson(),
     };

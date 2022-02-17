@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/data/users.dart';
-import 'package:pulsar/providers/connectivity_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
@@ -21,14 +18,18 @@ class FollowingPosts extends StatefulWidget {
   _FollowingPostsState createState() => _FollowingPostsState();
 }
 
-class _FollowingPostsState extends State<FollowingPosts> {
+class _FollowingPostsState extends State<FollowingPosts>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   late CarouselController controller;
 
   List<Map<String, dynamic>> users = [
-    {'user': lynn, 'cover': lynn6.thumbnail.photo},
-    {'user': tahlia, 'cover': tahlia8.thumbnail.photo},
-    {'user': kinjaz, 'cover': kinjaz1.thumbnail.photo},
-    {'user': evanna, 'cover': evanna2.thumbnail.photo},
+    {'user': lynn, 'cover': lynn6.thumbnail.thumbnail},
+    {'user': tahlia, 'cover': tahlia8.thumbnail.thumbnail},
+    {'user': kinjaz, 'cover': kinjaz1.thumbnail.thumbnail},
+    {'user': evanna, 'cover': evanna2.thumbnail.thumbnail},
   ];
 
   @override
@@ -51,9 +52,8 @@ class _FollowingPostsState extends State<FollowingPosts> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     double height = MediaQuery.of(context).size.width * 0.85;
-    ConnectivityResult? connectivity =
-        Provider.of<ConnectivityProvider>(context).connectivity;
     return SafeArea(
       child: RefreshIndicator(
         onRefresh: onRefresh,
@@ -64,7 +64,7 @@ class _FollowingPostsState extends State<FollowingPosts> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               child: Text(
-                '${connectivity?.name}',
+                'No Posts',
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1!

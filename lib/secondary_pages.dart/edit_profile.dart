@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/birthday.dart';
@@ -41,6 +43,10 @@ class _EditProfileState extends State<EditProfile> {
   late TextEditingController bioController;
   late TextEditingController portfolioController;
 
+  Interest? category;
+  late List<Interest> interests;
+
+  // YYYY-MM-DD
   String? birthday;
 
   @override
@@ -49,6 +55,7 @@ class _EditProfileState extends State<EditProfile> {
     fullnameController = TextEditingController(text: user.fullname);
     bioController = TextEditingController(text: user.bio);
     portfolioController = TextEditingController(text: user.portfolio);
+    interests = [];
   }
 
   exit() {
@@ -74,6 +81,7 @@ class _EditProfileState extends State<EditProfile> {
       (context) => LoadingDialog(
         () async {
           await provider.editProfile(
+              category: category?.category,
               bio: bioController.text,
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
@@ -283,23 +291,58 @@ class _EditProfileState extends State<EditProfile> {
                   const SectionTitle(title: 'Additional Information'),
                   MyListTile(
                     title: 'Category',
-                    onPressed: () => Navigator.of(context).push(myPageRoute(
-                        builder: (context) => const EditCategory())),
+                    onPressed: () => Navigator.of(context)
+                        .push(myPageRoute(
+                            builder: (context) =>
+                                EditCategory(initialCategory: category)))
+                        .then((value) {
+                      if (value is Interest) {
+                        setState(() {
+                          category = value;
+                        });
+                      }
+                    }),
                     flexRatio: const [2, 3],
-                    subtitle: user.category,
+                    subtitle: category?.category ?? user.category,
                   ),
                   MyListTile(
                       title: 'Interests',
-                      onPressed: () => Navigator.of(context).push(myPageRoute(
-                          builder: (context) => const EditInterests())),
+                      onPressed: () => Navigator.of(context)
+                              .push(myPageRoute(
+                                  builder: (context) => EditInterests(
+                                      initialInterests: interests)))
+                              .then((value) {
+                            if (value is List<Interest>) {
+                              setState(() {
+                                interests = value;
+                              });
+                            }
+                          }),
                       flexRatio: const [2, 3],
-                      subtitle: 'Art, Music +4'),
+                      subtitle: interests.isEmpty
+                          ? 'None'
+                          : "${interests[0].name}${interests.length > 1 ? ', ' + interests[1].name : ''}${interests.length > 2 ? ', +${interests.length - 2}' : ''}"),
                   MyListTile(
                       title: 'Birthday',
-                      onPressed: () => Navigator.of(context).push(myPageRoute(
-                          builder: (context) => const EditBirthday())),
+                      onPressed: () => Navigator.of(context)
+                              .push(myPageRoute(
+                                  builder: (context) => EditBirthday(
+                                        initialDate:
+                                            DateTime.tryParse(birthday ?? ''),
+                                      )))
+                              .then((value) {
+                            if (value is String) {
+                              setState(() {
+                                birthday = value;
+                              });
+                            }
+                          }),
                       flexRatio: const [2, 3],
-                      subtitle: '9th July 2001'),
+                      subtitle: birthday == null
+                          ? '9th July 2001'
+                          : timeBirthday(
+                                  DateTime.parse(birthday ?? ''))['birthday'] ??
+                              '9th July 2001'),
                 ],
               ),
             ),

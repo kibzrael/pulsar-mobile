@@ -3,7 +3,7 @@ import 'package:pulsar/classes/media.dart';
 
 part 'interest.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Interest {
   String name;
   String? pCategory;

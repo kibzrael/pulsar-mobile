@@ -63,7 +63,8 @@ class LogTextInput extends StatefulWidget {
   final Widget? prefixIcon;
   final Widget? prefix;
   const LogTextInput(
-      {Key? key, this.controller,
+      {Key? key,
+      this.controller,
       this.focusNode,
       this.hintText = '',
       this.inputFormatters = const [],
@@ -73,7 +74,8 @@ class LogTextInput extends StatefulWidget {
       this.onFieldSubmitted,
       this.keyboardType = TextInputType.text,
       this.prefix,
-      this.prefixIcon}) : super(key: key);
+      this.prefixIcon})
+      : super(key: key);
   @override
   _LogTextInputState createState() => _LogTextInputState();
 }
@@ -158,7 +160,9 @@ class ToggleAuthScreen extends StatelessWidget {
   final Function(int page) onChange;
   final bool isLogin;
 
-  const ToggleAuthScreen({Key? key, required this.onChange, this.isLogin = true}) : super(key: key);
+  const ToggleAuthScreen(
+      {Key? key, required this.onChange, this.isLogin = true})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -182,21 +186,21 @@ class ToggleAuthScreen extends StatelessWidget {
 }
 
 class AuthButton extends StatelessWidget {
-  final bool? isSubmitting;
+  final bool isSubmitting;
   final Function onPressed;
   final List<String> inputs;
 
   final String title;
-  const AuthButton({Key? key, 
-    this.isSubmitting,
+  const AuthButton({
+    Key? key,
+    this.isSubmitting = false,
     this.inputs = const [],
     required this.title,
     required this.onPressed,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    bool enabled =
-        !isSubmitting! && !inputs.any((element) => element.isEmpty);
+    bool enabled = !isSubmitting && !inputs.any((element) => element.isEmpty);
     return InkWell(
       onTap: enabled ? onPressed as void Function()? : null,
       child: Container(
@@ -208,7 +212,7 @@ class AuthButton extends StatelessWidget {
           gradient: primaryGradient(),
           borderRadius: BorderRadius.circular(30),
         ),
-        child: isSubmitting!
+        child: isSubmitting
             ? const SizedBox(
                 height: 32,
                 width: 32,
@@ -233,7 +237,8 @@ class LinkedAccountLogin extends StatelessWidget {
   final Color? color;
   final Color? dividerColor;
 
-  const LinkedAccountLogin({Key? key, this.color, this.dividerColor}) : super(key: key);
+  const LinkedAccountLogin({Key? key, this.color, this.dividerColor})
+      : super(key: key);
 
   void onGoogle() {}
   void onFacebook() {}
@@ -279,8 +284,9 @@ class LinkedAccountWidget extends StatelessWidget {
   final Function() onPressed;
   final Color? color;
 
- const LinkedAccountWidget(
-      {Key? key, required this.icon, required this.onPressed, this.color}) : super(key: key);
+  const LinkedAccountWidget(
+      {Key? key, required this.icon, required this.onPressed, this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

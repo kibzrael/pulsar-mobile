@@ -14,7 +14,11 @@ class DiscoverPosts extends StatefulWidget {
   _DiscoverPostsState createState() => _DiscoverPostsState();
 }
 
-class _DiscoverPostsState extends State<DiscoverPosts> {
+class _DiscoverPostsState extends State<DiscoverPosts>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   List<Post> posts = allPosts;
 
   String category = 'For you';
@@ -34,6 +38,7 @@ class _DiscoverPostsState extends State<DiscoverPosts> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SafeArea(
         child: RecyclerView(
             target: fetchData,

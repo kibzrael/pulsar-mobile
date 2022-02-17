@@ -7,7 +7,7 @@ import 'package:pulsar/urls/user.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class User {
   int id;
   String username;

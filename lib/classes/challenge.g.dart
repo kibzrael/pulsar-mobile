@@ -22,8 +22,8 @@ Challenge _$ChallengeFromJson(Map<String, dynamic> json) => Challenge(
 Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'category': instance.category,
+      'category': instance.category?.toJson(),
       'description': instance.description,
-      'coverPhoto': instance.coverPhoto,
+      'coverPhoto': instance.coverPhoto.toJson(),
       'timeCreated': instance.timeCreated?.toIso8601String(),
     };

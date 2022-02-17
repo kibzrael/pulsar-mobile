@@ -20,11 +20,11 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
-      'user': instance.user,
-      'post': instance.post,
+      'user': instance.user.toJson(),
+      'post': instance.post.toJson(),
       'comment': instance.comment,
       'time': instance.time.toIso8601String(),
-      'replyTo': instance.replyTo,
+      'replyTo': instance.replyTo?.toJson(),
       'likes': instance.likes,
       'replies': instance.replies,
     };

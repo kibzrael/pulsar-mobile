@@ -4,7 +4,7 @@ import 'package:pulsar/classes/media.dart';
 
 part 'challenge.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Challenge {
   int id;
   String name;

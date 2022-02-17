@@ -28,7 +28,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   editProfile(
-      {required String bio,
+      {String? category,
+      required String bio,
       required String fullname,
       required String portfolio,
       String? birthday,
@@ -48,6 +49,7 @@ class UserProvider extends ChangeNotifier {
     Dio dio = Dio();
 
     FormData form = FormData.fromMap({
+      'category': category,
       'fullname': fullname,
       'bio': bio,
       'portfolio': portfolio,
