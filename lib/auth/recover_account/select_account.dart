@@ -32,7 +32,7 @@ class _SelectAccountState extends State<SelectAccount> {
           (context) => MyDialog(
               title: statusCodes[response.statusCode]!,
               body: response.body.toString(),
-              actions: ['Ok']));
+              actions: const ['Ok']));
       recoverAccountProvider.nextPage();
       return;
     }

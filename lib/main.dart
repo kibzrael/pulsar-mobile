@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:hive/hive.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
@@ -14,6 +16,7 @@ import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/connectivity_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
+import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
@@ -34,6 +37,8 @@ void main() async {
   List<Map<String, dynamic>> users = await db.query('users');
   bool loggedIn = users.isNotEmpty;
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
+  Hive.init((await getApplicationDocumentsDirectory()).path);
+  await Hive.openBox('settings');
   runApp(Pulsar(
     loggedIn: loggedIn,
     user: user,
@@ -85,6 +90,9 @@ class _PulsarState extends State<Pulsar> {
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(systemBrightness),
+        ),
+        ChangeNotifierProvider<SettingsProvider>(
+          create: (_) => SettingsProvider(),
         ),
         ChangeNotifierProvider<ConnectivityProvider>(
           create: (_) => ConnectivityProvider(

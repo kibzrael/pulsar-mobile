@@ -302,7 +302,6 @@ class _EditProfileState extends State<EditProfile> {
                         });
                       }
                     }),
-                    flexRatio: const [2, 3],
                     subtitle: category?.category ?? user.category,
                   ),
                   MyListTile(
@@ -318,7 +317,6 @@ class _EditProfileState extends State<EditProfile> {
                               });
                             }
                           }),
-                      flexRatio: const [2, 3],
                       subtitle: interests.isEmpty
                           ? 'None'
                           : "${interests[0].name}${interests.length > 1 ? ', ' + interests[1].name : ''}${interests.length > 2 ? ', +${interests.length - 2}' : ''}"),
@@ -337,7 +335,6 @@ class _EditProfileState extends State<EditProfile> {
                               });
                             }
                           }),
-                      flexRatio: const [2, 3],
                       subtitle: birthday == null
                           ? '9th July 2001'
                           : timeBirthday(

@@ -52,7 +52,6 @@ class _VerifyCodeState extends State<VerifyCode> {
 
   verify() {
     int response = widget.verify(code);
-    print(response);
     if (response == 0) {
       widget.onDone();
     } else {

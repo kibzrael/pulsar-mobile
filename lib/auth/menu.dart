@@ -17,6 +17,7 @@ class AuthMenu extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Flexible(
               child: ListView(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/option_tile.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -11,9 +13,10 @@ class DataSaver extends StatefulWidget {
 }
 
 class _DataSaverState extends State<DataSaver> {
-  bool saveData = false;
+  late SettingsProvider provider;
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<SettingsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Data Saver'),
@@ -26,18 +29,17 @@ class _DataSaverState extends State<DataSaver> {
                 'This will prevent pre-loading of videos and leaving open connections to save on your data in case you are on cellular data.',
             trailingArrow: false,
             trailing: Switch.adaptive(
-                value: saveData,
+                value: provider.settings.dataSaver,
                 onChanged: (bool value) {
-                  setState(() {
-                    saveData = value;
-                  });
+                  provider.settings.dataSaver = value;
+                  provider.save();
                 }),
           ),
-          const OptionTile(
+          OptionTile(
             title: 'Request timeout',
             subtitle:
                 'This is the duration a connection is kept open in case there is slow connection or faulty connection.',
-            trailingText: '15 sec',
+            trailingText: '${provider.settings.requestTimeout} sec',
           ),
           Expanded(
             child: Container(

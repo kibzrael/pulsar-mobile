@@ -24,7 +24,10 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   Map<String, Map<String, Map<String, dynamic>>> settings = {
     'Account': {
-      'Manage Account': {'icon': MyIcons.account, 'page': const ManageAccount()},
+      'Manage Account': {
+        'icon': MyIcons.account,
+        'page': const ManageAccount()
+      },
       'Billing': {'icon': MyIcons.billing, 'page': const Billing()},
     },
 
@@ -78,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 15),
                           child: Divider(
-                            thickness: 1.2,
+                            thickness: 1,
                           ),
                         )
                       ],
