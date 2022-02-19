@@ -63,7 +63,7 @@ class _ProfileState extends State<Profile> {
                     ),
               ),
               Text(
-                user.username,
+                user.fullname ?? user.username,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme

@@ -105,7 +105,7 @@ class _RootProfilePageState extends State<RootProfilePage>
         .putIfAbsent(4, () => scrollController);
     return Scaffold(
       appBar: AppBar(
-        title: Text('@${user.fullname ?? user.username}'),
+        title: Text('@${user.username}'),
         actions: [
           IconButton(
               icon: Icon(MyIcons.tune),

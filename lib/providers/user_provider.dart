@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -55,7 +56,7 @@ class UserProvider extends ChangeNotifier {
     // prefs.setString('user', userString);
   }
 
-  editProfile(BuildContext context,
+  Future<MyResponse> editProfile(BuildContext context,
       {String? category,
       required String bio,
       required String fullname,
@@ -75,6 +76,7 @@ class UserProvider extends ChangeNotifier {
     }
     String profileUrl = getUrl(UserUrls.profile(user.id));
     Dio dio = Dio();
+    debugPrint(resizedProfilePic?.path);
 
     FormData form = FormData.fromMap({
       'category': category,
@@ -84,48 +86,64 @@ class UserProvider extends ChangeNotifier {
       'DOB': birthday,
       'profilePic': resizedProfilePic == null
           ? null
-          : {
-              'image': await MultipartFile.fromFile(resizedProfilePic.path,
-                  filename: 'profile.jpg',
-                  contentType: parser.MediaType('image', 'jpeg')),
-              "type": "image/jpg"
-            }
+          : await MultipartFile.fromFile(resizedProfilePic.path,
+              filename: 'profile.jpg',
+              contentType: parser.MediaType('image', 'jpeg')),
     });
 
-    Response response = await dio.post(
-      profileUrl,
-      options: Options(headers: {
-        'Authorization': token ?? '',
-        "Content-type": "multipart/form-data",
-      }),
-      data: form,
-      onSendProgress: (int sent, int total) {
-        debugPrint("sent${sent.toString()} total${total.toString()}");
-      },
-    );
+    MyResponse response = MyResponse();
+    try {
+      Response requestResponse = await dio.post(
+        profileUrl,
+        options: Options(headers: {
+          'Authorization': token ?? '',
+          "Content-type": "multipart/form-data",
+        }),
+        data: form,
+        onSendProgress: (int sent, int total) {
+          debugPrint("sent${sent.toString()} total${total.toString()}");
+        },
+      );
 
-    if (response.statusCode == 200 && response.data is Map) {
-      Map<String, dynamic> userJson = user.toJson();
-      response.data['user'].forEach((key, value) {
-        if (userJson.containsKey(key)) {
-          userJson.update(key, (_) => value);
+      if (requestResponse.statusCode == 200 && requestResponse.data is Map) {
+        if (resizedProfilePic != null) {
+          CachedNetworkImage.evictFromCache(user.profilePic?.thumbnail ?? '');
+          CachedNetworkImage.evictFromCache(user.profilePic?.medium ?? '');
+          CachedNetworkImage.evictFromCache(user.profilePic?.high ?? '');
+          debugPrint('Removed image');
         }
-      });
-      user = User.fromJson(userJson);
+        Map<String, dynamic> userJson = user.toJson();
+        requestResponse.data['user'].forEach((key, value) {
+          if (userJson.containsKey(key)) {
+            userJson.update(key, (_) => value);
+          }
+        });
+        user = User.fromJson(userJson);
+        debugPrint(userJson.toString());
+        await Provider.of<LoginProvider>(context, listen: false)
+            .saveLogin(context, token: token!, user: user.toJson());
 
-      await Provider.of<LoginProvider>(context, listen: false)
-          .saveLogin(context, token: token!, user: user.toJson());
-      notifyListeners();
+        notifyListeners();
+      }
+
+      response.statusCode = requestResponse.statusCode;
+      if (requestResponse.data is Map) {
+        response.body = requestResponse.data;
+      } else {
+        response.body = {
+          'message':
+              'There has been a problem processing your request. Please try again later.'
+        };
+      }
+    } catch (e) {
+      response.statusCode = 503;
+      response.body = {
+        'message':
+            'There has been a problem processing your request. Please try again later.'
+      };
+      debugPrint(e.toString());
     }
-
-    if (kDebugMode) {
-      print(response.statusCode);
-      print(response.data);
-      debugPrint(profileUrl);
-      debugPrint(resizedProfilePic?.path);
-    }
-
-    return;
+    return response;
   }
 
   Future<MyResponse> changeUsername(

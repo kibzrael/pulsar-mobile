@@ -5,6 +5,8 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/response.dart';
+import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
@@ -80,11 +82,11 @@ class _EditProfileState extends State<EditProfile> {
 
   submit() async {
     FocusScope.of(context).unfocus();
-    await openDialog(
+    MyResponse response = await openDialog(
       context,
       (context) => LoadingDialog(
         () async {
-          await provider.editProfile(context,
+          MyResponse response = await provider.editProfile(context,
               category: category?.category,
               bio: bioController.text,
               fullname: fullnameController.text,
@@ -93,12 +95,25 @@ class _EditProfileState extends State<EditProfile> {
               profilePic: imageProvider == MyImageProvider.file
                   ? File(profilePic!)
                   : null);
-          return;
+          return response;
         },
         text: 'Submitting',
       ),
     );
-    Navigator.pop(context);
+    debugPrint(response.statusCode.toString());
+    if (response.statusCode != 200) {
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
+        ),
+        dismissible: true,
+      );
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   @override
