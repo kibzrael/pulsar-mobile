@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -23,8 +24,7 @@ class _SelectAccountState extends State<SelectAccount> {
 
   recover() async {
     setState(() => isSubmitting = true);
-    RecoverAccountResponse response =
-        await recoverAccountProvider.recoverAccount(info);
+    MyResponse response = await recoverAccountProvider.recoverAccount(info);
     setState(() => isSubmitting = false);
     if (response.statusCode == 200) {
       await openDialog(

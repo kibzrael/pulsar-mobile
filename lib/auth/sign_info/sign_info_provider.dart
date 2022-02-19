@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
+import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -68,7 +69,7 @@ class SignInfoProvider extends ChangeNotifier {
     });
   }
 
-  Future<SignupResponse> signup(
+  Future<MyResponse> signup(
       String email, String username, String password) async {
     Uri url = Uri.parse(_signupUrl);
     http.Response requestResponse = await http.post(
@@ -80,7 +81,7 @@ class SignInfoProvider extends ChangeNotifier {
       },
     );
 
-    SignupResponse response = SignupResponse();
+    MyResponse response = MyResponse();
     response.statusCode = requestResponse.statusCode;
     //
     var body = jsonDecode(requestResponse.body);
@@ -158,11 +159,6 @@ class SignInfoProvider extends ChangeNotifier {
 
     return;
   }
-}
-
-class SignupResponse {
-  int? statusCode;
-  Map? body;
 }
 
 class SignUserInfo {

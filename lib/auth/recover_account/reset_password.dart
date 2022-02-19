@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/log_widget.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -40,7 +41,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       );
     } else {
       setState(() => isSubmitting = true);
-      RecoverAccountResponse response =
+      MyResponse response =
           await recoverAccountProvider.resetPassword(password);
       setState(() => isSubmitting = false);
       await openDialog(

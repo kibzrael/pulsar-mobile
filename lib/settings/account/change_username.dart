@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/icons.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/classes/response.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class ChangeUsername extends StatefulWidget {
@@ -10,19 +16,47 @@ class ChangeUsername extends StatefulWidget {
 }
 
 class _ChangeUsernameState extends State<ChangeUsername> {
+  late UserProvider provider;
   late TextEditingController controller;
 
-  bool isSubmitting = false;
+  // bool isLoading = false;
 
   String text = '';
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController(text: 'tahliastanton');
+    provider = Provider.of<UserProvider>(context, listen: false);
+    controller = TextEditingController(text: provider.user.username);
+    text = provider.user.username;
   }
 
-  onSubmit() {}
+  // checkUsername() async {
+  //   setState(() => isLoading = true);
+  //   await Future.delayed(const Duration(seconds: 2));
+  //   setState(() => isLoading = false);
+  // }
+
+  onSubmit() async {
+    MyResponse response = await openDialog(
+        context,
+        (context) => LoadingDialog(
+              () async => await provider.changeUsername(context, text),
+              text: 'Submitting',
+            ));
+    await openDialog(
+      context,
+      (context) => MyDialog(
+        title: statusCodes[response.statusCode]!,
+        body: response.body!['message'],
+        actions: const ['Ok'],
+      ),
+      dismissible: true,
+    );
+    if (response.statusCode == 200) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,31 +86,22 @@ class _ChangeUsernameState extends State<ChangeUsername> {
               TextField(
                   autofocus: true,
                   controller: controller,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: 'Username',
-                      suffixIcon: Icon(MyIcons.close),
+                      // suffixIcon: isLoading
+                      //     ? const MyProgressIndicator(
+                      //         size: 20,
+                      //         margin: EdgeInsets.zero,
+                      //       )
+                      //     : Icon(MyIcons.close),
                       helperText:
                           'Only letters, numbers, underscores(_) and periods(.) are allowed',
                       helperMaxLines: 4),
-                  onChanged: (value) => setState(() => text = value),
-                  onSubmitted: (text) {}),
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: Padding(
-              //     padding:
-              //         const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
-              //     child: FittedBox(
-              //       fit: BoxFit.scaleDown,
-              //       child: Text(
-              //         'Only letters, numbers and ._ are allowed',
-              //         style: Theme.of(context)
-              //             .textTheme
-              //             .subtitle2!
-              //             .copyWith(fontSize: 12),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+                  onChanged: (value) => setState(() {
+                        text = value;
+                        // checkUsername();
+                      }),
+                  onSubmitted: (value) => text = ''),
               const Spacer(),
             ],
           ),

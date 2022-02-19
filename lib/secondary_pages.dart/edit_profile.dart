@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/functions/time.dart';
@@ -34,9 +33,9 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   late UserProvider provider;
-  User user = tahlia;
+  late User user;
 
-  String profilePic = tahlia.profilePic!.thumbnail;
+  late String? profilePic;
   MyImageProvider imageProvider = MyImageProvider.network;
 
   late TextEditingController fullnameController;
@@ -52,13 +51,17 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    fullnameController = TextEditingController(text: user.fullname);
-    bioController = TextEditingController(text: user.bio);
-    portfolioController = TextEditingController(text: user.portfolio);
-    interests = [];
+    provider = Provider.of<UserProvider>(context, listen: false);
+    fullnameController = TextEditingController(text: provider.user.fullname);
+    bioController = TextEditingController(text: provider.user.bio);
+    portfolioController = TextEditingController(text: provider.user.portfolio);
+    interests = provider.user.interests ?? [];
+    birthday = provider.user.dateOfBirth?.toString().split(' ')[0];
+    profilePic = provider.user.profilePic?.photo(context);
   }
 
   exit() {
+    FocusScope.of(context).unfocus();
     openDialog(
             context,
             (context) => const MyDialog(
@@ -76,18 +79,19 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   submit() async {
+    FocusScope.of(context).unfocus();
     await openDialog(
       context,
       (context) => LoadingDialog(
         () async {
-          await provider.editProfile(
+          await provider.editProfile(context,
               category: category?.category,
               bio: bioController.text,
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
               birthday: birthday,
               profilePic: imageProvider == MyImageProvider.file
-                  ? File(profilePic)
+                  ? File(profilePic!)
                   : null);
           return;
         },
@@ -108,6 +112,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<UserProvider>(context);
+    user = provider.user;
     return WillPopScope(
       onWillPop: () async {
         exit();
@@ -231,7 +236,7 @@ class _EditProfileState extends State<EditProfile> {
                                                 .bodyText1!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
-                                      hintText: user.username,
+                                      hintText: 'fullname',
                                       hintStyle:
                                           Theme.of(context).textTheme.subtitle2,
                                     ),
@@ -336,10 +341,10 @@ class _EditProfileState extends State<EditProfile> {
                             }
                           }),
                       subtitle: birthday == null
-                          ? '9th July 2001'
+                          ? 'None'
                           : timeBirthday(
                                   DateTime.parse(birthday ?? ''))['birthday'] ??
-                              '9th July 2001'),
+                              'None'),
                 ],
               ),
             ),

@@ -14,7 +14,7 @@ class Photo {
   // change to source and get resolution
   String photo(BuildContext context, {String max = 'high'}) {
     Resolution resolution =
-        Provider.of<ConnectivityProvider>(context).resolution;
+        Provider.of<ConnectivityProvider>(context, listen: false).resolution;
 
     String result = resolution == Resolution.low
         ? thumbnail
@@ -44,7 +44,7 @@ class Video {
   // change to source and get resolution
   String video(BuildContext context) {
     Resolution resolution =
-        Provider.of<ConnectivityProvider>(context).resolution;
+        Provider.of<ConnectivityProvider>(context, listen: false).resolution;
     return resolution == Resolution.low
         ? small
         : resolution == Resolution.medium

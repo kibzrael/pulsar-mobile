@@ -96,16 +96,16 @@ class _ProfileState extends State<Profile> {
                   curve: Curves.ease);
             },
             posts: 7),
-        //if (user.bio != null)
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 30.0),
-          child: Text(
-            'It\'s just love\n@fletcher',
-            textAlign: TextAlign.center,
-            maxLines: 4,
-            overflow: TextOverflow.ellipsis,
+        if (user.bio != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Text(
+              user.bio!,
+              textAlign: TextAlign.center,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-        ),
         const SizedBox(height: 5),
         // Container(
         //   margin: EdgeInsets.symmetric(vertical: 5),

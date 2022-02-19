@@ -200,7 +200,7 @@ class _CommentPageState extends State<CommentPage> {
                               'id': 21,
                               'user': Provider.of<UserProvider>(context,
                                       listen: false)
-                                  .user!,
+                                  .user,
                               'post': post,
                               'comment': comment,
                               'replyTo': replyTo,

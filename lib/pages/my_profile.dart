@@ -67,8 +67,6 @@ class _RootProfilePageState extends State<RootProfilePage>
     tabController = TabController(length: 2, vsync: this);
     tabController!.addListener(tabControlerListener);
     scrollController = ScrollController();
-
-    user = tahlia;
     super.initState();
   }
 
@@ -99,6 +97,7 @@ class _RootProfilePageState extends State<RootProfilePage>
     super.build(context);
 
     provider = Provider.of<UserProvider>(context);
+    user = provider.user;
 
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
@@ -106,7 +105,7 @@ class _RootProfilePageState extends State<RootProfilePage>
         .putIfAbsent(4, () => scrollController);
     return Scaffold(
       appBar: AppBar(
-        title: Text('@${user.username}'),
+        title: Text('@${user.fullname ?? user.username}'),
         actions: [
           IconButton(
               icon: Icon(MyIcons.tune),

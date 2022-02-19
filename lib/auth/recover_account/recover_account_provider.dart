@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -32,13 +33,13 @@ class RecoverAccountProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
-  Future<RecoverAccountResponse> recoverAccount(String info) async {
+  Future<MyResponse> recoverAccount(String info) async {
     String recoverAccountUrl = getUrl(AuthUrls.recoverAccount);
 
     http.Response requestResponse =
         await http.post(Uri.parse(recoverAccountUrl), body: {'info': info});
 
-    RecoverAccountResponse response = RecoverAccountResponse();
+    MyResponse response = MyResponse();
     response.statusCode = requestResponse.statusCode;
     //
     var body = jsonDecode(requestResponse.body);
@@ -64,13 +65,13 @@ class RecoverAccountProvider extends ChangeNotifier {
     }
   }
 
-  Future<RecoverAccountResponse> resetPassword(String password) async {
+  Future<MyResponse> resetPassword(String password) async {
     String resetPasswordUrl = getUrl(AuthUrls.resetPassword);
 
     http.Response requestResponse = await http.post(Uri.parse(resetPasswordUrl),
         headers: {'Authorization': token!}, body: {'password': password});
 
-    RecoverAccountResponse response = RecoverAccountResponse();
+    MyResponse response = MyResponse();
     response.statusCode = requestResponse.statusCode;
     //
     var body = jsonDecode(requestResponse.body);
@@ -84,9 +85,4 @@ class RecoverAccountProvider extends ChangeNotifier {
     }
     return response;
   }
-}
-
-class RecoverAccountResponse {
-  int? statusCode;
-  Map? body;
 }

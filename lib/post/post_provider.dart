@@ -34,9 +34,9 @@ class PostProvider extends ChangeNotifier {
     BackgroundOperations operations =
         Provider.of<BackgroundOperations>(context, listen: false);
 
-    User? user = Provider.of<UserProvider>(context, listen: false).user;
+    User user = Provider.of<UserProvider>(context, listen: false).user;
 
-    if (user == null || video == null || thumbnail.thumbnail == null) return;
+    if (video == null || thumbnail.thumbnail == null) return;
 
     operations.uploadPost = UploadPost(
       user: user,

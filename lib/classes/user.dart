@@ -14,21 +14,26 @@ class User {
   // remove nullable
   String? category;
   String? fullname;
+  @JsonKey(name: 'profile_pic')
   Photo? profilePic;
   String? bio;
   String? portfolio;
   List<Interest>? interests;
   String? email;
   String? phone;
+  @JsonKey(name: 'date_of_birth')
   DateTime? dateOfBirth;
+  @JsonKey(name: 'is_superuser')
   bool isSuperuser;
 
 // name as jwtToken
+  @JsonKey(name: 'jwtToken')
   String? token;
 
   int? followers;
   int? posts;
 
+  @JsonKey(name: 'is_following')
   bool? isFollowing;
   bool? isBlocked;
   bool? postNotifications;

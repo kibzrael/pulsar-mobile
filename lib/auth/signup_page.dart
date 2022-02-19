@@ -5,6 +5,7 @@ import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
@@ -64,7 +65,7 @@ class _SignupPageState extends State<SignupPage>
     setState(() {
       isSubmitting = true;
     });
-    SignupResponse response = await provider.signup(email, username, password);
+    MyResponse response = await provider.signup(email, username, password);
     setState(() {
       isSubmitting = false;
     });

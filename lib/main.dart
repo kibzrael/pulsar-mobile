@@ -31,9 +31,8 @@ void main() async {
 
   Database db = await openDatabase(dbPath, version: 1, onCreate: (db, version) {
     return db.execute(
-        'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT UNIQUE, category TEXT, fullname TEXT, email TEXT, phone TEXT, bio TEXT, portfolio TEXT, token TEXT)');
+        'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT UNIQUE, category TEXT, thumbnail TEXT,medium TEXT,high TEXT, fullname TEXT, email TEXT, phone TEXT, bio TEXT, portfolio TEXT, token TEXT)');
   });
-
   List<Map<String, dynamic>> users = await db.query('users');
   bool loggedIn = users.isNotEmpty;
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
