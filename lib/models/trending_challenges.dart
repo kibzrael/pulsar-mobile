@@ -56,31 +56,38 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-        elevation: 3,
+        elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(21),
+          borderRadius: BorderRadius.circular(30),
         ),
         child: Row(children: [
-          Container(
-            height: 75,
-            width: 90,
-            margin: const EdgeInsets.only(right: 15),
-            decoration: BoxDecoration(
-                color: Theme.of(context).inputDecorationTheme.fillColor,
-                borderRadius: const BorderRadius.horizontal(
-                  left: Radius.circular(15),
-                ),
-                image: DecorationImage(
-                    image: CachedNetworkImageProvider(
-                        challenge.coverPhoto.thumbnail),
-                    fit: BoxFit.cover)),
+          ClipPath(
+            clipper: ChallengeClipper(),
+            child: Container(
+              height: 90,
+              width: 120,
+              // margin: const EdgeInsets.only(right: 5),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(30),
+                  ),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                          challenge.coverPhoto.thumbnail),
+                      fit: BoxFit.cover)),
+            ),
           ),
           Expanded(
-            child: Text(challenge.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 19.5)),
+            child: Text(
+              challenge.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontSize: 19.5),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -96,4 +103,19 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
       ),
     );
   }
+}
+
+class ChallengeClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height);
+    path.lineTo(size.width * 2 / 3, size.height);
+    path.lineTo(size.width, 0);
+    path.lineTo(0, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }

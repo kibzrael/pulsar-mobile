@@ -10,7 +10,12 @@ class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
     if (box.isOpen) {
       if (box.isNotEmpty) {
-        settings = Settings.fromJson(box.toMap() as Map<String, dynamic>);
+        var boxContent = box.toMap();
+        Map<String, dynamic> mapContent = {};
+        boxContent
+            .forEach((key, value) => mapContent.putIfAbsent(key, () => value));
+        // debugPrint(boxContent.runtimeType.toString());
+        settings = Settings.fromJson(mapContent);
       }
     }
   }

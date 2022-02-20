@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
@@ -92,6 +91,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                       width: 180,
                       padding: const EdgeInsets.only(bottom: 5),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
                             height: 125,
@@ -106,72 +106,80 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                         challenge.coverPhoto.thumbnail),
                                     fit: BoxFit.cover)),
                           ),
-                          const Spacer(),
-                          Text(
-                            challenge.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1!
-                                .copyWith(fontSize: 18),
-                            maxLines: 1,
-                          ),
-                          Text(
-                            'Category',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle2!
-                                .copyWith(fontSize: 16.5),
-                            maxLines: 1,
-                          ),
-                          const Spacer(),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  child: Icon(
-                                    MyIcons.play,
-                                    size: 24,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '3.14K',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 4),
-                                  child: Icon(
-                                    MyIcons.pin,
-                                    size: 16.5,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '4.5K',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color),
-                                  ),
-                                ),
-                              ],
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              challenge.name,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(fontSize: 18),
+                              maxLines: 1,
                             ),
-                          )
+                          ),
+                          const SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              'Description in two lines, a small font and with ellipsis',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2!
+                                  .copyWith(fontSize: 15),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          // Container(
+                          //   margin: const EdgeInsets.symmetric(
+                          //       horizontal: 15, vertical: 5),
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       Padding(
+                          //         padding:
+                          //             const EdgeInsets.symmetric(horizontal: 4),
+                          //         child: Icon(
+                          //           MyIcons.play,
+                          //           size: 24,
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         child: Text(
+                          //           '3.14K',
+                          //           maxLines: 1,
+                          //           style: TextStyle(
+                          //               fontSize: 15,
+                          //               color: Theme.of(context)
+                          //                   .textTheme
+                          //                   .headline1!
+                          //                   .color),
+                          //         ),
+                          //       ),
+                          //       Padding(
+                          //         padding:
+                          //             const EdgeInsets.symmetric(horizontal: 4),
+                          //         child: Icon(
+                          //           MyIcons.pin,
+                          //           size: 16.5,
+                          //         ),
+                          //       ),
+                          //       Expanded(
+                          //         child: Text(
+                          //           '4.5K',
+                          //           maxLines: 1,
+                          //           style: TextStyle(
+                          //               fontSize: 15,
+                          //               color: Theme.of(context)
+                          //                   .textTheme
+                          //                   .headline1!
+                          //                   .color),
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

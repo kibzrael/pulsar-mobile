@@ -71,9 +71,9 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                   child: GridView.builder(
                                       itemCount: data.length,
                                       padding: EdgeInsets.fromLTRB(
-                                          8,
+                                          6,
                                           0,
-                                          8,
+                                          6,
                                           MediaQuery.of(context)
                                               .padding
                                               .bottom),
@@ -81,8 +81,8 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                           const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 2,
                                               childAspectRatio: 0.75,
-                                              crossAxisSpacing: 8,
-                                              mainAxisSpacing: 8),
+                                              crossAxisSpacing: 6,
+                                              mainAxisSpacing: 6),
                                       itemBuilder: (context, index) {
                                         Post post = postData[index];
                                         return InkWell(
@@ -102,7 +102,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                           },
                                           child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(9.5),
+                                                BorderRadius.circular(8),
                                             child: Stack(
                                               alignment: Alignment.bottomCenter,
                                               fit: StackFit.loose,

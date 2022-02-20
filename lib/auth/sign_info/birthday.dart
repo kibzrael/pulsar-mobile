@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
-import 'package:pulsar/functions/time.dart';
-import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/secondary_pages.dart/select_birthday.dart';
 
 class BirthdayPage extends StatefulWidget {
   const BirthdayPage({Key? key}) : super(key: key);
@@ -19,9 +17,6 @@ class _BirthdayPageState extends State<BirthdayPage>
   bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
-  String birthday = 'Date';
-  String age = 'Age';
-
   DateTime selectedDate = DateTime.utc(DateTime.now().year - 13);
 
   @override
@@ -29,104 +24,25 @@ class _BirthdayPageState extends State<BirthdayPage>
     super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
 
-    double size = MediaQuery.of(context).size.height -
-        (MediaQuery.of(context).padding.top + kToolbarHeight);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: signInfoAppBar(
-            title: 'Birthday',
-            onBack: provider.previousPage,
-            onForward: () {
-              provider.user.birthday = selectedDate;
-              provider.nextPage();
-            }),
-        body: SingleChildScrollView(
-            child: Container(
-          padding: const EdgeInsets.all(30),
-          height: size,
-          child: Column(
-            children: [
-              Text(
-                'For personalized content. This info will be kept private',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline1!
-                    .copyWith(fontSize: 24),
-              ),
-              const Spacer(
-                flex: 2,
-              ),
-
-              DefaultTextStyle(
-                style: Theme.of(context).textTheme.bodyText1!,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                              gradient: primaryGradient(),
-                              borderRadius: BorderRadius.circular(30)),
-                          child: Text(
-                            birthday,
-                            style: const TextStyle(color: Colors.white),
-                          )),
-                    ),
-                    Container(
-                      height: 50,
-                      width: 100,
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).inputDecorationTheme.fillColor,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Text(age),
-                    )
-                  ],
-                ),
-              ),
-
-              // TextField(
-              //   controller: textController,
-              //   readOnly: true,
-              //   decoration: InputDecoration(hintText: 'Birthday'),
-              // ),
-              const Spacer(
-                flex: 2,
-              ),
-              CupertinoTheme(
-                data: CupertinoThemeData(
-                    brightness: Theme.of(context).brightness),
-                child: SizedBox(
-                    height: 150,
-                    child: CupertinoDatePicker(
-                        maximumDate: DateTime.now(),
-                        initialDateTime: selectedDate,
-                        minimumYear: DateTime.now().year - 100,
-                        mode: CupertinoDatePickerMode.date,
-                        onDateTimeChanged: (DateTime date) {
-                          setState(() {
-                            birthday = timeBirthday(date)['birthday']!;
-                            age = timeBirthday(date)['age']!;
-                            selectedDate = date;
-                          });
-                        })),
-              ),
-              const Spacer(
-                flex: 1,
-              ),
-              const SizedBox(height: kToolbarHeight)
-            ],
-          ),
-        )),
-      ),
+          appBar: signInfoAppBar(
+              title: 'Birthday',
+              onBack: provider.previousPage,
+              onForward: () {
+                provider.user.birthday = selectedDate;
+                provider.nextPage();
+              }),
+          body: SelectBirthday(
+              initialDate: null,
+              onSelected: (date) {
+                setState(() {
+                  selectedDate = date;
+                });
+              })),
     );
   }
 }

@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
 import 'package:dio/dio.dart';
@@ -29,7 +27,6 @@ class UserProvider extends ChangeNotifier {
 
   void setUser(Map<String, dynamic> newUser) {
     Map<String, dynamic> userJson = {};
-    debugPrint(newUser.toString());
 
     newUser.forEach((key, value) {
       if (!['thumbnail', 'medium', 'high', 'token'].contains(key)) {
@@ -49,8 +46,6 @@ class UserProvider extends ChangeNotifier {
               });
     }
     user = User.fromJson(userJson);
-    debugPrint(userJson.toString());
-    debugPrint(token);
     notifyListeners();
     // String userString = jsonEncode(newUser);
     // prefs.setString('user', userString);
@@ -110,7 +105,6 @@ class UserProvider extends ChangeNotifier {
           CachedNetworkImage.evictFromCache(user.profilePic?.thumbnail ?? '');
           CachedNetworkImage.evictFromCache(user.profilePic?.medium ?? '');
           CachedNetworkImage.evictFromCache(user.profilePic?.high ?? '');
-          debugPrint('Removed image');
         }
         Map<String, dynamic> userJson = user.toJson();
         requestResponse.data['user'].forEach((key, value) {
@@ -119,7 +113,6 @@ class UserProvider extends ChangeNotifier {
           }
         });
         user = User.fromJson(userJson);
-        debugPrint(userJson.toString());
         await Provider.of<LoginProvider>(context, listen: false)
             .saveLogin(context, token: token!, user: user.toJson());
 

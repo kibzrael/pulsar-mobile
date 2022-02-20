@@ -7,7 +7,9 @@ class DiscoverTags extends StatefulWidget {
   final String selected;
   final Function(String value) onChanged;
 
-  const DiscoverTags({Key? key, required this.selected, required this.onChanged}) : super(key: key);
+  const DiscoverTags(
+      {Key? key, required this.selected, required this.onChanged})
+      : super(key: key);
 
   @override
   _DiscoverTagsState createState() => _DiscoverTagsState();
@@ -21,7 +23,7 @@ class _DiscoverTagsState extends State<DiscoverTags> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 50,
       alignment: Alignment.centerLeft,
       child: ListView.builder(
           itemCount: tags.length + 2,
@@ -49,14 +51,18 @@ class TagWidget extends StatelessWidget {
   final Function(String interest) onPressed;
 
   const TagWidget(
-      {Key? key, required this.text, required this.isSelected, required this.onPressed}) : super(key: key);
+      {Key? key,
+      required this.text,
+      required this.isSelected,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => onPressed(text),
       child: AnimatedContainer(
-        margin: const EdgeInsets.only(right: 8),
+        margin: const EdgeInsets.fromLTRB(0, 4, 8, 4),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         alignment: Alignment.center,
         duration: const Duration(milliseconds: 300),
@@ -66,7 +72,7 @@ class TagWidget extends StatelessWidget {
                 color: Theme.of(context).dividerColor,
                 style: isSelected ? BorderStyle.none : BorderStyle.solid),
             gradient: isSelected ? secondaryGradient() : null,
-            borderRadius: BorderRadius.circular(15)),
+            borderRadius: BorderRadius.circular(30)),
         child: Text(
           text,
           style: TextStyle(

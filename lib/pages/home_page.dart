@@ -143,7 +143,8 @@ class SegmentObject extends StatefulWidget {
   final Function(int index) onPressed;
 
   const SegmentObject(this.text, this.index,
-      {Key? key, required this.pageIndex, required this.onPressed}) : super(key: key);
+      {Key? key, required this.pageIndex, required this.onPressed})
+      : super(key: key);
 
   @override
   _SegmentObjectState createState() => _SegmentObjectState();

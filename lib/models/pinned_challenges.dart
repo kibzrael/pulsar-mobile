@@ -99,7 +99,8 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                           height: 125,
                           width: 175,
                           alignment: Alignment.bottomCenter,
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 4, vertical: 24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -110,55 +111,55 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                     .textTheme
                                     .bodyText1
                                     ?.copyWith(
-                                      fontSize: 18,
+                                      fontSize: 21,
                                       color: Colors.white,
                                     ),
                                 maxLines: 2,
                                 softWrap: true,
                                 textAlign: TextAlign.center,
                               ),
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 7.5),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3),
-                                      child: Icon(
-                                        MyIcons.play,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
-                                    ),
-                                    const Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        '3.14K',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 3),
-                                      child: Icon(
-                                        MyIcons.pin,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
-                                    ),
-                                    const Expanded(
-                                      flex: 1,
-                                      child: Text(
-                                        '4.5K',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
+                              // Container(
+                              //   margin: const EdgeInsets.symmetric(
+                              //       horizontal: 15, vertical: 7.5),
+                              //   child: Row(
+                              //     children: <Widget>[
+                              //       Padding(
+                              //         padding: const EdgeInsets.symmetric(
+                              //             horizontal: 3),
+                              //         child: Icon(
+                              //           MyIcons.play,
+                              //           color: Colors.white,
+                              //           size: 15,
+                              //         ),
+                              //       ),
+                              //       const Expanded(
+                              //         flex: 2,
+                              //         child: Text(
+                              //           '3.14K',
+                              //           style: TextStyle(
+                              //               color: Colors.white, fontSize: 12),
+                              //         ),
+                              //       ),
+                              //       Padding(
+                              //         padding: const EdgeInsets.symmetric(
+                              //             horizontal: 3),
+                              //         child: Icon(
+                              //           MyIcons.pin,
+                              //           color: Colors.white,
+                              //           size: 15,
+                              //         ),
+                              //       ),
+                              //       const Expanded(
+                              //         flex: 1,
+                              //         child: Text(
+                              //           '4.5K',
+                              //           style: TextStyle(
+                              //               color: Colors.white, fontSize: 12),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // )
                             ],
                           ),
                         ),

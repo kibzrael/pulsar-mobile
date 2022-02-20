@@ -12,7 +12,7 @@ class _ChallengesAdState extends State<ChallengesAd> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 320,
+      height: 240,
       margin: const EdgeInsets.symmetric(vertical: 8),
       color: Theme.of(context).colorScheme.surface,
       child: Align(

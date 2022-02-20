@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/profile.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/promotion/promote.dart';

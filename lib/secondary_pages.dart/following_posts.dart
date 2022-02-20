@@ -186,7 +186,7 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!
-                      .copyWith(fontSize: 16.5),
+                      .copyWith(fontSize: 16.5, color: Colors.white),
                 ),
                 Text(
                   user.category ?? 'Personal Account',
