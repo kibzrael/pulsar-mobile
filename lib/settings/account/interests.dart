@@ -26,6 +26,7 @@ class _EditInterestsState extends State<EditInterests> {
   @override
   void initState() {
     super.initState();
+    selected = [...widget.initialInterests];
     fetchInterests();
   }
 

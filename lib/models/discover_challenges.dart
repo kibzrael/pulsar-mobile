@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
@@ -30,10 +31,12 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     litByFire,
   ];
 
-  List<String> tags = [
-    'For you',
-    'Trending',
-    ...allCategories.map((e) => e.name)
+  List<CategoryTag> tags = [
+    CategoryTag(
+        'For you', Photo(thumbnail: 'assets/categories/for you-48.png')),
+    CategoryTag(
+        'Trending', Photo(thumbnail: 'assets/categories/trending-48.png')),
+    ...allCategories.map((e) => CategoryTag(e.name, e.coverPhoto!))
   ];
 
   String selected = 'For you';
@@ -59,13 +62,14 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                 itemBuilder: (context, index) {
                   return ChallengeTag(
                     tags[index],
-                    isSelected: selected == tags[index],
-                    onPressed: () => setState(() => selected = tags[index]),
+                    isSelected: selected == tags[index].name,
+                    onPressed: () =>
+                        setState(() => selected = tags[index].name),
                   );
                 }),
           ),
           Container(
-            height: 225,
+            height: 220,
             margin: const EdgeInsets.only(top: 12),
             child: ListView.builder(
               itemCount: challenges.length,
@@ -194,8 +198,15 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
   }
 }
 
+class CategoryTag {
+  String name;
+  Photo cover;
+
+  CategoryTag(this.name, this.cover);
+}
+
 class ChallengeTag extends StatefulWidget {
-  final String tag;
+  final CategoryTag tag;
   final bool isSelected;
   final Function() onPressed;
   const ChallengeTag(this.tag,
@@ -224,13 +235,16 @@ class _ChallengeTagState extends State<ChallengeTag> {
               gradient: isSelected ? secondaryGradient() : null,
               borderRadius: BorderRadius.circular(30)),
           child: Row(children: [
-            CircleAvatar(
-              radius: 15,
-              backgroundColor: Theme.of(context).dividerColor,
+            Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(widget.tag.cover.thumbnail))),
             ),
             const SizedBox(width: 8),
             Text(
-              widget.tag,
+              widget.tag.name,
               style: TextStyle(
                   fontSize: 16.5,
                   fontWeight: FontWeight.w500,

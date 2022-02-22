@@ -222,16 +222,16 @@ class _EditProfileState extends State<EditProfile> {
                             },
                             flexRatio: const [2, 3],
                             trailingText: '@${user.username}',
-                            trailing: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Icon(MyIcons.edit,
-                                  size: 16.5,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2!
-                                      .color),
-                            ),
-                            trailingArrow: false,
+                            // trailing: Padding(
+                            //   padding: const EdgeInsets.only(left: 8),
+                            //   child: Icon(MyIcons.edit,
+                            //       size: 16.5,
+                            //       color: Theme.of(context)
+                            //           .textTheme
+                            //           .subtitle2!
+                            //           .color),
+                            // ),
+                            trailingArrow: true,
                           ),
                           MyListTile(
                               title: 'Full name',

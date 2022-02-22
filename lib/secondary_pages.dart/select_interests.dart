@@ -31,14 +31,13 @@ class _SelectInterestsState extends State<SelectInterests>
   @override
   void initState() {
     super.initState();
-    interests = [...widget.interests];
     selected = [...widget.initialInterests];
-    widget.onSelect(selected);
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    interests = [...widget.interests];
     List<Interest> majorInterests = [
       ...interests.where((element) => element.parent == null)
     ];

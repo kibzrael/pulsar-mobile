@@ -1,18 +1,13 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 // import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
 // import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
-import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trimmer.dart';
@@ -29,7 +24,8 @@ import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
   final double duration;
-  const CaptureScreen(this.video, {Key? key, required this.duration}) : super(key: key);
+  const CaptureScreen(this.video, {Key? key, required this.duration})
+      : super(key: key);
   @override
   _CaptureScreenState createState() => _CaptureScreenState();
 }
@@ -117,22 +113,26 @@ class _CaptureScreenState extends State<CaptureScreen>
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
 
-    FlutterFFmpeg ffmpeg = FlutterFFmpeg();
-    Directory directory = await getApplicationDocumentsDirectory();
-    String start = ffmpegDuration(trimStart);
-    String end = ffmpegDuration(trimEnd);
-    String outputPath = join(directory.absolute.path,
-        '${DateTime.now().toString().replaceAll(" ", '_')}video_trim.mp4');
-    String command =
-        '-i ${video.video.absolute.path} -ss $start -to $end $outputPath';
-    state = 'starting.....';
-    int response = await ffmpeg.execute(command);
-    start = 'done code $response';
-    if (response != 0) {
-      //  error
-    } else {
-      return;
-    }
+    // FlutterFFmpeg ffmpeg = FlutterFFmpeg();
+    // Directory directory = await getApplicationDocumentsDirectory();
+    // String start = ffmpegDuration(trimStart);
+    // String end = ffmpegDuration(trimEnd);
+    // String outputPath = join(directory.absolute.path,
+    //     '${DateTime.now().toString().replaceAll(" ", '_')}video_trim.mp4');
+    // String command =
+    //     '-i ${video.video.absolute.path} -ss $start -to $end $outputPath';
+    // state = 'starting.....';
+    // int response = await ffmpeg.execute(command);
+    // start = 'done code $response';
+
+    // if (response != 0) {
+    //   //  error
+    // } else {
+    //   return;
+    // }
+
+    return;
+
     // FFmpegKit.executeAsync(command).then((session) async {
     //   state = 'waiting for response....';
     //   ReturnCode? response = await session.getReturnCode();

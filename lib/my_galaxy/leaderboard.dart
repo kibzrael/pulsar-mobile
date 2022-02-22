@@ -1,20 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
-import 'package:pulsar/ads/list_tile_ad.dart';
 
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
+import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
-import 'package:pulsar/widgets/list_tile.dart';
-import 'package:pulsar/widgets/profile_pic.dart';
-import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/widgets/section.dart';
 
 class Leaderboard extends StatefulWidget {
   final Challenge challenge;
@@ -59,119 +53,125 @@ class _LeaderboardState extends State<Leaderboard> {
                 icon: Icon(MyIcons.info))
           ],
         ),
-        body: LayoutBuilder(builder: (context, constraints) {
-          return NestedScrollViewRefreshIndicator(
-              onRefresh: onRefresh,
-              child: ExtendedNestedScrollView(
-                controller: controller,
+        body: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          child: const NetworkError(),
+        )
+        // LayoutBuilder(builder: (context, constraints) {
+        //   return NestedScrollViewRefreshIndicator(
+        //       onRefresh: onRefresh,
+        //       child: ExtendedNestedScrollView(
+        //         controller: controller,
 
-                headerSliverBuilder: (context, f) {
-                  return [
-                    SliverList(
-                        delegate: SliverChildListDelegate(
-                      [
-                        // SizedBox(
-                        //   height: displacement.value * 75,
-                        //   width: double.infinity,
-                        //   child: Container(
-                        //     alignment: Alignment.center,
-                        //     width: double.infinity,
-                        //     color: Theme.of(context).colorScheme.surface,
-                        //     child: SingleChildScrollView(
-                        //       child: Padding(
-                        //         padding: EdgeInsets.all(8),
-                        //         child: CircularProgressIndicator(
-                        //           value: show ? null : displacement.value,
-                        //           strokeWidth: 1,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              winnersProfile(2, lynn),
-                              winnersProfile(1, tahlia),
-                              winnersProfile(3, kinjaz),
-                            ],
-                          ),
-                        ),
-                        const ListTileAd(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: SectionTitle(
-                            title: challenge.name,
-                            trailing: Text(
-                              '12K posts',
-                              style: Theme.of(context).textTheme.subtitle2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )),
-                  ];
-                },
-                // innerScrollPositionKeyBuilder: () {
-                //   return Key('Scroll1');
-                // },
-                onlyOneScrollInBody: true,
-                body: Column(
-                  children: [
-                    const MyListTile(
-                      title: 'You',
-                      subtitle: 'Current Position',
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage('assets/old_logo.jpg'),
-                        radius: 21,
-                      ),
-                      trailingText: 'N/A',
-                      flexRatio: [4, 1],
-                    ),
-                    Expanded(
-                      child: Container(
-                          color: Theme.of(context).colorScheme.surface,
-                          child: ListView.builder(
-                              itemCount: allUsers.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                User user = allUsers[index];
-                                return MyListTile(
-                                  title: '@${user.username}',
-                                  subtitle: user.category,
-                                  onPressed: () {
-                                    Navigator.of(context).push(myPageRoute(
-                                        builder: (context) =>
-                                            ProfilePage(user)));
-                                  },
-                                  leading: ProfilePic(
-                                    user.profilePic?.thumbnail,
-                                    radius: 21,
-                                  ),
-                                  trailing: Card(
-                                    shape: const CircleBorder(),
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Text(
-                                          '${index + 4}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1,
-                                        )),
-                                  ),
-                                  trailingArrow: false,
-                                  flexRatio: const [4, 1],
-                                );
-                              })),
-                    ),
-                  ],
-                ),
-              ));
-        }));
+        //         headerSliverBuilder: (context, f) {
+        //           return [
+        //             SliverList(
+        //                 delegate: SliverChildListDelegate(
+        //               [
+        //                 // SizedBox(
+        //                 //   height: displacement.value * 75,
+        //                 //   width: double.infinity,
+        //                 //   child: Container(
+        //                 //     alignment: Alignment.center,
+        //                 //     width: double.infinity,
+        //                 //     color: Theme.of(context).colorScheme.surface,
+        //                 //     child: SingleChildScrollView(
+        //                 //       child: Padding(
+        //                 //         padding: EdgeInsets.all(8),
+        //                 //         child: CircularProgressIndicator(
+        //                 //           value: show ? null : displacement.value,
+        //                 //           strokeWidth: 1,
+        //                 //         ),
+        //                 //       ),
+        //                 //     ),
+        //                 //   ),
+        //                 // ),
+        //                 Container(
+        //                   padding: const EdgeInsets.symmetric(
+        //                       horizontal: 15, vertical: 12),
+        //                   child: Row(
+        //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                     crossAxisAlignment: CrossAxisAlignment.end,
+        //                     children: [
+        //                       winnersProfile(2, lynn),
+        //                       winnersProfile(1, tahlia),
+        //                       winnersProfile(3, kinjaz),
+        //                     ],
+        //                   ),
+        //                 ),
+        //                 const ListTileAd(),
+        //                 Padding(
+        //                   padding: const EdgeInsets.symmetric(vertical: 4),
+        //                   child: SectionTitle(
+        //                     title: challenge.name,
+        //                     trailing: Text(
+        //                       '12K posts',
+        //                       style: Theme.of(context).textTheme.subtitle2,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ],
+        //             )),
+        //           ];
+        //         },
+        //         // innerScrollPositionKeyBuilder: () {
+        //         //   return Key('Scroll1');
+        //         // },
+        //         onlyOneScrollInBody: true,
+        //         body: Column(
+        //           children: [
+        //             const MyListTile(
+        //               title: 'You',
+        //               subtitle: 'Current Position',
+        //               leading: CircleAvatar(
+        //                 backgroundImage: AssetImage('assets/old_logo.jpg'),
+        //                 radius: 21,
+        //               ),
+        //               trailingText: 'N/A',
+        //               flexRatio: [4, 1],
+        //             ),
+        //             Expanded(
+        //               child: Container(
+        //                   color: Theme.of(context).colorScheme.surface,
+        //                   child: ListView.builder(
+        //                       itemCount: allUsers.length,
+        //                       shrinkWrap: true,
+        //                       itemBuilder: (context, index) {
+        //                         User user = allUsers[index];
+        //                         return MyListTile(
+        //                           title: '@${user.username}',
+        //                           subtitle: user.category,
+        //                           onPressed: () {
+        //                             Navigator.of(context).push(myPageRoute(
+        //                                 builder: (context) =>
+        //                                     ProfilePage(user)));
+        //                           },
+        //                           leading: ProfilePic(
+        //                             user.profilePic?.thumbnail,
+        //                             radius: 21,
+        //                           ),
+        //                           trailing: Card(
+        //                             shape: const CircleBorder(),
+        //                             child: Padding(
+        //                                 padding: const EdgeInsets.all(8),
+        //                                 child: Text(
+        //                                   '${index + 4}',
+        //                                   style: Theme.of(context)
+        //                                       .textTheme
+        //                                       .bodyText1,
+        //                                 )),
+        //                           ),
+        //                           trailingArrow: false,
+        //                           flexRatio: const [4, 1],
+        //                         );
+        //                       })),
+        //             ),
+        //           ],
+        //         ),
+        //       ));
+        // })
+        );
   }
 
   Widget winnersProfile(int pos, User user) {

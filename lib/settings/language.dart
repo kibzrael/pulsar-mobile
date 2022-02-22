@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/placeholders/network_error.dart';
 
 class Language extends StatefulWidget {
   const Language({Key? key}) : super(key: key);
@@ -23,29 +22,30 @@ class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Select Language'),
-      ),
-      body: ListView.builder(
-        itemCount: languages.length,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return MyListTile(
-            title: languages[index],
-            leading: Icon(
-              MyIcons.language,
-              color: Theme.of(context).textTheme.subtitle2!.color,
-            ),
-            onPressed: () {
-              setState(() {
-                language = languages[index];
-              });
-            },
-            trailingArrow: false,
-            trailing: languages[index] == language ? Icon(MyIcons.check) : null,
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Select Language'),
+        ),
+        body: const NetworkError()
+        //  ListView.builder(
+        //   itemCount: languages.length,
+        //   shrinkWrap: true,
+        //   itemBuilder: (context, index) {
+        //     return MyListTile(
+        //       title: languages[index],
+        //       leading: Icon(
+        //         MyIcons.language,
+        //         color: Theme.of(context).textTheme.subtitle2!.color,
+        //       ),
+        //       onPressed: () {
+        //         setState(() {
+        //           language = languages[index];
+        //         });
+        //       },
+        //       trailingArrow: false,
+        //       trailing: languages[index] == language ? Icon(MyIcons.check) : null,
+        //     );
+        //   },
+        // ),
+        );
   }
 }

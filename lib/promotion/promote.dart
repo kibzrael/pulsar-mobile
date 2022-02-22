@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/placeholders/network_error.dart';
 
 class Promote extends StatefulWidget {
   const Promote({Key? key}) : super(key: key);
@@ -13,6 +14,10 @@ class _PromoteState extends State<Promote> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Promote'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: const NetworkError(),
       ),
     );
   }

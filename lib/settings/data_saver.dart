@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/settings.dart';
+import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
+import 'package:pulsar/widgets/navigation_rail.dart';
 import 'package:pulsar/widgets/option_tile.dart';
 import 'package:pulsar/widgets/section.dart';
 
@@ -14,9 +17,11 @@ class DataSaver extends StatefulWidget {
 
 class _DataSaverState extends State<DataSaver> {
   late SettingsProvider provider;
+  late Settings settings;
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<SettingsProvider>(context);
+    settings = provider.settings;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Data Saver'),
@@ -48,14 +53,41 @@ class _DataSaverState extends State<DataSaver> {
               child: Section(
                 title: 'Media Options',
                 child: SingleChildScrollView(
-                    child: Column(children: const [
+                    child: Column(children: [
                   MyListTile(
                     title: 'Media AutoPlay',
-                    subtitle: 'On wi-fi only',
+                    subtitle: mediaAutoplay[settings.mediaAutoplay]!,
+                    onPressed: () async {
+                      String? selected = await openBottomSheet(
+                          context,
+                          (context) => OptionsRail(
+                              options: [...mediaAutoplay.values.toList()],
+                              selected:
+                                  mediaAutoplay[settings.mediaAutoplay]!));
+                      if (selected != null) {
+                        provider.settings.mediaAutoplay = mediaAutoplay.keys
+                            .firstWhere((element) =>
+                                mediaAutoplay[element] == selected);
+                        provider.save();
+                      }
+                    },
                   ),
                   MyListTile(
                     title: 'Media Quality',
-                    subtitle: 'High',
+                    subtitle: mediaQuality[settings.mediaQuality]!,
+                    onPressed: () async {
+                      String? selected = await openBottomSheet(
+                          context,
+                          (context) => OptionsRail(
+                              options: [...mediaQuality.values.toList()],
+                              selected: mediaQuality[settings.mediaQuality]!));
+                      if (selected != null) {
+                        provider.settings.mediaQuality = mediaQuality.keys
+                            .firstWhere(
+                                (element) => mediaQuality[element] == selected);
+                        provider.save();
+                      }
+                    },
                   )
                 ])),
               ),
@@ -66,3 +98,16 @@ class _DataSaverState extends State<DataSaver> {
     );
   }
 }
+
+Map<Autoplay, String> mediaAutoplay = {
+  Autoplay.alwaysOn: 'Always on',
+  Autoplay.wifiOnly: 'On wi-fi only',
+  Autoplay.off: 'Always off',
+};
+
+Map<MediaQuality, String> mediaQuality = {
+  MediaQuality.auto: 'Automatic',
+  MediaQuality.low: 'Low',
+  MediaQuality.medium: 'Medium',
+  MediaQuality.high: 'High',
+};

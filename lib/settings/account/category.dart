@@ -92,6 +92,7 @@ class _EditCategoryState extends State<EditCategory> {
         ),
         body: SelectCategory(
             categories: categories,
+            selectedCategory: selectedCategory,
             isSolo: isSolo,
             onSelect: (category) {
               setState(() {

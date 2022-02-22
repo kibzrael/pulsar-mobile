@@ -59,13 +59,13 @@ dependencies:
   video_compress: ^3.1.0
   flutter_video_info: ^1.2.0
   video_thumbnail: ^0.4.3
-  flutter_ffmpeg: ^0.4.2
 
   # image
   cached_network_image: ^3.1.0
   image_picker: ^0.8.4+4
   image: ^3.1.0
   image_cropper: ^1.4.1
+  flutter_svg: ^1.0.3
 
   # performance
   json_serializable:
@@ -119,6 +119,8 @@ flutter:
     - assets/images/
     - assets/images/logos/
     - assets/intro/
+    - assets/illustrations/
+    - assets/categories/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

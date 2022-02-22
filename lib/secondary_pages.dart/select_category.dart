@@ -9,11 +9,13 @@ import 'package:pulsar/widgets/search_input.dart';
 
 class SelectCategory extends StatefulWidget {
   final List<Interest> categories;
+  final Interest? selectedCategory;
   final bool isSolo;
   final Function(Interest selected) onSelect;
   const SelectCategory(
       {Key? key,
       required this.categories,
+      required this.selectedCategory,
       this.isSolo = true,
       required this.onSelect})
       : super(key: key);
@@ -31,14 +33,6 @@ class _SelectCategoryState extends State<SelectCategory>
 
   List<Interest> categories = [];
 
-  Interest? selectedCategory;
-
-  @override
-  void initState() {
-    super.initState();
-    categories = [...widget.categories];
-  }
-
   search() {
     Navigator.of(context)
         .push(myPageRoute(builder: (context) => const SearchCategory()));
@@ -47,6 +41,8 @@ class _SelectCategoryState extends State<SelectCategory>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    categories = [...widget.categories];
+
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
         child: Container(
@@ -92,16 +88,13 @@ class _SelectCategoryState extends State<SelectCategory>
                     itemBuilder: (context, index) {
                       Interest category = categories[index];
 
-                      bool selected =
-                          category.category == selectedCategory?.category;
+                      bool selected = category.category ==
+                          widget.selectedCategory?.category;
 
                       return LayoutBuilder(builder: (context, snapshot) {
                         return InkWell(
                           onTap: () {
-                            setState(() {
-                              widget.onSelect(category);
-                              selectedCategory = category;
-                            });
+                            widget.onSelect(category);
                           },
                           child: Column(
                             children: [

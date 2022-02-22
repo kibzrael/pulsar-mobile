@@ -47,6 +47,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
               }),
           body: SelectCategory(
               categories: categories,
+              selectedCategory: selectedCategory,
               isSolo: isSolo,
               onSelect: (category) {
                 setState(() => selectedCategory = category);
