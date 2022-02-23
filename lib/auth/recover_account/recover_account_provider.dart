@@ -36,19 +36,25 @@ class RecoverAccountProvider extends ChangeNotifier {
   Future<MyResponse> recoverAccount(String info) async {
     String recoverAccountUrl = getUrl(AuthUrls.recoverAccount);
 
-    http.Response requestResponse =
-        await http.post(Uri.parse(recoverAccountUrl), body: {'info': info});
-
     MyResponse response = MyResponse();
-    response.statusCode = requestResponse.statusCode;
-    //
-    var body = jsonDecode(requestResponse.body);
-    if (body is Map) {
-      response.body = body;
-      code = body['code'];
-      user = User.fromJson(body['user']);
-      token = body['user']['jwtToken'];
-    } else {
+
+    try {
+      http.Response requestResponse =
+          await http.post(Uri.parse(recoverAccountUrl), body: {'info': info});
+
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
+        code = body['code'];
+        user = User.fromJson(body['user']);
+        token = body['user']['jwtToken'];
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      response.statusCode = 503;
       response.body = {
         'message':
             'There has been a problem processing your request. Please try again later.'

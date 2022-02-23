@@ -147,7 +147,7 @@ class _SignupPageState extends State<SignupPage>
                         const Text(
                           'Register',
                           style: TextStyle(
-                            fontSize: 48,
+                            fontSize: 36,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

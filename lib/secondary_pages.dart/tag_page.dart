@@ -75,130 +75,134 @@ class _TagPageState extends State<TagPage>
           onPressed: moreOnTag,
         )
       ]),
-      body: NestedScrollViewRefreshIndicator(
-        onRefresh: onRefresh,
-        child: ExtendedNestedScrollView(
-            controller: scrollController,
-            headerSliverBuilder: (BuildContext context, bool? f) {
-              return [
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: InkWell(
-                                onTap: () {
+      body: LayoutBuilder(builder: (context, constraints) {
+        return NestedScrollViewRefreshIndicator(
+          onRefresh: onRefresh,
+          child: ExtendedNestedScrollView(
+              controller: scrollController,
+              headerSliverBuilder: (BuildContext context, bool? f) {
+                return [
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 6),
+                              child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => PhotoView(
+                                                rael.profilePic!.photo(context),
+                                                tag: 'tagPic')));
+                                  },
+                                  child: Hero(
+                                      tag: 'tagPic',
+                                      child: ProfilePic(
+                                          rael.profilePic?.thumbnail,
+                                          radius: 60))
+
+                                  // MyAvatar(user.tagPic, 45.0)
+                                  ),
+                            ),
+                            Text(
+                              '#$tag',
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1!
+                                  .copyWith(fontSize: 21),
+                            ),
+                            const SizedBox(height: 1.5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  MyIcons.play,
+                                  size: 21,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .color,
+                                ),
+                                Text(
+                                  '2.7M posts',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle2!
+                                      .copyWith(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            FollowLayout(
+                                child: const Text(
+                                  'Post',
+                                ),
+                                isFollowed: isFollowed,
+                                onChildPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
-                                          builder: (context) => PhotoView(
-                                              rael.profilePic!.photo(context),
-                                              tag: 'tagPic')));
+                                          builder: (context) =>
+                                              PostProcess(tag: tag)));
                                 },
-                                child: Hero(
-                                    tag: 'tagPic',
-                                    child: ProfilePic(
-                                        rael.profilePic?.thumbnail,
-                                        radius: 60))
-
-                                // MyAvatar(user.tagPic, 45.0)
-                                ),
-                          ),
-                          Text(
-                            '#$tag',
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1!
-                                .copyWith(fontSize: 21),
-                          ),
-                          const SizedBox(height: 1.5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                MyIcons.play,
-                                size: 21,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .color,
-                              ),
-                              Text(
-                                '2.7M posts',
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2!
-                                    .copyWith(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          FollowLayout(
-                              child: const Text(
-                                'Post',
-                              ),
-                              isFollowed: isFollowed,
-                              onChildPressed: () {
-                                Navigator.of(context, rootNavigator: true).push(
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PostProcess(tag: tag)));
-                              },
-                              onFollow: () {
-                                setState(() {
-                                  isFollowed = !isFollowed;
-                                });
-                              })
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ];
-            },
-            // innerScrollPositionKeyBuilder: () {
-            //   String index = 'Tab';
-            //   index += tabController!.index.toString();
-
-            //   return Key(index);
-            // },
-            onlyOneScrollInBody: false,
-            body: Column(
-              children: <Widget>[
-                TabBar(
-                  controller: tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: EdgeInsets.zero,
-                  unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-                  tabs: const <Widget>[
-                    CustomTab(
-                      'Recent',
-                    ),
-                    CustomTab(
-                      'Trending',
-                      divider: false,
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    constraints: const BoxConstraints(minHeight: 100),
-                    child: TabBarView(
-                      controller: tabController,
-                      children: <Widget>[
-                        GridPosts(evanna),
-                        GridPosts(evanna),
+                                onFollow: () {
+                                  setState(() {
+                                    isFollowed = !isFollowed;
+                                  });
+                                })
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                )
-              ],
-            )),
-      ),
+                ];
+              },
+              // innerScrollPositionKeyBuilder: () {
+              //   String index = 'Tab';
+              //   index += tabController!.index.toString();
+
+              //   return Key(index);
+              // },
+              onlyOneScrollInBody: false,
+              body: Column(
+                children: <Widget>[
+                  TabBar(
+                    controller: tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: EdgeInsets.zero,
+                    unselectedLabelColor:
+                        Theme.of(context).unselectedWidgetColor,
+                    tabs: const <Widget>[
+                      CustomTab(
+                        'Recent',
+                      ),
+                      CustomTab(
+                        'Trending',
+                        divider: false,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: constraints.maxHeight - kTextTabBarHeight,
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surface,
+                      constraints: const BoxConstraints(minHeight: 100),
+                      child: TabBarView(
+                        controller: tabController,
+                        children: <Widget>[
+                          GridPosts(evanna),
+                          GridPosts(evanna),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )),
+        );
+      }),
     );
   }
 }

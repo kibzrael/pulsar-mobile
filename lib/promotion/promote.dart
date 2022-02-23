@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class Promote extends StatefulWidget {
   const Promote({Key? key}) : super(key: key);
@@ -15,10 +15,7 @@ class _PromoteState extends State<Promote> {
       appBar: AppBar(
         title: const Text('Promote'),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-        child: const NetworkError(),
-      ),
+      body: const NotImplementedError(),
     );
   }
 }

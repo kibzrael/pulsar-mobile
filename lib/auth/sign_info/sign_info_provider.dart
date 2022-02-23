@@ -9,10 +9,13 @@ import 'package:http_parser/http_parser.dart' as parser;
 import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
+import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -107,7 +110,7 @@ class SignInfoProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
-  submit() async {
+  submit(BuildContext context) async {
     File? profilePic;
     if (user.profilePic != null) {
       // split into three different qualities
@@ -126,36 +129,58 @@ class SignInfoProvider extends ChangeNotifier {
 
     Dio dio = Dio();
 
+    String birthday = user.birthday?.toString().split(' ')[0] ?? '';
+
     FormData form = FormData.fromMap({
       'category': user.category,
       'fullname': user.username,
-      'DOB': user.birthday,
+      'DOB': birthday,
       'type': '',
       'interests': [],
       'profilePic': profilePic == null
           ? null
-          : {
-              'image': await MultipartFile.fromFile(profilePic.path,
-                  filename: 'profile.jpg',
-                  contentType: parser.MediaType('image', 'jpeg')),
-              "type": "image/jpg"
-            }
+          : await MultipartFile.fromFile(profilePic.path,
+              filename: 'profile.jpg',
+              contentType: parser.MediaType('image', 'jpeg'))
+
+      //  {
+      //     'image': await MultipartFile.fromFile(profilePic.path,
+      //         filename: 'profile.jpg',
+      //         contentType: parser.MediaType('image', 'jpeg')),
+      //     "type": "image/jpg"
+      //   }
     });
 
-    Response response = await dio.post(
-      profileUrl,
-      options: Options(headers: {
-        'Authorization': token!,
-        "Content-type": "multipart/form-data",
-      }),
-      data: form,
-      onSendProgress: (int sent, int total) {
-        debugPrint("sent${sent.toString()} total${total.toString()}");
-      },
-    );
+    try {
+      Response response = await dio.post(
+        profileUrl,
+        options: Options(headers: {
+          'Authorization': token ?? '',
+          "Content-type": "multipart/form-data",
+        }),
+        data: form,
+        onSendProgress: (int sent, int total) {
+          debugPrint("sent${sent.toString()} total${total.toString()}");
+        },
+      );
 
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.data);
+      if (response.statusCode == 200 && response.data is Map) {
+        Map<String, dynamic> userJson = {};
+        response.data['user'].forEach((key, value) {
+          userJson.putIfAbsent(key, () => value);
+        });
+        User userObject = User.fromJson(userJson);
+        await Provider.of<LoginProvider>(context, listen: false)
+            .saveLogin(context, token: token!, user: userObject.toJson());
+
+        debugPrint('Saved user');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+
+    // debugPrint(response.statusCode.toString());
+    // debugPrint(response.data);
 
     return;
   }

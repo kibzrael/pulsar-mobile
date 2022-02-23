@@ -6,7 +6,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
-import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/route.dart';
 
@@ -53,11 +53,7 @@ class _LeaderboardState extends State<Leaderboard> {
                 icon: Icon(MyIcons.info))
           ],
         ),
-        body: Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: const NetworkError(),
-        )
+        body: const NotImplementedError()
         // LayoutBuilder(builder: (context, constraints) {
         //   return NestedScrollViewRefreshIndicator(
         //       onRefresh: onRefresh,

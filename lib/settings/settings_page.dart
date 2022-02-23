@@ -5,6 +5,7 @@ import 'package:pulsar/settings/billing.dart';
 import 'package:pulsar/settings/blank.dart';
 import 'package:pulsar/settings/cache.dart';
 import 'package:pulsar/settings/data_saver.dart';
+import 'package:pulsar/settings/drafts.dart';
 import 'package:pulsar/settings/language.dart';
 import 'package:pulsar/settings/log_out.dart';
 import 'package:pulsar/settings/privacy/privacy.dart';
@@ -38,6 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     'Display & Media': {
       'Data Saver': {'icon': MyIcons.dataSaver, 'page': const DataSaver()},
+      'Drafts': {'icon': MyIcons.dataSaver, 'page': const Drafts()},
       'Theme': {'icon': MyIcons.theme, 'page': const SelectTheme()},
       'Language': {'icon': MyIcons.language, 'page': const Language()},
     },

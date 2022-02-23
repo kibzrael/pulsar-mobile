@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class Blank extends StatefulWidget {
   const Blank({Key? key}) : super(key: key);
@@ -15,7 +15,7 @@ class _BlankState extends State<Blank> {
       appBar: AppBar(
         title: const Text('Blank'),
       ),
-      body: const NetworkError(),
+      body: const NotImplementedError(),
     );
   }
 }

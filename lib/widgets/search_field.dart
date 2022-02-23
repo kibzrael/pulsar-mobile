@@ -7,10 +7,12 @@ class SearchField extends StatefulWidget {
   final bool autofocus;
   final Function(String text) onChanged;
   final Function(String text) onSubmitted;
+  final Function()? onTap;
   final Color? color;
   final Color? clearColor;
 
-  const SearchField({Key? key, 
+  const SearchField({
+    Key? key,
     this.autofocus = false,
     this.height = 37.5,
     this.hintText = 'Search...',
@@ -18,6 +20,7 @@ class SearchField extends StatefulWidget {
     this.clearColor,
     required this.onChanged,
     required this.onSubmitted,
+    this.onTap,
   }) : super(key: key);
   @override
   _SearchFieldState createState() => _SearchFieldState();
@@ -60,6 +63,7 @@ class _SearchFieldState extends State<SearchField> {
                 focusNode: focusNode,
                 controller: textEditingController,
                 autofocus: widget.autofocus,
+                onTap: widget.onTap,
                 onChanged: (text) {
                   setState(() {
                     searchText = text;
@@ -91,7 +95,8 @@ class _SearchFieldState extends State<SearchField> {
 class TextFieldClear extends StatelessWidget {
   final Function() onPressed;
   final Color? color;
-  const TextFieldClear({Key? key, required this.onPressed, this.color}) : super(key: key);
+  const TextFieldClear({Key? key, required this.onPressed, this.color})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(

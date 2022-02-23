@@ -114,109 +114,116 @@ class _RootProfilePageState extends State<RootProfilePage>
               })
         ],
       ),
-      body: NestedScrollViewRefreshIndicator(
-        onRefresh: onRefresh,
-        child: ExtendedNestedScrollView(
-            controller: scrollController,
-            headerSliverBuilder: (BuildContext context, bool? f) {
-              return [
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Profile(
-                        user,
-                        scrollController: scrollController,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 45),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: ActionButton(
-                                title: 'Edit Profile',
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      myPageRoute(
-                                          builder: (context) =>
-                                              const EditProfile()));
+      body: LayoutBuilder(builder: (context, constraints) {
+        return NestedScrollViewRefreshIndicator(
+          onRefresh: onRefresh,
+          child: ExtendedNestedScrollView(
+              controller: scrollController,
+              headerSliverBuilder: (BuildContext context, bool? f) {
+                return [
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Profile(
+                          user,
+                          scrollController: scrollController,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 45),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: ActionButton(
+                                  title: 'Edit Profile',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        myPageRoute(
+                                            builder: (context) =>
+                                                const EditProfile()));
+                                  },
+                                  height: 37.5,
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(myPageRoute(
+                                      builder: (context) => const Promote()));
                                 },
-                                height: 37.5,
-                              ),
-                            ),
-                            const SizedBox(width: 15),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(myPageRoute(
-                                    builder: (context) => const Promote()));
-                              },
-                              child: Card(
-                                elevation: 4,
-                                margin: EdgeInsets.zero,
-                                color:
-                                    Theme.of(context).scaffoldBackgroundColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Container(
-                                  child: const Text(
-                                    'Promote',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                child: Card(
+                                  elevation: 4,
+                                  margin: EdgeInsets.zero,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
                                   ),
-                                  height: 35,
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 5),
+                                  child: Container(
+                                    child: const Text(
+                                      'Promote',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    height: 35,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 5),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ];
+              },
+              // innerScrollPositionKeyBuilder: () {
+              //   String index = 'Tab';
+              //   index += tabController!.index.toString();
+              //   return Key(index);
+              // },
+              onlyOneScrollInBody: false,
+              body: SizedBox(
+                height: constraints.maxHeight,
+                child: Column(
+                  children: <Widget>[
+                    TabBar(
+                      controller: tabController,
+                      indicator: const BoxDecoration(),
+                      labelPadding: EdgeInsets.zero,
+                      unselectedLabelColor:
+                          Theme.of(context).unselectedWidgetColor,
+                      tabs: <Widget>[
+                        CustomTab(
+                          'Posts',
+                          icon: MyIcons.posts,
+                        ),
+                        CustomTab(
+                          'Reposts',
+                          icon: MyIcons.repost,
+                          divider: false,
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: constraints.maxHeight - kTextTabBarHeight,
+                      child: Container(
+                        color: Theme.of(context).colorScheme.surface,
+                        child: TabBarView(
+                          controller: tabController,
+                          children: <Widget>[GridPosts(user), GridPosts(user)],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ];
-            },
-            // innerScrollPositionKeyBuilder: () {
-            //   String index = 'Tab';
-            //   index += tabController!.index.toString();
-            //   return Key(index);
-            // },
-            onlyOneScrollInBody: false,
-            body: Column(
-              children: <Widget>[
-                TabBar(
-                  controller: tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: EdgeInsets.zero,
-                  unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-                  tabs: <Widget>[
-                    CustomTab(
-                      'Posts',
-                      icon: MyIcons.posts,
-                    ),
-                    CustomTab(
-                      'Reposts',
-                      icon: MyIcons.repost,
-                      divider: false,
                     )
                   ],
                 ),
-                Expanded(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    child: TabBarView(
-                      controller: tabController,
-                      children: <Widget>[GridPosts(user), GridPosts(user)],
-                    ),
-                  ),
-                )
-              ],
-            )),
-      ),
+              )),
+        );
+      }),
     );
   }
 }

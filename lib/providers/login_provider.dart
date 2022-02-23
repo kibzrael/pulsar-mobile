@@ -25,17 +25,25 @@ class LoginProvider extends ChangeNotifier {
 
   Future<LoginResponse> login(BuildContext context, info, password) async {
     Uri url = Uri.parse(_loginUrl);
-    http.Response requestResponse = await http.post(url, body: {
-      'info': info,
-      'password': password,
-    });
-
     LoginResponse response = LoginResponse();
-    response.statusCode = requestResponse.statusCode;
-    //
-    var body = jsonDecode(requestResponse.body);
-    if (body is Map) {
-      response.body = body;
+    try {
+      http.Response requestResponse = await http.post(url, body: {
+        'info': info,
+        'password': password,
+      });
+
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
+      }
+    } catch (e) {
+      response.statusCode = 503;
+      response.body = {
+        'message':
+            'There has been a problem processing your request. Please try again later.'
+      };
     }
     debugPrint(response.statusCode.toString());
     debugPrint(response.body.toString());
@@ -70,9 +78,9 @@ class LoginProvider extends ChangeNotifier {
       'id': user['id'],
       'username': user['username'],
       'category': user['category'],
-      'thumbnail': user['profile_pic']['thumbnail'],
-      'medium': user['profile_pic']['medium'],
-      'high': user['profile_pic']['high'],
+      'thumbnail': user['profile_pic']?['thumbnail'],
+      'medium': user['profile_pic']?['medium'],
+      'high': user['profile_pic']?['high'],
       'fullname': user['fullname'],
       'email': user['email'],
       'phone': user['phone'],

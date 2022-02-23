@@ -75,82 +75,87 @@ class _ProfilePageState extends State<ProfilePage>
         title: Text('@${user.username}'),
         actions: [IconButton(icon: Icon(MyIcons.more), onPressed: moreOnUser)],
       ),
-      body: NestedScrollViewRefreshIndicator(
-        onRefresh: onRefresh,
-        child: ExtendedNestedScrollView(
-            controller: scrollController,
-            headerSliverBuilder: (BuildContext context, bool? f) {
-              return [
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Profile(
-                        user,
-                        scrollController: scrollController!,
-                      ),
-                      FollowLayout(
-                          middle: const Image(
-                            image:
-                                AssetImage('assets/images/logos/instagram.png'),
-                            width: 24,
-                          ),
-                          child: Icon(
-                            MyIcons.send,
-                            color: Theme.of(context).textTheme.bodyText2!.color,
-                          ),
-                          isFollowed: isFollowed,
-                          onChildPressed: () {
-                            Navigator.of(context, rootNavigator: true).push(
-                                myPageRoute(
-                                    builder: (context) =>
-                                        MessagingScreen(Chat([user, tahlia]))));
-                          },
-                          onFollow: () {
-                            setState(() {
-                              isFollowed = !isFollowed;
-                            });
-                          })
-                    ],
-                  ),
-                ),
-              ];
-            },
-            onlyOneScrollInBody: false,
-            body: Column(
-              children: <Widget>[
-                TabBar(
-                  controller: tabController,
-                  indicator: const BoxDecoration(),
-                  labelPadding: EdgeInsets.zero,
-                  unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-                  tabs: <Widget>[
-                    CustomTab(
-                      'Posts',
-                      icon: MyIcons.posts,
-                    ),
-                    CustomTab(
-                      'Reposts',
-                      icon: MyIcons.repost,
-                      divider: false,
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.surface,
-                    constraints: const BoxConstraints(minHeight: 100),
-                    child: TabBarView(
-                      controller: tabController,
-                      children: <Widget>[
-                        GridPosts(user),
-                        GridPosts(user),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return NestedScrollViewRefreshIndicator(
+          onRefresh: onRefresh,
+          child: ExtendedNestedScrollView(
+              controller: scrollController,
+              headerSliverBuilder: (BuildContext context, bool? f) {
+                return [
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        Profile(
+                          user,
+                          scrollController: scrollController!,
+                        ),
+                        FollowLayout(
+                            middle: const Image(
+                              image: AssetImage(
+                                  'assets/images/logos/instagram.png'),
+                              width: 24,
+                            ),
+                            child: Icon(
+                              MyIcons.send,
+                              color:
+                                  Theme.of(context).textTheme.bodyText2!.color,
+                            ),
+                            isFollowed: isFollowed,
+                            onChildPressed: () {
+                              Navigator.of(context, rootNavigator: true).push(
+                                  myPageRoute(
+                                      builder: (context) => MessagingScreen(
+                                          Chat([user, tahlia]))));
+                            },
+                            onFollow: () {
+                              setState(() {
+                                isFollowed = !isFollowed;
+                              });
+                            })
                       ],
                     ),
                   ),
-                )
-              ],
-            )),
-      ),
+                ];
+              },
+              onlyOneScrollInBody: false,
+              body: Column(
+                children: <Widget>[
+                  TabBar(
+                    controller: tabController,
+                    indicator: const BoxDecoration(),
+                    labelPadding: EdgeInsets.zero,
+                    unselectedLabelColor:
+                        Theme.of(context).unselectedWidgetColor,
+                    tabs: <Widget>[
+                      CustomTab(
+                        'Posts',
+                        icon: MyIcons.posts,
+                      ),
+                      CustomTab(
+                        'Reposts',
+                        icon: MyIcons.repost,
+                        divider: false,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: constraints.maxHeight - kTextTabBarHeight,
+                    child: Container(
+                      color: Theme.of(context).colorScheme.surface,
+                      constraints: const BoxConstraints(minHeight: 100),
+                      child: TabBarView(
+                        controller: tabController,
+                        children: <Widget>[
+                          GridPosts(user),
+                          GridPosts(user),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              )),
+        );
+      }),
     );
   }
 }

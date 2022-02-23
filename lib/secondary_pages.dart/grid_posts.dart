@@ -57,7 +57,10 @@ class _GridPostsState extends State<GridPosts>
             child: MyProgressIndicator(),
           )
         : posts.isEmpty
-            ? const NoPosts()
+            ? LayoutBuilder(builder: (context, constraints) {
+                // return Center(child: Text(constraints.minHeight.toString()));
+                return const NoPosts();
+              })
             : Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 constraints: const BoxConstraints(minHeight: 100),

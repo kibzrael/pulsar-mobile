@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/widgets/list_tile.dart';
 
 class ReportIssue extends StatefulWidget {
   const ReportIssue({Key? key}) : super(key: key);
@@ -8,8 +10,39 @@ class ReportIssue extends StatefulWidget {
 }
 
 class _ReportIssueState extends State<ReportIssue> {
+  String issue = 'App crash';
+  String description = '';
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return LayoutBuilder(builder: (context, constraints) {
+      return SingleChildScrollView(
+          child: Container(
+        height: constraints.maxHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        child: Column(
+          children: [
+            Text(
+              'Report an error in the app, or a crash.',
+              style: Theme.of(context).textTheme.headline1,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 15),
+            MyListTile(title: 'Issue', trailingText: issue),
+            const SizedBox(height: 15),
+            const TextField(
+              maxLength: 255,
+              minLines: 1,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'Description',
+              ),
+            ),
+            const SizedBox(height: 15),
+            MyListTile(leading: Icon(MyIcons.attatchment), title: 'Attachment')
+          ],
+        ),
+      ));
+    });
   }
 }

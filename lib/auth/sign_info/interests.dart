@@ -30,7 +30,7 @@ class _InterestsPageState extends State<InterestsPage>
     await openDialog(
       context,
       (context) => LoadingDialog(() async {
-        await provider.submit();
+        await provider.submit(context);
         return;
       }),
     );
@@ -43,9 +43,7 @@ class _InterestsPageState extends State<InterestsPage>
     super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
 
-    interests = [
-      ...provider.interests.where((element) => element.parent == null)
-    ];
+    interests = [...provider.interests];
 
     return Scaffold(
         appBar: signInfoAppBar(

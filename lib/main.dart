@@ -95,7 +95,7 @@ class _PulsarState extends State<Pulsar> {
         ),
         ChangeNotifierProvider<ConnectivityProvider>(
           create: (_) => ConnectivityProvider(
-              dataSaver: true), // Get datasaver from settings
+              dataSaver: false), // Get datasaver from settings
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),

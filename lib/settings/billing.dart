@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
-import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class Billing extends StatefulWidget {
   const Billing({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _BillingState extends State<Billing> {
                 })
           ],
         ),
-        body: const NetworkError()
+        body: const NotImplementedError()
         // SingleChildScrollView(
         //   child: Column(children: [
         //     Card(

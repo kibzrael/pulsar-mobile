@@ -15,6 +15,9 @@ class Photo {
   String photo(BuildContext context, {String max = 'high'}) {
     Resolution resolution =
         Provider.of<ConnectivityProvider>(context, listen: false).resolution;
+    debugPrint(Provider.of<ConnectivityProvider>(context, listen: false)
+        .dataSaver
+        .toString());
 
     String result = resolution == Resolution.low
         ? thumbnail

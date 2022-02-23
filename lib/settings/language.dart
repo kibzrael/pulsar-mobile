@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class Language extends StatefulWidget {
   const Language({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _LanguageState extends State<Language> {
         appBar: AppBar(
           title: const Text('Select Language'),
         ),
-        body: const NetworkError()
+        body: const NotImplementedError()
         //  ListView.builder(
         //   itemCount: languages.length,
         //   shrinkWrap: true,

@@ -28,7 +28,6 @@ class _SelectBirthdayState extends State<SelectBirthday>
   void initState() {
     super.initState();
     selectedDate = widget.initialDate ?? DateTime.utc(DateTime.now().year - 13);
-    widget.onSelected(selectedDate);
     if (widget.initialDate != null) {
       birthday = timeBirthday(selectedDate)['birthday']!;
       age = timeBirthday(selectedDate)['age']!;
