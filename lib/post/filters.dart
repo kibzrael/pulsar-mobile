@@ -118,8 +118,28 @@ class FilterWidget extends StatelessWidget {
 
 Filter original = Filter('Original',
     convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter pop = Filter('Pop',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter pop = Filter('Pop', convolution: [
+  1.37,
+  -0.16,
+  -1.16,
+  0,
+  0,
+  -0.33,
+  1.21,
+  -0.33,
+  0,
+  0,
+  -0.045,
+  -0.045,
+  1.5,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
 Filter sepia = Filter('Sepia', convolution: [
   0.393,
   0.769,
@@ -174,8 +194,28 @@ Filter vintage = Filter('Vintage',
     convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
 Filter rise = Filter('Rise',
     convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter bw = Filter('B/W',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter bw = Filter('B/W', convolution: [
+  1.5,
+  1.5,
+  1.5,
+  0,
+  0,
+  1.5,
+  1.5,
+  1.5,
+  0,
+  0,
+  1.5,
+  1.5,
+  1.5,
+  0,
+  0,
+  -1,
+  -1,
+  -1,
+  1,
+  0
+]);
 Filter landscape = Filter('Landscape',
     convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
 Filter lofi = Filter('Lo-Fi',

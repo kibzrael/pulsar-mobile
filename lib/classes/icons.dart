@@ -53,6 +53,8 @@ class MyIcons {
 
   static IconData download = myIcon(Icons.download, Icons.download);
 
+  static IconData drafts = myIcon(Icons.drafts, Icons.drafts);
+
   static IconData edit = myIcon(Icons.edit, Icons.edit);
 
   static IconData email = myIcon(Icons.email, Icons.email_outlined);
@@ -152,6 +154,8 @@ class MyIcons {
 
   static IconData palette = myIcon(Icons.palette, Icons.palette_outlined);
 
+  static IconData password = myIcon(Icons.lock, Icons.lock);
+
   static IconData phone = myIcon(Icons.phone, Icons.phone_outlined);
 
   static IconData pin = myIcon(SvgIcons.pin, SvgIcons.pin); //change
@@ -180,6 +184,8 @@ class MyIcons {
   static IconData rules = myIcon(Icons.rule, Icons.rule);
 
   static IconData search = myIcon(Icons.search, Icons.search);
+
+  static IconData searchHistory = myIcon(Icons.north_west, Icons.north_west);
 
   static IconData send = myIcon(Icons.send, Icons.send_outlined);
 

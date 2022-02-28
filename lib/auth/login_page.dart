@@ -87,10 +87,10 @@ class _LoginPageState extends State<LoginPage>
     super.build(context);
     loginProvider = Provider.of<LoginProvider>(context);
 
-    double topPadding = MediaQuery.of(context).padding.top;
+    // double topPadding = MediaQuery.of(context).padding.top;
 
-    double size =
-        MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
+    // double size =
+    //     MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
 
     List<String> inputs = [userController.text, passwordController.text];
 
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage>
         body: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              height: size,
+              // height: size,
               child: Column(
                 children: [
                   Container(
@@ -187,8 +187,9 @@ class _LoginPageState extends State<LoginPage>
                       inputs: inputs,
                     ),
                   ),
+                  // const Spacer(),
                   const LinkedAccountLogin(),
-                  const Spacer(),
+                  // const Spacer(),
                   ToggleAuthScreen(
                     isLogin: true,
                     onChange: widget.onChange,

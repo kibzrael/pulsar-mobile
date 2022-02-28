@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class SearchSuggestions extends StatelessWidget {
@@ -13,6 +14,7 @@ class SearchSuggestions extends StatelessWidget {
         return MyListTile(
           title: suggestions[index],
           leading: const Icon(Icons.history),
+          trailing: Icon(MyIcons.searchHistory),
         );
       },
     );

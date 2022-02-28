@@ -14,52 +14,43 @@ class AuthMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     // language, theme, terms of use, policies
     return MyBottomSheet(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                children: [
-                  MyListTile(
-                    title: 'Language',
-                    leading: Icon(MyIcons.language),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          myPageRoute(builder: (context) => const Language()));
-                    },
-                  ),
-                  MyListTile(
-                    title: 'Theme',
-                    leading: Icon(MyIcons.theme),
-                    onPressed: () {
-                      Navigator.of(context).push(myPageRoute(
-                          builder: (context) => const SelectTheme()));
-                    },
-                  ),
-                  MyListTile(
-                    title: 'Terms of use',
-                    leading: Icon(MyIcons.terms),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          myPageRoute(builder: (context) => const Blank()));
-                    },
-                  ),
-                  MyListTile(
-                    title: 'Privacy Policy',
-                    leading: Icon(MyIcons.policies),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          myPageRoute(builder: (context) => const Blank()));
-                    },
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+      child: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        shrinkWrap: true,
+        children: [
+          MyListTile(
+            title: 'Language',
+            leading: Icon(MyIcons.language),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(myPageRoute(builder: (context) => const Language()));
+            },
+          ),
+          MyListTile(
+            title: 'Theme',
+            leading: Icon(MyIcons.theme),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(myPageRoute(builder: (context) => const SelectTheme()));
+            },
+          ),
+          MyListTile(
+            title: 'Terms of use',
+            leading: Icon(MyIcons.terms),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(myPageRoute(builder: (context) => const Blank()));
+            },
+          ),
+          MyListTile(
+            title: 'Privacy Policy',
+            leading: Icon(MyIcons.policies),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(myPageRoute(builder: (context) => const Blank()));
+            },
+          )
+        ],
       ),
     );
   }

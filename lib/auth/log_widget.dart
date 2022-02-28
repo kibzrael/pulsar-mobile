@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
@@ -240,9 +241,13 @@ class LinkedAccountLogin extends StatelessWidget {
   const LinkedAccountLogin({Key? key, this.color, this.dividerColor})
       : super(key: key);
 
-  void onGoogle() {}
-  void onFacebook() {}
-  void onTwitter() {}
+  void onGoogle() {
+    toastNotImplemented();
+  }
+
+  void onFacebook() {
+    toastNotImplemented();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,22 +258,19 @@ class LinkedAccountLogin extends StatelessWidget {
           MyDivider(
             color: dividerColor,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               LinkedAccountWidget(
                 icon: 'assets/images/logos/google.png',
+                name: 'Google',
                 onPressed: onGoogle,
                 color: color,
               ),
               LinkedAccountWidget(
                 icon: 'assets/images/logos/facebook.png',
+                name: 'Facebook',
                 onPressed: onFacebook,
-                color: color,
-              ),
-              LinkedAccountWidget(
-                icon: 'assets/images/logos/twitter.png',
-                onPressed: onTwitter,
                 color: color,
               ),
             ],
@@ -281,11 +283,16 @@ class LinkedAccountLogin extends StatelessWidget {
 
 class LinkedAccountWidget extends StatelessWidget {
   final String icon;
+  final String name;
   final Function() onPressed;
   final Color? color;
 
   const LinkedAccountWidget(
-      {Key? key, required this.icon, required this.onPressed, this.color})
+      {Key? key,
+      required this.icon,
+      required this.name,
+      required this.onPressed,
+      this.color})
       : super(key: key);
 
   @override
@@ -293,15 +300,29 @@ class LinkedAccountWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Card(
-        shape: const CircleBorder(),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         elevation: 3,
         color: color ?? Theme.of(context).cardColor,
         child: Container(
-          margin: const EdgeInsets.all(12),
-          width: 27,
-          height: 27,
-          decoration:
-              BoxDecoration(image: DecorationImage(image: AssetImage(icon))),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          width: double.infinity,
+          child: Row(children: [
+            Container(
+              width: 27,
+              height: 27,
+              decoration: BoxDecoration(
+                  image: DecorationImage(image: AssetImage(icon))),
+            ),
+            const SizedBox(width: 30),
+            Expanded(
+                child: Text(
+              'Login with $name',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1!
+                  .copyWith(fontSize: 16.5),
+            ))
+          ]),
         ),
       ),
     );

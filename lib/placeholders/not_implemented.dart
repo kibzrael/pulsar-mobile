@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NotImplementedError extends StatelessWidget {
   const NotImplementedError({Key? key}) : super(key: key);
@@ -48,4 +49,8 @@ class NotImplementedError extends StatelessWidget {
       ),
     );
   }
+}
+
+toastNotImplemented() {
+  Fluttertoast.showToast(msg: 'Feature Not Implemented');
 }

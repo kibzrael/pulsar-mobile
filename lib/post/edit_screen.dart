@@ -17,6 +17,7 @@ import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class EditScreen extends StatefulWidget {
   final VideoCapture video;
@@ -36,9 +37,12 @@ class _EditScreenState extends State<EditScreen> {
 
   double duration = 3000;
 
+  late Key visibilityKey;
+
   @override
   void initState() {
     super.initState();
+    visibilityKey = Key(DateTime.now().toString());
     video = widget.video;
     controller = VideoPlayerController.file(widget.video.video);
 
@@ -84,194 +88,210 @@ class _EditScreenState extends State<EditScreen> {
               }
             });
           },
-          child: Stack(
-            children: [
-              controller.value.isInitialized
-                  ? SizedBox.expand(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: kToolbarHeight),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: InkWell(
-                            child: FittedBox(
-                              fit:
-                                  video.camera && (rotate == 0 || rotate == 180)
-                                      ? BoxFit.cover
-                                      : BoxFit.contain,
-                              child: RotatedBox(
-                                quarterTurns: rotate ~/ 90,
-                                child: SizedBox(
-                                    width: controller.value.size.width,
-                                    height: controller.value.size.height,
-                                    child: ColorFiltered(
-                                        colorFilter: ColorFilter.matrix(
-                                            provider.filter.convolution),
-                                        child: VideoPlayer(controller))),
+          child: VisibilityDetector(
+            key: visibilityKey,
+            onVisibilityChanged: (info) {
+              if (info.visibleFraction < 0.5) {
+                if (controller.value.isInitialized) {
+                  controller.pause();
+                }
+              }
+              if (info.visibleFraction > 0.5) {
+                if (controller.value.isInitialized) {
+                  controller.play();
+                }
+              }
+            },
+            child: Stack(
+              children: [
+                controller.value.isInitialized
+                    ? SizedBox.expand(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(bottom: kToolbarHeight),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: InkWell(
+                              child: FittedBox(
+                                fit: video.camera &&
+                                        (rotate == 0 || rotate == 180)
+                                    ? BoxFit.cover
+                                    : BoxFit.contain,
+                                child: RotatedBox(
+                                  quarterTurns: rotate ~/ 90,
+                                  child: SizedBox(
+                                      width: controller.value.size.width,
+                                      height: controller.value.size.height,
+                                      child: ColorFiltered(
+                                          colorFilter: ColorFilter.matrix(
+                                              provider.filter.convolution),
+                                          child: VideoPlayer(controller))),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  : Container(),
-              PausePlay(isPaused),
-              Container(
-                color: Colors.black12,
-                child: Column(
-                  children: [
-                    AppBar(
-                      backgroundColor: Colors.transparent,
-                      leading: IconButton(
-                          onPressed: () {
-                            openDialog(
-                                    context,
-                                    (context) => const MyDialog(
-                                          title: 'Caution!',
-                                          body:
-                                              'The changes you\'ve made would be lost if you quit.',
-                                          actions: ['Cancel', 'Ok'],
-                                          destructive: 'Ok',
-                                        ),
-                                    dismissible: true)
-                                .then((value) {
-                              if (value == 'Ok') {
-                                // reset values
-                                provider.filter = original;
-                                provider.thumbnail =
-                                    VideoThumbnail(position: 0.0);
-                                //
-                                // reset audio to the one selected in camera
-                                //
-                                Navigator.pop(context);
-                              }
-                            });
-                          },
-                          icon: Icon(
-                            MyIcons.close,
-                            size: 30,
-                          )),
-                      actions: [
-                        Container(
-                          width: 100,
-                          alignment: Alignment.center,
-                          child: ActionButton(
-                              title: 'Next',
-                              width: 70,
-                              height: 30,
-                              onPressed: () {
-                                provider.video = video;
-                                provider.thumbnail.thumbnail = Uint8List(9);
-                                Navigator.of(context).push(myPageRoute(
-                                    builder: (context) => UploadScreen(
-                                          caption: provider.caption,
-                                        )));
-                              }),
-                        )
-                      ],
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 21),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              openBottomSheet(
-                                  context, (context) => const PostAudio(),
-                                  root: false);
+                      )
+                    : Container(),
+                PausePlay(isPaused),
+                Container(
+                  color: Colors.black12,
+                  child: Column(
+                    children: [
+                      AppBar(
+                        backgroundColor: Colors.transparent,
+                        leading: IconButton(
+                            onPressed: () {
+                              openDialog(
+                                      context,
+                                      (context) => const MyDialog(
+                                            title: 'Caution!',
+                                            body:
+                                                'The changes you\'ve made would be lost if you quit.',
+                                            actions: ['Cancel', 'Ok'],
+                                            destructive: 'Ok',
+                                          ),
+                                      dismissible: true)
+                                  .then((value) {
+                                if (value == 'Ok') {
+                                  // reset values
+                                  provider.filter = original;
+                                  provider.thumbnail =
+                                      VideoThumbnail(position: 0.0);
+                                  //
+                                  // reset audio to the one selected in camera
+                                  //
+                                  Navigator.pop(context);
+                                }
+                              });
                             },
-                            child: Column(
-                              children: [
-                                if (provider.audio != null)
-                                  Container(
-                                    width: 42,
-                                    height: 42,
-                                    margin: const EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white12,
-                                      borderRadius: BorderRadius.circular(6),
-                                      image: DecorationImage(
-                                        image: NetworkImage(provider
-                                            .audio!.coverPhoto.thumbnail),
-                                        fit: BoxFit.cover,
+                            icon: Icon(
+                              MyIcons.close,
+                              size: 30,
+                            )),
+                        actions: [
+                          Container(
+                            width: 100,
+                            alignment: Alignment.center,
+                            child: ActionButton(
+                                title: 'Next',
+                                width: 70,
+                                height: 30,
+                                onPressed: () {
+                                  provider.video = video;
+                                  provider.thumbnail.thumbnail = Uint8List(9);
+                                  Navigator.of(context).push(myPageRoute(
+                                      builder: (context) => UploadScreen(
+                                            caption: provider.caption,
+                                          )));
+                                }),
+                          )
+                        ],
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 21),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                openBottomSheet(
+                                    context, (context) => const PostAudio(),
+                                    root: false);
+                              },
+                              child: Column(
+                                children: [
+                                  if (provider.audio != null)
+                                    Container(
+                                      width: 42,
+                                      height: 42,
+                                      margin: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white12,
+                                        borderRadius: BorderRadius.circular(6),
+                                        image: DecorationImage(
+                                          image: NetworkImage(provider
+                                              .audio!.coverPhoto.thumbnail),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                if (provider.audio == null)
+                                  if (provider.audio == null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Icon(
+                                        MyIcons.music,
+                                        size: 36,
+                                      ),
+                                    ),
+                                  editLabel('Sounds'),
+                                ],
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(myPageRoute(
+                                    builder: (context) => const Voiceover()));
+                              },
+                              child: Column(
+                                children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Icon(
-                                      MyIcons.music,
+                                      MyIcons.mic,
                                       size: 36,
                                     ),
                                   ),
-                                editLabel('Sounds'),
-                              ],
+                                  editLabel('Voiceover'),
+                                ],
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => const Voiceover()));
-                            },
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.mic,
-                                    size: 36,
+                            InkWell(
+                              onTap: () {
+                                openBottomSheet(
+                                    context, (context) => Filters(provider));
+                              },
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      MyIcons.filters,
+                                      size: 36,
+                                    ),
                                   ),
-                                ),
-                                editLabel('Voiceover'),
-                              ],
+                                  editLabel('Filters'),
+                                ],
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              openBottomSheet(
-                                  context, (context) => Filters(provider));
-                            },
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.filters,
-                                    size: 36,
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(myPageRoute(
+                                    builder: (context) => PostCover(
+                                        video: video, duration: duration)));
+                              },
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      MyIcons.thumbnail,
+                                      size: 36,
+                                    ),
                                   ),
-                                ),
-                                editLabel('Filters'),
-                              ],
+                                  editLabel('Cover'),
+                                ],
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(myPageRoute(
-                                  builder: (context) => PostCover(
-                                      video: video, duration: duration)));
-                            },
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    MyIcons.thumbnail,
-                                    size: 36,
-                                  ),
-                                ),
-                                editLabel('Cover'),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

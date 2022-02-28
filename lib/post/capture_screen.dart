@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 // import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
@@ -14,12 +15,11 @@ import 'package:pulsar/post/trimmer.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
-// import 'package:pulsar/widgets/loading_dialog.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
-// import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
-// import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:video_trimmer/video_trimmer.dart' as video_trimmer;
 
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
@@ -113,41 +113,23 @@ class _CaptureScreenState extends State<CaptureScreen>
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
 
-    // FlutterFFmpeg ffmpeg = FlutterFFmpeg();
-    // Directory directory = await getApplicationDocumentsDirectory();
-    // String start = ffmpegDuration(trimStart);
-    // String end = ffmpegDuration(trimEnd);
-    // String outputPath = join(directory.absolute.path,
-    //     '${DateTime.now().toString().replaceAll(" ", '_')}video_trim.mp4');
-    // String command =
-    //     '-i ${video.video.absolute.path} -ss $start -to $end $outputPath';
-    // state = 'starting.....';
-    // int response = await ffmpeg.execute(command);
-    // start = 'done code $response';
+    video_trimmer.Trimmer trimmer = video_trimmer.Trimmer();
 
-    // if (response != 0) {
-    //   //  error
-    // } else {
-    //   return;
-    // }
+    await trimmer.loadVideo(videoFile: video.video.absolute);
 
+    await trimmer.saveTrimmedVideo(
+        startValue: trimStart.toDouble(),
+        endValue: trimEnd.toDouble(),
+        onSave: (path) {
+          setState(() {
+            state = path ?? 'Failed';
+            if (path != null) {
+              video.video = File(path);
+            }
+          });
+        });
+    await Future.delayed(const Duration(seconds: 2));
     return;
-
-    // FFmpegKit.executeAsync(command).then((session) async {
-    //   state = 'waiting for response....';
-    //   ReturnCode? response = await session.getReturnCode();
-    //   state = response.toString();
-    //   state = (await File(outputPath).exists()).toString();
-    //   if (response != null) {
-    //     if (!response.isValueSuccess()) {
-    //       // setState(() {
-    //       //   error = true;
-    //       // });
-    //     } else {
-    //       return;
-    //     }
-    //   }
-    // });
   }
 
   @override
@@ -198,11 +180,11 @@ class _CaptureScreenState extends State<CaptureScreen>
                   height: 30,
                   onPressed: () async {
                     provider.video = video;
-                    trim();
-                    // await openDialog(
-                    //     context,
-                    //     (context) =>
-                    //         Theme(data: darkTheme, child: LoadingDialog(trim)));
+                    // trim();
+                    await openDialog(
+                        context,
+                        (context) =>
+                            Theme(data: darkTheme, child: LoadingDialog(trim)));
                     Navigator.of(context).push(
                         myPageRoute(builder: (context) => EditScreen(video)));
                   }),

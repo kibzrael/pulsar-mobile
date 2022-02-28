@@ -21,11 +21,26 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  debugPrint('User granted permission: ${settings.authorizationStatus}');
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 
@@ -38,9 +53,14 @@ void main() async {
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
-  runApp(Pulsar(
-    loggedIn: loggedIn,
-    user: user,
+  runApp(DevicePreview(
+    enabled: true,
+    builder: (context) {
+      return Pulsar(
+        loggedIn: loggedIn,
+        user: user,
+      );
+    },
   ));
 }
 
@@ -122,6 +142,9 @@ class _PulsarState extends State<Pulsar> {
               themeProvider.onSystemBrightnessChange();
             };
             return MaterialApp(
+              useInheritedMediaQuery: true,
+              locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
               title: 'Pulsar',
               debugShowCheckedModeBanner: false,
               initialRoute: '/',

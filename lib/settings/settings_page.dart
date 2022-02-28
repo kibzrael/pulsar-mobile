@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     'Display & Media': {
       'Data Saver': {'icon': MyIcons.dataSaver, 'page': const DataSaver()},
-      'Drafts': {'icon': MyIcons.dataSaver, 'page': const Drafts()},
+      'Drafts': {'icon': MyIcons.drafts, 'page': const Drafts()},
       'Theme': {'icon': MyIcons.theme, 'page': const SelectTheme()},
       'Language': {'icon': MyIcons.language, 'page': const Language()},
     },

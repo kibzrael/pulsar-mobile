@@ -116,10 +116,10 @@ class _SignupPageState extends State<SignupPage>
     provider = Provider.of<SignInfoProvider>(context);
     loginProvider = Provider.of<LoginProvider>(context);
 
-    double topPadding = MediaQuery.of(context).padding.top;
+    // double topPadding = MediaQuery.of(context).padding.top;
 
-    double size =
-        MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
+    // double size =
+    //     MediaQuery.of(context).size.height - (topPadding + kToolbarHeight);
 
     List<String> inputs = [
       emailController.text,
@@ -135,7 +135,7 @@ class _SignupPageState extends State<SignupPage>
         body: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              height: size,
+              // height: size,
               child: Column(
                 children: [
                   Container(
@@ -223,8 +223,9 @@ class _SignupPageState extends State<SignupPage>
                       inputs: inputs,
                     ),
                   ),
+                  // const Spacer(),
                   const LinkedAccountLogin(),
-                  const Spacer(),
+                  // const Spacer(),
                   ToggleAuthScreen(
                     isLogin: false,
                     onChange: widget.onChange,

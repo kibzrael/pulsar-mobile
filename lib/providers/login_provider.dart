@@ -53,6 +53,8 @@ class LoginProvider extends ChangeNotifier {
           user: response.body!['user']);
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
         _loggedIn = true;
+        Navigator.of(context).pushReplacementNamed('/');
+
         notifyListeners();
       });
     }

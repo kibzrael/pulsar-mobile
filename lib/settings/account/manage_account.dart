@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/change_password.dart';
 import 'package:pulsar/settings/account/email.dart';
-import 'package:pulsar/settings/account/phone.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -17,10 +19,11 @@ class ManageAccount extends StatefulWidget {
 }
 
 class _ManageAccountState extends State<ManageAccount> {
-  User user = tahlia;
+  late User user;
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Account'),
@@ -63,22 +66,21 @@ class _ManageAccountState extends State<ManageAccount> {
               ),
               MyListTile(
                 title: 'Email',
-                trailingText: 'kibraphael7@gmail.com',
-                flexRatio: const [2, 3],
+                trailingText: user.email ?? 'None',
+                flexRatio: const [0, 1],
                 onPressed: () => Navigator.of(context).push(
                     myPageRoute(builder: (context) => const ChangeEmail())),
               ),
+              // MyListTile(
+              //   title: 'Phone',
+              //   trailingText: '0723573568',
+              //   flexRatio: const [2, 3],
+              //   onPressed: () => Navigator.of(context).push(
+              //       myPageRoute(builder: (context) => const ChangePhone())),
+              // ),
               MyListTile(
-                title: 'Phone',
-                trailingText: '0723573568',
-                flexRatio: const [2, 3],
-                onPressed: () => Navigator.of(context).push(
-                    myPageRoute(builder: (context) => const ChangePhone())),
-              ),
-              MyListTile(
-                title: 'Password',
-                trailingText: '********',
-                flexRatio: const [2, 3],
+                leading: Icon(MyIcons.password),
+                title: 'Change Password',
                 onPressed: () => Navigator.of(context).push(
                     myPageRoute(builder: (context) => const ChangePassword())),
               ),
@@ -95,6 +97,7 @@ class _ManageAccountState extends State<ManageAccount> {
                       width: 36,
                     ),
                     subtitle: '@${user.username}',
+                    onPressed: toastNotImplemented,
                   ),
                   MyListTile(
                     title: 'Google',
@@ -103,6 +106,7 @@ class _ManageAccountState extends State<ManageAccount> {
                       width: 36,
                     ),
                     subtitle: '@${user.username}',
+                    onPressed: toastNotImplemented,
                   ),
                   MyListTile(
                     title: 'Twitter',
@@ -111,6 +115,7 @@ class _ManageAccountState extends State<ManageAccount> {
                       width: 36,
                     ),
                     subtitle: '@${user.username}',
+                    onPressed: toastNotImplemented,
                   ),
                   MyListTile(
                     title: 'Instagram',
@@ -119,6 +124,7 @@ class _ManageAccountState extends State<ManageAccount> {
                       width: 36,
                     ),
                     subtitle: '@${user.username}',
+                    onPressed: toastNotImplemented,
                   ),
                 ]),
               )
