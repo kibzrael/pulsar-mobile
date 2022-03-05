@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/posts.dart';
+import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/widgets/recycler_view.dart';
 
 class GridPosts extends StatefulWidget {
   final User user;
@@ -20,84 +22,92 @@ class _GridPostsState extends State<GridPosts>
   @override
   bool get wantKeepAlive => true;
 
-  bool isLoading = true;
-
   late User user;
 
-  List<Post> posts = [];
-
-  fetchPosts() async {
+  Future<List<Map<String, dynamic>>> fetchPosts(int index) async {
     await Future.delayed(const Duration(seconds: 2));
 
-    List<Post> _posts =
-        allPosts.where((element) => element.user.id == user.id).toList();
+    List<Map<String, dynamic>> _posts = allPosts
+        .where((element) => element.user.id == user.id)
+        .map((e) => e.toJson())
+        .toList();
 
-    if (mounted) {
-      setState(() {
-        posts = [...posts, ..._posts];
-        isLoading = false;
-      });
-    }
+    return _posts;
   }
 
   @override
   void initState() {
     super.initState();
     user = widget.user;
-    fetchPosts();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    return isLoading
-        ? const Align(
-            alignment: Alignment.topCenter,
-            child: MyProgressIndicator(),
-          )
-        : posts.isEmpty
-            ? LayoutBuilder(builder: (context, constraints) {
-                // return Center(child: Text(constraints.minHeight.toString()));
-                return const NoPosts();
-              })
-            : Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                constraints: const BoxConstraints(minHeight: 100),
-                child: GridView.builder(
-                    itemCount: posts.length,
-                    physics: const ClampingScrollPhysics(),
-                    padding: MediaQuery.of(context).padding.copyWith(top: 0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.75,
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5),
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              settings: const RouteSettings(name: 'postView'),
-                              builder: (context) => PostScreen(
-                                    initialPosts: posts,
-                                    title: '@${user.username}',
-                                    postInView: index,
-                                  )));
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .inputDecorationTheme
-                                    .fillColor,
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        posts[index].thumbnail.thumbnail),
-                                    fit: BoxFit.cover),
-                                borderRadius: BorderRadius.circular(8))),
-                      );
-                    }));
+    return RecyclerView(
+        target: fetchPosts,
+        itemBuilder: (context, snapshot) {
+          List<Map<String, dynamic>> snapshotData = snapshot.data;
+          List<Post> posts = [...snapshotData.map((e) => Post.fromJson(e))];
+          return snapshotData.isEmpty
+              ? snapshot.isLoading ?? true
+                  ? const Align(
+                      alignment: Alignment.topCenter,
+                      child: MyProgressIndicator(),
+                    )
+                  : snapshot.errorLoading
+                      ? snapshot.noData
+                          ? const NoPosts()
+                          : const NetworkError()
+                      : Container()
+              : LayoutBuilder(builder: (context, constraints) {
+                  int cols = constraints.maxWidth > 1024
+                      ? 5
+                      : constraints.maxWidth > 720
+                          ? 4
+                          : 3;
+                  return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      constraints: const BoxConstraints(minHeight: 100),
+                      child: GridView.builder(
+                          itemCount: posts.length,
+                          physics: const ClampingScrollPhysics(),
+                          padding:
+                              MediaQuery.of(context).padding.copyWith(top: 0),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.75,
+                                  crossAxisCount: cols,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 5),
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    settings:
+                                        const RouteSettings(name: 'postView'),
+                                    builder: (context) => PostScreen(
+                                          initialPosts: posts,
+                                          title: '@${user.username}',
+                                          postInView: index,
+                                        )));
+                              },
+                              child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .inputDecorationTheme
+                                          .fillColor,
+                                      image: DecorationImage(
+                                          image: CachedNetworkImageProvider(
+                                              posts[index].thumbnail.thumbnail),
+                                          fit: BoxFit.cover),
+                                      borderRadius: BorderRadius.circular(8))),
+                            );
+                          }));
+                });
+        });
   }
 }

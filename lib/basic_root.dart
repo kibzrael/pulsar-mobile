@@ -400,12 +400,14 @@ class NavigationBarItem extends StatelessWidget {
   final Function(int index) onTap;
 
   const NavigationBarItem(this.index,
-      {Key? key, required this.label,
+      {Key? key,
+      required this.label,
       required this.selected,
       required this.icon,
       required this.onTap,
       required this.barIsTransparent,
-      this.iconSize = 27}) : super(key: key);
+      this.iconSize = 27})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

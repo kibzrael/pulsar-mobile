@@ -27,7 +27,7 @@ class _TagPageState extends State<TagPage>
 
   late String tag;
 
-  bool isFollowed = false;
+  bool isFollowing = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -141,7 +141,7 @@ class _TagPageState extends State<TagPage>
                                 child: const Text(
                                   'Post',
                                 ),
-                                isFollowed: isFollowed,
+                                isFollowing: isFollowing,
                                 onChildPressed: () {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
@@ -150,7 +150,7 @@ class _TagPageState extends State<TagPage>
                                 },
                                 onFollow: () {
                                   setState(() {
-                                    isFollowed = !isFollowed;
+                                    isFollowing = !isFollowing;
                                   });
                                 })
                           ],

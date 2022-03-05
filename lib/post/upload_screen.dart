@@ -2,6 +2,7 @@ import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:detectable_text_field/widgets/detectable_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/post/post_preview.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
@@ -76,9 +77,9 @@ class _UploadScreenState extends State<UploadScreen> {
                                   color: Theme.of(context)
                                       .inputDecorationTheme
                                       .fillColor,
-                                  image: const DecorationImage(
-                                      image:
-                                          AssetImage('assets/intro/solo.jpg'),
+                                  image: DecorationImage(
+                                      image: MemoryImage(
+                                          provider.thumbnail.thumbnail!),
                                       fit: BoxFit.cover)),
                               child: const Padding(
                                 padding: EdgeInsets.symmetric(vertical: 12),
@@ -189,6 +190,9 @@ class _UploadScreenState extends State<UploadScreen> {
                             backgroundColor: Theme.of(context)
                                 .inputDecorationTheme
                                 .fillColor,
+                            onPressed: () {
+                              toastNotImplemented();
+                            },
                             titleColor:
                                 Theme.of(context).textTheme.bodyText2!.color,
                           ),

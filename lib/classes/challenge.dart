@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
+import 'package:pulsar/classes/user.dart';
 
 part 'challenge.g.dart';
 
@@ -13,6 +15,8 @@ class Challenge {
   Photo coverPhoto;
   DateTime? timeCreated;
 
+  bool isPinned = false;
+
   Challenge(this.id,
       {required this.name,
       required this.description,
@@ -23,4 +27,6 @@ class Challenge {
   factory Challenge.fromJson(Map<String, dynamic> json) =>
       _$ChallengeFromJson(json);
   Map<String, dynamic> toJson() => _$ChallengeToJson(this);
+
+  pin(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
 }

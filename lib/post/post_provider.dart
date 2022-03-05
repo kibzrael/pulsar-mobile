@@ -42,11 +42,11 @@ class PostProvider extends ChangeNotifier {
     if (video == null || thumbnail.thumbnail == null) return;
 
     operations.uploadPost = UploadPost(
-      user: user,
-      video: video!.video,
-      thumbnail: thumbnail.thumbnail!,
-    );
-    operations.uploadPost?.upload();
+        user: user,
+        video: video!.video,
+        thumbnail: thumbnail.thumbnail!,
+        token: user.token ?? '');
+    operations.uploadPost?.upload(context);
     operations.notify();
   }
 

@@ -64,7 +64,7 @@ class UserProvider extends ChangeNotifier {
       if (image != null) {
         img.Image resized = img.copyResize(image, width: 480);
         String identifier = '${DateTime.now()}'.replaceAll('.', '');
-        Directory dir = await getApplicationDocumentsDirectory();
+        Directory dir = await getTemporaryDirectory();
         resizedProfilePic = await File(join(dir.path, '$identifier.jpg'))
             .writeAsBytes(img.encodeJpg(resized));
       }

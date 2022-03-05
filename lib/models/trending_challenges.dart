@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
@@ -96,7 +97,13 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
               width: 72,
               text: const {true: 'Pinned', false: 'Pin'},
               isFollowing: isPinned,
-              onPressed: () => setState(() => isPinned = !isPinned),
+              onPressed: () => setState(() {
+                challenge.pin(context,
+                    mode: challenge.isPinned
+                        ? RequestMethod.delete
+                        : RequestMethod.post);
+                isPinned = !isPinned;
+              }),
             ),
           )
         ]),

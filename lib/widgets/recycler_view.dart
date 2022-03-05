@@ -10,12 +10,14 @@ class RecyclerView extends StatefulWidget {
   final int dataLength;
   final double bufferExtent;
   const RecyclerView(
-      {Key? key, required this.itemBuilder,
+      {Key? key,
       // required this.scrollController,
       required this.target,
+      required this.itemBuilder,
       this.reversed = false,
       this.dataLength = 10,
-      this.bufferExtent = 1}) : super(key: key);
+      this.bufferExtent = 1})
+      : super(key: key);
   @override
   _RecyclerViewState createState() => _RecyclerViewState();
 }
@@ -44,7 +46,10 @@ class _RecyclerViewState extends State<RecyclerView> {
   @override
   void initState() {
     super.initState();
-    snapshot = Snapshot(onRetry: onRetry, refreshCallback: refreshCallback);
+    snapshot = Snapshot(
+        onRetry: onRetry,
+        refreshCallback: refreshCallback,
+        onPageChanged: carouselListener);
     // scrollController = widget.scrollController;
     // scrollController.addListener(scrollListener);
     fetchData();
@@ -147,6 +152,17 @@ class _RecyclerViewState extends State<RecyclerView> {
   //   listener(scrollController.position.maxScrollExtent -
   //       scrollController.position.pixels);
   // }
+  carouselListener(int remaining) {
+    if (remaining < widget.dataLength / 2) {
+      maxScrollExtent = true;
+      if ((!isBuffering) && canBuffer) {
+        buffer();
+        fetchData();
+      }
+    } else {
+      maxScrollExtent = false;
+    }
+  }
 
   bool notificationListener(ScrollNotification notification) {
     listener(
@@ -198,7 +214,12 @@ class Snapshot {
   Function onRetry;
   Future<bool> Function() refreshCallback;
 
-  Snapshot({required this.onRetry, required this.refreshCallback});
+  Function(int remaining) onPageChanged;
+
+  Snapshot(
+      {required this.onRetry,
+      required this.refreshCallback,
+      required this.onPageChanged});
 
   bool get errorLoading => !(isLoading ?? true);
 

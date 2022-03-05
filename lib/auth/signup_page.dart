@@ -135,7 +135,7 @@ class _SignupPageState extends State<SignupPage>
         body: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              // height: size,
+              // constraints:BoxConstraints(minHeight: size),
               child: Column(
                 children: [
                   Container(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/post.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class ReportInappropriate extends StatefulWidget {
-  const ReportInappropriate({Key? key}) : super(key: key);
+  final User? user;
+  final Post? post;
+  const ReportInappropriate({this.user, this.post, Key? key}) : super(key: key);
 
   @override
   _ReportInappropriateState createState() => _ReportInappropriateState();
@@ -11,10 +15,18 @@ class ReportInappropriate extends StatefulWidget {
 
 class _ReportInappropriateState extends State<ReportInappropriate> {
   String issue = 'None';
-  String user = 'None';
-  String post = 'None';
+  late User? user;
+  late Post? post;
 
   String description = '';
+
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+    post = widget.post;
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -40,12 +52,12 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
             ),
             MyListTile(
               title: 'User',
-              trailingText: user,
+              trailingText: user?.username ?? 'None',
               flexRatio: const [0, 1],
             ),
             MyListTile(
               title: 'Post',
-              trailingText: post,
+              trailingText: post?.caption ?? 'None',
               flexRatio: const [0, 1],
             ),
             const SizedBox(height: 15),

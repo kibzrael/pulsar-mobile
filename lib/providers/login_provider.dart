@@ -16,9 +16,11 @@ class LoginProvider extends ChangeNotifier {
 
   bool? get loggedIn => _loggedIn;
 
+  String? deviceToken;
+
   late String _loginUrl;
 
-  LoginProvider(bool isLoggedIn) {
+  LoginProvider(bool isLoggedIn, {this.deviceToken}) {
     _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
   }
@@ -30,6 +32,7 @@ class LoginProvider extends ChangeNotifier {
       http.Response requestResponse = await http.post(url, body: {
         'info': info,
         'password': password,
+        'deviceToken': deviceToken ?? ''
       });
 
       response.statusCode = requestResponse.statusCode;

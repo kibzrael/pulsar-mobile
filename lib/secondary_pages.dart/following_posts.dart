@@ -88,6 +88,7 @@ class _FollowingPostsState extends State<FollowingPosts>
                 margin: const EdgeInsets.symmetric(vertical: 12),
                 child: RecyclerView(
                     target: fetchUsers,
+                    bufferExtent: 0.75,
                     itemBuilder: (context, snapshot) {
                       List<Map<String, dynamic>> snapshotData = snapshot.data;
                       return snapshotData.isEmpty
@@ -97,12 +98,15 @@ class _FollowingPostsState extends State<FollowingPosts>
                           : CarouselSlider(
                               carouselController: controller,
                               options: CarouselOptions(
-                                height: height,
-                                viewportFraction: 0.6,
-                                enableInfiniteScroll: false,
-                                enlargeCenterPage: true,
-                                initialPage: 0,
-                              ),
+                                  height: height,
+                                  viewportFraction: 0.6,
+                                  enableInfiniteScroll: false,
+                                  enlargeCenterPage: true,
+                                  initialPage: 0,
+                                  onPageChanged: (index, _) {
+                                    snapshot.onPageChanged(
+                                        snapshotData.length - index);
+                                  }),
                               items: snapshotData
                                   .map((info) => DiscoverPeopleCard(
                                         info,
@@ -205,6 +209,10 @@ class _DiscoverPeopleCardState extends State<DiscoverPeopleCard> {
                     border: Colors.white70,
                     onPressed: () {
                       setState(() {
+                        user.follow(context,
+                            mode: isFollowing
+                                ? RequestMethod.delete
+                                : RequestMethod.post);
                         isFollowing = !isFollowing;
                       });
                       if (isFollowing) widget.onPinned();

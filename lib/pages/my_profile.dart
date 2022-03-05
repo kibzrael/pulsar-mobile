@@ -131,7 +131,9 @@ class _RootProfilePageState extends State<RootProfilePage>
                         Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 45),
+                          // constraints: const BoxConstraints(maxWidth: 480),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Flexible(
                                 child: ActionButton(

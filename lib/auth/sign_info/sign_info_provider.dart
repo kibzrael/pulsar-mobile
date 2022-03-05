@@ -119,7 +119,7 @@ class SignInfoProvider extends ChangeNotifier {
       if (image != null) {
         img.Image resized = img.copyResize(image, width: 480);
 
-        Directory dir = await getApplicationDocumentsDirectory();
+        Directory dir = await getTemporaryDirectory();
         profilePic = await File(join(dir.path, '${DateTime.now()} resized.jpg'))
             .writeAsBytes(img.encodeJpg(resized));
       }

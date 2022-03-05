@@ -45,6 +45,8 @@ class _UserCardState extends State<UserCard> {
         isFollowing: isFollowing,
         onPressed: () {
           setState(() {
+            user.follow(context,
+                mode: isFollowing ? RequestMethod.delete : RequestMethod.post);
             isFollowing = !isFollowing;
           });
         },

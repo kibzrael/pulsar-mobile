@@ -18,28 +18,38 @@ class UserOptions extends StatelessWidget {
         name: 'Post Notifications',
         icon: MyIcons.notifications,
         onPressed: (context) {
+          user.subcribeForPostNotifications(context,
+              mode: user.postNotifications ?? false
+                  ? RequestMethod.delete
+                  : RequestMethod.post);
           Fluttertoast.showToast(
-              msg: 'Post Notifications turned ON',
+              msg:
+                  'Post Notifications turned ${user.postNotifications ?? false ? "OFF" : "ON"}',
               gravity: ToastGravity.BOTTOM);
         });
-    Option block =
-        Option(name: 'Block', icon: MyIcons.block, onPressed: (context) {});
+    Option block = Option(
+        name: 'Block',
+        icon: MyIcons.block,
+        onPressed: (context) {
+          user.block(context,
+              mode: user.isBlocked ?? false
+                  ? RequestMethod.delete
+                  : RequestMethod.post);
+        });
     Option report = Option(
         name: 'Report',
         icon: MyIcons.report,
         color: Theme.of(context).colorScheme.error,
         onPressed: (context) {
           Navigator.of(context).push(myPageRoute(
-              builder: (context) => const ReportScreen(
-                    initialIndex: 1,
-                  )));
+              builder: (context) => ReportScreen(initialIndex: 1, user: user)));
         });
 
     List<Option> options = [notification, block, report];
     return Options(
       options,
       share: true,
-      shareText: 'user',
+      shareText: "user @${user.username}",
     );
   }
 }

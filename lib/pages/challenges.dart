@@ -14,6 +14,8 @@ import 'package:pulsar/models/pinned_challenges.dart';
 import 'package:pulsar/models/trending_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/pages/route_observer.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
@@ -60,9 +62,14 @@ class _RootGalaxyState extends State<RootGalaxy>
   double scrollExtent = 0;
   double maxScroll = 200 - kToolbarHeight;
 
+  Map<String, dynamic> data = {};
+
+  bool errorLoading = false;
+
   @override
   void initState() {
     super.initState();
+    fetchData();
     scrollController = ScrollController();
     scrollController.addListener(scrollListener);
   }
@@ -70,6 +77,18 @@ class _RootGalaxyState extends State<RootGalaxy>
   scrollListener() {
     setState(() {
       scrollExtent = scrollController.offset;
+    });
+  }
+
+  fetchData() async {
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      data = {
+        'pinnedChallenges': [],
+        'trendingChallenges': [],
+        'highlightChallenge': cuisines,
+        'discoverChallenges': []
+      };
     });
   }
 
@@ -144,32 +163,37 @@ class _RootGalaxyState extends State<RootGalaxy>
                               ),
                             );
                           },
-                          openBuilder: (context, action) => const SearchScreen(),
+                          openBuilder: (context, action) =>
+                              const SearchScreen(),
                         ),
                       )),
                 ),
               ];
             },
-            body: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom),
-              children: [
-                space,
-                const PinnedChallenges(),
-                space,
-                const TrendingChallenges(),
-                const ChallengesAd(),
-                space,
-                HighlightChallege(cuisines),
-                space,
-                const DiscoverChallenges(),
+            body: data.isEmpty
+                ? errorLoading
+                    ? const NetworkError()
+                    : const Center(child: MyProgressIndicator())
+                : ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom),
+                    children: [
+                      space,
+                      const PinnedChallenges(),
+                      space,
+                      const TrendingChallenges(),
+                      const ChallengesAd(),
+                      space,
+                      HighlightChallege(data['highlightChallenge']),
+                      space,
+                      const DiscoverChallenges(),
 
-                // RecommendedChallenges(),
-                // space,
-                // // SectionTitle(title: 'Discover'),
-              ],
-            )),
+                      // RecommendedChallenges(),
+                      // space,
+                      // // SectionTitle(title: 'Discover'),
+                    ],
+                  )),
       ),
     );
   }

@@ -10,12 +10,14 @@ class ActionButton extends StatelessWidget {
   final double width;
 
   const ActionButton(
-      {Key? key, this.backgroundColor,
+      {Key? key,
+      this.backgroundColor,
       this.height = 50,
       this.width = double.infinity,
       this.onPressed,
       required this.title,
-      this.titleColor}) : super(key: key);
+      this.titleColor})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -24,6 +26,7 @@ class ActionButton extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
+        constraints: const BoxConstraints(maxWidth: 480),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),

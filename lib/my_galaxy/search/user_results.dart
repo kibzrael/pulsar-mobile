@@ -6,7 +6,8 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
 class UserResults extends StatefulWidget {
-  const UserResults({Key? key}) : super(key: key);
+  final Future<List<Map<String, dynamic>>> Function(int index) target;
+  const UserResults({required this.target, Key? key}) : super(key: key);
 
   @override
   _UserResultsState createState() => _UserResultsState();

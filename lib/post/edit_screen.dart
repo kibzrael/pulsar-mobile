@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -179,7 +177,6 @@ class _EditScreenState extends State<EditScreen> {
                                 height: 30,
                                 onPressed: () {
                                   provider.video = video;
-                                  provider.thumbnail.thumbnail = Uint8List(9);
                                   Navigator.of(context).push(myPageRoute(
                                       builder: (context) => UploadScreen(
                                             caption: provider.caption,

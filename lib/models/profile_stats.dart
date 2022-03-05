@@ -9,11 +9,13 @@ class ProfileStats extends StatelessWidget {
   final bool isPin;
 
   const ProfileStats(
-      {Key? key, required this.pins,
+      {Key? key,
+      required this.pins,
       required this.pinsOnPressed,
       required this.postOnPressed,
       required this.posts,
-      this.isPin = false}) : super(key: key);
+      this.isPin = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class ProfileStats extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(5),
           height: 63,
+          constraints: const BoxConstraints(maxWidth: 640),
           child: Row(children: [
             Expanded(
               flex: 1,

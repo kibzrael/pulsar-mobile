@@ -4,6 +4,7 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/user_card.dart';
+import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -81,7 +82,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
                   }
                   return data.isEmpty
                       ? snapshot.errorLoading
-                          ? Text('${snapshot.error} $data')
+                          ? const NetworkError()
                           : const Center(child: MyProgressIndicator())
                       : RefreshIndicator(
                           onRefresh: snapshot.refreshCallback,

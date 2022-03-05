@@ -9,11 +9,13 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 
 class PostCover extends StatefulWidget {
   final VideoCapture video;
   final double duration;
-  const PostCover({Key? key, required this.video, required this.duration}) : super(key: key);
+  const PostCover({Key? key, required this.video, required this.duration})
+      : super(key: key);
   @override
   _PostCoverState createState() => _PostCoverState();
 }
@@ -103,9 +105,14 @@ class _PostCoverState extends State<PostCover> {
           actions: [
             MyTextButton(
                 text: 'Done',
-                onPressed: () {
-                  postProvider.thumbnail = VideoThumbnail(position: position);
+                onPressed: () async {
                   Navigator.pop(context);
+                  Uint8List? thumbnail =
+                      await thumb.VideoThumbnail.thumbnailData(
+                          video: widget.video.video.absolute.path,
+                          timeMs: position.floor());
+                  postProvider.thumbnail =
+                      VideoThumbnail(position: position, thumbnail: thumbnail);
                 })
           ],
         ),

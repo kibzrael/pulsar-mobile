@@ -14,13 +14,15 @@ class FollowButton extends StatelessWidget {
   final Color? border;
 
   const FollowButton(
-      {Key? key, this.height = 45,
+      {Key? key,
+      this.height = 45,
       this.isFollowing = false,
       this.onPressed,
       this.text = const {true: 'Following', false: 'Follow'},
       this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       this.border,
-      this.width}) : super(key: key);
+      this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

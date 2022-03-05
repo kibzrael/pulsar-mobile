@@ -50,6 +50,17 @@ class _EditProfileState extends State<EditProfile> {
   // YYYY-MM-DD
   String? birthday;
 
+  bool get isEdited {
+    bool result = fullnameController.text != provider.user.fullname ||
+        bioController.text != provider.user.bio ||
+        portfolioController.text != provider.user.portfolio ||
+        profilePic != provider.user.profilePic?.photo(context) ||
+        birthday != provider.user.dateOfBirth?.toString().split(' ')[0] ||
+        category?.name != provider.user.category ||
+        interests != provider.user.interests;
+    return result;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,20 +75,24 @@ class _EditProfileState extends State<EditProfile> {
 
   exit() {
     FocusScope.of(context).unfocus();
-    openDialog(
-            context,
-            (context) => const MyDialog(
-                  title: 'Caution!',
-                  body: 'The changes that you\'ve made would be lost.',
-                  actions: ['Cancel', 'Ok'],
-                  destructive: 'Ok',
-                ),
-            dismissible: true)
-        .then((value) {
-      if (value == 'Ok') {
-        Navigator.pop(context);
-      }
-    });
+    if (isEdited) {
+      openDialog(
+              context,
+              (context) => const MyDialog(
+                    title: 'Caution!',
+                    body: 'The changes that you\'ve made would be lost.',
+                    actions: ['Cancel', 'Ok'],
+                    destructive: 'Ok',
+                  ),
+              dismissible: true)
+          .then((value) {
+        if (value == 'Ok') {
+          Navigator.pop(context);
+        }
+      });
+    } else {
+      Navigator.pop(context);
+    }
   }
 
   submit() async {

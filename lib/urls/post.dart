@@ -3,6 +3,8 @@ import 'package:pulsar/classes/post.dart';
 class PostUrls {
   PostUrls._();
 
+  static String upload = 'posts';
+
   // get post, edit, and delete
   static String postItem(Post post) => 'posts/${post.id}';
 

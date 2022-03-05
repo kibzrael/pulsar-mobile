@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -36,7 +37,9 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                 children: [
                   Container(
                     width: constraints.maxWidth / 2 - 7.5,
-                    height: constraints.maxWidth / 2,
+                    height: constraints.maxWidth > 480
+                        ? 240
+                        : constraints.maxWidth / 2,
                     decoration: BoxDecoration(
                         color: Theme.of(context).inputDecorationTheme.fillColor,
                         borderRadius: const BorderRadius.horizontal(
@@ -78,8 +81,13 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                     width: width * 0.6,
                                     isFollowing: isPinned,
                                     text: const {true: "Pinned", false: "Pin"},
-                                    onPressed: () =>
-                                        setState(() => isPinned = !isPinned),
+                                    onPressed: () => setState(() {
+                                      challenge.pin(context,
+                                          mode: challenge.isPinned
+                                              ? RequestMethod.delete
+                                              : RequestMethod.post);
+                                      isPinned = !isPinned;
+                                    }),
                                   ),
                                   Card(
                                     elevation: 4,

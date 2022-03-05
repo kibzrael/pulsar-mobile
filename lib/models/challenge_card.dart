@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -48,6 +49,10 @@ class _ChallengeCardState extends State<ChallengeCard> {
         text: const {true: 'Pinned', false: 'Pin'},
         onPressed: () {
           setState(() {
+            challenge.pin(context,
+                mode: challenge.isPinned
+                    ? RequestMethod.delete
+                    : RequestMethod.post);
             isPinned = !isPinned;
           });
         },

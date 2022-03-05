@@ -4,6 +4,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
@@ -33,7 +34,7 @@ class _ChallengePageState extends State<ChallengePage>
 
   double scrollPosition = 0;
 
-  bool isFollowed = false;
+  bool isFollowing = false;
 
   late Challenge challenge;
 
@@ -64,6 +65,12 @@ class _ChallengePageState extends State<ChallengePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: LayoutBuilder(builder: (context, constraints) {
+      double expandedHeight = constraints.maxHeight > 1024
+          ? 300
+          : constraints.maxHeight > 720
+              ? 250
+              : 200;
+
       return NestedScrollViewRefreshIndicator(
         onRefresh: onRefresh,
         child: ExtendedNestedScrollView(
@@ -73,7 +80,7 @@ class _ChallengePageState extends State<ChallengePage>
             return kToolbarHeight + MediaQuery.of(context).padding.top;
           },
           headerSliverBuilder: (context, bool _) {
-            double opacity = scrollPosition / (200 - kToolbarHeight);
+            double opacity = scrollPosition / (expandedHeight - kToolbarHeight);
             double padding = scrollPosition > 45 ? 45 : scrollPosition;
             return [
               Theme(
@@ -91,7 +98,7 @@ class _ChallengePageState extends State<ChallengePage>
                     backgroundColor: Theme.of(context)
                         .scaffoldBackgroundColor
                         .withOpacity(opacity < 1 ? opacity : 1),
-                    expandedHeight: 200,
+                    expandedHeight: expandedHeight,
                     actions: [
                       IconButton(
                         icon: const Icon(Icons.more_horiz),
@@ -158,22 +165,27 @@ class _ChallengePageState extends State<ChallengePage>
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: ProfileStats(
-                      isPin: true,
-                      pins: 11700,
-                      pinsOnPressed: () {
-                        Navigator.of(context).push(myPageRoute(
-                            builder: (context) => InteractionScreen(
-                                  challenge: challenge,
-                                )));
-                      },
-                      postOnPressed: () {
-                        scrollController!.animateTo(
-                            scrollController!.position.maxScrollExtent,
-                            duration: const Duration(milliseconds: 700),
-                            curve: Curves.ease);
-                      },
-                      posts: 620000,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ProfileStats(
+                          isPin: true,
+                          pins: 11700,
+                          pinsOnPressed: () {
+                            Navigator.of(context).push(myPageRoute(
+                                builder: (context) => InteractionScreen(
+                                      challenge: challenge,
+                                    )));
+                          },
+                          postOnPressed: () {
+                            scrollController!.animateTo(
+                                scrollController!.position.maxScrollExtent,
+                                duration: const Duration(milliseconds: 700),
+                                curve: Curves.ease);
+                          },
+                          posts: 620000,
+                        ),
+                      ],
                     ),
                   ),
                   if (challenge.description != '')
@@ -198,7 +210,7 @@ class _ChallengePageState extends State<ChallengePage>
                             //color: Theme.of(context).buttonColor,
                             fontWeight: FontWeight.w600),
                       ),
-                      isFollowed: isFollowed,
+                      isFollowing: isFollowing,
                       isPin: true,
                       onChildPressed: () {
                         Navigator.of(context, rootNavigator: true).push(
@@ -208,7 +220,11 @@ class _ChallengePageState extends State<ChallengePage>
                       },
                       onFollow: () {
                         setState(() {
-                          isFollowed = !isFollowed;
+                          challenge.pin(context,
+                              mode: challenge.isPinned
+                                  ? RequestMethod.delete
+                                  : RequestMethod.post);
+                          isFollowing = !isFollowing;
                         });
                       }),
                   const SizedBox(height: 3)

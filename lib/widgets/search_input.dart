@@ -6,7 +6,9 @@ class SearchInput extends StatelessWidget {
   final double height;
   final Function()? onPressed;
 
-  const SearchInput({Key? key, this.onPressed, this.text = 'Search', this.height = 37.5}) : super(key: key);
+  const SearchInput(
+      {Key? key, this.onPressed, this.text = 'Search', this.height = 37.5})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class SearchInput extends StatelessWidget {
         width: double.infinity,
         height: height,
         alignment: Alignment.center,
+        constraints: const BoxConstraints(maxWidth: 480),
         decoration: BoxDecoration(
             color: Theme.of(context).inputDecorationTheme.fillColor,
             borderRadius: BorderRadius.circular(30)),

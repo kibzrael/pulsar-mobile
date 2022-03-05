@@ -7,7 +7,9 @@ class UploadProgress extends StatefulWidget {
   final UploadPost uploadPost;
   final bool barIsTransparent;
 
-  const UploadProgress(this.uploadPost, {Key? key, this.barIsTransparent = false}) : super(key: key);
+  const UploadProgress(this.uploadPost,
+      {Key? key, this.barIsTransparent = false})
+      : super(key: key);
 
   @override
   _UploadProgressState createState() => _UploadProgressState();
@@ -17,7 +19,7 @@ class _UploadProgressState extends State<UploadProgress> {
   UploadPost get uploadPost => widget.uploadPost;
   bool get barIsTransparent => widget.barIsTransparent;
 
-  double progress = 30;
+  double get progress => widget.uploadPost.progress * 100;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,9 @@ class _UploadProgressState extends State<UploadProgress> {
                 borderRadius: BorderRadius.circular(6),
                 color: barIsTransparent
                     ? Colors.white12
-                    : Theme.of(context).inputDecorationTheme.fillColor),
+                    : Theme.of(context).inputDecorationTheme.fillColor,
+                image:
+                    DecorationImage(image: MemoryImage(uploadPost.thumbnail))),
             child: const Center(
                 child: MyProgressIndicator(
               size: 21,
@@ -141,7 +145,9 @@ class _UploadProgressState extends State<UploadProgress> {
           const SizedBox(width: 5),
           MyTextButton(
               text: 'Cancel',
-              onPressed: () {},
+              onPressed: () {
+                uploadPost.cancel(context);
+              },
               color: Theme.of(context).colorScheme.error)
           // InkWell(
           //     onTap: () {},

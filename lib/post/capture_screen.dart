@@ -91,6 +91,9 @@ class _CaptureScreenState extends State<CaptureScreen>
       int position = stepSize * step;
       Uint8List? thumbnail = await thumb.VideoThumbnail.thumbnailData(
           video: video.video.path, timeMs: position);
+      if (step == 0) {
+        provider.thumbnail.thumbnail = thumbnail;
+      }
 
       // await VideoCompress.getByteThumbnail(video.video.path,
       //     position: position * 1000);
@@ -120,6 +123,9 @@ class _CaptureScreenState extends State<CaptureScreen>
     await trimmer.saveTrimmedVideo(
         startValue: trimStart.toDouble(),
         endValue: trimEnd.toDouble(),
+        ffmpegCommand: provider.rotate == 0
+            ? null
+            : '-vf "transpose=${provider.rotate ~/ 90}"',
         onSave: (path) {
           setState(() {
             state = path ?? 'Failed';

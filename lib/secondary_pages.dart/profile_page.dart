@@ -9,6 +9,7 @@ import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile.dart';
 import 'package:pulsar/options/user_options.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
@@ -26,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage>
   TabController? tabController;
   ScrollController? scrollController;
 
-  bool isFollowed = false;
+  bool isFollowing = false;
 
   late User user;
 
@@ -100,7 +101,10 @@ class _ProfilePageState extends State<ProfilePage>
                               color:
                                   Theme.of(context).textTheme.bodyText2!.color,
                             ),
-                            isFollowed: isFollowed,
+                            isFollowing: isFollowing,
+                            onMiddlePressed: () {
+                              toastNotImplemented();
+                            },
                             onChildPressed: () {
                               Navigator.of(context, rootNavigator: true).push(
                                   myPageRoute(
@@ -109,7 +113,11 @@ class _ProfilePageState extends State<ProfilePage>
                             },
                             onFollow: () {
                               setState(() {
-                                isFollowed = !isFollowed;
+                                user.follow(context,
+                                    mode: isFollowing
+                                        ? RequestMethod.delete
+                                        : RequestMethod.post);
+                                isFollowing = !isFollowing;
                               });
                             })
                       ],

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/data/challenges.dart';
+import 'package:pulsar/data/users.dart';
 import 'package:pulsar/my_galaxy/search/serach_suggestions.dart';
 import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
@@ -44,7 +47,33 @@ class _SearchScreenState extends State<SearchScreen>
 
   fetchSuggestion() async {}
 
-  search() async {}
+  Future<List<Map<String, dynamic>>> searchUsers(int index) async {
+    await Future.delayed(const Duration(seconds: 2));
+    List<Map<String, dynamic>> results = [
+      {'user': melissa},
+      {'user': rael},
+      {'user': nick},
+      {'user': joe},
+      {'user': tom},
+      {'user': beth},
+      {'user': thomas},
+      {'user': joy},
+      {'user': lizzy},
+      {'user': evah},
+      {'user': chris}
+    ];
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> searchChallenges(int index) async {
+    await Future.delayed(const Duration(seconds: 2));
+    List<Map<String, dynamic>> results = [
+      for (Challenge challenge in allChallenges) {'challenge': challenge}
+    ];
+
+    return results;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +99,6 @@ class _SearchScreenState extends State<SearchScreen>
                 onSubmitted: (text) {
                   setState(() => isEditing = false);
                   pageController.jumpToPage(1);
-                  search();
                 },
                 hintText:
                     tabIndex == 0 ? 'Search Users...' : 'Search Challenges...',
@@ -83,21 +111,23 @@ class _SearchScreenState extends State<SearchScreen>
                   onPressed: () {
                     setState(() => isEditing = false);
                     pageController.jumpToPage(1);
-                    search();
                   })
             ],
-            bottom: TabBar(
-                indicator: const BoxDecoration(),
-                unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-                labelPadding: EdgeInsets.zero,
-                controller: tabController,
-                tabs: const [
-                  CustomTab('Users'),
-                  CustomTab(
-                    'Challenges',
-                    divider: false,
-                  )
-                ]),
+            bottom: isEditing
+                ? null
+                : TabBar(
+                    indicator: const BoxDecoration(),
+                    unselectedLabelColor:
+                        Theme.of(context).unselectedWidgetColor,
+                    labelPadding: EdgeInsets.zero,
+                    controller: tabController,
+                    tabs: const [
+                        CustomTab('Users'),
+                        CustomTab(
+                          'Challenges',
+                          divider: false,
+                        )
+                      ]),
           ),
           body: PageView(
             controller: pageController,
@@ -107,9 +137,13 @@ class _SearchScreenState extends State<SearchScreen>
                 color: Theme.of(context).colorScheme.surface,
                 child: TabBarView(
                   controller: tabController,
-                  children: const [
-                    UserResults(),
-                    ChallengeResults(),
+                  children: [
+                    UserResults(
+                      target: searchUsers,
+                    ),
+                    ChallengeResults(
+                      target: searchChallenges,
+                    ),
                   ],
                 ),
               ),

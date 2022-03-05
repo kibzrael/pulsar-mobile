@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 
 class FollowLayout extends StatelessWidget {
-  final bool isFollowed;
+  final bool isFollowing;
   final void Function() onFollow;
   final Widget? middle;
   final void Function()? onMiddlePressed;
@@ -11,9 +11,10 @@ class FollowLayout extends StatelessWidget {
 
   final bool isPin;
 
-  const FollowLayout({Key? key, 
+  const FollowLayout({
+    Key? key,
     required this.child,
-    required this.isFollowed,
+    required this.isFollowing,
     this.isPin = false,
     required this.onChildPressed,
     required this.onFollow,
@@ -32,7 +33,7 @@ class FollowLayout extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FollowButton(
-                isFollowing: isFollowed,
+                isFollowing: isFollowing,
                 text: isPin
                     ? {true: 'Pinned', false: 'Pin'}
                     : {true: 'Following', false: 'Follow'},
@@ -55,8 +56,8 @@ class FollowLayout extends StatelessWidget {
                       child: middle,
                       height: 35,
                       alignment: Alignment.center,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 5),
                     ),
                   ),
                 ),
@@ -74,7 +75,8 @@ class FollowLayout extends StatelessWidget {
                     child: child,
                     height: 35,
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                   ),
                 ),
               ),
