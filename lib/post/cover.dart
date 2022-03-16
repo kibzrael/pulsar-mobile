@@ -7,9 +7,9 @@ import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
-import 'package:video_compress/video_compress.dart';
-import 'package:video_player/video_player.dart';
+// import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
+import 'package:video_player/video_player.dart';
 
 class PostCover extends StatefulWidget {
   final VideoCapture video;
@@ -50,18 +50,8 @@ class _PostCoverState extends State<PostCover> {
     });
   }
 
-  getThumbnails() async {
-    double maxDuration = duration * 1000;
-    int stepSize = maxDuration ~/ 9;
-    for (int step = 0; step < maxDuration / stepSize; step++) {
-      int position = stepSize * step;
-      Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
-          widget.video.video.path,
-          position: position);
-      setState(() {
-        thumbnails.add(thumbnail);
-      });
-    }
+  getThumbnails() {
+    thumbnails = [...postProvider.thumbnails];
   }
 
   @override
@@ -106,13 +96,16 @@ class _PostCoverState extends State<PostCover> {
             MyTextButton(
                 text: 'Done',
                 onPressed: () async {
-                  Navigator.pop(context);
+                  // Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
+                  //     widget.video.video.absolute.path,
+                  //     position: position.floor());
                   Uint8List? thumbnail =
                       await thumb.VideoThumbnail.thumbnailData(
-                          video: widget.video.video.absolute.path,
-                          timeMs: position.floor());
+                          video: widget.video.video.path,
+                          timeMs: position.ceil());
                   postProvider.thumbnail =
                       VideoThumbnail(position: position, thumbnail: thumbnail);
+                  Navigator.pop(context);
                 })
           ],
         ),
@@ -239,7 +232,7 @@ class _PostCoverState extends State<PostCover> {
                                     Border.all(width: 5, color: Colors.white),
                                 borderRadius: BorderRadius.circular(12)),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(9),
                               child: SizedBox(
                                 width: 40,
                                 height: 75,

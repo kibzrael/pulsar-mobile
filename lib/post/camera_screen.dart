@@ -34,6 +34,8 @@ class _CameraScreenState extends State<CameraScreen>
 
   late CameraProvider provider;
 
+  late PostProvider postProvider;
+
   bool get isRecording => provider.controller?.value.isRecordingVideo ?? false;
 
   double speed = 1;
@@ -110,15 +112,20 @@ class _CameraScreenState extends State<CameraScreen>
     if (snapshot.video != null) {
       _ticker.stop();
       setState(() {});
+      VideoCapture videoCapture = VideoCapture(
+        File(snapshot.video!.path),
+        camera: true,
+      );
+      postProvider.video = videoCapture;
+      postProvider.getThumbnails(duration.floor());
       Navigator.of(context).push(myPageRoute(
           builder: (context) => CaptureScreen(
               VideoCapture(File(snapshot.video!.path), camera: true),
               duration: duration)
           // EditScreen(VideoCapture(
-          //       File(snapshot.video!.path),
-          //       camera: true,
-          //     )
-          //     )
+          //   File(snapshot.video!.path),
+          //   camera: true,
+          // ))
           ));
     }
   }
@@ -131,7 +138,7 @@ class _CameraScreenState extends State<CameraScreen>
   Widget build(BuildContext context) {
     provider = Provider.of<CameraProvider>(context);
 
-    PostProvider postProvider = Provider.of<PostProvider>(context);
+    postProvider = Provider.of<PostProvider>(context);
 
     Widget captureButton() {
       return ValueListenableBuilder(
@@ -150,6 +157,9 @@ class _CameraScreenState extends State<CameraScreen>
                   onCapture();
                 }
               }
+            },
+            onStop: () {
+              stopRecording(duration: duration);
             },
             position: duration,
             max: max * 1000,
@@ -409,6 +419,13 @@ class _CameraScreenState extends State<CameraScreen>
                                                     await FlutterVideoInfo()
                                                         .getVideoInfo(
                                                             file.path);
+                                                postProvider.video =
+                                                    VideoCapture(file,
+                                                        camera: false);
+                                                postProvider.getThumbnails(
+                                                    (data?.duration?.floor() ??
+                                                            3000) *
+                                                        1);
                                                 Navigator.of(context).push(
                                                     myPageRoute(
                                                         builder: (context) =>

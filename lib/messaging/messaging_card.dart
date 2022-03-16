@@ -47,7 +47,9 @@ class _MessagingCardState extends State<MessagingCard> {
           Container(
             constraints: BoxConstraints(
                 maxWidth: message.attachment != null
-                    ? MediaQuery.of(context).size.width * 0.65
+                    ? MediaQuery.of(context).size.width > 720
+                        ? 720 * 0.65
+                        : MediaQuery.of(context).size.width * 0.65
                     : received
                         ? MediaQuery.of(context).size.width * 0.75
                         : MediaQuery.of(context).size.width * 0.85),

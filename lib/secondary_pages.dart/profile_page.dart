@@ -1,11 +1,8 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
-import 'package:pulsar/classes/chat.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/messaging/messaging_screen.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile.dart';
 import 'package:pulsar/options/user_options.dart';
@@ -13,7 +10,6 @@ import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
-import 'package:pulsar/widgets/route.dart';
 
 class ProfilePage extends StatefulWidget {
   final User user;
@@ -106,10 +102,11 @@ class _ProfilePageState extends State<ProfilePage>
                               toastNotImplemented();
                             },
                             onChildPressed: () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  myPageRoute(
-                                      builder: (context) => MessagingScreen(
-                                          Chat([user, tahlia]))));
+                              toastNotImplemented();
+                              // Navigator.of(context, rootNavigator: true).push(
+                              //     myPageRoute(
+                              //         builder: (context) => MessagingScreen(
+                              //             Chat([user, tahlia]))));
                             },
                             onFollow: () {
                               setState(() {

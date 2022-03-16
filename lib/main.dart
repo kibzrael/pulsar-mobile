@@ -54,16 +54,20 @@ void main() async {
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (context) {
-      return Pulsar(
-        loggedIn: loggedIn,
-        user: user,
-        deviceToken: deviceToken,
+  runApp(
+      // DevicePreview(
+      // enabled: kDebugMode,
+      // builder: (context) {
+      //   return
+      Pulsar(
+    loggedIn: loggedIn,
+    user: user,
+    deviceToken: deviceToken,
+  )
+      //     ;
+      //   },
+      // )
       );
-    },
-  ));
 }
 
 class Pulsar extends StatefulWidget {
@@ -99,6 +103,8 @@ class _PulsarState extends State<Pulsar> {
 
     Brightness systemBrightness =
         SchedulerBinding.instance!.window.platformBrightness;
+
+    debugPrint(widget.deviceToken);
 
     return MultiProvider(
       providers: [

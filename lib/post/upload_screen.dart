@@ -62,87 +62,98 @@ class _UploadScreenState extends State<UploadScreen> {
                     Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 12),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          InkWell(
-                            onTap: () => Navigator.of(context).push(myPageRoute(
-                                builder: (context) => PostPreview(provider))),
-                            child: Container(
-                              width: 120,
-                              height: 150,
-                              alignment: Alignment.bottomCenter,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Theme.of(context)
-                                      .inputDecorationTheme
-                                      .fillColor,
-                                  image: DecorationImage(
-                                      image: MemoryImage(
-                                          provider.thumbnail.thumbnail!),
-                                      fit: BoxFit.cover)),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12),
-                                child: Text(
-                                  'Preview',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white),
+                      child: SizedBox(
+                        height: 150,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                  myPageRoute(
+                                      builder: (context) =>
+                                          PostPreview(provider))),
+                              child: Container(
+                                width: 120,
+                                height: 150,
+                                alignment: Alignment.bottomCenter,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    color: Theme.of(context)
+                                        .inputDecorationTheme
+                                        .fillColor,
+                                    image: DecorationImage(
+                                        image: MemoryImage(
+                                            provider.thumbnail.thumbnail!),
+                                        fit: BoxFit.cover)),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: Text(
+                                    'Preview',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 15),
-                          Expanded(
-                              child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Flexible(
-                                          child: DetectableTextField(
-                                            decoration:
-                                                const InputDecoration.collapsed(
-                                              hintText: 'Caption...',
+                            const SizedBox(width: 15),
+                            Expanded(
+                                child: Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Flexible(
+                                            child: DetectableTextField(
+                                              decoration: const InputDecoration
+                                                  .collapsed(
+                                                hintText: 'Caption...',
+                                              ),
+                                              maxLength: 80,
+                                              expands: true,
+                                              minLines: null,
+                                              maxLines: null,
+                                              controller: captionController,
+                                              onChanged: (text) {
+                                                setState(() {
+                                                  provider.caption = text;
+                                                });
+                                              },
+                                              onDetectionTyped: (detection) {
+                                                debugPrint(detection);
+                                              },
+                                              detectionRegExp:
+                                                  detectionRegExp()!,
                                             ),
-                                            maxLength: 80,
-                                            maxLines: 4,
-                                            controller: captionController,
-                                            onChanged: (text) {
-                                              setState(() {
-                                                provider.caption = text;
-                                              });
-                                            },
-                                            detectionRegExp: detectionRegExp()!,
                                           ),
-                                        ),
-                                        const SizedBox(height: 12),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '# Tag',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2!
-                                                  .copyWith(fontSize: 16.5),
-                                            ),
-                                            Text(
-                                              '@ Person',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2!
-                                                  .copyWith(fontSize: 16.5),
-                                            ),
-                                          ],
-                                        )
-                                      ])))
-                        ],
+                                          const SizedBox(height: 12),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '# Tag',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2!
+                                                    .copyWith(fontSize: 16.5),
+                                              ),
+                                              Text(
+                                                '@ Person',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle2!
+                                                    .copyWith(fontSize: 16.5),
+                                              ),
+                                            ],
+                                          )
+                                        ])))
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -177,9 +188,16 @@ class _UploadScreenState extends State<UploadScreen> {
                       trailingText: provider.challenge?.name ?? 'None',
                       flexRatio: const [2, 3],
                     ),
-                    const MyListTile(
+                    MyListTile(
                       title: 'Allow Comments',
-                      subtitle: 'Allow all',
+                      // subtitle: 'Allow all',
+                      trailingArrow: false,
+                      trailing: Switch.adaptive(
+                          value: provider.allowcomments,
+                          onChanged: (value) {
+                            provider.allowcomments = value;
+                            provider.notify();
+                          }),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -219,3 +237,9 @@ class _UploadScreenState extends State<UploadScreen> {
     );
   }
 }
+
+Map<int, String> allowComments = {
+  0: 'Allow all',
+  1: 'Allow users you follow',
+  2: 'Turn off comments',
+};

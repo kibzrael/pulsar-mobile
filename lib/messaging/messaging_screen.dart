@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/chat.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -8,6 +10,7 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/messaging/messaging_card.dart';
 import 'package:pulsar/options/chat.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/action_button.dart';
@@ -34,6 +37,7 @@ class _MessagingScreenState extends State<MessagingScreen>
 
   bool isTyping = false;
   String message = '';
+  File? photo;
 
   late Chat chat;
 
@@ -121,6 +125,18 @@ class _MessagingScreenState extends State<MessagingScreen>
 
   moreOnChats() {
     openBottomSheet(context, (context) => const ChatOptions());
+  }
+
+  sendMessage() async {
+    if (message.isNotEmpty && message.trim() != '') {
+      setState(() {
+        messagesList.add(Message(
+            message: message.trim(), user: tahlia, time: DateTime.now()));
+        messageController.text = '';
+        message = '';
+        isTyping = false;
+      });
+    }
   }
 
   @override
@@ -243,10 +259,13 @@ class _MessagingScreenState extends State<MessagingScreen>
                           height: null,
                           padding: EdgeInsets.fromLTRB(
                               4, 2, message.isEmpty ? 4 : 8, 2),
-                          prefix: Padding(
-                              padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                              child: ProfilePic(tahlia.profilePic?.thumbnail,
-                                  radius: 18)),
+                          prefix: InkWell(
+                            onTap: toastNotImplemented,
+                            child: Padding(
+                                padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                                child: ProfilePic(tahlia.profilePic?.thumbnail,
+                                    radius: 18)),
+                          ),
                           onChanged: (text) {
                             setState(() {
                               message = text;
@@ -260,14 +279,29 @@ class _MessagingScreenState extends State<MessagingScreen>
                           onSubmitted: (text) {},
                           suffix: Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(MyIcons.camera),
+                              InkWell(
+                                onTap: () async {
+                                  toastNotImplemented();
+                                  // XFile? pickedFile = await ImagePicker()
+                                  //     .pickImage(source: ImageSource.camera);
+
+                                  // if (pickedFile != null) {
+                                  //   File file = File(pickedFile.path);
+                                  //   photo = file;
+                                  // }
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(MyIcons.camera),
+                                ),
                               ),
                               if (message.isEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(MyIcons.mic),
+                                InkWell(
+                                  onTap: toastNotImplemented,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(MyIcons.mic),
+                                  ),
                                 ),
                             ],
                           ),
@@ -275,19 +309,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                       ),
                       const SizedBox(width: 5),
                       InkWell(
-                        onTap: () {
-                          if (message.isNotEmpty && message.trim() != '') {
-                            setState(() {
-                              messagesList.add(Message(
-                                  message: message.trim(),
-                                  user: tahlia,
-                                  time: DateTime.now()));
-                              messageController.text = '';
-                              message = '';
-                              isTyping = false;
-                            });
-                          }
-                        },
+                        onTap: sendMessage,
                         child: Card(
                           margin: const EdgeInsets.all(2),
                           elevation: 4,

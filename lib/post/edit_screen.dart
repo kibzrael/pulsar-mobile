@@ -4,12 +4,11 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/models/post_video.dart';
-import 'package:pulsar/post/audio/audio.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/post/cover.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/upload_screen.dart';
-import 'package:pulsar/post/voiceover.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -91,13 +90,22 @@ class _EditScreenState extends State<EditScreen> {
             onVisibilityChanged: (info) {
               if (info.visibleFraction < 0.5) {
                 if (controller.value.isInitialized) {
-                  controller.pause();
+                  try {
+                    controller.pause();
+                    isPaused = true;
+                  } catch (e) {
+                    debugPrint(e.toString());
+                  }
                 }
               }
               if (info.visibleFraction > 0.5) {
                 if (controller.value.isInitialized) {
                   controller.play();
+                  isPaused = false;
                 }
+              }
+              if (mounted) {
+                setState(() {});
               }
             },
             child: Stack(
@@ -193,9 +201,10 @@ class _EditScreenState extends State<EditScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                openBottomSheet(
-                                    context, (context) => const PostAudio(),
-                                    root: false);
+                                // openBottomSheet(
+                                //     context, (context) => const PostAudio(),
+                                //     root: false);
+                                toastNotImplemented();
                               },
                               child: Column(
                                 children: [
@@ -228,8 +237,9 @@ class _EditScreenState extends State<EditScreen> {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).push(myPageRoute(
-                                    builder: (context) => const Voiceover()));
+                                // Navigator.of(context).push(myPageRoute(
+                                //     builder: (context) => const Voiceover()));
+                                toastNotImplemented();
                               },
                               child: Column(
                                 children: [

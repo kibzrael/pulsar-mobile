@@ -32,7 +32,7 @@ class LoginProvider extends ChangeNotifier {
       http.Response requestResponse = await http.post(url, body: {
         'info': info,
         'password': password,
-        'deviceToken': deviceToken ?? ''
+        // 'deviceToken': deviceToken ?? ''
       });
 
       response.statusCode = requestResponse.statusCode;

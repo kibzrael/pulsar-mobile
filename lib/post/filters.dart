@@ -184,29 +184,19 @@ Filter grayscale = Filter('Grayscale', convolution: [
   1,
   0
 ]);
-Filter warm = Filter('Warm',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter cool = Filter('Cool',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter natural = Filter('Natural',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter vintage = Filter('Vintage',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter rise = Filter('Rise',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
-Filter bw = Filter('B/W', convolution: [
-  1.5,
-  1.5,
-  1.5,
+Filter warm = Filter('Warm', convolution: [
+  1.317,
+  -0.16,
+  -0.16,
   0,
   0,
-  1.5,
-  1.5,
-  1.5,
+  -0.33,
+  1.21,
+  -0.33,
   0,
   0,
-  1.5,
-  1.5,
+  -0.045,
+  -0.045,
   1.5,
   0,
   0,
@@ -216,10 +206,60 @@ Filter bw = Filter('B/W', convolution: [
   1,
   0
 ]);
-Filter landscape = Filter('Landscape',
+Filter cool = Filter('Cool',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0]);
+Filter natural = Filter('Natural',
     convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter vintage = Filter('Vintage',
+    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]);
+Filter rise = Filter('Rise', convolution: [
+  1.5,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
+Filter bw = Filter('B/W',
+    convolution: [1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0]);
+Filter landscape = Filter('Landscape', convolution: [
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1.5,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
 Filter lofi = Filter('Lo-Fi',
-    convolution: [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
+    convolution: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]);
 Filter invert = Filter('Invert', convolution: [
   -1,
   0,

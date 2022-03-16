@@ -59,7 +59,7 @@ class _SignupPageState extends State<SignupPage>
 
   void signup() async {
     FocusScope.of(context).unfocus();
-    String email = usernameController.text;
+    String email = emailController.text;
     String username = usernameController.text;
     String password = passwordController.text;
     setState(() {

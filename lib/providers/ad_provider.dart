@@ -8,6 +8,12 @@ class AdProvider {
 
   String get naviveAd => "ca-app-pub-3940256099942544/2247696110";
 
+  String get myGalaxyAd => "ca-app-pub-9604738881391509/9846799070";
+
+  String get homePageAd => "ca-app-pub-9604738881391509/6219271601";
+
+  String get inLineBannerAd => "ca-app-pub-9604738881391509/1940388894";
+
   AdProvider(this.initialization);
 
   BannerAdListener get bannerAdListener => _bannerAdListener;

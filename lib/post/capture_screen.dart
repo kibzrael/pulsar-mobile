@@ -18,7 +18,6 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 import 'package:video_trimmer/video_trimmer.dart' as video_trimmer;
 
 class CaptureScreen extends StatefulWidget {
@@ -45,7 +44,7 @@ class _CaptureScreenState extends State<CaptureScreen>
   // double get max => 90 * video.speed;
   int maxDuration = 90000;
 
-  List<Uint8List?> thumbnails = [];
+  List<Uint8List?> get thumbnails => provider.thumbnails;
 
   double position = 0.0;
   double duration = 3000.0;
@@ -80,25 +79,7 @@ class _CaptureScreenState extends State<CaptureScreen>
       controller.play();
       _ticker.start();
       maxDuration = duration < 90000 ? duration.floor() : 90000;
-      getThumbnails();
     });
-  }
-
-  getThumbnails() async {
-    // double max = maxDuration > duration ? duration : maxDuration.toDouble();
-    int stepSize = maxDuration ~/ 9;
-    for (int step = 0; step < duration / stepSize; step++) {
-      int position = stepSize * step;
-      Uint8List? thumbnail = await thumb.VideoThumbnail.thumbnailData(
-          video: video.video.path, timeMs: position);
-      if (step == 0) {
-        provider.thumbnail.thumbnail = thumbnail;
-      }
-
-      // await VideoCompress.getByteThumbnail(video.video.path,
-      //     position: position * 1000);
-      thumbnails.add(thumbnail);
-    }
   }
 
   String state = 'none';
@@ -123,9 +104,7 @@ class _CaptureScreenState extends State<CaptureScreen>
     await trimmer.saveTrimmedVideo(
         startValue: trimStart.toDouble(),
         endValue: trimEnd.toDouble(),
-        ffmpegCommand: provider.rotate == 0
-            ? null
-            : '-vf "transpose=${provider.rotate ~/ 90}"',
+        ffmpegCommand: provider.rotate == 0 ? null : '-vf "transpose=1"',
         onSave: (path) {
           setState(() {
             state = path ?? 'Failed';
@@ -134,7 +113,7 @@ class _CaptureScreenState extends State<CaptureScreen>
             }
           });
         });
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 300));
     return;
   }
 
@@ -232,7 +211,7 @@ class _CaptureScreenState extends State<CaptureScreen>
                 child: Column(
                   children: [
                     const Spacer(),
-                    Text(state),
+                    // Text(state),
                     Trimmer(
                       position: position,
                       duration: duration,

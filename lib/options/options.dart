@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/option.dart';
-import 'package:pulsar/messaging/compose/compose_message.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
-import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -14,7 +13,9 @@ class Options extends StatelessWidget {
   final bool share;
   final String shareText;
 
-  const Options(this.options, {Key? key, required this.share, this.shareText = ''}) : super(key: key);
+  const Options(this.options,
+      {Key? key, required this.share, this.shareText = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +24,9 @@ class Options extends StatelessWidget {
         icon: MyIcons.send,
         color: Theme.of(context).colorScheme.primary,
         onPressed: (context) {
-          Navigator.of(context)
-              .push(myPageRoute(builder: (context) => const ComposeMessage()));
+          toastNotImplemented();
+          // Navigator.of(context)
+          //     .push(myPageRoute(builder: (context) => const ComposeMessage()));
         });
 
     Option link = Option(
@@ -84,7 +86,8 @@ class OptionLayout extends StatelessWidget {
   final Option option;
   final bool share;
 
-  const OptionLayout(this.option, {Key? key, this.share = true}) : super(key: key);
+  const OptionLayout(this.option, {Key? key, this.share = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -11,6 +11,7 @@ import 'package:pulsar/functions/upload_post.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/user_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 
 part 'post_provider.g.dart';
 
@@ -22,16 +23,43 @@ class PostProvider extends ChangeNotifier {
   Audio? audio;
 
   VideoThumbnail thumbnail = VideoThumbnail(position: 0.0);
+  List<Uint8List?> thumbnails = [];
 
   String caption;
 
   Challenge? challenge;
 
   bool location = true;
+  bool allowcomments = true;
 
   int rotate = 0;
 
+  int maxDuration = 90000;
+
   PostProvider({this.challenge, this.caption = ''});
+
+  getThumbnails(int duration) async {
+    thumbnails.clear();
+    maxDuration = duration < 90000 ? duration.floor() : 90000;
+    int stepSize = maxDuration ~/ 9;
+    for (int step = 0; step < duration / stepSize; step++) {
+      int position = stepSize * step;
+      try {
+        Uint8List? thumbnailData = await thumb.VideoThumbnail.thumbnailData(
+            video: video!.video.path, timeMs: position);
+        if (step == 0) {
+          thumbnail.thumbnail = thumbnailData;
+        }
+
+        // await VideoCompress.getByteThumbnail(video.video.path,
+        //     position: position * 1000);
+        thumbnails.add(thumbnailData);
+        notifyListeners();
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+  }
 
   upload(context) {
     BackgroundOperations operations =
