@@ -11,18 +11,19 @@ class Challenge {
   int id;
   String name;
   Interest? category;
-  String description;
-  Photo coverPhoto;
+  String? description;
+  Photo cover;
   DateTime? timeCreated;
 
-  bool isPinned = false;
+  bool isPinned;
 
   Challenge(this.id,
       {required this.name,
       required this.description,
       this.category,
-      required this.coverPhoto,
-      this.timeCreated});
+      required this.cover,
+      this.timeCreated,
+      this.isPinned = false});
 
   factory Challenge.fromJson(Map<String, dynamic> json) =>
       _$ChallengeFromJson(json);

@@ -8,8 +8,8 @@ part of 'interest.dart';
 
 Interest _$InterestFromJson(Map<String, dynamic> json) => Interest(
       name: json['name'] as String,
-      category: json['category'] as String,
-      pCategory: json['pCategory'] as String?,
+      user: json['user'] as String,
+      users: json['users'] as String?,
       coverPhoto: json['coverPhoto'] == null
           ? null
           : Photo.fromJson(json['coverPhoto'] as Map<String, dynamic>),
@@ -20,8 +20,8 @@ Interest _$InterestFromJson(Map<String, dynamic> json) => Interest(
 
 Map<String, dynamic> _$InterestToJson(Interest instance) => <String, dynamic>{
       'name': instance.name,
-      'pCategory': instance.pCategory,
-      'category': instance.category,
+      'users': instance.users,
+      'user': instance.user,
       'coverPhoto': instance.coverPhoto?.toJson(),
       'parent': instance.parent?.toJson(),
     };

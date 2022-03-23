@@ -6,16 +6,16 @@ part 'interest.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Interest {
   String name;
-  String? pCategory;
-  String category;
+  String? users;
+  String user;
   Photo? coverPhoto;
 
   Interest? parent;
 
   Interest({
     required this.name,
-    required this.category,
-    this.pCategory,
+    required this.user,
+    this.users,
     this.coverPhoto,
     this.parent,
   });

@@ -19,13 +19,13 @@ Map<String, dynamic> _$PhotoToJson(Photo instance) => <String, dynamic>{
     };
 
 Video _$VideoFromJson(Map<String, dynamic> json) => Video(
-      small: json['small'] as String,
+      low: json['low'] as String,
       medium: json['medium'] as String?,
       high: json['high'] as String?,
     );
 
 Map<String, dynamic> _$VideoToJson(Video instance) => <String, dynamic>{
-      'small': instance.small,
+      'low': instance.low,
       'medium': instance.medium,
       'high': instance.high,
     };

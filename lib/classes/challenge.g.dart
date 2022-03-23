@@ -9,14 +9,15 @@ part of 'challenge.dart';
 Challenge _$ChallengeFromJson(Map<String, dynamic> json) => Challenge(
       json['id'] as int,
       name: json['name'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String?,
       category: json['category'] == null
           ? null
           : Interest.fromJson(json['category'] as Map<String, dynamic>),
-      coverPhoto: Photo.fromJson(json['coverPhoto'] as Map<String, dynamic>),
+      cover: Photo.fromJson(json['cover'] as Map<String, dynamic>),
       timeCreated: json['timeCreated'] == null
           ? null
           : DateTime.parse(json['timeCreated'] as String),
+      isPinned: json['isPinned'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
@@ -24,6 +25,7 @@ Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
       'name': instance.name,
       'category': instance.category?.toJson(),
       'description': instance.description,
-      'coverPhoto': instance.coverPhoto.toJson(),
+      'cover': instance.cover.toJson(),
       'timeCreated': instance.timeCreated?.toIso8601String(),
+      'isPinned': instance.isPinned,
     };

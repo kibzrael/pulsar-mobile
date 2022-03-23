@@ -32,6 +32,9 @@ class _ChangeEmailState extends State<ChangeEmail> {
           account: user.email ?? user.phone ?? '',
           verify: verify,
           onDone: () {},
+          onBack: () {
+            Navigator.pop(context);
+          },
           resend: sendCode),
     );
   }

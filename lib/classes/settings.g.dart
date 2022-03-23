@@ -19,6 +19,10 @@ Settings _$SettingsFromJson(Map<String, dynamic> json) => Settings(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      drafts: (json['drafts'] as List<dynamic>?)
+              ?.map((e) => Draft.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$SettingsToJson(Settings instance) => <String, dynamic>{
@@ -27,6 +31,7 @@ Map<String, dynamic> _$SettingsToJson(Settings instance) => <String, dynamic>{
       'mediaAutoplay': _$AutoplayEnumMap[instance.mediaAutoplay],
       'mediaQuality': _$MediaQualityEnumMap[instance.mediaQuality],
       'searchHistory': instance.searchHistory,
+      'drafts': instance.drafts.map((e) => e.toJson()).toList(),
     };
 
 const _$AutoplayEnumMap = {

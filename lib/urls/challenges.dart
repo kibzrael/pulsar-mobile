@@ -1,11 +1,13 @@
 class ChallengesUrl {
   ChallengesUrl._();
 
-  static String forYou = '';
+  static String myGalaxy = 'galaxy';
 
-  static String trending = '';
+  static String pinned = 'pinned_challenge';
 
-  static String highlight = '';
+  static String top = 'challenges_chart';
 
-  static String discover(String tag) => '';
+  static String highlight = 'highlight_challenge';
+
+  static String discover(String tag) => 'discover_challenges?tag=$tag';
 }

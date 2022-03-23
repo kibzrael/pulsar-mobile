@@ -1,4 +1,6 @@
-// ignore_for_file: unnecessary_const
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,9 @@ import 'package:pulsar/models/trending_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/challenges.dart';
+import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -66,6 +71,8 @@ class _RootGalaxyState extends State<RootGalaxy>
 
   bool errorLoading = false;
 
+  late UserProvider userProvider;
+
   @override
   void initState() {
     super.initState();
@@ -82,14 +89,21 @@ class _RootGalaxyState extends State<RootGalaxy>
 
   fetchData() async {
     await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      data = {
-        'pinnedChallenges': [],
-        'trendingChallenges': [],
-        'highlightChallenge': cuisines,
-        'discoverChallenges': []
-      };
-    });
+    try {
+      String url = getUrl(ChallengesUrl.myGalaxy);
+
+      http.Response response = await http.get(Uri.parse(url),
+          headers: {"Authorization": userProvider.user.token ?? ''});
+      var responseData = jsonDecode(response.body);
+      if (responseData is Map) {
+        data = responseData as Map<String, dynamic>;
+        setState(() {});
+      }
+    } catch (e) {
+      setState(() {
+        errorLoading = true;
+      });
+    }
   }
 
   @override
@@ -106,6 +120,8 @@ class _RootGalaxyState extends State<RootGalaxy>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
+
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
     rootPageProvider.pageScrollControllers
@@ -136,7 +152,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                       alignment: Alignment.centerLeft,
                       child: const Text(
                         'Join Challenges\nAnd Earn Points',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 36, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -185,7 +201,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                       const TrendingChallenges(),
                       const ChallengesAd(),
                       space,
-                      HighlightChallege(data['highlightChallenge']),
+                      HighlightChallege(cuisines),
                       space,
                       const DiscoverChallenges(),
 

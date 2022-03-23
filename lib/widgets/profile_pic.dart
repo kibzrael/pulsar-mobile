@@ -52,7 +52,7 @@ class ProfilePic extends StatelessWidget {
           : Icon(
               MyIcons.account,
               size: radius,
-              color: Theme.of(context).dividerColor,
+              color: onMedia ? Colors.white : Theme.of(context).dividerColor,
             ),
     );
   }

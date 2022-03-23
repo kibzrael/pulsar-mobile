@@ -88,8 +88,8 @@ class _SelectCategoryState extends State<SelectCategory>
                     itemBuilder: (context, index) {
                       Interest category = categories[index];
 
-                      bool selected = category.category ==
-                          widget.selectedCategory?.category;
+                      bool selected =
+                          category.user == widget.selectedCategory?.user;
 
                       return LayoutBuilder(builder: (context, snapshot) {
                         return InkWell(
@@ -149,8 +149,8 @@ class _SelectCategoryState extends State<SelectCategory>
                                 fit: BoxFit.scaleDown,
                                 child: Text(
                                   isSolo
-                                      ? category.category
-                                      : category.pCategory ?? category.category,
+                                      ? category.user
+                                      : category.users ?? category.user,
                                   maxLines: 1,
                                   softWrap: false,
                                   style: const TextStyle(

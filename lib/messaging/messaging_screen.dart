@@ -94,7 +94,7 @@ class _MessagingScreenState extends State<MessagingScreen>
             time: DateTime.now()
                 .subtract(Duration(days: (messagesList.length / 4).floor())),
             attachment: messagesList.length % 7 == 0
-                ? adventure.coverPhoto.photo(context)
+                ? adventure.cover.photo(context)
                 : null));
       }
     }

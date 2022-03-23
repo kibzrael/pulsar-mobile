@@ -1,11 +1,18 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/challenges.dart';
+import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class DiscoverChallenges extends StatefulWidget {
@@ -19,6 +26,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+
+  late UserProvider userProvider;
 
   List<Challenge> challenges = [
     adventure,
@@ -39,16 +48,32 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     ...allCategories.map((e) => CategoryTag(e.name, e.coverPhoto!))
   ];
 
-  String selected = 'For you';
+  String tag = 'For you';
 
   @override
   void initState() {
     super.initState();
   }
 
+  Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {
+    List<Map<String, dynamic>> result = [];
+    String url = getUrl(ChallengesUrl.discover(tag));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {"Authorization": userProvider.user.token ?? ""});
+
+    var responseData = jsonDecode(response.body);
+
+    if (responseData is Map) {
+      result = responseData['challenges'];
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -62,9 +87,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                 itemBuilder: (context, index) {
                   return ChallengeTag(
                     tags[index],
-                    isSelected: selected == tags[index].name,
-                    onPressed: () =>
-                        setState(() => selected = tags[index].name),
+                    isSelected: tag == tags[index].name,
+                    onPressed: () => setState(() => tag = tags[index].name),
                   );
                 }),
           ),
@@ -107,7 +131,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                     top: Radius.circular(12)),
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        challenge.coverPhoto.thumbnail),
+                                        challenge.cover.thumbnail),
                                     fit: BoxFit.cover)),
                           ),
                           const SizedBox(height: 8),

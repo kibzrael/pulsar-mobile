@@ -126,7 +126,7 @@ class _ChallengePageState extends State<ChallengePage>
                                       .fillColor,
                                   image: DecorationImage(
                                       image: CachedNetworkImageProvider(
-                                          challenge.coverPhoto.photo(context)),
+                                          challenge.cover.photo(context)),
                                       fit: BoxFit.cover)),
                             ),
                           )),
@@ -192,7 +192,7 @@ class _ChallengePageState extends State<ChallengePage>
                     Padding(
                       padding: const EdgeInsets.fromLTRB(30, 0, 30, 5),
                       child: Text(
-                        challenge.description,
+                        challenge.description ?? '',
                         textAlign: TextAlign.center,
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,

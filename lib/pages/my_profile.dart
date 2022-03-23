@@ -88,6 +88,7 @@ class _RootProfilePageState extends State<RootProfilePage>
 
   Future<bool> onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
+    provider.notify();
     return true;
   }
 

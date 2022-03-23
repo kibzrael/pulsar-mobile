@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/models/discover_tags.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/home.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
@@ -20,32 +27,43 @@ class _DiscoverPostsState extends State<DiscoverPosts>
   @override
   bool get wantKeepAlive => true;
 
+  late UserProvider userProvider;
+
   List<Post> posts = allPosts;
 
-  String category = 'For you';
+  String tag = 'For you';
 
-  String dataCategory = '';
+  String dataTag = '';
 
   List<Map<String, dynamic>> data = [];
 
   Future<List<Map<String, dynamic>>> fetchData(int index) async {
-    String storedCategory = category;
-    await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> postResults = [...posts.map((e) => e.toJson())];
-    postResults.shuffle();
-    dataCategory = storedCategory;
-    return postResults;
+    String storedTag = tag;
+    List<Map<String, dynamic>> result = [];
+    String url = getUrl(HomeUrls.discover(tag));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {"Authorization": userProvider.user.token ?? ""});
+
+    var responseData = jsonDecode(response.body);
+
+    if (responseData is Map) {
+      result = [...responseData['posts']];
+      dataTag = storedTag;
+    }
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
     return SafeArea(
         child: RecyclerView(
             target: fetchData,
             itemBuilder: (context, snapshot) {
               List<Map<String, dynamic>> snapshotData = snapshot.data;
-              if (dataCategory == category) data = [...snapshotData];
+              if (dataTag == tag) data = [...snapshotData];
               List<Post> postData = [...data.map((e) => Post.fromJson(e))];
 
               return LayoutBuilder(builder: (context, constraints) {
@@ -57,10 +75,10 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                 return Column(
                   children: [
                     DiscoverTags(
-                        selected: category,
+                        selected: tag,
                         onChanged: (String value) {
                           setState(() {
-                            category = value;
+                            tag = value;
                             snapshot.refreshCallback();
                           });
                         }),
@@ -69,7 +87,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                             ? snapshot.errorLoading
                                 ? const NetworkError()
                                 : const Center(child: MyProgressIndicator())
-                            : dataCategory != category
+                            : dataTag != tag
                                 ? const Center(child: MyProgressIndicator())
                                 : RefreshIndicator(
                                     onRefresh: snapshot.refreshCallback,
@@ -103,7 +121,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                           PostScreen(
                                                             initialPosts:
                                                                 postData,
-                                                            title: category,
+                                                            title: tag,
                                                             postInView: index,
                                                           )));
                                             },

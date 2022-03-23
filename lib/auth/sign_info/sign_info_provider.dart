@@ -49,8 +49,8 @@ class SignInfoProvider extends ChangeNotifier {
     categories.forEach((key, item) {
       Interest interest = Interest(
         name: key,
-        category: item['user'],
-        pCategory: item['users'],
+        user: item['user'],
+        users: item['users'],
         coverPhoto: Photo(thumbnail: item['cover']),
       );
       interests.add(interest);
@@ -60,8 +60,8 @@ class SignInfoProvider extends ChangeNotifier {
           interests.add(
             Interest(
                 name: key,
-                category: item['user'] ?? interest.category,
-                pCategory: item['users'] ?? interest.pCategory,
+                user: item['user'] ?? interest.user,
+                users: item['users'] ?? interest.users,
                 coverPhoto: item['cover'] != null
                     ? Photo(thumbnail: item['cover'])
                     : interest.coverPhoto,

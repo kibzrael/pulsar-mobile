@@ -3,67 +3,67 @@ import 'package:pulsar/classes/media.dart';
 
 Interest acting = Interest(
     name: 'Acting',
-    category: 'Actor',
+    user: 'Actor',
     coverPhoto: Photo(thumbnail: 'assets/categories/theater-48.png'));
 
 Interest art = Interest(
     name: 'Art',
-    category: 'Artist',
+    user: 'Artist',
     coverPhoto: Photo(thumbnail: 'assets/categories/art-48.png'));
 
 Interest comedy = Interest(
     name: 'Comedy',
-    category: 'Comedian',
+    user: 'Comedian',
     coverPhoto: Photo(thumbnail: 'assets/categories/comedy-48.png'));
 
 Interest dance = Interest(
     name: 'Dance',
-    category: 'Dancer',
+    user: 'Dancer',
     coverPhoto: Photo(thumbnail: 'assets/categories/dance-48.png'));
 
 Interest gymnastics = Interest(
     name: 'Gymnastics',
-    category: 'Gymnast',
+    user: 'Gymnast',
     coverPhoto: Photo(thumbnail: 'assets/categories/gymnastics-48.png'));
 
 Interest interiorDesign = Interest(
     name: 'Interior Design',
-    category: 'Interior Designer',
+    user: 'Interior Designer',
     coverPhoto: Photo(thumbnail: 'assets/categories/interior design-48.png'));
 
 Interest magic = Interest(
     name: 'Magic',
-    category: 'Magician',
+    user: 'Magician',
     coverPhoto: Photo(thumbnail: 'assets/categories/magic-48.png'));
 
 Interest makeup = Interest(
     name: 'Make up',
-    category: 'Make up artist',
+    user: 'Make up artist',
     coverPhoto: Photo(thumbnail: 'assets/categories/makeup art-48.png'));
 
 Interest modelling = Interest(
     name: 'Modelling',
-    category: 'Model',
+    user: 'Model',
     coverPhoto: Photo(thumbnail: 'assets/categories/modeling-48.png'));
 
 Interest music = Interest(
     name: 'Music',
-    category: 'Musician',
+    user: 'Musician',
     coverPhoto: Photo(thumbnail: 'assets/categories/music-48.png'));
 
 Interest photography = Interest(
     name: 'Photography',
-    category: 'Photographer',
+    user: 'Photographer',
     coverPhoto: Photo(thumbnail: 'assets/categories/photography-48.png'));
 
 Interest gaming = Interest(
     name: 'Gaming',
-    category: 'Gamer',
+    user: 'Gamer',
     coverPhoto: Photo(thumbnail: 'assets/categories/gaming-48.png'));
 
 Interest puppetry = Interest(
     name: 'Puppetry',
-    category: 'Puppet master',
+    user: 'Puppet master',
     coverPhoto: Photo(thumbnail: 'assets/categories/puppetry-48.png'));
 
 List<Interest> allCategories = [

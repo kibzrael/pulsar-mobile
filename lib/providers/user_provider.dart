@@ -113,10 +113,9 @@ class UserProvider extends ChangeNotifier {
           }
         });
         user = User.fromJson(userJson);
+        notifyListeners();
         await Provider.of<LoginProvider>(context, listen: false)
             .saveLogin(context, token: token!, user: user.toJson());
-
-        notifyListeners();
       }
 
       response.statusCode = requestResponse.statusCode;
@@ -162,5 +161,9 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
     return response;
+  }
+
+  notify() {
+    notifyListeners();
   }
 }

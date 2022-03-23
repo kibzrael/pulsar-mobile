@@ -102,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
       (context) => LoadingDialog(
         () async {
           MyResponse response = await provider.editProfile(context,
-              category: category?.category,
+              category: category?.user,
               bio: bioController.text,
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
@@ -337,7 +337,7 @@ class _EditProfileState extends State<EditProfile> {
                         });
                       }
                     }),
-                    subtitle: category?.category ?? user.category,
+                    subtitle: category?.user ?? user.category,
                   ),
                   MyListTile(
                       title: 'Interests',

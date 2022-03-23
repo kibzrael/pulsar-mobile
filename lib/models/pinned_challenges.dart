@@ -1,9 +1,16 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/challenges.dart';
+import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 import 'package:pulsar/data/challenges.dart';
@@ -20,6 +27,8 @@ class _PinnedChallengesState extends State<PinnedChallenges>
   @override
   bool get wantKeepAlive => true;
   ScrollController scrollController = ScrollController();
+
+  late UserProvider userProvider;
 
   List<Challenge> challenges = [
     urbanPortraits,
@@ -39,9 +48,25 @@ class _PinnedChallengesState extends State<PinnedChallenges>
     bandChallenge,
   ];
 
+  Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {
+    List<Map<String, dynamic>> result = [];
+    String url = getUrl(ChallengesUrl.pinned);
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {"Authorization": userProvider.user.token ?? ""});
+
+    var responseData = jsonDecode(response.body);
+
+    if (responseData is Map) {
+      result = responseData['challenges'];
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
     return Section(
       title: "Challenges",
       child: Container(
@@ -87,7 +112,7 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                   .fillColor,
                               image: DecorationImage(
                                   image: CachedNetworkImageProvider(challenge
-                                      .coverPhoto
+                                      .cover
                                       .photo(context, max: 'medium')),
                                   fit: BoxFit.cover),
                             ),
@@ -118,48 +143,6 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                 softWrap: true,
                                 textAlign: TextAlign.center,
                               ),
-                              // Container(
-                              //   margin: const EdgeInsets.symmetric(
-                              //       horizontal: 15, vertical: 7.5),
-                              //   child: Row(
-                              //     children: <Widget>[
-                              //       Padding(
-                              //         padding: const EdgeInsets.symmetric(
-                              //             horizontal: 3),
-                              //         child: Icon(
-                              //           MyIcons.play,
-                              //           color: Colors.white,
-                              //           size: 15,
-                              //         ),
-                              //       ),
-                              //       const Expanded(
-                              //         flex: 2,
-                              //         child: Text(
-                              //           '3.14K',
-                              //           style: TextStyle(
-                              //               color: Colors.white, fontSize: 12),
-                              //         ),
-                              //       ),
-                              //       Padding(
-                              //         padding: const EdgeInsets.symmetric(
-                              //             horizontal: 3),
-                              //         child: Icon(
-                              //           MyIcons.pin,
-                              //           color: Colors.white,
-                              //           size: 15,
-                              //         ),
-                              //       ),
-                              //       const Expanded(
-                              //         flex: 1,
-                              //         child: Text(
-                              //           '4.5K',
-                              //           style: TextStyle(
-                              //               color: Colors.white, fontSize: 12),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // )
                             ],
                           ),
                         ),

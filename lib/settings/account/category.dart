@@ -44,8 +44,8 @@ class _EditCategoryState extends State<EditCategory> {
     interests.forEach((key, item) {
       Interest interest = Interest(
         name: key,
-        category: item['user'],
-        pCategory: item['users'],
+        user: item['user'],
+        users: item['users'],
         coverPhoto: Photo(thumbnail: item['cover']),
       );
       categories.add(interest);

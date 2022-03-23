@@ -3,7 +3,7 @@ class HomeUrls {
 
   static String feed(int index) => '';
 
-  static String discover(String tag) => '';
+  static String discover(String tag) => 'discover_posts?tag=$tag';
 
-  static String recommendedUsers = '';
+  static String discoverUsers = 'discover_users';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/settings/account/manage_account.dart';
+import 'package:pulsar/settings/admin/root.dart';
 import 'package:pulsar/settings/billing.dart';
 import 'package:pulsar/settings/blank.dart';
 import 'package:pulsar/settings/cache.dart';
@@ -46,6 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
     'Support': {
       'Privacy': {'icon': MyIcons.privacy, 'page': const Privacy()},
       'Report': {'icon': MyIcons.report, 'page': const ReportScreen()},
+      'Admin Panel': {'icon': MyIcons.tune, 'page': const PulsarAdmin()},
     },
     'About': {
       'Terms of use': {'icon': MyIcons.terms, 'page': null},

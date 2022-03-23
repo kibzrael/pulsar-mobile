@@ -40,7 +40,7 @@ class Photo {
 
 @JsonSerializable(explicitToJson: true)
 class Video {
-  String small;
+  String low;
   String? medium;
   String? high;
 
@@ -49,13 +49,13 @@ class Video {
     Resolution resolution =
         Provider.of<ConnectivityProvider>(context, listen: false).resolution;
     return resolution == Resolution.low
-        ? small
+        ? low
         : resolution == Resolution.medium
-            ? medium ?? small
-            : high ?? medium ?? small;
+            ? medium ?? low
+            : high ?? medium ?? low;
   }
 
-  Video({required this.small, this.medium, this.high});
+  Video({required this.low, this.medium, this.high});
 
   factory Video.fromJson(Map<String, dynamic> json) => _$VideoFromJson(json);
   Map<String, dynamic> toJson() => _$VideoToJson(this);
