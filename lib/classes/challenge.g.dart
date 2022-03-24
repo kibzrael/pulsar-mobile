@@ -10,9 +10,7 @@ Challenge _$ChallengeFromJson(Map<String, dynamic> json) => Challenge(
       json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String?,
-      category: json['category'] == null
-          ? null
-          : Interest.fromJson(json['category'] as Map<String, dynamic>),
+      category: json['category'] as String?,
       cover: Photo.fromJson(json['cover'] as Map<String, dynamic>),
       timeCreated: json['timeCreated'] == null
           ? null
@@ -23,7 +21,7 @@ Challenge _$ChallengeFromJson(Map<String, dynamic> json) => Challenge(
 Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'category': instance.category?.toJson(),
+      'category': instance.category,
       'description': instance.description,
       'cover': instance.cover.toJson(),
       'timeCreated': instance.timeCreated?.toIso8601String(),

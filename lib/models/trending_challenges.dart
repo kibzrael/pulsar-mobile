@@ -2,24 +2,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
 
 class TrendingChallenges extends StatefulWidget {
-  const TrendingChallenges({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> challenges;
+  const TrendingChallenges(this.challenges, {Key? key}) : super(key: key);
 
   @override
   _TrendingChallengesState createState() => _TrendingChallengesState();
 }
 
 class _TrendingChallengesState extends State<TrendingChallenges> {
-  List<Challenge> challenges = [danceChallenge, pubgtakeouts, codheadshot];
-
   @override
   Widget build(BuildContext context) {
+    List<Challenge> challenges = [
+      ...widget.challenges.map((e) => Challenge.fromJson(e))
+    ];
     return Section(
       title: 'Trending',
       child: ListView.builder(

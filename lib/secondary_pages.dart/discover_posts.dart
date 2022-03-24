@@ -140,9 +140,11 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                             .inputDecorationTheme
                                                             .fillColor,
                                                         image: DecorationImage(
-                                                            image: CachedNetworkImageProvider(
-                                                                post.thumbnail
-                                                                    .thumbnail),
+                                                            image: CachedNetworkImageProvider(post
+                                                                .thumbnail
+                                                                .photo(context,
+                                                                    max:
+                                                                        'medium')),
                                                             fit: BoxFit.cover),
                                                       ),
                                                     ),

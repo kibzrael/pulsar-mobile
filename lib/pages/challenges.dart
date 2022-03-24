@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/ads/challenges_ad.dart';
 
 import 'package:pulsar/basic_root.dart';
-import 'package:pulsar/data/challenges.dart';
+import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/models/discover_challenges.dart';
 import 'package:pulsar/models/highlight_challenge.dart';
 import 'package:pulsar/models/pinned_challenges.dart';
@@ -73,6 +73,8 @@ class _RootGalaxyState extends State<RootGalaxy>
 
   late UserProvider userProvider;
 
+  late Challenge newHighlight;
+
   @override
   void initState() {
     super.initState();
@@ -97,6 +99,7 @@ class _RootGalaxyState extends State<RootGalaxy>
       var responseData = jsonDecode(response.body);
       if (responseData is Map) {
         data = responseData as Map<String, dynamic>;
+        newHighlight = Challenge.fromJson(data['new highlight']);
         setState(() {});
       }
     } catch (e) {
@@ -198,12 +201,14 @@ class _RootGalaxyState extends State<RootGalaxy>
                       space,
                       const PinnedChallenges(),
                       space,
-                      const TrendingChallenges(),
+                      TrendingChallenges(
+                          List<Map<String, dynamic>>.from(data['top'])),
                       const ChallengesAd(),
                       space,
-                      HighlightChallege(cuisines),
+                      HighlightChallege(newHighlight),
                       space,
-                      const DiscoverChallenges(),
+                      DiscoverChallenges(
+                          List<Map<String, dynamic>>.from(data['discover'])),
 
                       // RecommendedChallenges(),
                       // space,

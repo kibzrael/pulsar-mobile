@@ -1,8 +1,12 @@
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
 
 part 'user.g.dart';
@@ -65,9 +69,52 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
-  follow(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
+  follow(BuildContext context,
+      {RequestMethod mode = RequestMethod.post}) async {
+    User user = Provider.of<UserProvider>(context).user;
 
-  block(BuildContext context, {RequestMethod mode = RequestMethod.post}) {}
+    String url = getUrl(UserUrls.follow(id));
+    http.Response response;
+    try {
+      if (mode == RequestMethod.post) {
+        response = await http
+            .post(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
+      } else {
+        response = await http.delete(Uri.parse(url),
+            headers: {'Authorization': user.token ?? ''});
+      }
+      if (response.statusCode == 200) {
+        debugPrint("Success....");
+      } else {
+        debugPrint('error');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  block(BuildContext context, {RequestMethod mode = RequestMethod.post}) async {
+    User user = Provider.of<UserProvider>(context).user;
+
+    String url = getUrl(UserUrls.block(id));
+    http.Response response;
+    try {
+      if (mode == RequestMethod.post) {
+        response = await http
+            .post(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
+      } else {
+        response = await http.delete(Uri.parse(url),
+            headers: {'Authorization': user.token ?? ''});
+      }
+      if (response.statusCode == 200) {
+        debugPrint("Success....");
+      } else {
+        debugPrint('error');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
 
   report(BuildContext context, Report report) {}
 
@@ -77,8 +124,6 @@ class User {
   getPosts() {}
 
   getReposts() {}
-
-  getInterests(BuildContext context) {}
 
   getFollowers() {}
 
@@ -106,34 +151,6 @@ class User {
   }
 
   getProfile() {}
-
-  /// Use to edit the class
-  User update(BuildContext context, User newUser) {
-    // ensure userprovider.id == id
-
-    // username = newUser.username ?? username;
-    // bio = newUser.bio ?? bio;
-    // category = newUser.category ?? category;
-    // dateOfBirth = newUser.dateOfBirth ?? dateOfBirth;
-    // email = newUser.email ?? email;
-    // fullname = newUser.fullname ?? fullname;
-    // interests = newUser.interests ?? interests;
-    // phone = newUser.phone ?? phone;
-    // portfolio = newUser.portfolio ?? portfolio;
-    // profilePic = newUser.profilePic ?? profilePic;
-    return this;
-  }
-
-  /// Use to edit profile in the server.
-  /// Use update to change details.
-  ///
-  /// Note: editProfile uses the current class values.
-  Future<User> editProfile(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 4));
-    return this;
-  }
-
-  delete(BuildContext context) {}
 }
 
 enum RequestMethod { post, delete }

@@ -7,16 +7,20 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/data/categories.dart';
-import 'package:pulsar/data/challenges.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
 import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class DiscoverChallenges extends StatefulWidget {
-  const DiscoverChallenges({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> initial;
+  const DiscoverChallenges(this.initial, {Key? key}) : super(key: key);
 
   @override
   _DiscoverChallengesState createState() => _DiscoverChallengesState();
@@ -29,17 +33,6 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
 
   late UserProvider userProvider;
 
-  List<Challenge> challenges = [
-    adventure,
-    breakup,
-    landscape,
-    bestOfTokyo,
-    pet,
-    bestOfNewYork,
-    streetDance,
-    litByFire,
-  ];
-
   List<CategoryTag> tags = [
     CategoryTag(
         'For you', Photo(thumbnail: 'assets/categories/for you-48.png')),
@@ -50,23 +43,31 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
 
   String tag = 'For you';
 
+  String dataTag = '';
+
   @override
   void initState() {
     super.initState();
   }
 
   Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {
+    String storedTag = tag;
     List<Map<String, dynamic>> result = [];
-    String url = getUrl(ChallengesUrl.discover(tag));
+    if (index == 0 && tag == 'For you') {
+      result = [...widget.initial];
+    } else {
+      String url = getUrl(ChallengesUrl.discover(tag));
 
-    http.Response response = await http.get(Uri.parse(url),
-        headers: {"Authorization": userProvider.user.token ?? ""});
+      http.Response response = await http.get(Uri.parse(url),
+          headers: {"Authorization": userProvider.user.token ?? ""});
 
-    var responseData = jsonDecode(response.body);
+      var responseData = jsonDecode(response.body);
 
-    if (responseData is Map) {
-      result = responseData['challenges'];
+      if (responseData is Map) {
+        result = List<Map<String, dynamic>>.from(responseData['challenges']);
+      }
     }
+    dataTag = storedTag;
     return result;
   }
 
@@ -76,148 +77,135 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     userProvider = Provider.of<UserProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 56,
-            child: ListView.builder(
-                itemCount: tags.length,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                itemBuilder: (context, index) {
-                  return ChallengeTag(
-                    tags[index],
-                    isSelected: tag == tags[index].name,
-                    onPressed: () => setState(() => tag = tags[index].name),
-                  );
-                }),
-          ),
-          Container(
-            height: 220,
-            margin: const EdgeInsets.only(top: 12),
-            child: ListView.builder(
-              itemCount: challenges.length,
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 7.5),
-              itemBuilder: (context, index) {
-                Challenge challenge = challenges[index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(myPageRoute(
-                        builder: (context) => ChallengePage(challenge)));
-                  },
-                  child: Card(
-                    margin: const EdgeInsets.fromLTRB(7.5, 0, 7.5,
-                        10), //symmetric(horizontal: 7.5, vertical: 5),
-                    elevation: 4,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(12),
-                            bottom: Radius.circular(15))),
-                    child: Container(
-                      width: 180,
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 125,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context)
-                                    .inputDecorationTheme
-                                    .fillColor,
-                                borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(12)),
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        challenge.cover.thumbnail),
-                                    fit: BoxFit.cover)),
-                          ),
-                          const SizedBox(height: 8),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              challenge.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(fontSize: 18),
-                              maxLines: 1,
+      child: RecyclerView(
+          target: fetchChallenges,
+          dataLength: 12,
+          itemBuilder: (context, snapshot) {
+            List<Map<String, dynamic>> snapshotData = snapshot.data;
+            List<Challenge> challenges = [
+              ...snapshotData.map((e) => Challenge.fromJson(e))
+            ];
+            return Column(
+              children: [
+                SizedBox(
+                  height: 56,
+                  child: ListView.builder(
+                      itemCount: tags.length,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      itemBuilder: (context, index) {
+                        return ChallengeTag(
+                          tags[index],
+                          isSelected: tag == tags[index].name,
+                          onPressed: () => setState(() {
+                            tag = tags[index].name;
+                            snapshot.refreshCallback();
+                          }),
+                        );
+                      }),
+                ),
+                Container(
+                  height: 220,
+                  margin: const EdgeInsets.only(top: 12),
+                  child: challenges.isEmpty
+                      ? snapshot.errorLoading
+                          ? snapshot.noData
+                              ? const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: NoPosts(),
+                                )
+                              : const FittedBox(
+                                  fit: BoxFit.scaleDown, child: NetworkError())
+                          : const Center(child: MyProgressIndicator())
+                      : dataTag != tag
+                          ? const Center(child: MyProgressIndicator())
+                          : ListView.builder(
+                              itemCount: challenges.length,
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 7.5),
+                              itemBuilder: (context, index) {
+                                Challenge challenge = challenges[index];
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(myPageRoute(
+                                        builder: (context) =>
+                                            ChallengePage(challenge)));
+                                  },
+                                  child: Card(
+                                    margin: const EdgeInsets.fromLTRB(
+                                        7.5,
+                                        0,
+                                        7.5,
+                                        10), //symmetric(horizontal: 7.5, vertical: 5),
+                                    elevation: 4,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(12),
+                                            bottom: Radius.circular(15))),
+                                    child: Container(
+                                      width: 180,
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 125,
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .inputDecorationTheme
+                                                    .fillColor,
+                                                borderRadius: const BorderRadius
+                                                        .vertical(
+                                                    top: Radius.circular(12)),
+                                                image: DecorationImage(
+                                                    image:
+                                                        CachedNetworkImageProvider(
+                                                            challenge.cover
+                                                                .thumbnail),
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Text(
+                                              challenge.name,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .copyWith(fontSize: 18),
+                                              maxLines: 1,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: Text(
+                                              'Description in two lines, a small font and with ellipsis',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2!
+                                                  .copyWith(fontSize: 15),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              'Description in two lines, a small font and with ellipsis',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2!
-                                  .copyWith(fontSize: 15),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          // Container(
-                          //   margin: const EdgeInsets.symmetric(
-                          //       horizontal: 15, vertical: 5),
-                          //   child: Row(
-                          //     children: <Widget>[
-                          //       Padding(
-                          //         padding:
-                          //             const EdgeInsets.symmetric(horizontal: 4),
-                          //         child: Icon(
-                          //           MyIcons.play,
-                          //           size: 24,
-                          //         ),
-                          //       ),
-                          //       Expanded(
-                          //         child: Text(
-                          //           '3.14K',
-                          //           maxLines: 1,
-                          //           style: TextStyle(
-                          //               fontSize: 15,
-                          //               color: Theme.of(context)
-                          //                   .textTheme
-                          //                   .headline1!
-                          //                   .color),
-                          //         ),
-                          //       ),
-                          //       Padding(
-                          //         padding:
-                          //             const EdgeInsets.symmetric(horizontal: 4),
-                          //         child: Icon(
-                          //           MyIcons.pin,
-                          //           size: 16.5,
-                          //         ),
-                          //       ),
-                          //       Expanded(
-                          //         child: Text(
-                          //           '4.5K',
-                          //           maxLines: 1,
-                          //           style: TextStyle(
-                          //               fontSize: 15,
-                          //               color: Theme.of(context)
-                          //                   .textTheme
-                          //                   .headline1!
-                          //                   .color),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // )
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }
@@ -264,7 +252,8 @@ class _ChallengeTagState extends State<ChallengeTag> {
               height: 30,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage(widget.tag.cover.thumbnail))),
+                      image: AssetImage(
+                          widget.tag.cover.photo(context, max: 'medium')))),
             ),
             const SizedBox(width: 8),
             Text(

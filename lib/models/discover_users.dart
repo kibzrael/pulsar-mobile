@@ -60,7 +60,6 @@ class _DiscoverUsersState extends State<DiscoverUsers>
     var responseData = jsonDecode(response.body);
 
     if (responseData is Map) {
-      print(responseData['users']);
       results = [...responseData['users']];
     }
     return results;

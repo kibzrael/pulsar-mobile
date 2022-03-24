@@ -59,7 +59,6 @@ class _RecyclerViewState extends State<RecyclerView> {
     if (canBuffer && (!fetchedInitial || isBuffering || isRefreshing)) {
       List<Map<String, dynamic>>? data;
 
-      print("Started....");
       try {
         data = await widget
             .target(isRefreshing ? 0 : index)
@@ -68,11 +67,9 @@ class _RecyclerViewState extends State<RecyclerView> {
           return [];
         });
       } catch (e) {
-        print(e);
         connectionError();
         return;
       }
-      print("Done");
 
       if (data == null) {
         connectionError();

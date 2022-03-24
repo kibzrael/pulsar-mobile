@@ -6,6 +6,8 @@ class UserUrls {
   /// url to get followers, follow and unfollow
   static String follow(int id) => 'users/$id/followers';
 
+  static String block(int id) => 'users/$id/blocks';
+
   static String posts(int id) => 'users/$id/posts';
 
   static String changeUsername = 'change_username';
