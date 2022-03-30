@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NetworkError extends StatelessWidget {
-  const NetworkError({Key? key}) : super(key: key);
+  final double? width;
+  const NetworkError({Key? key, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class NetworkError extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   'assets/illustrations/no connection.svg',
-                  width: constraints.maxWidth,
+                  width: width ?? constraints.maxWidth,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -42,6 +43,60 @@ class NetworkError extends StatelessWidget {
                 )
               ],
             ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class NetworkErrorModel extends StatelessWidget {
+  const NetworkErrorModel({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Row(
+            children: [
+              SvgPicture.asset(
+                'assets/illustrations/no connection.svg',
+                width: constraints.maxWidth / 2,
+              ),
+              SizedBox(
+                width: constraints.maxWidth / 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 4),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          'No connection',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .copyWith(
+                                  fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Tap to retry',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 21, fontWeight: FontWeight.w400),
+                    )
+                  ],
+                ),
+              ),
+            ],
           );
         }),
       ),

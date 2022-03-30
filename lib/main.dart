@@ -10,10 +10,12 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/basic_root.dart';
+import 'package:pulsar/classes/settings.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/connectivity_provider.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
 import 'package:pulsar/providers/settings_provider.dart';
@@ -47,7 +49,7 @@ void main() async {
 
   Database db = await openDatabase(dbPath, version: 1, onCreate: (db, version) {
     return db.execute(
-        'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT UNIQUE, category TEXT, thumbnail TEXT,medium TEXT,high TEXT, fullname TEXT, email TEXT, phone TEXT, bio TEXT, portfolio TEXT, token TEXT)');
+        'CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT UNIQUE, category TEXT, thumbnail TEXT,medium TEXT,high TEXT, fullname TEXT, email TEXT, phone TEXT, bio TEXT, portfolio TEXT, posts INTEGER, followers INTEGER, is_superuser INTEGER, token TEXT)');
   });
   List<Map<String, dynamic>> users = await db.query('users');
   bool loggedIn = users.isNotEmpty;
@@ -124,9 +126,12 @@ class _PulsarState extends State<Pulsar> {
         ChangeNotifierProvider<SettingsProvider>(
           create: (_) => SettingsProvider(),
         ),
+        ChangeNotifierProvider<InteractionsSync>(
+            create: (_) => InteractionsSync()),
         ChangeNotifierProvider<ConnectivityProvider>(
           create: (_) => ConnectivityProvider(
-              dataSaver: false), // Get datasaver from settings
+              dataSaver: false,
+              mediaQuality: MediaQuality.auto), // Get datasaver from settings
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),

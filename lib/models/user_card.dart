@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -16,8 +19,10 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
+  late UserProvider userProvider;
+  late InteractionsSync interactionsSync;
   late User user;
-  bool isFollowing = false;
+  bool get isFollowing => interactionsSync.isFollowing(user);
 
   @override
   void initState() {
@@ -27,6 +32,8 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
+    interactionsSync = Provider.of<InteractionsSync>(context);
+    userProvider = Provider.of<UserProvider>(context);
     return MyListTile(
       leading: ProfilePic(
         user.profilePic?.thumbnail,
@@ -39,18 +46,22 @@ class _UserCardState extends State<UserCard> {
       title: '@${user.username}',
       subtitle: user.category,
       trailingArrow: false,
-      trailing: FollowButton(
-        height: 30,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        isFollowing: isFollowing,
-        onPressed: () {
-          setState(() {
-            user.follow(context,
-                mode: isFollowing ? RequestMethod.delete : RequestMethod.post);
-            isFollowing = !isFollowing;
-          });
-        },
-      ),
+      trailing: userProvider.user.id == user.id
+          ? null
+          : FollowButton(
+              height: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              isFollowing: isFollowing,
+              onPressed: () {
+                setState(() {
+                  user.follow(context,
+                      mode: isFollowing
+                          ? RequestMethod.delete
+                          : RequestMethod.post,
+                      onNotify: () => setState(() {}));
+                });
+              },
+            ),
     );
   }
 }

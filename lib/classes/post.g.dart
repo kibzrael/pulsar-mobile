@@ -16,14 +16,14 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
           : Challenge.fromJson(json['challenge'] as Map<String, dynamic>),
       allowComments: json['allowComments'] as bool? ?? true,
       caption: json['caption'] as String?,
-      isLiked: json['isLiked'] as bool?,
-      isReposted: json['isReposted'] as bool?,
-      likes: json['likes'] as int?,
+      isLiked: json['isLiked'] as bool? ?? false,
+      isReposted: json['isReposted'] as bool? ?? false,
+      likes: json['likes'] as int? ?? 0,
+      comments: json['comments'] as int? ?? 0,
+      reposts: json['reposts'] as int? ?? 0,
       time:
           json['time'] == null ? null : DateTime.parse(json['time'] as String),
-    )
-      ..comments = json['comments'] as int?
-      ..reposts = json['reposts'] as int?;
+    );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'id': instance.id,

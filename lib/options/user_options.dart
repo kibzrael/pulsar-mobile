@@ -32,9 +32,7 @@ class UserOptions extends StatelessWidget {
         icon: MyIcons.block,
         onPressed: (context) {
           user.block(context,
-              mode: user.isBlocked ?? false
-                  ? RequestMethod.delete
-                  : RequestMethod.post);
+              mode: user.isBlocked ? RequestMethod.delete : RequestMethod.post);
         });
     Option report = Option(
         name: 'Report',

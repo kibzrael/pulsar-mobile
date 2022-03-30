@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
@@ -21,10 +23,12 @@ class InteractionNotificationCard extends StatefulWidget {
 
 class _InteractionNotificationCardState
     extends State<InteractionNotificationCard> {
+  late InteractionsSync interactionsSync;
+
   late User user;
   Post? post;
   late Interaction type;
-  bool isFollowing = false;
+  bool get isFollowing => interactionsSync.isFollowing(user);
 
   @override
   void initState() {
@@ -41,6 +45,7 @@ class _InteractionNotificationCardState
 
   @override
   Widget build(BuildContext context) {
+    interactionsSync = Provider.of<InteractionsSync>(context);
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -114,8 +119,8 @@ class _InteractionNotificationCardState
                       user.follow(context,
                           mode: isFollowing
                               ? RequestMethod.delete
-                              : RequestMethod.post);
-                      isFollowing = !isFollowing;
+                              : RequestMethod.post,
+                          onNotify: () => setState(() {}));
                     });
                   },
                 ),

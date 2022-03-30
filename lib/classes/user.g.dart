@@ -9,7 +9,7 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) => User(
       json['id'] as int,
       username: json['username'] as String,
-      category: json['category'] as String?,
+      category: json['category'] as String,
       bio: json['bio'] as String?,
       dateOfBirth: json['date_of_birth'] == null
           ? null
@@ -19,8 +19,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       interests: (json['interests'] as List<dynamic>?)
           ?.map((e) => Interest.fromJson(e as Map<String, dynamic>))
           .toList(),
-      isBlocked: json['isBlocked'] as bool?,
-      isFollowing: json['is_following'] as bool?,
+      isBlocked: json['isBlocked'] as bool? ?? false,
+      isFollowing: json['is_following'] as bool? ?? false,
       phone: json['phone'] as String?,
       followers: json['followers'] as int?,
       portfolio: json['portfolio'] as String?,

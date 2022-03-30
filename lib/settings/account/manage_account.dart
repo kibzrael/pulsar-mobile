@@ -52,7 +52,7 @@ class _ManageAccountState extends State<ManageAccount> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(user.category ?? 'Personal Account',
+                          Text(user.category,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2!

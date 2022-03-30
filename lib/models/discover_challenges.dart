@@ -109,13 +109,9 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                   margin: const EdgeInsets.only(top: 12),
                   child: challenges.isEmpty
                       ? snapshot.errorLoading
-                          ? snapshot.noData
-                              ? const FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: NoPosts(),
-                                )
-                              : const FittedBox(
-                                  fit: BoxFit.scaleDown, child: NetworkError())
+                          ? snapshot.error == ApiError.connection
+                              ? const NetworkErrorModel()
+                              : const NoPostsModel()
                           : const Center(child: MyProgressIndicator())
                       : dataTag != tag
                           ? const Center(child: MyProgressIndicator())
@@ -163,8 +159,9 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                                 image: DecorationImage(
                                                     image:
                                                         CachedNetworkImageProvider(
-                                                            challenge.cover
-                                                                .thumbnail),
+                                                            challenge.cover.photo(
+                                                                context,
+                                                                max: 'medium')),
                                                     fit: BoxFit.cover)),
                                           ),
                                           const SizedBox(height: 8),
@@ -185,7 +182,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             child: Text(
-                                              'Description in two lines, a small font and with ellipsis',
+                                              challenge.description ?? '',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2!

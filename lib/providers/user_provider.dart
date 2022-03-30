@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:image/image.dart' as img;
@@ -19,17 +20,21 @@ import 'package:pulsar/urls/user.dart';
 class UserProvider extends ChangeNotifier {
   late User user;
 
+  List<Interest>? categories;
+
   String? get token => user.token;
 
   UserProvider(Map<String, dynamic>? loggedUser) {
     if (loggedUser != null) setUser(loggedUser);
+    fetchCategories();
   }
 
   void setUser(Map<String, dynamic> newUser) {
     Map<String, dynamic> userJson = {};
 
     newUser.forEach((key, value) {
-      if (!['thumbnail', 'medium', 'high', 'token'].contains(key)) {
+      if (!['thumbnail', 'medium', 'high', 'token', 'is_superuser']
+          .contains(key)) {
         userJson.putIfAbsent(key, () => value);
       }
     });
@@ -45,6 +50,10 @@ class UserProvider extends ChangeNotifier {
                 'high': newUser['high'],
               });
     }
+
+    userJson.putIfAbsent('is_superuser',
+        () => newUser['is_superuser'] == 1 || newUser['is_superuser']);
+
     user = User.fromJson(userJson);
     notifyListeners();
     // String userString = jsonEncode(newUser);
@@ -161,6 +170,26 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     }
     return response;
+  }
+
+  Future fetchCategories() async {
+    String url = getUrl(UserUrls.categories);
+    http.Response response =
+        await http.get(Uri.parse(url), headers: {"Authorization": token ?? ''});
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      var categoriesJson = List<Map<String, dynamic>>.from(body['categories']);
+      categories = [];
+      for (Map<String, dynamic> category in categoriesJson) {
+        Interest interest = Interest.fromJson(category);
+        categories!.add(interest);
+        for (Map<String, dynamic> subCategory in category['subCategories']) {
+          Interest subInterest = Interest.fromJson(subCategory);
+          subInterest.parent = interest;
+          categories!.add(subInterest);
+        }
+      }
+    }
   }
 
   notify() {

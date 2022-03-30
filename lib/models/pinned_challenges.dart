@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -15,10 +17,10 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
-import 'package:pulsar/data/challenges.dart';
 
 class PinnedChallenges extends StatefulWidget {
-  const PinnedChallenges({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> initial;
+  const PinnedChallenges(this.initial, {Key? key}) : super(key: key);
 
   @override
   _PinnedChallengesState createState() => _PinnedChallengesState();
@@ -32,34 +34,22 @@ class _PinnedChallengesState extends State<PinnedChallenges>
 
   late UserProvider userProvider;
 
-  List<Challenge> testChallenges = [
-    urbanPortraits,
-    litByFire,
-    tapDance,
-    afro,
-    ballerinaArt,
-    amazingFlowers,
-    bestOfCairo,
-    interiorChallenge,
-    photographyChallenge,
-    karaokeChallenge,
-    actingChallenge,
-    magicChallenge,
-  ];
-
   Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {
     List<Map<String, dynamic>> result = [];
-    // String url = getUrl(ChallengesUrl.pinned);
+    if (index == 0) {
+      result = [...widget.initial];
+    } else {
+      String url = getUrl(ChallengesUrl.pinned);
 
-    // http.Response response = await http.get(Uri.parse(url),
-    //     headers: {"Authorization": userProvider.user.token ?? ""});
+      http.Response response = await http.get(Uri.parse(url),
+          headers: {"Authorization": userProvider.user.token ?? ""});
 
-    // var responseData = jsonDecode(response.body);
+      var responseData = jsonDecode(response.body);
 
-    // if (responseData is Map) {
-    //   result = List<Map<String,dynamic>>.from(responseData['challenges']);
-    // }
-    result = [...testChallenges.map((e) => e.toJson())];
+      if (responseData is Map) {
+        result = List<Map<String, dynamic>>.from(responseData['challenges']);
+      }
+    }
     return result;
   }
 
@@ -82,9 +72,8 @@ class _PinnedChallengesState extends State<PinnedChallenges>
               return snapshotData.isEmpty
                   ? snapshot.errorLoading
                       ? snapshot.noData
-                          ? const Center(
-                              child: Text("No pinned Challenges yet"))
-                          : const Center(child: Text("Network Error"))
+                          ? const NoPostsModel()
+                          : const NetworkErrorModel()
                       : const Center(child: MyProgressIndicator())
                   : ListView.separated(
                       scrollDirection: Axis.horizontal,

@@ -1,10 +1,19 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:pulsar/ads/list_tile_ad.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
+import 'package:pulsar/functions/dynamic_count.dart';
 import 'package:pulsar/models/user_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/challenge.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/user.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -12,11 +21,13 @@ import 'package:pulsar/widgets/section.dart';
 class InteractionScreen extends StatefulWidget {
   final User? user;
   final Challenge? challenge;
+  final int? value;
 
   const InteractionScreen({
     Key? key,
     this.user,
     this.challenge,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -24,27 +35,33 @@ class InteractionScreen extends StatefulWidget {
 }
 
 class _InteractionScreenState extends State<InteractionScreen> {
+  late UserProvider userProvider;
+
   User? user;
   Challenge? challenge;
 
   late bool isUser;
 
   Future<List<Map<String, dynamic>>?> fetchData(int index) async {
-    await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> interactions = [
-      {'user': melissa},
-      {'user': rael},
-      {'user': nick},
-      {'user': joe},
-      {'user': tom},
-      {'user': beth},
-      {'user': thomas},
-      {'user': joy},
-      {'user': lizzy},
-      {'user': evah},
-      {'user': chris}
-    ];
+    List<Map<String, dynamic>> interactions = [];
 
+    String url;
+    if (isUser) {
+      url = getUrl(UserUrls.follow(user!.id));
+    } else {
+      url = getUrl(ChallengeUrls.pins(challenge!));
+    }
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': userProvider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      interactions = [...List<Map<String, dynamic>>.from(body['data'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
+    }
     return interactions;
   }
 
@@ -58,6 +75,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('@${isUser ? user!.username : challenge!.name}'),
@@ -67,7 +85,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
         child: Section(
           title: isUser ? 'Followers' : 'Pins',
           trailing: Text(
-            '22K',
+            widget.value == null ? '-' : roundCount(widget.value!),
             style: Theme.of(context).textTheme.subtitle2,
           ),
           child: Flexible(
@@ -82,23 +100,27 @@ class _InteractionScreenState extends State<InteractionScreen> {
                   }
                   return data.isEmpty
                       ? snapshot.errorLoading
-                          ? const NetworkError()
+                          ? snapshot.noData
+                              ? const NoPosts(alignment: Alignment.center)
+                              : const NetworkError()
                           : const Center(child: MyProgressIndicator())
                       : RefreshIndicator(
                           onRefresh: snapshot.refreshCallback,
                           child: ListView.builder(
-                              itemCount: data.length + 1,
+                              itemCount: data.length,
                               itemBuilder: (context, index) {
-                                if (data.isNotEmpty) {
-                                  if (index == 5) {
-                                    return const ListTileAd();
-                                  }
-                                  if (index > 5) {
-                                    return UserCard(data[index - 1]['user']);
-                                  }
-                                  return UserCard(data[index]['user']);
-                                }
-                                return Container();
+                                return UserCard(User.fromJson(data[index]));
+                                // if (data.isNotEmpty) {
+                                //   if (index == 5) {
+                                //     return const ListTileAd();
+                                //   }
+                                //   if (index > 5) {
+                                //     return UserCard(
+                                //         User.fromJson(data[index - 1]));
+                                //   }
+                                //   return UserCard(User.fromJson(data[index]));
+                                // }
+                                // return Container();
                               }),
                         );
                 }),

@@ -15,7 +15,9 @@ Challenge _$ChallengeFromJson(Map<String, dynamic> json) => Challenge(
       timeCreated: json['timeCreated'] == null
           ? null
           : DateTime.parse(json['timeCreated'] as String),
-      isPinned: json['isPinned'] as bool? ?? false,
+      isPinned: json['is_pinned'] as bool? ?? false,
+      pins: json['pins'] as int? ?? 0,
+      posts: json['posts'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
@@ -25,5 +27,7 @@ Map<String, dynamic> _$ChallengeToJson(Challenge instance) => <String, dynamic>{
       'description': instance.description,
       'cover': instance.cover.toJson(),
       'timeCreated': instance.timeCreated?.toIso8601String(),
-      'isPinned': instance.isPinned,
+      'is_pinned': instance.isPinned,
+      'pins': instance.pins,
+      'posts': instance.posts,
     };

@@ -52,7 +52,8 @@ class Video {
         ? low
         : resolution == Resolution.medium
             ? medium ?? low
-            : high ?? medium ?? low;
+            : medium ?? low;
+    // : high ?? medium ?? low;
   }
 
   Video({required this.low, this.medium, this.high});

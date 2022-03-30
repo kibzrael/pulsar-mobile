@@ -1,20 +1,29 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/models/profile_stats.dart';
 import 'package:pulsar/my_galaxy/leaderboard.dart';
 import 'package:pulsar/options/challenge_options.dart';
 import 'package:pulsar/post/post_screen.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
+import 'package:pulsar/urls/challenge.dart';
+import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -32,9 +41,13 @@ class _ChallengePageState extends State<ChallengePage>
   TabController? tabController;
   ScrollController? scrollController;
 
+  late InteractionsSync interactionsSync;
+
+  late UserProvider userProvider;
+
   double scrollPosition = 0;
 
-  bool isFollowing = false;
+  bool get isPinned => interactionsSync.isPinned(challenge);
 
   late Challenge challenge;
 
@@ -62,8 +75,28 @@ class _ChallengePageState extends State<ChallengePage>
     return true;
   }
 
+  Future<List<Map<String, dynamic>>> fetchPosts(int index, page) async {
+    List<Map<String, dynamic>> _posts = [];
+
+    String url = getUrl(ChallengeUrls.posts(challenge, page));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': userProvider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      _posts = [...List<Map<String, dynamic>>.from(body['posts'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
+    }
+    return _posts;
+  }
+
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
+    interactionsSync = Provider.of<InteractionsSync>(context);
+
     return Scaffold(body: LayoutBuilder(builder: (context, constraints) {
       double expandedHeight = constraints.maxHeight > 1024
           ? 300
@@ -170,11 +203,12 @@ class _ChallengePageState extends State<ChallengePage>
                       children: [
                         ProfileStats(
                           isPin: true,
-                          pins: 11700,
+                          pins: challenge.pins,
                           pinsOnPressed: () {
                             Navigator.of(context).push(myPageRoute(
                                 builder: (context) => InteractionScreen(
                                       challenge: challenge,
+                                      value: challenge.pins,
                                     )));
                           },
                           postOnPressed: () {
@@ -183,7 +217,7 @@ class _ChallengePageState extends State<ChallengePage>
                                 duration: const Duration(milliseconds: 700),
                                 curve: Curves.ease);
                           },
-                          posts: 620000,
+                          posts: challenge.posts,
                         ),
                       ],
                     ),
@@ -210,7 +244,7 @@ class _ChallengePageState extends State<ChallengePage>
                             //color: Theme.of(context).buttonColor,
                             fontWeight: FontWeight.w600),
                       ),
-                      isFollowing: isFollowing,
+                      isFollowing: isPinned,
                       isPin: true,
                       onChildPressed: () {
                         Navigator.of(context, rootNavigator: true).push(
@@ -221,10 +255,10 @@ class _ChallengePageState extends State<ChallengePage>
                       onFollow: () {
                         setState(() {
                           challenge.pin(context,
-                              mode: challenge.isPinned
+                              mode: isPinned
                                   ? RequestMethod.delete
-                                  : RequestMethod.post);
-                          isFollowing = !isFollowing;
+                                  : RequestMethod.post,
+                              onNotify: () => setState(() {}));
                         });
                       }),
                   const SizedBox(height: 3)
@@ -259,8 +293,18 @@ class _ChallengePageState extends State<ChallengePage>
                   child: TabBarView(
                     controller: tabController,
                     children: [
-                      GridPosts(lynn),
-                      GridPosts(lynn),
+                      GridPosts(
+                        (index) async {
+                          return await fetchPosts(index, 0);
+                        },
+                        title: '#${challenge.name}',
+                      ),
+                      GridPosts(
+                        (index) async {
+                          return await fetchPosts(index, 0);
+                        },
+                        title: '#${challenge.name}',
+                      ),
                     ],
                   ),
                 ),

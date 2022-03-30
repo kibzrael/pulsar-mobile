@@ -91,7 +91,10 @@ class LoginProvider extends ChangeNotifier {
       'phone': user['phone'],
       'bio': user['bio'],
       'portfolio': user['portfolio'],
-      'token': token
+      'posts': user['posts'],
+      'followers': user['followers'],
+      'is_superuser': user['is_superuser'] ? 1 : 0,
+      'token': token,
     });
 
     return;

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -17,8 +19,10 @@ class ChallengeCard extends StatefulWidget {
 }
 
 class _ChallengeCardState extends State<ChallengeCard> {
+  late InteractionsSync interactionsSync;
+
   late Challenge challenge;
-  bool isPinned = false;
+  bool get isPinned => interactionsSync.isPinned(challenge);
 
   @override
   void initState() {
@@ -28,6 +32,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
 
   @override
   Widget build(BuildContext context) {
+    interactionsSync = Provider.of<InteractionsSync>(context);
     return MyListTile(
       leading: CircleAvatar(
         radius: 24,
@@ -49,10 +54,8 @@ class _ChallengeCardState extends State<ChallengeCard> {
         onPressed: () {
           setState(() {
             challenge.pin(context,
-                mode: challenge.isPinned
-                    ? RequestMethod.delete
-                    : RequestMethod.post);
-            isPinned = !isPinned;
+                mode: isPinned ? RequestMethod.delete : RequestMethod.post,
+                onNotify: () => setState(() {}));
           });
         },
       ),

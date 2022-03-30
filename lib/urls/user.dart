@@ -8,9 +8,13 @@ class UserUrls {
 
   static String block(int id) => 'users/$id/blocks';
 
-  static String posts(int id) => 'users/$id/posts';
+  static String posts(int id, int index) => 'users/$id/posts?index=$index';
 
   static String changeUsername = 'change_username';
 
   static String changePassword = 'change_password';
+
+  static String categories = 'categories';
+
+  static String createCategory = 'create_category';
 }

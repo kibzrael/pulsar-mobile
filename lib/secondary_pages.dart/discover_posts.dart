@@ -8,6 +8,7 @@ import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/models/discover_tags.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -47,7 +48,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
 
     var responseData = jsonDecode(response.body);
 
-    if (responseData is Map) {
+    if (responseData is Map && tag == storedTag) {
       result = [...responseData['posts']];
       dataTag = storedTag;
     }
@@ -65,7 +66,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
               List<Map<String, dynamic>> snapshotData = snapshot.data;
               if (dataTag == tag) data = [...snapshotData];
               List<Post> postData = [...data.map((e) => Post.fromJson(e))];
-
+              debugPrint(snapshot.error.toString());
               return LayoutBuilder(builder: (context, constraints) {
                 int cols = constraints.maxWidth > 1024
                     ? 4
@@ -85,7 +86,9 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                     Flexible(
                         child: data.isEmpty
                             ? snapshot.errorLoading
-                                ? const NetworkError()
+                                ? snapshot.error == ApiError.connection
+                                    ? const NetworkError()
+                                    : const NoPosts(alignment: Alignment.center)
                                 : const Center(child: MyProgressIndicator())
                             : dataTag != tag
                                 ? const Center(child: MyProgressIndicator())

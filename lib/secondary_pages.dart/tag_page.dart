@@ -4,9 +4,9 @@ import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/options/tag_options.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/secondary_pages.dart/photo_view.dart';
-import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
@@ -192,10 +192,7 @@ class _TagPageState extends State<TagPage>
                       constraints: const BoxConstraints(minHeight: 100),
                       child: TabBarView(
                         controller: tabController,
-                        children: <Widget>[
-                          GridPosts(evanna),
-                          GridPosts(evanna),
-                        ],
+                        children: const [NoPosts(), NoPosts()],
                       ),
                     ),
                   )

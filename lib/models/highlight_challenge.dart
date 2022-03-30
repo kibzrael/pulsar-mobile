@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -16,10 +18,14 @@ class HighlightChallege extends StatefulWidget {
 }
 
 class _HighlightChallegeState extends State<HighlightChallege> {
+  late InteractionsSync interactionsSync;
+
   Challenge get challenge => widget.challenge;
-  bool isPinned = false;
+  bool get isPinned => interactionsSync.isPinned(challenge);
+
   @override
   Widget build(BuildContext context) {
+    interactionsSync = Provider.of<InteractionsSync>(context);
     return Section(
       title: 'New Highlight',
       child: InkWell(
@@ -82,10 +88,10 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                     text: const {true: "Pinned", false: "Pin"},
                                     onPressed: () => setState(() {
                                       challenge.pin(context,
-                                          mode: challenge.isPinned
+                                          mode: isPinned
                                               ? RequestMethod.delete
-                                              : RequestMethod.post);
-                                      isPinned = !isPinned;
+                                              : RequestMethod.post,
+                                          onNotify: () => setState(() {}));
                                     }),
                                   ),
                                   Card(

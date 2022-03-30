@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -22,7 +24,7 @@ class _TrendingChallengesState extends State<TrendingChallenges> {
       ...widget.challenges.map((e) => Challenge.fromJson(e))
     ];
     return Section(
-      title: 'Trending',
+      title: 'Top 3 Chart',
       child: ListView.builder(
         itemCount: 3,
         shrinkWrap: true,
@@ -45,12 +47,14 @@ class TrendingChallengeWidget extends StatefulWidget {
 }
 
 class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
+  late InteractionsSync interactionsSync;
   Challenge get challenge => widget.challenge;
 
-  bool isPinned = false;
+  bool get isPinned => interactionsSync.isPinned(challenge);
 
   @override
   Widget build(BuildContext context) {
+    interactionsSync = Provider.of<InteractionsSync>(context);
     return InkWell(
       onTap: () {
         Navigator.of(context)
@@ -75,8 +79,8 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
                     left: Radius.circular(30),
                   ),
                   image: DecorationImage(
-                      image:
-                          CachedNetworkImageProvider(challenge.cover.thumbnail),
+                      image: CachedNetworkImageProvider(
+                          challenge.cover.photo(context, max: 'medium')),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -100,10 +104,8 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
               isFollowing: isPinned,
               onPressed: () => setState(() {
                 challenge.pin(context,
-                    mode: challenge.isPinned
-                        ? RequestMethod.delete
-                        : RequestMethod.post);
-                isPinned = !isPinned;
+                    mode: isPinned ? RequestMethod.delete : RequestMethod.post,
+                    onNotify: () => setState(() {}));
               }),
             ),
           )

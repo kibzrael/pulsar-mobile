@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/posts.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -36,17 +38,9 @@ class _DiscoverUsersState extends State<DiscoverUsers>
 
   late CarouselController controller;
 
-  List<Map<String, dynamic>> users = [
-    {'user': lynn, 'cover': lynn6.thumbnail.thumbnail},
-    {'user': tahlia, 'cover': tahlia8.thumbnail.thumbnail},
-    {'user': kinjaz, 'cover': kinjaz1.thumbnail.thumbnail},
-    {'user': evanna, 'cover': evanna2.thumbnail.thumbnail},
-  ];
-
   @override
   void initState() {
     super.initState();
-    users.shuffle();
     controller = CarouselController();
   }
 
@@ -114,7 +108,9 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                       List<Map<String, dynamic>> snapshotData = snapshot.data;
                       return snapshotData.isEmpty
                           ? snapshot.errorLoading
-                              ? const NetworkError()
+                              ? snapshot.noData
+                                  ? const NoPostsModel()
+                                  : const NetworkErrorModel()
                               : const Center(child: MyProgressIndicator())
                           : CarouselSlider(
                               carouselController: controller,
@@ -132,7 +128,7 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                                   .map((info) => DiscoverUsersCard(
                                         {
                                           'user': User.fromJson(info),
-                                          'cover': kinjaz1.thumbnail.thumbnail
+                                          // 'cover': kinjaz1.thumbnail.thumbnail
                                         },
                                         onPinned: () {
                                           controller.nextPage();
@@ -161,20 +157,21 @@ class DiscoverUsersCard extends StatefulWidget {
 }
 
 class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
-  late User user;
-  late String cover;
+  late InteractionsSync interactionSync;
 
-  bool isFollowing = false;
+  late User user;
+
+  bool get isFollowing => interactionSync.isFollowing(user);
 
   @override
   void initState() {
     super.initState();
     user = widget.user['user'];
-    cover = widget.user['cover'];
   }
 
   @override
   Widget build(BuildContext context) {
+    interactionSync = Provider.of<InteractionsSync>(context);
     return InkWell(
       onTap: () {
         Navigator.of(context)
@@ -184,66 +181,82 @@ class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
         margin: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: CachedNetworkImageProvider(widget.user['cover']))),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
           child: Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.all(4),
+            width: double.infinity,
+            height: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.black12,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ProfilePic(
-                  user.profilePic?.thumbnail,
-                  radius: 30,
-                  onMedia: true,
+                borderRadius: BorderRadius.circular(15),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      lightTheme.textTheme.headline1!.color!,
+                      lightTheme.textTheme.subtitle1!.color!,
+                    ]),
+                image: user.profilePic == null
+                    ? null
+                    : DecorationImage(
+                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(
+                            user.profilePic!.photo(context, max: 'medium')))),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2.4, sigmaY: 2.4),
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(15),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  user.username,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(fontSize: 16.5, color: Colors.white),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ProfilePic(
+                      user.profilePic?.thumbnail,
+                      radius: 30,
+                      onMedia: true,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      user.username,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(fontSize: 16.5, color: Colors.white),
+                    ),
+                    Text(
+                      user.category,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(fontSize: 15, color: Colors.white70),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 4, 8, 2),
+                      child: FollowButton(
+                        height: 32,
+                        width: double.infinity,
+                        isFollowing: isFollowing,
+                        border: Colors.white70,
+                        onPressed: () {
+                          setState(() {
+                            user.follow(context,
+                                mode: isFollowing
+                                    ? RequestMethod.delete
+                                    : RequestMethod.post,
+                                onNotify: () => setState(() {}));
+                          });
+                          if (isFollowing) widget.onPinned();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  user.category ?? 'Personal Account',
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(fontSize: 15, color: Colors.white70),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 4, 8, 2),
-                  child: FollowButton(
-                    height: 32,
-                    width: double.infinity,
-                    isFollowing: isFollowing,
-                    border: Colors.white70,
-                    onPressed: () {
-                      setState(() {
-                        user.follow(context,
-                            mode: isFollowing
-                                ? RequestMethod.delete
-                                : RequestMethod.post);
-                        isFollowing = !isFollowing;
-                      });
-                      if (isFollowing) widget.onPinned();
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

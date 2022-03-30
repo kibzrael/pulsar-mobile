@@ -51,7 +51,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
               const SizedBox(
                 height: 2.5,
               ),
-              Text(user.category ?? 'Personal Account',
+              Text(user.category,
                   style: Theme.of(context)
                       .textTheme
                       .subtitle2!

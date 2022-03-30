@@ -21,14 +21,8 @@ class _ProfileState extends State<Profile> {
   late User user;
 
   @override
-  void initState() {
-    user = widget.user;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    user = widget.user;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(children: [
@@ -71,7 +65,7 @@ class _ProfileState extends State<Profile> {
                     .copyWith(fontSize: 21),
               ),
               Text(
-                user.category ?? 'Personal Account',
+                user.category,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
@@ -82,11 +76,12 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         ProfileStats(
-            pins: 53730,
+            pins: user.followers,
             pinsOnPressed: () {
               Navigator.of(context).push(myPageRoute(
                   builder: (context) => InteractionScreen(
                         user: user,
+                        value: user.followers,
                       )));
             },
             postOnPressed: () {
@@ -95,8 +90,8 @@ class _ProfileState extends State<Profile> {
                   duration: const Duration(milliseconds: 700),
                   curve: Curves.ease);
             },
-            posts: 7),
-        if (user.bio != null)
+            posts: user.posts),
+        if (user.bio != null && user.bio != '')
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(

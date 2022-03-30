@@ -23,13 +23,13 @@ class Post {
   Challenge? challenge;
   bool allowComments;
 
-  int? likes;
-  int? comments;
-  int? reposts;
+  int likes;
+  int comments;
+  int reposts;
   DateTime? time;
 
-  bool? isLiked;
-  bool? isReposted;
+  bool isLiked;
+  bool isReposted;
 
   String get url => '';
 
@@ -41,9 +41,11 @@ class Post {
     this.challenge,
     this.allowComments = true,
     this.caption,
-    this.isLiked,
-    this.isReposted,
-    this.likes,
+    this.isLiked = false,
+    this.isReposted = false,
+    this.likes = 0,
+    this.comments = 0,
+    this.reposts = 0,
     this.time,
   });
 

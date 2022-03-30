@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:animations/animations.dart';
@@ -78,6 +79,7 @@ class _RootGalaxyState extends State<RootGalaxy>
   @override
   void initState() {
     super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     fetchData();
     scrollController = ScrollController();
     scrollController.addListener(scrollListener);
@@ -90,7 +92,6 @@ class _RootGalaxyState extends State<RootGalaxy>
   }
 
   fetchData() async {
-    await Future.delayed(const Duration(seconds: 2));
     try {
       String url = getUrl(ChallengesUrl.myGalaxy);
 
@@ -103,6 +104,7 @@ class _RootGalaxyState extends State<RootGalaxy>
         setState(() {});
       }
     } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
       setState(() {
         errorLoading = true;
       });
@@ -116,7 +118,7 @@ class _RootGalaxyState extends State<RootGalaxy>
   }
 
   Future onRefresh() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await fetchData();
     return;
   }
 
@@ -199,7 +201,8 @@ class _RootGalaxyState extends State<RootGalaxy>
                         bottom: MediaQuery.of(context).padding.bottom),
                     children: [
                       space,
-                      const PinnedChallenges(),
+                      PinnedChallenges(
+                          List<Map<String, dynamic>>.from(data['pinned'])),
                       space,
                       TrendingChallenges(
                           List<Map<String, dynamic>>.from(data['top'])),

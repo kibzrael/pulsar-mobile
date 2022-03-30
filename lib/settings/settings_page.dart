@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/manage_account.dart';
 import 'package:pulsar/settings/admin/root.dart';
 import 'package:pulsar/settings/billing.dart';
@@ -56,6 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
   };
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Settings'),
@@ -68,28 +71,32 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
                 children: [
                   for (String subKey in settings[key]!.keys.toList())
-                    Column(
-                      children: [
-                        MyListTile(
-                          onPressed: () {
-                            Navigator.of(context).push(myPageRoute(
-                                builder: (context) =>
-                                    settings[key]![subKey]!['page'] ??
-                                    const Blank()));
-                          },
-                          title: subKey,
-                          leading: Icon(
-                            settings[key]![subKey]!['icon'],
+                    if (!userProvider.user.isSuperuser &&
+                        subKey == 'Admin Panel')
+                      Container()
+                    else
+                      Column(
+                        children: [
+                          MyListTile(
+                            onPressed: () {
+                              Navigator.of(context).push(myPageRoute(
+                                  builder: (context) =>
+                                      settings[key]![subKey]!['page'] ??
+                                      const Blank()));
+                            },
+                            title: subKey,
+                            leading: Icon(
+                              settings[key]![subKey]!['icon'],
+                            ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
-                          child: Divider(
-                            thickness: 1,
-                          ),
-                        )
-                      ],
-                    )
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            child: Divider(
+                              thickness: 1,
+                            ),
+                          )
+                        ],
+                      )
                 ],
               ),
             ),

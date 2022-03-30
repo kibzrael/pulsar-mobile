@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
 import 'package:pulsar/options/post_options.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
@@ -29,15 +31,13 @@ class PostLayout extends StatefulWidget {
 }
 
 class _PostLayoutState extends State<PostLayout> {
+  late InteractionsSync interactionsSync;
+
   late Post post;
 
   bool isLiked = false;
   bool isReposted = false;
-  bool isFollowing = false;
-
-  int likes = 12304;
-  int comments = 430;
-  int reposts = 127;
+  bool get isFollowing => interactionsSync.isFollowing(post.user);
 
   @override
   void initState() {
@@ -66,17 +66,10 @@ class _PostLayoutState extends State<PostLayout> {
   //to be removed
   void share() {}
 
-  //to be removed
-  void follow() {
-    setState(() {
-      isFollowing = !isFollowing;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
-
+    interactionsSync = Provider.of<InteractionsSync>(context);
     Widget stat(int number, Function() onPressed) => Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: InkWell(
@@ -117,8 +110,8 @@ class _PostLayoutState extends State<PostLayout> {
                     ),
                   ),
                   const SizedBox(width: 15),
-                  const Text(
-                    'Calum Scott - Biblical',
+                  Text(
+                    '${post.user.username} - Original Audio',
                     maxLines: 1,
                   )
                 ],
@@ -188,23 +181,40 @@ class _PostLayoutState extends State<PostLayout> {
                                           ),
                                           const SizedBox(width: 5),
                                           InkWell(
-                                            onTap: () {},
+                                            onTap: () {
+                                              setState(() {
+                                                post.user.follow(context,
+                                                    mode: isFollowing
+                                                        ? RequestMethod.delete
+                                                        : RequestMethod.post,
+                                                    onNotify: () =>
+                                                        setState(() {}));
+                                              });
+                                            },
                                             child: Container(
                                               padding:
                                                   const EdgeInsets.all(1.5),
                                               child: ShaderMask(
                                                 shaderCallback: (rect) {
                                                   return LinearGradient(
-                                                      begin:
-                                                          Alignment.centerLeft,
-                                                      colors: [
-                                                        Theme.of(context)
-                                                            .colorScheme
-                                                            .primary,
-                                                        Theme.of(context)
-                                                            .colorScheme
-                                                            .primaryContainer
-                                                      ]).createShader(rect);
+                                                          begin: Alignment
+                                                              .centerLeft,
+                                                          colors: isFollowing
+                                                              ? [
+                                                                  Colors.white,
+                                                                  Colors.white
+                                                                ]
+                                                              : [
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary,
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primaryContainer
+                                                                ])
+                                                      .createShader(rect);
                                                 },
                                                 child: Row(
                                                   children: [
@@ -222,7 +232,9 @@ class _PostLayoutState extends State<PostLayout> {
                                                                   Colors.white),
                                                     ),
                                                     Text(
-                                                      'Follow',
+                                                      isFollowing
+                                                          ? 'Following'
+                                                          : 'Follow',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyText1!
@@ -251,24 +263,24 @@ class _PostLayoutState extends State<PostLayout> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: DetectableText(
-                          text:
-                              'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more',
-                          detectionRegExp: detectionRegExp()!,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                          basicStyle: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(fontWeight: FontWeight.w500),
-                          detectedStyle: const TextStyle(color: Colors.blue),
-                          onTap: (String text) {
-                            debugPrint(text);
-                          },
+                      if (post.caption != null || post.caption != '')
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: DetectableText(
+                            text: post.caption!,
+                            detectionRegExp: detectionRegExp()!,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            basicStyle: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(fontWeight: FontWeight.w500),
+                            detectedStyle: const TextStyle(color: Colors.blue),
+                            onTap: (String text) {
+                              debugPrint(text);
+                            },
+                          ),
                         ),
-                      ),
 
                       // RichText(
                       //   text: TextSpan(
@@ -291,7 +303,7 @@ class _PostLayoutState extends State<PostLayout> {
                           alignment: WrapAlignment.start,
                           runAlignment: WrapAlignment.start,
                           children: const [
-                            Tag('photography'),
+                            Tag('art'),
                             Tag('music'),
                             Tag('dance'),
                           ],
@@ -315,7 +327,7 @@ class _PostLayoutState extends State<PostLayout> {
                           });
                         },
                       ),
-                      stat(24360, () {}),
+                      stat(post.likes, () {}),
                       Theme(
                         data: provider.theme,
                         child: Builder(builder: (_) {
@@ -330,7 +342,7 @@ class _PostLayoutState extends State<PostLayout> {
                           );
                         }),
                       ),
-                      stat(24360, comment),
+                      stat(post.comments, comment),
                       RepostButton(
                         reposted: isReposted,
                         size: 36,
@@ -340,7 +352,7 @@ class _PostLayoutState extends State<PostLayout> {
                           });
                         },
                       ),
-                      stat(24360, () {}),
+                      stat(post.reposts, () {}),
                       Theme(
                           data: provider.theme,
                           child: Builder(builder: (_) {
@@ -360,6 +372,7 @@ class _PostLayoutState extends State<PostLayout> {
               ],
             ),
           ),
+          const LinearProgressIndicator(),
           if (widget.stretch) const SizedBox(height: kToolbarHeight),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),

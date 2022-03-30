@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -5,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -16,7 +20,7 @@ class User {
   int id;
   String username;
   // remove nullable
-  String? category;
+  String category;
   String? fullname;
   @JsonKey(name: 'profile_pic')
   Photo? profilePic;
@@ -38,8 +42,8 @@ class User {
   int? posts;
 
   @JsonKey(name: 'is_following')
-  bool? isFollowing;
-  bool? isBlocked;
+  bool isFollowing;
+  bool isBlocked;
   bool? postNotifications;
 
   /// Create a user from info.
@@ -53,8 +57,8 @@ class User {
       this.email,
       this.fullname,
       this.interests,
-      this.isBlocked,
-      this.isFollowing,
+      this.isBlocked = false,
+      this.isFollowing = false,
       this.phone,
       this.followers,
       this.portfolio,
@@ -70,8 +74,12 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   follow(BuildContext context,
-      {RequestMethod mode = RequestMethod.post}) async {
-    User user = Provider.of<UserProvider>(context).user;
+      {RequestMethod mode = RequestMethod.post,
+      required Function() onNotify}) async {
+    isFollowing = mode == RequestMethod.post;
+    syncFollow(context);
+    onNotify();
+    User user = Provider.of<UserProvider>(context, listen: false).user;
 
     String url = getUrl(UserUrls.follow(id));
     http.Response response;
@@ -84,16 +92,23 @@ class User {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        debugPrint("Success....");
+        Fluttertoast.showToast(msg: "Success....");
       } else {
-        debugPrint('error');
+        isFollowing = !(mode == RequestMethod.post);
+        syncFollow(context);
+        onNotify();
+        Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      isFollowing = !(mode == RequestMethod.post);
+      syncFollow(context);
+      onNotify();
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 
   block(BuildContext context, {RequestMethod mode = RequestMethod.post}) async {
+    isBlocked = mode == RequestMethod.post ? true : false;
     User user = Provider.of<UserProvider>(context).user;
 
     String url = getUrl(UserUrls.block(id));
@@ -107,12 +122,22 @@ class User {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        debugPrint("Success....");
+        Fluttertoast.showToast(msg: "Success....");
       } else {
-        debugPrint('error');
+        Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  syncFollow(BuildContext context) {
+    InteractionsSync interactionsSync =
+        Provider.of<InteractionsSync>(context, listen: false);
+    if (isFollowing) {
+      interactionsSync.follow(this);
+    } else {
+      interactionsSync.unfollow(this);
     }
   }
 
@@ -150,7 +175,34 @@ class User {
     return !info.any((element) => element == null);
   }
 
-  getProfile() {}
+  getProfile(BuildContext context, Function() onNotify) async {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    String url = getUrl(UserUrls.profile(id));
+
+    try {
+      http.Response response = await http.get(Uri.parse(url),
+          headers: {'Authorization': userProvider.user.token ?? ''});
+      var body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        User updatedUser = User.fromJson(body['user']);
+        fullname = updatedUser.fullname;
+        category = updatedUser.category;
+        profilePic = updatedUser.profilePic;
+        bio = updatedUser.bio;
+        portfolio = updatedUser.portfolio;
+        isFollowing = updatedUser.isFollowing;
+        posts = updatedUser.posts;
+        followers = updatedUser.followers;
+        onNotify();
+      } else {
+        Fluttertoast.showToast(msg: body['message']);
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }
 
 enum RequestMethod { post, delete }

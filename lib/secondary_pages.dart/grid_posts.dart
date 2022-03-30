@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
-import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
@@ -10,8 +8,10 @@ import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
 class GridPosts extends StatefulWidget {
-  final User user;
-  const GridPosts(this.user, {Key? key}) : super(key: key);
+  final Future<List<Map<String, dynamic>>> Function(int index) fetchData;
+  final String title;
+  const GridPosts(this.fetchData, {Key? key, required this.title})
+      : super(key: key);
 
   @override
   _GridPostsState createState() => _GridPostsState();
@@ -22,15 +22,8 @@ class _GridPostsState extends State<GridPosts>
   @override
   bool get wantKeepAlive => true;
 
-  late User user;
-
   Future<List<Map<String, dynamic>>> fetchPosts(int index) async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    List<Map<String, dynamic>> _posts = allPosts
-        .where((element) => element.user.id == user.id)
-        .map((e) => e.toJson())
-        .toList();
+    List<Map<String, dynamic>> _posts = await widget.fetchData(index);
 
     return _posts;
   }
@@ -38,7 +31,6 @@ class _GridPostsState extends State<GridPosts>
   @override
   void initState() {
     super.initState();
-    user = widget.user;
   }
 
   @override
@@ -89,7 +81,7 @@ class _GridPostsState extends State<GridPosts>
                                         const RouteSettings(name: 'postView'),
                                     builder: (context) => PostScreen(
                                           initialPosts: posts,
-                                          title: '@${user.username}',
+                                          title: widget.title,
                                           postInView: index,
                                         )));
                               },

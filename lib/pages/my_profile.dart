@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:provider/provider.dart';
@@ -11,6 +15,8 @@ import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/edit_profile.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/settings/settings_page.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/user.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
@@ -87,9 +93,28 @@ class _RootProfilePageState extends State<RootProfilePage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await user.getProfile(context, () {
+      if (mounted) setState(() {});
+    });
     provider.notify();
     return true;
+  }
+
+  Future<List<Map<String, dynamic>>> fetchPosts(int index, int page) async {
+    List<Map<String, dynamic>> _posts = [];
+
+    String url = getUrl(UserUrls.posts(user.id, page));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': provider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      _posts = [...List<Map<String, dynamic>>.from(body['posts'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
+    }
+    return _posts;
   }
 
   @override
@@ -102,7 +127,7 @@ class _RootProfilePageState extends State<RootProfilePage>
     BasicRootProvider rootPageProvider =
         Provider.of<BasicRootProvider>(context, listen: false);
     rootPageProvider.pageScrollControllers
-        .putIfAbsent(4, () => scrollController);
+        .update(4, (_) => scrollController, ifAbsent: () => scrollController);
     return Scaffold(
       appBar: AppBar(
         title: Text('@${user.username}'),
@@ -139,12 +164,15 @@ class _RootProfilePageState extends State<RootProfilePage>
                               Flexible(
                                 child: ActionButton(
                                   title: 'Edit Profile',
-                                  onPressed: () {
-                                    Navigator.push(
+                                  onPressed: () async {
+                                    await Navigator.push(
                                         context,
                                         myPageRoute(
                                             builder: (context) =>
                                                 const EditProfile()));
+                                    user.getProfile(context, () {
+                                      if (mounted) setState(() {});
+                                    });
                                   },
                                   height: 37.5,
                                 ),
@@ -218,7 +246,20 @@ class _RootProfilePageState extends State<RootProfilePage>
                         color: Theme.of(context).colorScheme.surface,
                         child: TabBarView(
                           controller: tabController,
-                          children: <Widget>[GridPosts(user), GridPosts(user)],
+                          children: <Widget>[
+                            GridPosts(
+                              (index) async {
+                                return await fetchPosts(index, 0);
+                              },
+                              title: '@${user.username}',
+                            ),
+                            GridPosts(
+                              (index) async {
+                                return await fetchPosts(index, 1);
+                              },
+                              title: '@${user.username}',
+                            ),
+                          ],
                         ),
                       ),
                     )

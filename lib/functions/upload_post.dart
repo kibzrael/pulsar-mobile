@@ -74,6 +74,7 @@ class UploadPost {
         options: Options(headers: {
           'Authorization': token,
           "Content-type": "multipart/form-data",
+          'Connection': 'keep-alive',
         }),
         data: form,
         onSendProgress: (int sent, int total) {
