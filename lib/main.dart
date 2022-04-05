@@ -56,6 +56,7 @@ void main() async {
   Map<String, dynamic>? user = loggedIn ? users[0] : null;
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
+  await Hive.openBox('categories');
   runApp(
       // DevicePreview(
       // enabled: kDebugMode,

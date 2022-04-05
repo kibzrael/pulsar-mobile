@@ -51,7 +51,7 @@ class _GridPostsState extends State<GridPosts>
                   : snapshot.errorLoading
                       ? snapshot.noData
                           ? const NoPosts()
-                          : const NetworkError()
+                          : NetworkError(onRetry: snapshot.refreshCallback)
                       : Container()
               : LayoutBuilder(builder: (context, constraints) {
                   int cols = constraints.maxWidth > 1024

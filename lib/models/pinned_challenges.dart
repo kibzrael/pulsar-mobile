@@ -26,10 +26,7 @@ class PinnedChallenges extends StatefulWidget {
   _PinnedChallengesState createState() => _PinnedChallengesState();
 }
 
-class _PinnedChallengesState extends State<PinnedChallenges>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+class _PinnedChallengesState extends State<PinnedChallenges> {
   ScrollController scrollController = ScrollController();
 
   late UserProvider userProvider;
@@ -39,7 +36,7 @@ class _PinnedChallengesState extends State<PinnedChallenges>
     if (index == 0) {
       result = [...widget.initial];
     } else {
-      String url = getUrl(ChallengesUrl.pinned);
+      String url = getUrl(ChallengesUrl.pinned(index));
 
       http.Response response = await http.get(Uri.parse(url),
           headers: {"Authorization": userProvider.user.token ?? ""});
@@ -55,7 +52,6 @@ class _PinnedChallengesState extends State<PinnedChallenges>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     userProvider = Provider.of<UserProvider>(context);
     return Section(
       title: "Challenges",
@@ -151,19 +147,20 @@ class _PinnedChallengesState extends State<PinnedChallenges>
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                      height: 125,
-                                      width: 175,
-                                      padding: const EdgeInsets.all(8),
-                                      alignment: Alignment.topLeft,
-                                      child: Transform.rotate(
-                                        angle: 45,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Icon(MyIcons.pin,
-                                              color: Colors.white),
-                                        ),
-                                      ))
+                                  if (challenge.isPinned)
+                                    Container(
+                                        height: 125,
+                                        width: 175,
+                                        padding: const EdgeInsets.all(8),
+                                        alignment: Alignment.topLeft,
+                                        child: Transform.rotate(
+                                          angle: 45,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(MyIcons.pin,
+                                                color: Colors.white),
+                                          ),
+                                        ))
                                 ],
                               ),
                             ),

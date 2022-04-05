@@ -1,12 +1,13 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/classes/comment.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/post.dart';
@@ -21,6 +22,7 @@ class Post {
   Photo thumbnail;
   String? caption;
   Challenge? challenge;
+  @JsonKey(name: 'allow_comments')
   bool allowComments;
 
   int likes;
@@ -28,7 +30,9 @@ class Post {
   int reposts;
   DateTime? time;
 
+  @JsonKey(name: 'is_liked')
   bool isLiked;
+  @JsonKey(name: 'is_reposted')
   bool isReposted;
 
   String get url => '';
@@ -56,9 +60,14 @@ class Post {
   markAsSeen(BuildContext context) {}
 
   // user level
-  like(BuildContext context, {RequestMethod mode = RequestMethod.post}) async {
-    User user = Provider.of<UserProvider>(context).user;
-
+  like(BuildContext context,
+      {RequestMethod mode = RequestMethod.post,
+      required Function() onNotify}) async {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    isLiked = mode == RequestMethod.post;
+    mode == RequestMethod.post ? likes++ : likes--;
+    syncLike(context);
+    onNotify();
     String url = getUrl(PostUrls.like(this));
     http.Response response;
     try {
@@ -70,21 +79,43 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        debugPrint("Success....");
+        Fluttertoast.showToast(msg: "Success....");
       } else {
-        debugPrint('error');
+        isLiked = mode != RequestMethod.post;
+        mode == RequestMethod.post ? likes-- : likes++;
+        syncLike(context);
+        onNotify();
+        Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      isLiked = mode != RequestMethod.post;
+      mode == RequestMethod.post ? likes-- : likes++;
+      syncLike(context);
+      onNotify();
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  syncLike(BuildContext context) {
+    InteractionsSync interactionsSync =
+        Provider.of<InteractionsSync>(context, listen: false);
+    if (isLiked) {
+      interactionsSync.like(this);
+    } else {
+      interactionsSync.unlike(this);
     }
   }
 
   // repost(BuildContext context,
   //     {RequestMethod mode = RequestMethod.post, String comment}) {}
   repost(BuildContext context,
-      {RequestMethod mode = RequestMethod.post}) async {
-    User user = Provider.of<UserProvider>(context).user;
-
+      {RequestMethod mode = RequestMethod.post,
+      required Function() onNotify}) async {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    isReposted = mode == RequestMethod.post;
+    mode == RequestMethod.post ? reposts++ : reposts--;
+    syncRepost(context);
+    onNotify();
     String url = getUrl(PostUrls.repost(this));
     http.Response response;
     try {
@@ -96,36 +127,30 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        debugPrint("Success....");
+        Fluttertoast.showToast(msg: "Success....");
       } else {
-        debugPrint('error');
+        isReposted = mode != RequestMethod.post;
+        mode == RequestMethod.post ? reposts-- : reposts++;
+        syncRepost(context);
+        onNotify();
+        Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      isReposted = mode != RequestMethod.post;
+      mode == RequestMethod.post ? reposts-- : reposts++;
+      syncRepost(context);
+      onNotify();
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 
-  comment(BuildContext context, Comment comment) async {
-    User user = Provider.of<UserProvider>(context).user;
-
-    String url = getUrl(PostUrls.comment(this));
-    http.Response response;
-    try {
-      Map body = {'comment': comment.comment};
-      if (comment.replyTo != null) {
-        body.putIfAbsent('replyTo', () => comment.replyTo!.id);
-      }
-
-      response = await http.post(Uri.parse(url),
-          headers: {'Authorization': user.token ?? ''}, body: body);
-
-      if (response.statusCode == 200) {
-        debugPrint("Success....");
-      } else {
-        debugPrint('error');
-      }
-    } catch (e) {
-      debugPrint(e.toString());
+  syncRepost(BuildContext context) {
+    InteractionsSync interactionsSync =
+        Provider.of<InteractionsSync>(context, listen: false);
+    if (isReposted) {
+      interactionsSync.repost(this);
+    } else {
+      interactionsSync.unrepost(this);
     }
   }
 

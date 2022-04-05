@@ -1,3 +1,4 @@
+import 'package:pulsar/classes/comment.dart';
 import 'package:pulsar/classes/post.dart';
 
 class PostUrls {
@@ -10,7 +11,10 @@ class PostUrls {
 
   static String like(Post post) => 'posts/${post.id}/likes';
 
-  static String comment(Post post) => 'posts/${post.id}/comments';
+  static String comment(int post, {int? index, int? replyTo}) =>
+      'posts/$post/comments${index == null ? '' : '?offset=$index'}${replyTo == null ? '' : '&replyTo=$replyTo'}';
+
+  static String commentLike(Comment comment) => 'comments/${comment.id}/likes';
 
   static String repost(Post post) => 'posts/${post.id}/reposts';
 }

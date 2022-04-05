@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 
 class LoadingDialog extends StatefulWidget {
-  final Future Function() process;
+  final Future Function(BuildContext context) process;
   final String text;
-  const LoadingDialog(this.process, {Key? key, this.text = 'Processing'})
+  final bool pop;
+  const LoadingDialog(this.process,
+      {Key? key, this.text = 'Processing', this.pop = true})
       : super(key: key);
 
   @override
@@ -19,8 +21,8 @@ class _LoadingDialogState extends State<LoadingDialog> {
   }
 
   process() async {
-    var response = await widget.process();
-    Navigator.pop(context, response);
+    var response = await widget.process(context);
+    if (widget.pop) Navigator.pop(context, response);
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 
 class DiscoverTags extends StatefulWidget {
   final String selected;
@@ -22,6 +24,14 @@ class _DiscoverTagsState extends State<DiscoverTags> {
 
   @override
   Widget build(BuildContext context) {
+    var providerCategories = Provider.of<UserProvider>(context).categories;
+    // print(providerCategories);
+    if (providerCategories != null) {
+      tags = [
+        ...providerCategories.where((element) =>
+            element.parent == null && element.name != 'Personal Account')
+      ];
+    }
     return Container(
       height: 50,
       alignment: Alignment.centerLeft,

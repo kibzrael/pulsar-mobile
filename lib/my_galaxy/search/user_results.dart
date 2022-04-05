@@ -1,52 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/data/users.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/user_card.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/widgets/loading_more.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
 class UserResults extends StatefulWidget {
-  final Future<List<Map<String, dynamic>>> Function(int index) target;
+  final Future<List<Map<String, dynamic>>> Function(int page, int index) target;
   const UserResults({required this.target, Key? key}) : super(key: key);
 
   @override
   _UserResultsState createState() => _UserResultsState();
 }
 
-class _UserResultsState extends State<UserResults>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _UserResultsState extends State<UserResults> {
   Future<List<Map<String, dynamic>>?> search(int index) async {
-    await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> results = [
-      {'user': melissa},
-      {'user': rael},
-      {'user': nick},
-      {'user': joe},
-      {'user': tom},
-      {'user': beth},
-      {'user': thomas},
-      {'user': joy},
-      {'user': lizzy},
-      {'user': evah},
-      {'user': chris}
-    ];
+    List<Map<String, dynamic>> results = await widget.target(0, index);
 
     return results;
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return RecyclerView(
         target: search,
         itemBuilder: (context, snapshot) {
           List<Map<String, dynamic>>? data = snapshot.data;
           return data.isEmpty
               ? snapshot.errorLoading
-                  ? Text('${snapshot.error} $data')
+                  ? snapshot.noData
+                      ? const NoPosts(
+                          alignment: Alignment.center,
+                          message: 'No results found')
+                      : NetworkError(onRetry: snapshot.refreshCallback)
                   : const Center(child: MyProgressIndicator())
               : RefreshIndicator(
                   onRefresh: snapshot.refreshCallback,
@@ -62,7 +50,7 @@ class _UserResultsState extends State<UserResults>
                       // if (index > 5) {
                       //   return UserCard(data[index - 1]['user']);
                       // }
-                      return UserCard(data[index]['user']);
+                      return UserCard(User.fromJson(data[index]));
                     },
                   ),
                 );

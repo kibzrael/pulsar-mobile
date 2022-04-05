@@ -7,7 +7,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:pulsar/ads/challenges_ad.dart';
+import 'package:pulsar/ads/my_galaxy_ad.dart';
 
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/challenge.dart';
@@ -193,7 +193,7 @@ class _RootGalaxyState extends State<RootGalaxy>
             },
             body: data.isEmpty
                 ? errorLoading
-                    ? const NetworkError()
+                    ? NetworkError(onRetry: onRefresh)
                     : const Center(child: MyProgressIndicator())
                 : ListView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -206,7 +206,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                       space,
                       TrendingChallenges(
                           List<Map<String, dynamic>>.from(data['top'])),
-                      const ChallengesAd(),
+                      const MyGalaxyAd(),
                       space,
                       HighlightChallege(newHighlight),
                       space,

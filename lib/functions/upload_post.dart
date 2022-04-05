@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http_parser/http_parser.dart' as parser;
+import 'package:image/image.dart' as img;
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
@@ -31,6 +32,8 @@ class UploadPost {
 
   String token;
 
+  CancelToken cancelToken = CancelToken();
+
   UploadPost({
     required this.user,
     required this.video,
@@ -53,10 +56,16 @@ class UploadPost {
     Directory dir = await getTemporaryDirectory();
     File thumbnailFile =
         await File(join(dir.path, '$identifier.jpg')).writeAsBytes(thumbnail);
+    img.Image? image = img.decodeImage(thumbnail);
+    if (image != null) {
+      img.Image resized = img.copyResize(image, width: 480);
+      thumbnailFile = await File(join(dir.path, '$identifier.jpg'))
+          .writeAsBytes(img.encodeJpg(resized));
+    }
 
     FormData form = FormData.fromMap({
       'caption': caption,
-      'allowComments': allowComments,
+      'allowComments': allowComments.toString(),
       'source': await MultipartFile.fromFile(video.path,
           filename: 'video.mp4', contentType: parser.MediaType('video', 'mp4')),
       'thumbnail': await MultipartFile.fromFile(thumbnailFile.path,
@@ -77,6 +86,7 @@ class UploadPost {
           'Connection': 'keep-alive',
         }),
         data: form,
+        cancelToken: cancelToken,
         onSendProgress: (int sent, int total) {
           progress = sent / total;
           bgOperations.notify();
@@ -105,10 +115,11 @@ class UploadPost {
       };
       error = true;
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(e.toString()),
-        duration: const Duration(seconds: 10),
-      ));
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(e.toString()),
+      //   duration: const Duration(seconds: 10),
+      // ));
+      debugPrint(e.toString());
 
       Fluttertoast.showToast(msg: e.toString());
     }
@@ -117,6 +128,7 @@ class UploadPost {
   cancel(BuildContext context) {
     BackgroundOperations bgOperations =
         Provider.of<BackgroundOperations>(context, listen: false);
+    cancelToken.cancel();
     bgOperations.uploadPost = null;
     bgOperations.notify();
   }

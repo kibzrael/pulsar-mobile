@@ -34,6 +34,8 @@ class _PostVideoState extends State<PostVideo> {
   late Key visibilityKey;
   bool visible = false;
 
+  String videoPath = '';
+
   @override
   void initState() {
     super.initState();
@@ -43,7 +45,7 @@ class _PostVideoState extends State<PostVideo> {
 
   @override
   void dispose() {
-    if (controller?.dataSource == video.video(context)) {
+    if (controller?.dataSource == videoPath) {
       controller?.pause();
       // controller?.dispose();
       // controller = null;
@@ -66,6 +68,7 @@ class _PostVideoState extends State<PostVideo> {
       videoProvider.initializeVideo(video.video(context)).then((_) {
         setState(() {
           if (widget.isInView && visible) {
+            videoPath == video.video(context);
             controller = videoProvider.videoPlayerController;
             // check if app is in background
             controller?.play();
@@ -140,6 +143,10 @@ class _PostVideoState extends State<PostVideo> {
                       )
                     : thumbnail
                 : thumbnail,
+            if (!isPlaying && !isPaused)
+              const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(height: 2, child: LinearProgressIndicator())),
             PausePlay(isPaused)
           ],
         ),

@@ -1,11 +1,14 @@
 import 'package:pulsar/universal_variables.dart';
 
-String timeAgo(time) {
+String timeAgo(time, {bool server = true}) {
   final universalVariables = UniversalVariables();
   final Map<int, String> months = universalVariables.months;
   String response;
   DateTime postedTime =
       time is DateTime ? time : DateTime.parse(time.toString());
+  // DateTime postedTime =
+  //     server ? parsedTime.add(DateTime.now().timeZoneOffset) : parsedTime;
+
   DateTime now = DateTime.now();
   Duration difference = now.difference(postedTime);
   int diffInDays = difference.inDays;

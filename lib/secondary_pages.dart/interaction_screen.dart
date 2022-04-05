@@ -47,9 +47,9 @@ class _InteractionScreenState extends State<InteractionScreen> {
 
     String url;
     if (isUser) {
-      url = getUrl(UserUrls.follow(user!.id));
+      url = getUrl(UserUrls.follow(user!.id, index: index));
     } else {
-      url = getUrl(ChallengeUrls.pins(challenge!));
+      url = getUrl(ChallengeUrls.pins(challenge!, index: index));
     }
 
     http.Response response = await http.get(Uri.parse(url),
@@ -101,8 +101,12 @@ class _InteractionScreenState extends State<InteractionScreen> {
                   return data.isEmpty
                       ? snapshot.errorLoading
                           ? snapshot.noData
-                              ? const NoPosts(alignment: Alignment.center)
-                              : const NetworkError()
+                              ? NoPosts(
+                                  alignment: Alignment.center,
+                                  message: isUser
+                                      ? '@${user!.username} has no followers'
+                                      : '${challenge!.name} has no pins')
+                              : NetworkError(onRetry: snapshot.refreshCallback)
                           : const Center(child: MyProgressIndicator())
                       : RefreshIndicator(
                           onRefresh: snapshot.refreshCallback,

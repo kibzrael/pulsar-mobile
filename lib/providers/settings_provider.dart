@@ -20,11 +20,11 @@ class SettingsProvider extends ChangeNotifier {
     }
   }
 
-  save() {
+  save({bool notify = true}) {
     // use hive to save json
     settings.toJson().forEach((key, value) {
       box.put(key, value);
     });
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 }

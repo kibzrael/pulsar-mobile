@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/change_password.dart';
 import 'package:pulsar/settings/account/email.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -127,7 +129,35 @@ class _ManageAccountState extends State<ManageAccount> {
                     onPressed: toastNotImplemented,
                   ),
                 ]),
-              )
+              ),
+
+              const SizedBox(height: 30),
+              MyListTile(
+                  trailing: Icon(MyIcons.delete,
+                      color: Theme.of(context).colorScheme.error),
+                  title: 'Delete Account',
+                  titleColor: Theme.of(context).colorScheme.error,
+                  trailingArrow: false,
+                  onPressed: () async {
+                    var response = await openDialog(
+                      context,
+                      (context) => MyDialog(
+                        title: 'Delete @${user.username}?',
+                        body:
+                            "Confirm that you want to delete your account. This action is irreversible",
+                        actions: const ['Cancel', 'Delete'],
+                        destructive: 'Delete',
+                      ),
+                      dismissible: true,
+                    );
+                    if (response == 'Delete') {
+                      await user.delete(context);
+                      // loginProvider!.logout(context);
+                      // Navigator.pop(context);
+                    }
+
+                    //  log out
+                  })
             ],
           ),
         ),

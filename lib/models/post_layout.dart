@@ -1,18 +1,21 @@
 import 'package:detectable_text_field/detectable_text_field.dart';
-import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
+import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/options/post_options.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/theme_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/comment_page.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/secondary_pages.dart/tag_page.dart';
+import 'package:pulsar/widgets/caption_text.dart';
 import 'package:pulsar/widgets/interactions.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -31,12 +34,13 @@ class PostLayout extends StatefulWidget {
 }
 
 class _PostLayoutState extends State<PostLayout> {
+  late UserProvider userProvider;
   late InteractionsSync interactionsSync;
 
   late Post post;
 
-  bool isLiked = false;
-  bool isReposted = false;
+  bool get isLiked => interactionsSync.isLiked(post);
+  bool get isReposted => interactionsSync.isReposted(post);
   bool get isFollowing => interactionsSync.isFollowing(post.user);
 
   @override
@@ -45,30 +49,14 @@ class _PostLayoutState extends State<PostLayout> {
     post = widget.post;
   }
 
-  //to be removed
-  void like() {
-    setState(() {
-      isLiked = !isLiked;
-    });
-  }
-
   void comment() {
-    // openBottomSheet(context, (context) => CommentPage());
+    openBottomSheet(context, (_) => CommentPage(post));
   }
-
-  //to be removed
-  void repost() {
-    setState(() {
-      isReposted = !isReposted;
-    });
-  }
-
-  //to be removed
-  void share() {}
 
   @override
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     interactionsSync = Provider.of<InteractionsSync>(context);
     Widget stat(int number, Function() onPressed) => Padding(
           padding: const EdgeInsets.only(bottom: 5),
@@ -170,7 +158,7 @@ class _PostLayoutState extends State<PostLayout> {
                                             padding: const EdgeInsets.only(
                                                 bottom: 2.0),
                                             child: Text(
-                                              '2min',
+                                              timeAgo(post.time),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .subtitle2!
@@ -263,12 +251,12 @@ class _PostLayoutState extends State<PostLayout> {
                           ),
                         ),
                       ),
-                      if (post.caption != null || post.caption != '')
-                        Padding(
+                      if (post.caption != null && post.caption != '')
+                        Container(
                           padding: const EdgeInsets.symmetric(vertical: 4),
                           child: DetectableText(
                             text: post.caption!,
-                            detectionRegExp: detectionRegExp()!,
+                            detectionRegExp: hastagAtSignExpression(),
                             maxLines: 4,
                             overflow: TextOverflow.ellipsis,
                             basicStyle: Theme.of(context)
@@ -277,7 +265,7 @@ class _PostLayoutState extends State<PostLayout> {
                                 .copyWith(fontWeight: FontWeight.w500),
                             detectedStyle: const TextStyle(color: Colors.blue),
                             onTap: (String text) {
-                              debugPrint(text);
+                              Fluttertoast.showToast(msg: "Open $text");
                             },
                           ),
                         ),
@@ -294,7 +282,7 @@ class _PostLayoutState extends State<PostLayout> {
                       //   maxLines: 4,
                       //   overflow: TextOverflow.ellipsis,
                       // )),
-                      Padding(
+                      Container(
                         padding: const EdgeInsets.only(top: 4),
                         child: Wrap(
                           crossAxisAlignment: WrapCrossAlignment.start,
@@ -323,7 +311,11 @@ class _PostLayoutState extends State<PostLayout> {
                         size: 36,
                         onPressed: () {
                           setState(() {
-                            isLiked = !isLiked;
+                            post.like(context,
+                                mode: isLiked
+                                    ? RequestMethod.delete
+                                    : RequestMethod.post,
+                                onNotify: () => setState(() {}));
                           });
                         },
                       ),
@@ -333,26 +325,27 @@ class _PostLayoutState extends State<PostLayout> {
                         child: Builder(builder: (_) {
                           return Theme(
                             data: Theme.of(context),
-                            child: CommentButton(
-                              size: 36,
-                              onPressed: () {
-                                openBottomSheet(_, (_) => CommentPage(post));
-                              },
-                            ),
+                            child: CommentButton(size: 36, onPressed: comment),
                           );
                         }),
                       ),
                       stat(post.comments, comment),
-                      RepostButton(
-                        reposted: isReposted,
-                        size: 36,
-                        onPressed: () {
-                          setState(() {
-                            isReposted = !isReposted;
-                          });
-                        },
-                      ),
-                      stat(post.reposts, () {}),
+                      if (post.user.id != userProvider.user.id)
+                        RepostButton(
+                          reposted: isReposted,
+                          size: 36,
+                          onPressed: () {
+                            setState(() {
+                              post.repost(context,
+                                  mode: isReposted
+                                      ? RequestMethod.delete
+                                      : RequestMethod.post,
+                                  onNotify: () => setState(() {}));
+                            });
+                          },
+                        ),
+                      if (post.user.id != userProvider.user.id)
+                        stat(post.reposts, () {}),
                       Theme(
                           data: provider.theme,
                           child: Builder(builder: (_) {
@@ -372,7 +365,6 @@ class _PostLayoutState extends State<PostLayout> {
               ],
             ),
           ),
-          const LinearProgressIndicator(),
           if (widget.stretch) const SizedBox(height: kToolbarHeight),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),

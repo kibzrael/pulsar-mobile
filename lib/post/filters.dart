@@ -1,6 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -91,12 +89,10 @@ class FilterWidget extends StatelessWidget {
         children: <Widget>[
           ColorFiltered(
             colorFilter: ColorFilter.matrix(filter.convolution),
-            child: CircleAvatar(
-              radius: 36,
-              backgroundColor: Colors.white12,
-              backgroundImage:
-                  CachedNetworkImageProvider(beth.profilePic!.thumbnail),
-            ),
+            child: const CircleAvatar(
+                radius: 36,
+                backgroundColor: Colors.white12,
+                backgroundImage: AssetImage('assets/intro/profile 3.jpg')),
           ),
           const SizedBox(height: 4),
           FittedBox(

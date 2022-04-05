@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RecyclerView extends StatefulWidget {
   final RecyclerBuilder itemBuilder;
@@ -67,6 +68,8 @@ class _RecyclerViewState extends State<RecyclerView> {
           return [];
         });
       } catch (e) {
+        debugPrint(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
         connectionError();
         return;
       }

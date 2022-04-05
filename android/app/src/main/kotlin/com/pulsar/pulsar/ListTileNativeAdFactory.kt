@@ -37,7 +37,7 @@ class ListTileNativeAdFactory(val context: Context) : GoogleMobileAdsPlugin.Nati
             this.iconView = iconView
 
             val headlineView = findViewById<TextView>(R.id.tv_list_tile_native_ad_headline)
-            headlineView.text = nativeAd.headline
+            headlineView.text = nativeAd.headline.trim()
             this.headlineView = headlineView
 
             val bodyView = findViewById<TextView>(R.id.tv_list_tile_native_ad_body)

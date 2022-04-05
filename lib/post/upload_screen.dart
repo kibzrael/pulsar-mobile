@@ -157,32 +157,32 @@ class _UploadScreenState extends State<UploadScreen> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child:
-                          //  ExtendedTextField(
-                          //   controller: tagController,
-                          //   decoration: InputDecoration(
-                          //       hintText: 'Tags',
-                          //       helperMaxLines: 5,
-                          //       helperText:
-                          //           'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
-                          //   maxLines: 3,
-                          //   minLines: 1,
-                          //   specialTextSpanBuilder: TagTextBuilder(context,
-                          //       controller: tagController),
-                          // )
-                          TextField(
-                        decoration: InputDecoration(
-                            hintText: 'Tags',
-                            helperMaxLines: 5,
-                            helperText:
-                                'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
-                        maxLines: 3,
-                        minLines: 1,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
+                    // const Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 15),
+                    //   child:
+                    //       //  ExtendedTextField(
+                    //       //   controller: tagController,
+                    //       //   decoration: InputDecoration(
+                    //       //       hintText: 'Tags',
+                    //       //       helperMaxLines: 5,
+                    //       //       helperText:
+                    //       //           'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
+                    //       //   maxLines: 3,
+                    //       //   minLines: 1,
+                    //       //   specialTextSpanBuilder: TagTextBuilder(context,
+                    //       //       controller: tagController),
+                    //       // )
+                    //       TextField(
+                    //     decoration: InputDecoration(
+                    //         hintText: 'Tags',
+                    //         helperMaxLines: 5,
+                    //         helperText:
+                    //             'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
+                    //     maxLines: 3,
+                    //     minLines: 1,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 12),
                     MyListTile(
                       title: 'Challenge',
                       trailingText: provider.challenge?.name ?? 'None',

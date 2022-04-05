@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:detectable_text_field/widgets/detectable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
@@ -8,6 +10,7 @@ import 'package:pulsar/models/post_layout.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/widgets/caption_text.dart';
 import 'package:pulsar/widgets/interactions.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 
@@ -66,34 +69,34 @@ class _PostPreviewState extends State<PostPreview> {
                     ),
                   ),
                   Column(children: [
-                    if (provider.audio != null)
-                      SafeArea(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white12,
-                                    shape: BoxShape.circle),
-                                child: Icon(
-                                  MyIcons.music,
-                                ),
+                    // if (provider.audio != null)
+                    SafeArea(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: const BoxDecoration(
+                                  color: Colors.white12,
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                MyIcons.music,
                               ),
-                              const SizedBox(width: 15),
-                              Text(
-                                provider.audio!.name,
-                                maxLines: 1,
-                              )
-                            ],
-                          ),
+                            ),
+                            const SizedBox(width: 15),
+                            Text(
+                              '${user.username} - Original Audio',
+                              maxLines: 1,
+                            )
+                          ],
                         ),
                       ),
+                    ),
                     const Spacer(),
                     Container(
                       margin: const EdgeInsets.only(bottom: 5, left: 21),
@@ -217,7 +220,7 @@ class _PostPreviewState extends State<PostPreview> {
                                               Flexible(
                                                 child: Text(
                                                     provider.challenge?.name ??
-                                                        'None',
+                                                        user.category,
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
@@ -232,18 +235,25 @@ class _PostPreviewState extends State<PostPreview> {
                                   ),
                                 ),
                                 if (provider.caption != '')
-                                  Padding(
+                                  Container(
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 4),
-                                    child: Text(
-                                      provider.caption,
-                                      maxLines: 3,
+                                    child: DetectableText(
+                                      text: provider.caption,
+                                      detectionRegExp: hastagAtSignExpression(),
+                                      maxLines: 4,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
+                                      basicStyle: Theme.of(context)
                                           .textTheme
                                           .bodyText2!
                                           .copyWith(
                                               fontWeight: FontWeight.w500),
+                                      detectedStyle:
+                                          const TextStyle(color: Colors.blue),
+                                      onTap: (String text) {
+                                        Fluttertoast.showToast(
+                                            msg: "Open $text");
+                                      },
                                     ),
                                   ),
                                 Padding(
@@ -256,7 +266,7 @@ class _PostPreviewState extends State<PostPreview> {
                                     alignment: WrapAlignment.start,
                                     runAlignment: WrapAlignment.start,
                                     children: [
-                                      const Tag('photography'),
+                                      const Tag('art'),
                                       const Tag('music'),
                                       const Tag('dance'),
                                     ],

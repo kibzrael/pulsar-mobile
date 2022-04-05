@@ -72,6 +72,8 @@ class _VerifyCodeState extends State<VerifyCode> {
       return;
     }
     widget.resend();
+    timeCountdown = 15;
+    countdown();
   }
 
   @override
@@ -139,8 +141,11 @@ class _VerifyCodeState extends State<VerifyCode> {
               Align(
                 alignment: Alignment.centerRight,
                 child: MyTextButton(
-                    text: "Resend Code in $timeCountdown seconds?",
+                    text: timeCountdown > 0
+                        ? "Resend Code in $timeCountdown"
+                        : "Resend Code",
                     fontSize: 16.5,
+                    enabled: timeCountdown <= 0,
                     onPressed: resend),
               ),
               const Spacer(flex: 1),

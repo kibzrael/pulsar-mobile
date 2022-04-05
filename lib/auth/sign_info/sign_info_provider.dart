@@ -132,11 +132,11 @@ class SignInfoProvider extends ChangeNotifier {
     String birthday = user.birthday?.toString().split(' ')[0] ?? '';
 
     FormData form = FormData.fromMap({
-      'category': user.category,
+      'category': user.category.name,
       'fullname': user.username,
       'DOB': birthday,
       'type': '',
-      'interests': [],
+      'interests': user.interests?.map((e) => e.name).join(',') ?? '',
       'profilePic': profilePic == null
           ? null
           : await MultipartFile.fromFile(profilePic.path,
@@ -191,7 +191,8 @@ class SignUserInfo {
   String? username;
   UserType? userType;
   DateTime? birthday;
-  Interest? category;
+  Interest category =
+      Interest(name: 'Personal Account', user: 'Personal Account');
   String? profilePic;
   List<Interest>? interests;
 }

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/ads/discover_challenges_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/data/categories.dart';
@@ -26,11 +27,7 @@ class DiscoverChallenges extends StatefulWidget {
   _DiscoverChallengesState createState() => _DiscoverChallengesState();
 }
 
-class _DiscoverChallengesState extends State<DiscoverChallenges>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
+class _DiscoverChallengesState extends State<DiscoverChallenges> {
   late UserProvider userProvider;
 
   List<CategoryTag> tags = [
@@ -56,7 +53,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     if (index == 0 && tag == 'For you') {
       result = [...widget.initial];
     } else {
-      String url = getUrl(ChallengesUrl.discover(tag));
+      String url = getUrl(ChallengesUrl.discover(tag, index));
 
       http.Response response = await http.get(Uri.parse(url),
           headers: {"Authorization": userProvider.user.token ?? ""});
@@ -73,7 +70,6 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     userProvider = Provider.of<UserProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -123,6 +119,12 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                   const EdgeInsets.symmetric(horizontal: 7.5),
                               itemBuilder: (context, index) {
                                 Challenge challenge = challenges[index];
+
+                                //TODO: Implement ad in list
+                                if (index == 3) {
+                                  return const DiscoverChallengesAd();
+                                }
+
                                 return InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(myPageRoute(

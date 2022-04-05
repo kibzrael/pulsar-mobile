@@ -5,6 +5,8 @@ class SearchField extends StatefulWidget {
   final String hintText;
   final double height;
   final bool autofocus;
+  final FocusNode? focusNode;
+  final String? initial;
   final Function(String text) onChanged;
   final Function(String text) onSubmitted;
   final Function()? onTap;
@@ -18,6 +20,8 @@ class SearchField extends StatefulWidget {
     this.hintText = 'Search...',
     this.color,
     this.clearColor,
+    this.focusNode,
+    this.initial,
     required this.onChanged,
     required this.onSubmitted,
     this.onTap,
@@ -26,7 +30,11 @@ class SearchField extends StatefulWidget {
   _SearchFieldState createState() => _SearchFieldState();
 }
 
-class _SearchFieldState extends State<SearchField> {
+class _SearchFieldState extends State<SearchField>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   FocusNode? focusNode;
   TextEditingController? textEditingController;
 
@@ -35,12 +43,14 @@ class _SearchFieldState extends State<SearchField> {
   @override
   void initState() {
     super.initState();
-    focusNode = FocusNode();
-    textEditingController = TextEditingController();
+    focusNode = widget.focusNode ?? FocusNode();
+    searchText = widget.initial ?? '';
+    textEditingController = TextEditingController(text: widget.initial);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return InkWell(
       borderRadius: BorderRadius.circular(30),
       onTap: () {

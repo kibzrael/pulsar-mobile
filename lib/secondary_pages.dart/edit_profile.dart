@@ -100,7 +100,7 @@ class _EditProfileState extends State<EditProfile> {
     MyResponse response = await openDialog(
       context,
       (context) => LoadingDialog(
-        () async {
+        (_) async {
           MyResponse response = await provider.editProfile(context,
               category: category?.user,
               bio: bioController.text,

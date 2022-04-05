@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/ads/grid_ad.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/models/discover_tags.dart';
@@ -41,7 +42,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
   Future<List<Map<String, dynamic>>> fetchData(int index) async {
     String storedTag = tag;
     List<Map<String, dynamic>> result = [];
-    String url = getUrl(HomeUrls.discover(tag));
+    String url = getUrl(HomeUrls.discover(tag, index));
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {"Authorization": userProvider.user.token ?? ""});
@@ -87,7 +88,8 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                         child: data.isEmpty
                             ? snapshot.errorLoading
                                 ? snapshot.error == ApiError.connection
-                                    ? const NetworkError()
+                                    ? NetworkError(
+                                        onRetry: snapshot.refreshCallback)
                                     : const NoPosts(alignment: Alignment.center)
                                 : const Center(child: MyProgressIndicator())
                             : dataTag != tag
@@ -113,6 +115,12 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                 mainAxisSpacing: 6),
                                         itemBuilder: (context, index) {
                                           Post post = postData[index];
+
+                                          //TODO: Implement ad in list
+                                          if (index == 2) {
+                                            return const GridAd();
+                                          }
+
                                           return InkWell(
                                             onTap: () {
                                               Navigator.of(context).push(

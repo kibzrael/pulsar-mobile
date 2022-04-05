@@ -8,7 +8,6 @@ import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 // import 'package:video_compress/video_compress.dart';
-import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 import 'package:video_player/video_player.dart';
 
 class PostCover extends StatefulWidget {
@@ -47,6 +46,9 @@ class _PostCoverState extends State<PostCover> {
       controller.seekTo(Duration(milliseconds: position.floor()));
       duration = controller.value.duration.inMilliseconds.toDouble();
       getThumbnails();
+      setState(() {
+        // cover = 18;
+      });
     });
   }
 
@@ -96,15 +98,7 @@ class _PostCoverState extends State<PostCover> {
             MyTextButton(
                 text: 'Done',
                 onPressed: () async {
-                  // Uint8List? thumbnail = await VideoCompress.getByteThumbnail(
-                  //     widget.video.video.absolute.path,
-                  //     position: position.floor());
-                  Uint8List? thumbnail =
-                      await thumb.VideoThumbnail.thumbnailData(
-                          video: widget.video.video.path,
-                          timeMs: position.ceil());
-                  postProvider.thumbnail =
-                      VideoThumbnail(position: position, thumbnail: thumbnail);
+                  await postProvider.setThumbnail(position.floor());
                   Navigator.pop(context);
                 })
           ],

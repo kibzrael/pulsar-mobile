@@ -46,7 +46,7 @@ class _DiscoverUsersState extends State<DiscoverUsers>
 
   Future<List<Map<String, dynamic>>> fetchUsers(int index) async {
     List<Map<String, dynamic>> results = [];
-    String url = getUrl(HomeUrls.discoverUsers);
+    String url = getUrl(HomeUrls.discoverUsers(index));
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {"Authorization": userProvider.user.token ?? ""});
@@ -200,7 +200,7 @@ class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
                     : DecorationImage(
                         fit: BoxFit.cover,
                         image: CachedNetworkImageProvider(
-                            user.profilePic!.photo(context, max: 'medium')))),
+                            user.profilePic!.thumbnail))),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2.4, sigmaY: 2.4),
               child: Container(

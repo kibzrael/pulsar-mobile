@@ -59,7 +59,8 @@ dependencies:
   video_compress: ^3.1.0
   flutter_video_info: ^1.2.0
   video_thumbnail: ^0.4.3
-  video_trimmer: ^1.0.0
+  # video_trimmer: ^1.0.0
+  ffmpeg_kit_flutter: ^4.5.1
 
   # image
   cached_network_image: ^3.1.0

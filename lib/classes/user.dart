@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -44,7 +45,7 @@ class User {
   @JsonKey(name: 'is_following')
   bool isFollowing;
   bool isBlocked;
-  bool? postNotifications;
+  bool postNotifications;
 
   /// Create a user from info.
   ///
@@ -59,6 +60,7 @@ class User {
       this.interests,
       this.isBlocked = false,
       this.isFollowing = false,
+      this.postNotifications = false,
       this.phone,
       this.followers,
       this.portfolio,
@@ -77,6 +79,7 @@ class User {
       {RequestMethod mode = RequestMethod.post,
       required Function() onNotify}) async {
     isFollowing = mode == RequestMethod.post;
+    followers = followers == null ? null : followers! + 1;
     syncFollow(context);
     onNotify();
     User user = Provider.of<UserProvider>(context, listen: false).user;
@@ -94,13 +97,15 @@ class User {
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: "Success....");
       } else {
-        isFollowing = !(mode == RequestMethod.post);
+        isFollowing = mode != RequestMethod.post;
+        followers = followers == null ? null : followers! - 1;
         syncFollow(context);
         onNotify();
         Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
-      isFollowing = !(mode == RequestMethod.post);
+      isFollowing = mode != RequestMethod.post;
+      followers = followers == null ? null : followers! - 1;
       syncFollow(context);
       onNotify();
       Fluttertoast.showToast(msg: e.toString());
@@ -144,15 +149,29 @@ class User {
   report(BuildContext context, Report report) {}
 
   subcribeForPostNotifications(BuildContext context,
-      {RequestMethod mode = RequestMethod.post}) {}
+      {RequestMethod mode = RequestMethod.post}) async {
+    postNotifications = mode == RequestMethod.post ? true : false;
+    User user = Provider.of<UserProvider>(context).user;
 
-  getPosts() {}
-
-  getReposts() {}
-
-  getFollowers() {}
-
-  // message(Message message) {}
+    String url = getUrl(UserUrls.notifications(id));
+    http.Response response;
+    try {
+      if (mode == RequestMethod.post) {
+        response = await http
+            .post(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
+      } else {
+        response = await http.delete(Uri.parse(url),
+            headers: {'Authorization': user.token ?? ''});
+      }
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: "Success....");
+      } else {
+        Fluttertoast.showToast(msg: 'error');
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 
   String? get getProfileUrl {
     // User user = this;
@@ -202,6 +221,10 @@ class User {
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
     }
+  }
+
+  delete(BuildContext context) async {
+    toastNotImplemented();
   }
 }
 

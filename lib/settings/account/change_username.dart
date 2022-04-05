@@ -41,7 +41,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
     MyResponse response = await openDialog(
         context,
         (context) => LoadingDialog(
-              () async => await provider.changeUsername(context, text),
+              (_) async => await provider.changeUsername(context, text),
               text: 'Submitting',
             ));
     await openDialog(

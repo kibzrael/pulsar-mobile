@@ -14,10 +14,10 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       challenge: json['challenge'] == null
           ? null
           : Challenge.fromJson(json['challenge'] as Map<String, dynamic>),
-      allowComments: json['allowComments'] as bool? ?? true,
+      allowComments: json['allow_comments'] as bool? ?? true,
       caption: json['caption'] as String?,
-      isLiked: json['isLiked'] as bool? ?? false,
-      isReposted: json['isReposted'] as bool? ?? false,
+      isLiked: json['is_liked'] as bool? ?? false,
+      isReposted: json['is_reposted'] as bool? ?? false,
       likes: json['likes'] as int? ?? 0,
       comments: json['comments'] as int? ?? 0,
       reposts: json['reposts'] as int? ?? 0,
@@ -32,11 +32,11 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'thumbnail': instance.thumbnail.toJson(),
       'caption': instance.caption,
       'challenge': instance.challenge?.toJson(),
-      'allowComments': instance.allowComments,
+      'allow_comments': instance.allowComments,
       'likes': instance.likes,
       'comments': instance.comments,
       'reposts': instance.reposts,
       'time': instance.time?.toIso8601String(),
-      'isLiked': instance.isLiked,
-      'isReposted': instance.isReposted,
+      'is_liked': instance.isLiked,
+      'is_reposted': instance.isReposted,
     };

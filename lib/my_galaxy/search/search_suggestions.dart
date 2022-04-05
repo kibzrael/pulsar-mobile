@@ -15,6 +15,7 @@ class SearchSuggestions extends StatelessWidget {
           title: suggestions[index],
           leading: const Icon(Icons.history),
           trailing: Icon(MyIcons.searchHistory),
+          trailingArrow: false,
         );
       },
     );

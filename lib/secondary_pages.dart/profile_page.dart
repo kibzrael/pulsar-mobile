@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage>
   Future<List<Map<String, dynamic>>> fetchPosts(int index, int page) async {
     List<Map<String, dynamic>> _posts = [];
 
-    String url = getUrl(UserUrls.posts(user.id, page));
+    String url = getUrl(UserUrls.posts(user.id, page, index));
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {'Authorization': userProvider.user.token ?? ''});

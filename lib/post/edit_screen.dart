@@ -12,6 +12,7 @@ import 'package:pulsar/post/upload_screen.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -61,8 +62,6 @@ class _EditScreenState extends State<EditScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
-
-    int rotate = provider.rotate;
 
     Widget editLabel(String text) {
       return Text(text,
@@ -119,20 +118,16 @@ class _EditScreenState extends State<EditScreen> {
                             borderRadius: BorderRadius.circular(15),
                             child: InkWell(
                               child: FittedBox(
-                                fit: video.camera &&
-                                        (rotate == 0 || rotate == 180)
+                                fit: video.camera
                                     ? BoxFit.cover
                                     : BoxFit.contain,
-                                child: RotatedBox(
-                                  quarterTurns: rotate ~/ 90,
-                                  child: SizedBox(
-                                      width: controller.value.size.width,
-                                      height: controller.value.size.height,
-                                      child: ColorFiltered(
-                                          colorFilter: ColorFilter.matrix(
-                                              provider.filter.convolution),
-                                          child: VideoPlayer(controller))),
-                                ),
+                                child: SizedBox(
+                                    width: controller.value.size.width,
+                                    height: controller.value.size.height,
+                                    child: ColorFiltered(
+                                        colorFilter: ColorFilter.matrix(
+                                            provider.filter.convolution),
+                                        child: VideoPlayer(controller))),
                               ),
                             ),
                           ),
@@ -150,12 +145,15 @@ class _EditScreenState extends State<EditScreen> {
                             onPressed: () {
                               openDialog(
                                       context,
-                                      (context) => const MyDialog(
-                                            title: 'Caution!',
-                                            body:
-                                                'The changes you\'ve made would be lost if you quit.',
-                                            actions: ['Cancel', 'Ok'],
-                                            destructive: 'Ok',
+                                      (context) => Theme(
+                                            data: darkTheme,
+                                            child: const MyDialog(
+                                              title: 'Caution!',
+                                              body:
+                                                  'The changes you\'ve made would be lost if you quit.',
+                                              actions: ['Cancel', 'Ok'],
+                                              destructive: 'Ok',
+                                            ),
                                           ),
                                       dismissible: true)
                                   .then((value) {
@@ -183,12 +181,26 @@ class _EditScreenState extends State<EditScreen> {
                                 title: 'Next',
                                 width: 70,
                                 height: 30,
-                                onPressed: () {
+                                onPressed: () async {
                                   provider.video = video;
-                                  Navigator.of(context).push(myPageRoute(
-                                      builder: (context) => UploadScreen(
-                                            caption: provider.caption,
-                                          )));
+                                  await openDialog(
+                                      context,
+                                      (context) => Theme(
+                                          data: darkTheme,
+                                          child: LoadingDialog(
+                                              (dialogContext) =>
+                                                  provider.editVideo(() {
+                                                    Navigator.pop(
+                                                        dialogContext);
+                                                    Navigator.of(context).push(
+                                                        myPageRoute(
+                                                            builder: (context) =>
+                                                                UploadScreen(
+                                                                  caption: provider
+                                                                      .caption,
+                                                                )));
+                                                  }),
+                                              pop: false)));
                                 }),
                           )
                         ],

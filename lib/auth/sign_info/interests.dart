@@ -29,7 +29,7 @@ class _InterestsPageState extends State<InterestsPage>
 
     await openDialog(
       context,
-      (context) => LoadingDialog(() async {
+      (context) => LoadingDialog((_) async {
         await provider.submit(context);
         return;
       }),

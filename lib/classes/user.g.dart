@@ -21,6 +21,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           .toList(),
       isBlocked: json['isBlocked'] as bool? ?? false,
       isFollowing: json['is_following'] as bool? ?? false,
+      postNotifications: json['postNotifications'] as bool? ?? false,
       phone: json['phone'] as String?,
       followers: json['followers'] as int?,
       portfolio: json['portfolio'] as String?,
@@ -29,9 +30,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ? null
           : Photo.fromJson(json['profile_pic'] as Map<String, dynamic>),
       isSuperuser: json['is_superuser'] as bool? ?? false,
-    )
-      ..token = json['jwtToken'] as String?
-      ..postNotifications = json['postNotifications'] as bool?;
+    )..token = json['jwtToken'] as String?;
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,

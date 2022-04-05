@@ -1,10 +1,15 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/data/challenges.dart';
-import 'package:pulsar/data/users.dart';
-import 'package:pulsar/my_galaxy/search/serach_suggestions.dart';
+import 'package:pulsar/my_galaxy/search/search_suggestions.dart';
 import 'package:pulsar/providers/settings_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/challenges.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/user.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/search_field.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -19,15 +24,24 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late SettingsProvider settingsProvider;
   List<String> suggestions = [];
+
+  late UserProvider userProvider;
 
   late PageController pageController;
   late TabController tabController;
   int tabIndex = 0;
 
-  bool isEditing = true;
+  late FocusNode focusNode;
+
+  bool get isEditing =>
+      pageController.hasClients ? pageController.page == 0 : true;
+
+  String keyword = '';
 
   @override
   void initState() {
@@ -35,8 +49,10 @@ class _SearchScreenState extends State<SearchScreen>
     settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
     suggestions = [...settingsProvider.settings.searchHistory];
     pageController = PageController();
+    focusNode = FocusNode();
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(tabListener);
+    fetchSuggestions();
   }
 
   tabListener() {
@@ -45,38 +61,47 @@ class _SearchScreenState extends State<SearchScreen>
     });
   }
 
-  fetchSuggestion() async {}
-
-  Future<List<Map<String, dynamic>>> searchUsers(int index) async {
-    await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> results = [
-      {'user': melissa},
-      {'user': rael},
-      {'user': nick},
-      {'user': joe},
-      {'user': tom},
-      {'user': beth},
-      {'user': thomas},
-      {'user': joy},
-      {'user': lizzy},
-      {'user': evah},
-      {'user': chris}
+  fetchSuggestions() async {
+    suggestions = [
+      ...settingsProvider.settings.searchHistory
+          .where((e) => e.contains(keyword))
     ];
-
-    return results;
+    debugPrint(suggestions.toString());
+    // Fetch from server
+    setState(() {});
   }
 
-  Future<List<Map<String, dynamic>>> searchChallenges(int index) async {
-    await Future.delayed(const Duration(seconds: 2));
-    List<Map<String, dynamic>> results = [
-      for (Challenge challenge in allChallenges) {'challenge': challenge}
+  Future<List<Map<String, dynamic>>> search(int page, int index) async {
+    settingsProvider.settings.searchHistory = [
+      keyword,
+      ...settingsProvider.settings.searchHistory
     ];
+    settingsProvider.save(notify: false);
+    List<Map<String, dynamic>> results = [];
+    String url;
+    if (page == 0) {
+      url = getUrl(UserUrls.search(keyword, index));
+    } else {
+      url = getUrl(ChallengesUrl.search(keyword, index));
+    }
 
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': userProvider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      results = [...List<Map<String, dynamic>>.from(body['results'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
+    }
     return results;
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -88,29 +113,31 @@ class _SearchScreenState extends State<SearchScreen>
               tag: 'searchPulsar',
               child: SearchField(
                 onTap: () {
-                  setState(() => isEditing = true);
                   pageController.jumpToPage(0);
+                  fetchSuggestions();
                 },
                 onChanged: (text) {
-                  setState(() => isEditing = true);
+                  keyword = text;
                   pageController.jumpToPage(0);
-                  fetchSuggestion();
+                  fetchSuggestions();
                 },
                 onSubmitted: (text) {
-                  setState(() => isEditing = false);
                   pageController.jumpToPage(1);
                 },
                 hintText:
                     tabIndex == 0 ? 'Search Users...' : 'Search Challenges...',
-                autofocus: true,
+                autofocus: isEditing,
+                focusNode: focusNode,
+                initial: keyword,
               ),
             ),
             actions: [
               MyTextButton(
                   text: 'Search',
                   onPressed: () {
-                    setState(() => isEditing = false);
+                    focusNode.unfocus();
                     pageController.jumpToPage(1);
+                    setState(() {});
                   })
             ],
             bottom: isEditing
@@ -139,10 +166,10 @@ class _SearchScreenState extends State<SearchScreen>
                   controller: tabController,
                   children: [
                     UserResults(
-                      target: searchUsers,
+                      target: search,
                     ),
                     ChallengeResults(
-                      target: searchChallenges,
+                      target: search,
                     ),
                   ],
                 ),

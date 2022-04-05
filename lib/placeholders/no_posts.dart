@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class NoPosts extends StatelessWidget {
   final AlignmentGeometry alignment;
-  const NoPosts({Key? key, this.alignment = Alignment.topCenter})
+  final String? message;
+  const NoPosts({Key? key, this.alignment = Alignment.topCenter, this.message})
       : super(key: key);
 
   @override
@@ -36,7 +37,7 @@ class NoPosts extends StatelessWidget {
                 ),
               ),
               Text(
-                'There are no videos here',
+                message ?? 'There are no videos here',
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

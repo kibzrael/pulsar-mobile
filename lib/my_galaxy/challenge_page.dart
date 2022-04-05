@@ -78,7 +78,7 @@ class _ChallengePageState extends State<ChallengePage>
   Future<List<Map<String, dynamic>>> fetchPosts(int index, page) async {
     List<Map<String, dynamic>> _posts = [];
 
-    String url = getUrl(ChallengeUrls.posts(challenge, page));
+    String url = getUrl(ChallengeUrls.posts(challenge, page, index));
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {'Authorization': userProvider.user.token ?? ''});

@@ -38,6 +38,7 @@
             android:background="#F19938"
             android:gravity="center"
             android:text="Ad"
+            android:padding="4dp"
             android:textColor="#FFFFFF"
             android:visibility="invisible" />
 

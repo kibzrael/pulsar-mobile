@@ -5,7 +5,9 @@ class MyProgressIndicator extends StatelessWidget {
   final double size;
   final EdgeInsets margin;
 
-  const MyProgressIndicator({Key? key, this.size = 50, this.margin = const EdgeInsets.all(24)}) : super(key: key);
+  const MyProgressIndicator(
+      {Key? key, this.size = 50, this.margin = const EdgeInsets.all(24)})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,35 @@ class MyProgressIndicator extends StatelessWidget {
       width: size,
       margin: margin,
       child: SpinKitCircle(
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.grey[350]
+            : Colors.white54,
+        size: size,
+      ),
+    );
+  }
+}
+
+class ThreeDotsProgress extends StatelessWidget {
+  final double size;
+  final EdgeInsets margin;
+  final Alignment alignment;
+
+  const ThreeDotsProgress(
+      {Key? key,
+      this.size = 50,
+      this.alignment = Alignment.centerLeft,
+      this.margin = const EdgeInsets.all(24)})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: size,
+      width: size * 1.5,
+      alignment: alignment,
+      margin: margin,
+      child: SpinKitThreeBounce(
         color: Theme.of(context).brightness == Brightness.light
             ? Colors.grey[350]
             : Colors.white54,

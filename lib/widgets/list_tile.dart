@@ -7,17 +7,20 @@ class MyListTile extends StatelessWidget {
   final Widget? trailing;
   final Widget? leading;
   final String? title;
+  final Color? titleColor;
   final String? subtitle;
   final Function? onPressed;
   final List<int> flexRatio;
   final CrossAxisAlignment? crossAxisAlignment;
 
-  const MyListTile({Key? key, 
+  const MyListTile({
+    Key? key,
     this.flexRatio = const [10, 1],
     this.leading,
     this.onPressed,
     this.subtitle,
     required this.title,
+    this.titleColor,
     this.trailing,
     this.trailingArrow = true,
     this.trailingText,
@@ -47,7 +50,10 @@ class MyListTile extends StatelessWidget {
                     Text(title!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.subtitle1),
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1!
+                            .copyWith(color: titleColor)),
                     if (subtitle != null)
                       const SizedBox(
                         height: 5,

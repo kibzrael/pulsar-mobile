@@ -3,8 +3,14 @@ import 'dart:typed_data';
 
 // import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
 // import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_session.dart';
+import 'package:ffmpeg_kit_flutter/log.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -18,7 +24,8 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
-import 'package:video_trimmer/video_trimmer.dart' as video_trimmer;
+// import 'package:video_trimmer/video_trimmer.dart' as video_trimmer;
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 
 class CaptureScreen extends StatefulWidget {
   final VideoCapture video;
@@ -36,6 +43,8 @@ class _CaptureScreenState extends State<CaptureScreen>
   late PostProvider provider;
 
   late VideoCapture video;
+
+  late VideoCapture trimmedVideo;
 
   late VideoPlayerController controller;
 
@@ -84,7 +93,7 @@ class _CaptureScreenState extends State<CaptureScreen>
 
   String state = 'none';
 
-  Future<void> trim() async {
+  Future<void> trim(BuildContext dialogContext) async {
     state = 'initial';
     Permission storage = Permission.storage;
     Permission manageStorage = Permission.manageExternalStorage;
@@ -97,24 +106,70 @@ class _CaptureScreenState extends State<CaptureScreen>
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
 
-    video_trimmer.Trimmer trimmer = video_trimmer.Trimmer();
+    // video_trimmer.Trimmer trimmer = video_trimmer.Trimmer();
 
-    await trimmer.loadVideo(videoFile: video.video.absolute);
+    // await trimmer.loadVideo(videoFile: video.video.absolute);
 
-    await trimmer.saveTrimmedVideo(
-        startValue: trimStart.toDouble(),
-        endValue: trimEnd.toDouble(),
-        ffmpegCommand: provider.rotate == 0 ? null : '-vf "transpose=1"',
-        onSave: (path) {
+    // await trimmer.saveTrimmedVideo(
+    //     startValue: trimStart.toDouble(),
+    //     endValue: trimEnd.toDouble(),
+    //     ffmpegCommand: provider.rotate == 0 ? null : '-vf "transpose=1"',
+    //     onSave: (path) {
+    //       setState(() {
+    //         state = path ?? 'Failed';
+    //         if (path != null) {
+    //           video.video = File(path);
+    //         }
+    //       });
+    //     });
+
+    Duration startPoint = Duration(milliseconds: trimStart);
+    Duration endPoint = Duration(milliseconds: trimEnd);
+
+    Directory tempDirectory = await getTemporaryDirectory();
+    String now = DateTime.now().toString().replaceAll(' ', '');
+    String outputPath = '${tempDirectory.absolute.path}/Video$now.mp4';
+
+    String command =
+        ' -ss $startPoint -i "${video.video.absolute.path}" -t ${endPoint - startPoint} -c:a copy ';
+
+    command += provider.rotate == 0
+        ? ''
+        : provider.rotate == 90
+            ? '-vf "transpose=1" '
+            : provider.rotate == 180
+                ? '-vf "transpose=2,transpose=2" '
+                : provider.rotate == 270
+                    ? '-vf "transpose=2" '
+                    : '';
+    command += outputPath;
+
+    try {
+      await FFmpegKit.executeAsync(command, (FFmpegSession session) async {
+        String state =
+            FFmpegKitConfig.sessionStateToString(await session.getState());
+        ReturnCode? returnCode = await session.getReturnCode();
+        debugPrint(
+            "FFmpeg process exited with state $state and rc $returnCode");
+
+        if (ReturnCode.isSuccess(returnCode)) {
           setState(() {
-            state = path ?? 'Failed';
-            if (path != null) {
-              video.video = File(path);
-            }
+            trimmedVideo = VideoCapture(File(outputPath), camera: video.camera);
           });
-        });
-    await Future.delayed(const Duration(milliseconds: 300));
-    return;
+          // Fluttertoast.showToast(msg: outputPath);
+          Navigator.pop(dialogContext);
+          await Future.delayed(const Duration(milliseconds: 300));
+          Navigator.of(context).push(
+              myPageRoute(builder: (context) => EditScreen(trimmedVideo)));
+        } else {
+          Fluttertoast.showToast(msg: "Error");
+        }
+      }, (Log log) {
+        debugPrint(log.getMessage());
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   @override
@@ -139,12 +194,15 @@ class _CaptureScreenState extends State<CaptureScreen>
               onPressed: () {
                 openDialog(
                         context,
-                        (context) => const MyDialog(
-                              title: 'Caution!',
-                              body:
-                                  'The selected video and changes you\'ve made would be lost if you quit.',
-                              actions: ['Cancel', 'Ok'],
-                              destructive: 'Ok',
+                        (context) => Theme(
+                              data: darkTheme,
+                              child: const MyDialog(
+                                title: 'Caution!',
+                                body:
+                                    'The selected video and changes you\'ve made would be lost if you quit.',
+                                actions: ['Cancel', 'Ok'],
+                                destructive: 'Ok',
+                              ),
                             ),
                         dismissible: true)
                     .then((value) {
@@ -168,10 +226,9 @@ class _CaptureScreenState extends State<CaptureScreen>
                     // trim();
                     await openDialog(
                         context,
-                        (context) =>
-                            Theme(data: darkTheme, child: LoadingDialog(trim)));
-                    Navigator.of(context).push(
-                        myPageRoute(builder: (context) => EditScreen(video)));
+                        (context) => Theme(
+                            data: darkTheme,
+                            child: LoadingDialog(trim, pop: false)));
                   }),
             )
           ],

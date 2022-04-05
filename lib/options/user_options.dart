@@ -19,12 +19,12 @@ class UserOptions extends StatelessWidget {
         icon: MyIcons.notifications,
         onPressed: (context) {
           user.subcribeForPostNotifications(context,
-              mode: user.postNotifications ?? false
+              mode: user.postNotifications
                   ? RequestMethod.delete
                   : RequestMethod.post);
           Fluttertoast.showToast(
               msg:
-                  'Post Notifications turned ${user.postNotifications ?? false ? "OFF" : "ON"}',
+                  'Post Notifications turned ${user.postNotifications ? "OFF" : "ON"}',
               gravity: ToastGravity.BOTTOM);
         });
     Option block = Option(

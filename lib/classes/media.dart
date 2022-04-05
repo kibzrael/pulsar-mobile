@@ -46,8 +46,13 @@ class Video {
 
   // change to source and get resolution
   String video(BuildContext context) {
-    Resolution resolution =
-        Provider.of<ConnectivityProvider>(context, listen: false).resolution;
+    late Resolution resolution;
+    try {
+      resolution =
+          Provider.of<ConnectivityProvider>(context, listen: false).resolution;
+    } catch (e) {
+      resolution = Resolution.medium;
+    }
     return resolution == Resolution.low
         ? low
         : resolution == Resolution.medium

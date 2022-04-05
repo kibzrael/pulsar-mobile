@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
 import 'package:dio/dio.dart';
@@ -173,22 +174,67 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future fetchCategories() async {
-    String url = getUrl(UserUrls.categories);
-    http.Response response =
-        await http.get(Uri.parse(url), headers: {"Authorization": token ?? ''});
-    if (response.statusCode == 200) {
-      var body = jsonDecode(response.body);
-      var categoriesJson = List<Map<String, dynamic>>.from(body['categories']);
-      categories = [];
-      for (Map<String, dynamic> category in categoriesJson) {
-        Interest interest = Interest.fromJson(category);
-        categories!.add(interest);
-        for (Map<String, dynamic> subCategory in category['subCategories']) {
-          Interest subInterest = Interest.fromJson(subCategory);
-          subInterest.parent = interest;
-          categories!.add(subInterest);
+    await getCategories();
+
+    //
+    try {
+      String url = getUrl(UserUrls.categories);
+      http.Response response = await http
+          .get(Uri.parse(url), headers: {"Authorization": token ?? ''});
+      if (response.statusCode == 200) {
+        var body = jsonDecode(response.body);
+        var categoriesJson =
+            List<Map<String, dynamic>>.from(body['categories']);
+        categories = [];
+        for (Map<String, dynamic> category in categoriesJson) {
+          Interest interest = Interest.fromJson(category);
+          categories!.add(interest);
+          for (Map<String, dynamic> subCategory in category['subCategories']) {
+            Interest subInterest = Interest.fromJson(subCategory);
+            subInterest.parent = interest;
+            categories!.add(subInterest);
+          }
         }
+        saveCategories([...categories!.map((e) => e.toJson())]);
+        notifyListeners();
       }
+      // ignore: empty_catches
+    } catch (e) {}
+  }
+
+  getCategories() async {
+    Box box = Hive.box('categories');
+    if (box.isOpen) {
+      if (box.isNotEmpty) {
+        var boxContent = box.toMap();
+        List<Map<String, dynamic>> mapContent = [];
+        boxContent.forEach((key, value) {
+          Map<String, dynamic> category = {};
+          value.forEach((key, categoryValue) {
+            late dynamic inputValue;
+            if (key == 'parent' && categoryValue != null) {
+              Map<String, dynamic> parent = {};
+              categoryValue
+                  .forEach((key, val) => parent.putIfAbsent(key, () => val));
+              inputValue = parent;
+            } else {
+              inputValue = categoryValue;
+            }
+            category.putIfAbsent(key, () => inputValue);
+          });
+          mapContent.add(category);
+        });
+        // debugPrint(mapContent.toString());
+        categories = [...mapContent.map((e) => Interest.fromJson(e))];
+        notifyListeners();
+      }
+    }
+  }
+
+  saveCategories(List<Map<String, dynamic>> categories) async {
+    Box box = Hive.box('categories');
+    for (Map<String, dynamic> category in categories) {
+      box.add(category);
     }
   }
 

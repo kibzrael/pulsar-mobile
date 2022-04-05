@@ -1,12 +1,19 @@
+import 'dart:convert';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/comment.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/models/comment_card.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/post.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
@@ -21,33 +28,45 @@ class CommentPage extends StatefulWidget {
 }
 
 class _CommentPageState extends State<CommentPage> {
+  late ScrollController scrollController;
   late TextEditingController commentController;
+
+  late UserProvider userProvider;
 
   Post get post => widget.post;
 
   String comment = '';
   Comment? replyTo;
 
-  List<Map<String, dynamic>> userComments = [];
+  List<Comment> userComments = [];
+  List<Map<String, dynamic>> sendingComments = [];
+
+  List<Comment> liveReplies = [];
+  List<Map<String, dynamic>> sendingReplies = [];
 
   @override
   void initState() {
     super.initState();
     commentController = TextEditingController();
+    scrollController = ScrollController();
   }
 
   Future<List<Map<String, dynamic>>> fetchComments(int index) async {
     List<Map<String, dynamic>> comments = [];
-    await Future.delayed(const Duration(seconds: 2));
-    for (int i = 0; i < 12; i++) {
-      comments.add({
-        'id': i,
-        'user': allUsers[i],
-        'post': post,
-        'comment':
-            'Comment on the post which occupies multiple lines. The minimum number of lines that can appear at once is three or seven if with attachment but the comment can be expanded to view more.',
-        'time': DateTime.now().subtract(Duration(hours: i * index)),
-      });
+
+    String url;
+
+    url = getUrl(PostUrls.comment(post.id, index: index));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': userProvider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      comments = [...List<Map<String, dynamic>>.from(body['comments'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
     }
 
     return comments;
@@ -59,6 +78,70 @@ class _CommentPageState extends State<CommentPage> {
     });
   }
 
+  makeComment() async {
+    commentController.clear();
+    String sendingComment = comment;
+    Comment? sendingReplyTo = replyTo;
+    replyTo = null;
+
+    if (scrollController.hasClients && sendingReplyTo == null) {
+      scrollController.animateTo(0.0,
+          duration: const Duration(milliseconds: 500), curve: Curves.linear);
+    }
+
+    Map<String, dynamic> commentBody = {
+      'user': userProvider.user,
+      'comment': sendingComment,
+      'replyTo': sendingReplyTo
+    };
+
+    if (sendingReplyTo == null) {
+      sendingComments.add(commentBody);
+    } else {
+      sendingReplies.add(commentBody);
+    }
+
+    String url;
+
+    url = getUrl(PostUrls.comment(post.id));
+
+    Map<String, dynamic> requestBody = {'comment': sendingComment};
+    if (sendingReplyTo != null) {
+      requestBody.putIfAbsent('replyTo', () => sendingReplyTo.id.toString());
+    }
+
+    setState(() {});
+
+    try {
+      http.Response response = await http.post(Uri.parse(url),
+          headers: {'Authorization': userProvider.user.token ?? ''},
+          body: requestBody);
+
+      var body = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Success...');
+        post.comments++;
+        debugPrint(body['comment'].toString());
+        if (sendingReplyTo == null) {
+          userComments.insert(0, Comment.fromJson(body['comment']));
+          sendingComments
+              .removeWhere((element) => element['comment'] == sendingComment);
+        } else {
+          liveReplies.insert(0, Comment.fromJson(body['comment']));
+          sendingReplies
+              .removeWhere((element) => element['comment'] == sendingComment);
+        }
+        setState(() {});
+      } else {
+        Fluttertoast.showToast(msg: body['message']);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   @override
   void dispose() {
     commentController.dispose();
@@ -67,6 +150,7 @@ class _CommentPageState extends State<CommentPage> {
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return MyBottomSheet(
       maxRatio: 0.9,
       child: GestureDetector(
@@ -79,34 +163,49 @@ class _CommentPageState extends State<CommentPage> {
                     target: fetchComments,
                     itemBuilder: (context, snapshot) {
                       List<Map<String, dynamic>> data = [
-                        ...userComments,
+                        ...sendingComments,
+                        ...userComments.map((e) => e.toJson()),
                         ...snapshot.data
                       ];
 
                       return data.isEmpty
                           ? snapshot.errorLoading
                               ? snapshot.noData
-                                  ? const Center(
-                                      child: Text(
-                                          'There are no comments\nfor this post yet.'))
-                                  : const Center(child: Text('No Network'))
+                                  ? const NoPosts(
+                                      alignment: Alignment.center,
+                                      message:
+                                          "No comments, be the first to comment below.",
+                                    )
+                                  : NetworkError(
+                                      onRetry: snapshot.refreshCallback)
                               : const Center(child: MyProgressIndicator())
                           : RefreshIndicator(
                               onRefresh: snapshot.refreshCallback,
                               child: ListView.builder(
+                                  controller: scrollController,
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    Map<String, dynamic> comment = data[index];
+                                    Map<String, dynamic> commentData =
+                                        data[index];
+                                    if (commentData.containsKey('id')) {
+                                      Comment comment =
+                                          Comment.fromJson(commentData);
 
-                                    return CommentCard(
-                                        Comment(comment['id'],
-                                            user: comment['user'],
-                                            post: comment['post'],
-                                            comment: comment['comment'],
-                                            time: comment['time'],
-                                            likes: 1302,
-                                            replies: 423),
-                                        onReply: onReply);
+                                      return CommentCard(comment,
+                                          onReply: onReply,
+                                          post: post,
+                                          replies: [
+                                            ...liveReplies.where((element) =>
+                                                element.replyTo == comment.id)
+                                          ],
+                                          sendingReplies: [
+                                            ...sendingReplies.where((element) =>
+                                                element['replyTo']?.id ==
+                                                comment.id)
+                                          ]);
+                                    } else {
+                                      return SendingCommentCard(commentData);
+                                    }
                                   }),
                             );
                     }),
@@ -176,7 +275,8 @@ class _CommentPageState extends State<CommentPage> {
                             4, 2, comment.isEmpty ? 4 : 8, 2),
                         prefix: Padding(
                             padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                            child: ProfilePic(tahlia.profilePic?.thumbnail,
+                            child: ProfilePic(
+                                userProvider.user.profilePic?.thumbnail,
                                 radius: 18)),
                         onChanged: (text) {
                           setState(() {
@@ -194,22 +294,9 @@ class _CommentPageState extends State<CommentPage> {
                     const SizedBox(width: 5),
                     InkWell(
                       onTap: () {
+                        FocusScope.of(context).unfocus();
                         if (comment.isNotEmpty && comment.trim() != '') {
-                          setState(() {
-                            userComments.add({
-                              'id': 21,
-                              'user': Provider.of<UserProvider>(context,
-                                      listen: false)
-                                  .user,
-                              'post': post,
-                              'comment': comment,
-                              'replyTo': replyTo,
-                              'time': DateTime.now()
-                            });
-                            commentController.text = '';
-                            comment = '';
-                            replyTo = null;
-                          });
+                          makeComment();
                         }
                       },
                       child: Card(

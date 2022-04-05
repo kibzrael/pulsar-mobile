@@ -42,7 +42,9 @@ class _ChooseCategoryState extends State<ChooseCategory>
               title: 'Category',
               onBack: provider.previousPage,
               onForward: () {
-                provider.user.category = selectedCategory;
+                if (selectedCategory != null) {
+                  provider.user.category = selectedCategory!;
+                }
                 provider.nextPage();
               }),
           body: SelectCategory(
