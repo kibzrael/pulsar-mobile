@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/providers/ad_provider.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class ListTileAd extends StatefulWidget {
   const ListTileAd({Key? key}) : super(key: key);
@@ -25,16 +26,14 @@ class _ListTileAdState extends State<ListTileAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: false);
     provider.initialization.then((value) {
       setState(() {
         _ad = NativeAd(
           adUnitId: provider.nativeAd,
-          factoryId: 'listTile',
-          request: const AdRequest(
-            keywords: [],
-            extras: {'theme': 'dark'},
-            nonPersonalizedAds: false,
-          ),
+          factoryId: themeProvider.isDark ? 'listTileDark' : 'listTile',
+          request: const AdRequest(),
           listener: NativeAdListener(
             onAdLoaded: (_) {
               setState(() {
@@ -68,11 +67,10 @@ class _ListTileAdState extends State<ListTileAd>
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 8),
         height: 72,
-        color: Theme.of(context).colorScheme.surface,
         child: Align(
           alignment: Alignment.topLeft,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: _isAdLoaded
                 ? AdWidget(ad: _ad)
                 : Text(

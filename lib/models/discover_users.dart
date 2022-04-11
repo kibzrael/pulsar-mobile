@@ -110,7 +110,8 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                           ? snapshot.errorLoading
                               ? snapshot.noData
                                   ? const NoPostsModel()
-                                  : const NetworkErrorModel()
+                                  : NetworkErrorModel(
+                                      onRetry: snapshot.refreshCallback)
                               : const Center(child: MyProgressIndicator())
                           : CarouselSlider(
                               carouselController: controller,

@@ -2,7 +2,7 @@
   "Art": {
     "user": "Artist",
     "users": "Artists",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fartist.jpg?alt=media&token=16d8f5c4-ef5f-4fbb-b745-74f7a6ed52a8",
+    "cover": "art",
     "subcategories": {
       "Painting": {
         "user": "Painter",
@@ -25,7 +25,7 @@
   "Music": {
     "user": "Musician",
     "users": "Musicians",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fmusician.jpg?alt=media&token=84baf5ba-3767-41d2-b475-66e513d7044b",
+    "cover": "music",
     "subcategories": {
       "Singing": {
         "user": "Singer",
@@ -47,7 +47,7 @@
   "Dance": {
     "user": "Dancer",
     "users": "Dancers",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fdancer.jpg?alt=media&token=686ed96a-9b2d-4b81-9b62-afb989879782",
+    "cover": "dance",
     "subcategories": {
       "Ballet": {},
       "Break Dance": {},
@@ -58,7 +58,7 @@
   "Performing Arts": {
     "user": "Performing Artist",
     "users": "Performing Artists",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fmagician.jpg?alt=media&token=b187c5bc-7944-4753-acba-06ae04298f2d",
+    "cover": "juggling",
     "subcategories": {
       "Gymnastic": {
         "user": "Gymnast",
@@ -85,7 +85,7 @@
   "Comedy": {
     "user": "Comedian",
     "users": "Comedians",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fcomedian.jpg?alt=media&token=f55bb63f-9ccb-431a-8d26-ff827dad251a",
+    "cover": "comedy",
     "subcategories": {
       "Standup Comedy": {},
       "Drama": {}
@@ -94,7 +94,7 @@
   "Film": {
     "user": "*Filmer",
     "users": "Filmers",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Factor.jpg?alt=media&token=0d1edf3a-fdfd-41f5-90bf-77b4416d2bd0",
+    "cover": "film",
     "subcategories": {
       "Acting": {
         "user": "Actor",
@@ -112,7 +112,7 @@
   "Design": {
     "user": "Designer",
     "users": "Designers",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Finterior%20designer.jpg?alt=media&token=86dadfd3-5018-48bf-9c3b-7b638db73fa1",
+    "cover": "interior design",
     "subcategories": {
       "Interior Design": {},
       "Graphics Design": {},
@@ -123,7 +123,7 @@
   "Modelling": {
     "user": "Model",
     "users": "Models",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fmodel.jpg?alt=media&token=8dc928ae-0883-45cc-9aad-ee4efe952c3c",
+    "cover": "modeling",
     "subcategories": {
       "Fashion Modelling": {
         "user": "Fashion Model",
@@ -141,7 +141,7 @@
   "Photography": {
     "user": "Photographer",
     "users": "Photographers",
-    "cover": "https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/categories%2Fphotographer.jpg?alt=media&token=5cf4cb54-ec1f-4b5d-82ea-8a53e2c20f45",
+    "cover": "photography",
     "subcategories": {
       "Landscape": {},
       "Portrait": {},

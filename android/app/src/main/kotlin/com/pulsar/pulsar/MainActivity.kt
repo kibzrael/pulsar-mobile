@@ -10,7 +10,10 @@ class MainActivity : FlutterActivity() {
 
         // TODO: Register the ListTileNativeAdFactory
         GoogleMobileAdsPlugin.registerNativeAdFactory(
-            flutterEngine, "listTile", ListTileNativeAdFactory(context)
+            flutterEngine, "listTile", ListTileNativeAdFactory(context, dark=false)
+        )
+        GoogleMobileAdsPlugin.registerNativeAdFactory(
+            flutterEngine, "listTileDark", ListTileNativeAdFactory(context, dark=true)
         )
         GoogleMobileAdsPlugin.registerNativeAdFactory(
             flutterEngine, "grid", GridAdFactory(context)
@@ -19,7 +22,13 @@ class MainActivity : FlutterActivity() {
             flutterEngine, "discoverChallenges", DiscoverChallengesAdFactory(context)
         )
         GoogleMobileAdsPlugin.registerNativeAdFactory(
+            flutterEngine, "discoverChallengesDark", DiscoverChallengesAdFactory(context, dark=true)
+        )
+        GoogleMobileAdsPlugin.registerNativeAdFactory(
             flutterEngine, "myGalaxy", MyGalaxyAdFactory(context)
+        )
+        GoogleMobileAdsPlugin.registerNativeAdFactory(
+            flutterEngine, "myGalaxyDark", MyGalaxyAdFactory(context, dark= true)
         )
     }
 
@@ -28,8 +37,11 @@ class MainActivity : FlutterActivity() {
 
         // TODO: Unregister the ListTileNativeAdFactory
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "listTile")
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "listTileDark")
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "grid")
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "discoverChallenges")
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "discoverChallengesDark")
         GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "myGalaxy")
+        GoogleMobileAdsPlugin.unregisterNativeAdFactory(flutterEngine, "myGalaxyDark")
     }
 }

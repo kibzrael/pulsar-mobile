@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:http_parser/http_parser.dart' as parser;
 import 'package:image/image.dart' as img;
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/providers/background_operations.dart';
@@ -24,6 +25,8 @@ class UploadPost {
   Uint8List thumbnail;
   String? caption;
   String? location;
+  List<Interest> tags;
+  String filter;
   List<String> linkedAccounts;
 
   double progress = 0.0;
@@ -42,6 +45,8 @@ class UploadPost {
     this.challenge,
     this.caption,
     this.allowComments = true,
+    this.filter = "Original",
+    this.tags = const [],
     this.location,
     this.linkedAccounts = const [],
   });
@@ -65,7 +70,10 @@ class UploadPost {
 
     FormData form = FormData.fromMap({
       'caption': caption,
+      'challenge': challenge?.id,
       'allowComments': allowComments.toString(),
+      'tags': tags.map((e) => e.name).join(','),
+      'filter': filter,
       'source': await MultipartFile.fromFile(video.path,
           filename: 'video.mp4', contentType: parser.MediaType('video', 'mp4')),
       'thumbnail': await MultipartFile.fromFile(thumbnailFile.path,

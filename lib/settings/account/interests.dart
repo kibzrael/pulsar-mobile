@@ -40,7 +40,7 @@ class _EditInterestsState extends State<EditInterests> {
         name: key,
         user: item['user'],
         users: item['users'],
-        coverPhoto: Photo(thumbnail: item['cover']),
+        cover: Photo(thumbnail: item['cover']),
       );
       interests.add(interest);
       setState(() {});
@@ -52,9 +52,9 @@ class _EditInterestsState extends State<EditInterests> {
                 name: key,
                 user: item['user'] ?? interest.user,
                 users: item['users'] ?? interest.users,
-                coverPhoto: item['cover'] != null
+                cover: item['cover'] != null
                     ? Photo(thumbnail: item['cover'])
-                    : interest.coverPhoto,
+                    : interest.cover,
                 parent: interest),
           );
           setState(() {});

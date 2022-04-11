@@ -77,5 +77,22 @@ class Comment {
     }
   }
 
-  delete(BuildContext context) async {}
+  delete(BuildContext context, Function() onDelete) async {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    String url = PostUrls.comment(id);
+
+    try {
+      http.Response response = await http
+          .delete(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
+      var data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        Fluttertoast.showToast(msg: 'Success...');
+        onDelete();
+      } else {
+        Fluttertoast.showToast(msg: data['message']);
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
 }

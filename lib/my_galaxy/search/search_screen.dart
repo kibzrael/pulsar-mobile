@@ -72,10 +72,12 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   Future<List<Map<String, dynamic>>> search(int page, int index) async {
-    settingsProvider.settings.searchHistory = [
-      keyword,
-      ...settingsProvider.settings.searchHistory
-    ];
+    if (!settingsProvider.settings.searchHistory.contains(keyword)) {
+      settingsProvider.settings.searchHistory = [
+        keyword,
+        ...settingsProvider.settings.searchHistory
+      ];
+    }
     settingsProvider.save(notify: false);
     List<Map<String, dynamic>> results = [];
     String url;

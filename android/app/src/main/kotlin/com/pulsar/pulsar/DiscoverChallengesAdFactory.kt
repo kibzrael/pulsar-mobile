@@ -1,9 +1,11 @@
 package com.pulsar.pulsar
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.nativead.MediaView
@@ -11,7 +13,8 @@ import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
-class DiscoverChallengesAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAdFactory {
+class DiscoverChallengesAdFactory(val context: Context, val dark: Boolean = false) :
+    GoogleMobileAdsPlugin.NativeAdFactory {
 
     override fun createNativeAd(
         nativeAd: NativeAd,
@@ -38,13 +41,23 @@ class DiscoverChallengesAdFactory(val context: Context) : GoogleMobileAdsPlugin.
             val headlineView = findViewById<TextView>(R.id.discover_challenges_ad_headline)
             headlineView.text = nativeAd.headline.trim()
 
-            this.headlineView = headlineView
 
             val bodyView = findViewById<TextView>(R.id.discover_challenges_ad_body)
             with(bodyView) {
                 text = nativeAd.body
                 visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
             }
+
+            val background = findViewById<FrameLayout>(R.id.discover_challenges_ad_background)
+
+            if (dark) {
+                background.setBackgroundColor(Color.parseColor("#242424"))
+                headlineView.setTextColor(Color.parseColor("#FFFFFF"))
+                bodyView.setTextColor(Color.parseColor("#BDBDBD"))
+            }
+
+            this.headlineView = headlineView
+
             this.bodyView = bodyView
 
 

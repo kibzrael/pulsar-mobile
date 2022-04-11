@@ -46,7 +46,7 @@ class _EditCategoryState extends State<EditCategory> {
         name: key,
         user: item['user'],
         users: item['users'],
-        coverPhoto: Photo(thumbnail: item['cover']),
+        cover: Photo(thumbnail: item['cover']),
       );
       categories.add(interest);
       setState(() {});

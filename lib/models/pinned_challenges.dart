@@ -69,7 +69,7 @@ class _PinnedChallengesState extends State<PinnedChallenges> {
                   ? snapshot.errorLoading
                       ? snapshot.noData
                           ? const NoPostsModel()
-                          : const NetworkErrorModel()
+                          : NetworkErrorModel(onRetry: snapshot.refreshCallback)
                       : const Center(child: MyProgressIndicator())
                   : ListView.separated(
                       scrollDirection: Axis.horizontal,

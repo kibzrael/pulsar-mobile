@@ -43,17 +43,21 @@ class _PostCoverState extends State<PostCover> {
     //
     controller = VideoPlayerController.file(widget.video.video);
     controller.initialize().then((value) {
+      getThumbnails();
       controller.seekTo(Duration(milliseconds: position.floor()));
       duration = controller.value.duration.inMilliseconds.toDouble();
-      getThumbnails();
-      setState(() {
-        // cover = 18;
-      });
+      setState(() {});
     });
   }
 
   getThumbnails() {
     thumbnails = [...postProvider.thumbnails];
+  }
+
+  seekVideo(double setCover) {
+    position = ((setCover - 18) / maxWidth) * widget.duration;
+    controller.seekTo(Duration(milliseconds: position.floor()));
+    debugPrint("Seeking video....");
   }
 
   @override
@@ -62,11 +66,9 @@ class _PostCoverState extends State<PostCover> {
     maxWidth = MediaQuery.of(context).size.width - (30 + 18 + 50);
 
     if (!isInitialized) cover = ((position / widget.duration) * maxWidth) + 18;
-
     isInitialized = true;
-    position = ((cover - 18) / maxWidth) * widget.duration;
 
-    controller.seekTo(Duration(milliseconds: position.floor()));
+    debugPrint("Build Method called....");
 
     return Scaffold(
         appBar: AppBar(
@@ -199,56 +201,96 @@ class _PostCoverState extends State<PostCover> {
                         ),
                       ),
                     ),
-                    Positioned(
-                      left: cover,
-                      child: GestureDetector(
-                        onPanUpdate: (details) {
-                          setState(() {
-                            if (cover + details.delta.dx < 18) {
-                              cover = 18;
-                            } else if (cover + details.delta.dx > maxWidth) {
-                              cover = maxWidth;
-                            } else {
-                              cover += details.delta.dx;
-                            }
-                          });
-                        },
-                        child: Card(
-                          elevation: 3,
-                          margin: const EdgeInsets.fromLTRB(0, 8, 2, 8),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Container(
-                            width: 50,
-                            height: 85,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 5, color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(9),
-                              child: SizedBox(
-                                width: 40,
-                                height: 75,
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: SizedBox(
-                                      width: controller.value.size.width,
-                                      height: controller.value.size.height,
-                                      child: ColorFiltered(
-                                          colorFilter: ColorFilter.matrix(
-                                              postProvider.filter.convolution),
-                                          child: VideoPlayer(controller))),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                    CoverWidget(
+                      controller: controller,
+                      cover: cover,
+                      maxWidth: maxWidth,
+                      postProvider: postProvider,
+                      seekVideo: seekVideo,
+                    ),
                   ],
                 )),
           ],
         ));
+  }
+}
+
+class CoverWidget extends StatefulWidget {
+  final double cover;
+  final double maxWidth;
+  final Function(double setCover) seekVideo;
+  final VideoPlayerController controller;
+  final PostProvider postProvider;
+  const CoverWidget(
+      {Key? key,
+      required this.controller,
+      required this.cover,
+      required this.maxWidth,
+      required this.postProvider,
+      required this.seekVideo})
+      : super(key: key);
+
+  @override
+  State<CoverWidget> createState() => _CoverWidgetState();
+}
+
+class _CoverWidgetState extends State<CoverWidget> {
+  double cover = 18;
+
+  @override
+  void initState() {
+    super.initState();
+    cover = widget.cover;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double maxWidth = widget.maxWidth;
+    return Positioned(
+      left: cover,
+      child: GestureDetector(
+        onPanUpdate: (details) {
+          if (cover + details.delta.dx < 18) {
+            cover = 18;
+          } else if (cover + details.delta.dx > maxWidth) {
+            cover = maxWidth;
+          } else {
+            cover += details.delta.dx;
+          }
+          widget.seekVideo(cover);
+          setState(() {});
+        },
+        child: Card(
+          elevation: 3,
+          margin: const EdgeInsets.fromLTRB(0, 8, 2, 8),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: Container(
+            width: 50,
+            height: 85,
+            decoration: BoxDecoration(
+                border: Border.all(width: 5, color: Colors.white),
+                borderRadius: BorderRadius.circular(12)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(9),
+              child: SizedBox(
+                width: 40,
+                height: 75,
+                child: FittedBox(
+                  fit: BoxFit.cover,
+                  child: SizedBox(
+                      width: widget.controller.value.size.width,
+                      height: widget.controller.value.size.height,
+                      child: ColorFiltered(
+                          colorFilter: ColorFilter.matrix(
+                              widget.postProvider.filter.convolution),
+                          child: VideoPlayer(widget.controller))),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

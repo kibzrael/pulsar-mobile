@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
@@ -9,11 +8,15 @@ class SelectInterests extends StatefulWidget {
   final List<Interest> initialInterests;
   final List<Interest> interests;
   final Function(List<Interest> selectedInterests) onSelect;
+  final bool title;
+  final List<Interest>? selected;
   const SelectInterests(
       {Key? key,
       required this.initialInterests,
       required this.interests,
-      required this.onSelect})
+      required this.onSelect,
+      this.selected,
+      this.title = true})
       : super(key: key);
 
   @override
@@ -41,22 +44,28 @@ class _SelectInterestsState extends State<SelectInterests>
     List<Interest> majorInterests = [
       ...interests.where((element) => element.parent == null)
     ];
+    if (widget.selected != null) selected = widget.selected!;
 
     return ListView.builder(
       itemCount: majorInterests.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            child: Text(
-              'Select the fields you\nare interested in',
-              textAlign: TextAlign.center,
-              style:
-                  Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24),
-            ),
-          );
+          return widget.title
+              ? Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Text(
+                    'Select the fields you\nare interested in',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(fontSize: 24),
+                  ),
+                )
+              : Container();
         }
 
         Interest interest = majorInterests[index - 1];
@@ -71,13 +80,14 @@ class _SelectInterestsState extends State<SelectInterests>
           children: [
             MyListTile(
                 title: interest.name,
-                subtitle: '2K posts',
+                // subtitle: '- posts',
                 leading: CircleAvatar(
                   radius: 24,
                   backgroundColor:
                       Theme.of(context).inputDecorationTheme.fillColor,
-                  backgroundImage: CachedNetworkImageProvider(
-                      interest.coverPhoto!.thumbnail),
+                  backgroundImage: AssetImage(
+                      interest.cover!.medium ?? interest.cover!.thumbnail),
+                  // TODO: Add image
                 ),
                 trailingArrow: false,
                 trailing: InkWell(

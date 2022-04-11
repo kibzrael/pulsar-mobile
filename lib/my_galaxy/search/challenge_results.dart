@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/models/challenge_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
@@ -26,6 +27,9 @@ class _ChallengeResultsState extends State<ChallengeResults> {
         target: search,
         itemBuilder: (context, snapshot) {
           List<Map<String, dynamic>>? data = snapshot.data;
+          int ads = (data.length / 12).round();
+          int dataLength = data.length + ads;
+          int visibleAds = 0;
           return data.isEmpty
               ? snapshot.errorLoading
                   ? snapshot.noData
@@ -37,9 +41,15 @@ class _ChallengeResultsState extends State<ChallengeResults> {
               : RefreshIndicator(
                   onRefresh: snapshot.refreshCallback,
                   child: ListView.builder(
-                    itemCount: data.length,
+                    itemCount: dataLength,
                     itemBuilder: (context, index) {
-                      return ChallengeCard(Challenge.fromJson(data[index]));
+                      if (index == 0) visibleAds = 0;
+                      if ((index + 1) % 12 == 6 && visibleAds < ads) {
+                        visibleAds++;
+                        return const ListTileAd();
+                      }
+                      return ChallengeCard(
+                          Challenge.fromJson(data[index - visibleAds]));
                     },
                   ),
                 );

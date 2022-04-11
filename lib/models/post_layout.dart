@@ -262,26 +262,13 @@ class _PostLayoutState extends State<PostLayout> {
                             basicStyle: Theme.of(context)
                                 .textTheme
                                 .bodyText2!
-                                .copyWith(fontWeight: FontWeight.w500),
+                                .copyWith(fontWeight: FontWeight.w400),
                             detectedStyle: const TextStyle(color: Colors.blue),
                             onTap: (String text) {
                               Fluttertoast.showToast(msg: "Open $text");
                             },
                           ),
                         ),
-
-                      // RichText(
-                      //   text: TextSpan(
-                      //     children: captionText(
-                      //         'Caption of the #post. Has #soft wrap\nOccupies #max-of three lines\nno #read😄more...'),
-                      //     style: Theme.of(context)
-                      //         .textTheme
-                      //         .bodyText2!
-                      //         .copyWith(fontWeight: FontWeight.w500),
-                      //   ),
-                      //   maxLines: 4,
-                      //   overflow: TextOverflow.ellipsis,
-                      // )),
                       Container(
                         padding: const EdgeInsets.only(top: 4),
                         child: Wrap(

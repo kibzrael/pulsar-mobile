@@ -8,17 +8,16 @@ class Interest {
   String name;
   String? users;
   String user;
-  Photo? coverPhoto;
+  Photo? cover;
 
   Interest? parent;
 
-  Interest({
-    required this.name,
-    required this.user,
-    this.users,
-    this.coverPhoto,
-    this.parent,
-  });
+  Interest(
+      {required this.name,
+      required this.user,
+      this.users,
+      this.cover,
+      this.parent});
 
   factory Interest.fromJson(Map<String, dynamic> json) =>
       _$InterestFromJson(json);

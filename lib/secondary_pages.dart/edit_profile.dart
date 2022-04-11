@@ -107,6 +107,7 @@ class _EditProfileState extends State<EditProfile> {
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
               birthday: birthday,
+              interests: interests,
               profilePic: imageProvider == MyImageProvider.file
                   ? File(profilePic!)
                   : null);

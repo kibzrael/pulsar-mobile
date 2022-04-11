@@ -11,8 +11,10 @@ class PostUrls {
 
   static String like(Post post) => 'posts/${post.id}/likes';
 
-  static String comment(int post, {int? index, int? replyTo}) =>
+  static String comments(int post, {int? index, int? replyTo}) =>
       'posts/$post/comments${index == null ? '' : '?offset=$index'}${replyTo == null ? '' : '&replyTo=$replyTo'}';
+
+  static String comment(int comment) => 'comments/$comment';
 
   static String commentLike(Comment comment) => 'comments/${comment.id}/likes';
 

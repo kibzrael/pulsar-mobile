@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/discover_challenges_ad_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#242424">
+        android:background="#FFF">
 
 
         <com.google.android.gms.ads.nativead.MediaView
@@ -33,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:background="#12000000"
             android:gravity="bottom"
             android:orientation="vertical"
             android:paddingVertical="15dp">
@@ -57,7 +57,7 @@
                 android:maxLines="1"
                 android:text="Headline"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="#000"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                 android:maxLines="2"
                 android:text="Body\nMay be two lines"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="#9E9E9E"
                 android:textSize="15sp" />
 
         </LinearLayout>

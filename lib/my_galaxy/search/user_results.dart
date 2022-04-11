@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/user_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
@@ -28,6 +29,9 @@ class _UserResultsState extends State<UserResults> {
         target: search,
         itemBuilder: (context, snapshot) {
           List<Map<String, dynamic>>? data = snapshot.data;
+          int ads = (data.length / 12).round();
+          int dataLength = data.length + ads;
+          int visibleAds = 0;
           return data.isEmpty
               ? snapshot.errorLoading
                   ? snapshot.noData
@@ -39,18 +43,17 @@ class _UserResultsState extends State<UserResults> {
               : RefreshIndicator(
                   onRefresh: snapshot.refreshCallback,
                   child: ListView.builder(
-                    itemCount: data.length + (snapshot.isLoadingMore ? 1 : 0),
+                    itemCount: dataLength + (snapshot.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (snapshot.isLoadingMore && index == data.length) {
                         return const LoadingMore();
                       }
-                      // if (index == 5) {
-                      //   return MyBannerAd();
-                      // }
-                      // if (index > 5) {
-                      //   return UserCard(data[index - 1]['user']);
-                      // }
-                      return UserCard(User.fromJson(data[index]));
+                      if (index == 0) visibleAds = 0;
+                      if ((index + 1) % 12 == 6 && visibleAds < ads) {
+                        visibleAds++;
+                        return const ListTileAd();
+                      }
+                      return UserCard(User.fromJson(data[index - visibleAds]));
                     },
                   ),
                 );

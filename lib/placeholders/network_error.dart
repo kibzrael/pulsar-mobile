@@ -54,7 +54,8 @@ class NetworkError extends StatelessWidget {
 }
 
 class NetworkErrorModel extends StatelessWidget {
-  const NetworkErrorModel({Key? key}) : super(key: key);
+  final Function() onRetry;
+  const NetworkErrorModel({Key? key, required this.onRetry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

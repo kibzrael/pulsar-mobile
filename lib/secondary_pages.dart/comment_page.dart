@@ -44,6 +44,8 @@ class _CommentPageState extends State<CommentPage> {
   List<Comment> liveReplies = [];
   List<Map<String, dynamic>> sendingReplies = [];
 
+  List<int> removedComments = [];
+
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,7 @@ class _CommentPageState extends State<CommentPage> {
 
     String url;
 
-    url = getUrl(PostUrls.comment(post.id, index: index));
+    url = getUrl(PostUrls.comments(post.id, index: index));
 
     http.Response response = await http.get(Uri.parse(url),
         headers: {'Authorization': userProvider.user.token ?? ''});
@@ -103,7 +105,7 @@ class _CommentPageState extends State<CommentPage> {
 
     String url;
 
-    url = getUrl(PostUrls.comment(post.id));
+    url = getUrl(PostUrls.comments(post.id));
 
     Map<String, dynamic> requestBody = {'comment': sendingComment};
     if (sendingReplyTo != null) {
@@ -166,7 +168,7 @@ class _CommentPageState extends State<CommentPage> {
                         ...sendingComments,
                         ...userComments.map((e) => e.toJson()),
                         ...snapshot.data
-                      ];
+                      ]..removeWhere((e) => removedComments.contains(e['id']));
 
                       return data.isEmpty
                           ? snapshot.errorLoading
@@ -194,6 +196,8 @@ class _CommentPageState extends State<CommentPage> {
                                       return CommentCard(comment,
                                           onReply: onReply,
                                           post: post,
+                                          onDelete: () => setState(() =>
+                                              removedComments.add(comment.id)),
                                           replies: [
                                             ...liveReplies.where((element) =>
                                                 element.replyTo == comment.id)

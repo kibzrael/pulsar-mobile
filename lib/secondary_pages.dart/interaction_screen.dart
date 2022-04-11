@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
@@ -98,6 +99,9 @@ class _InteractionScreenState extends State<InteractionScreen> {
                   if (snapshot.errorLoading) {
                     debugPrint(snapshot.error.toString());
                   }
+                  int ads = (data.length / 12).round();
+                  int dataLength = data.length + ads;
+                  int visibleAds = 0;
                   return data.isEmpty
                       ? snapshot.errorLoading
                           ? snapshot.noData
@@ -111,20 +115,15 @@ class _InteractionScreenState extends State<InteractionScreen> {
                       : RefreshIndicator(
                           onRefresh: snapshot.refreshCallback,
                           child: ListView.builder(
-                              itemCount: data.length,
+                              itemCount: dataLength,
                               itemBuilder: (context, index) {
-                                return UserCard(User.fromJson(data[index]));
-                                // if (data.isNotEmpty) {
-                                //   if (index == 5) {
-                                //     return const ListTileAd();
-                                //   }
-                                //   if (index > 5) {
-                                //     return UserCard(
-                                //         User.fromJson(data[index - 1]));
-                                //   }
-                                //   return UserCard(User.fromJson(data[index]));
-                                // }
-                                // return Container();
+                                if (index == 0) visibleAds = 0;
+                                if ((index + 1) % 12 == 6 && visibleAds < ads) {
+                                  visibleAds++;
+                                  return const ListTileAd();
+                                }
+                                return UserCard(
+                                    User.fromJson(data[index - visibleAds]));
                               }),
                         );
                 }),

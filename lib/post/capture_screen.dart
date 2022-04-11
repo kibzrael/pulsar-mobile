@@ -18,13 +18,11 @@ import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trimmer.dart';
-import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
-// import 'package:video_trimmer/video_trimmer.dart' as video_trimmer;
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 
 class CaptureScreen extends StatefulWidget {
@@ -106,23 +104,6 @@ class _CaptureScreenState extends State<CaptureScreen>
       // if (status != PermissionStatus.granted) Navigator.pop(context);
     }
 
-    // video_trimmer.Trimmer trimmer = video_trimmer.Trimmer();
-
-    // await trimmer.loadVideo(videoFile: video.video.absolute);
-
-    // await trimmer.saveTrimmedVideo(
-    //     startValue: trimStart.toDouble(),
-    //     endValue: trimEnd.toDouble(),
-    //     ffmpegCommand: provider.rotate == 0 ? null : '-vf "transpose=1"',
-    //     onSave: (path) {
-    //       setState(() {
-    //         state = path ?? 'Failed';
-    //         if (path != null) {
-    //           video.video = File(path);
-    //         }
-    //       });
-    //     });
-
     Duration startPoint = Duration(milliseconds: trimStart);
     Duration endPoint = Duration(milliseconds: trimEnd);
 
@@ -184,142 +165,132 @@ class _CaptureScreenState extends State<CaptureScreen>
     provider = Provider.of<PostProvider>(context);
 
     int rotate = provider.rotate;
-    return Theme(
-      data: darkTheme.copyWith(scaffoldBackgroundColor: Colors.black),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-              onPressed: () {
-                openDialog(
-                        context,
-                        (context) => Theme(
-                              data: darkTheme,
-                              child: const MyDialog(
-                                title: 'Caution!',
-                                body:
-                                    'The selected video and changes you\'ve made would be lost if you quit.',
-                                actions: ['Cancel', 'Ok'],
-                                destructive: 'Ok',
+    return Scaffold(
+      // extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // backgroundColor: Colors.transparent,
+        leading: IconButton(
+            onPressed: () {
+              openDialog(
+                      context,
+                      (context) => const MyDialog(
+                            title: 'Caution!',
+                            body:
+                                'The selected video and changes you\'ve made would be lost if you quit.',
+                            actions: ['Cancel', 'Ok'],
+                            destructive: 'Ok',
+                          ),
+                      dismissible: true)
+                  .then((value) {
+                if (value == 'Ok') Navigator.pop(context);
+              });
+            },
+            icon: Icon(
+              MyIcons.close,
+              size: 30,
+            )),
+        actions: [
+          Container(
+            width: 100,
+            alignment: Alignment.center,
+            child: ActionButton(
+                title: 'Next',
+                width: 70,
+                height: 30,
+                onPressed: () async {
+                  provider.video = video;
+                  // trim();
+                  await openDialog(
+                      context, (context) => LoadingDialog(trim, pop: false));
+                }),
+          )
+        ],
+      ),
+      body: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              controller.play();
+            },
+            child: Container(
+              decoration:
+                  BoxDecoration(color: Theme.of(context).colorScheme.surface),
+              child: Stack(
+                children: [
+                  controller.value.isInitialized
+                      ? SizedBox.expand(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: kToolbarHeight),
+                            child: FittedBox(
+                              fit:
+                                  // video.camera && (rotate == 0 || rotate == 180)
+                                  //     ? BoxFit.cover
+                                  //     :
+                                  BoxFit.contain,
+                              child: RotatedBox(
+                                quarterTurns: rotate ~/ 90,
+                                child: SizedBox(
+                                  width: controller.value.size.width,
+                                  height: controller.value.size.height,
+                                  child: ColorFiltered(
+                                      colorFilter: ColorFilter.matrix(
+                                          provider.filter.convolution),
+                                      child: VideoPlayer(controller)),
+                                ),
                               ),
-                            ),
-                        dismissible: true)
-                    .then((value) {
-                  if (value == 'Ok') Navigator.pop(context);
-                });
-              },
-              icon: Icon(
-                MyIcons.close,
-                size: 30,
-              )),
-          actions: [
-            Container(
-              width: 100,
-              alignment: Alignment.center,
-              child: ActionButton(
-                  title: 'Next',
-                  width: 70,
-                  height: 30,
-                  onPressed: () async {
-                    provider.video = video;
-                    // trim();
-                    await openDialog(
-                        context,
-                        (context) => Theme(
-                            data: darkTheme,
-                            child: LoadingDialog(trim, pop: false)));
-                  }),
-            )
-          ],
-        ),
-        body: InkWell(
-          onTap: () {
-            controller.play();
-          },
-          child: Stack(
-            children: [
-              controller.value.isInitialized
-                  ? SizedBox.expand(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: kToolbarHeight),
-                        child: FittedBox(
-                          fit: video.camera && (rotate == 0 || rotate == 180)
-                              ? BoxFit.cover
-                              : BoxFit.contain,
-                          child: RotatedBox(
-                            quarterTurns: rotate ~/ 90,
-                            // angle: rotate.toDouble() * -math.pi / 180,
-                            child: SizedBox(
-                              width: controller.value.size.width,
-                              height: controller.value.size.height,
-                              child: ColorFiltered(
-                                  colorFilter: ColorFilter.matrix(
-                                      provider.filter.convolution),
-                                  child: VideoPlayer(controller)),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                  : Container(),
-              Container(
-                color: Colors.black12,
-                child: Column(
-                  children: [
-                    const Spacer(),
-                    // Text(state),
-                    Trimmer(
-                      position: position,
-                      duration: duration,
-                      speed: speed,
-                      max: maxDuration,
-                      onUpdate: (start, end) {
-                        setState(() {
-                          trimStart = start.floor();
-                          trimEnd = end.floor();
-                        });
-                      },
-                      thumbnails: thumbnails,
-                      provider: provider,
-                    ),
-                    Container(
-                      height: kToolbarHeight,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: InkWell(
-                        onTap: () {
-                          if (provider.rotate < 270) {
-                            provider.rotate += 90;
-                          } else {
-                            provider.rotate = 0;
-                          }
-                          provider.notify();
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(MyIcons.rotate),
-                            ),
-                            const Text(
-                              'Rotate',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                        )
+                      : Container(),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            child: InkWell(
+              onTap: () {
+                if (provider.rotate < 270) {
+                  provider.rotate += 90;
+                } else {
+                  provider.rotate = 0;
+                }
+                provider.notify();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(MyIcons.rotate),
+                  ),
+                  const Text(
+                    'Rotate',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Trimmer(
+            position: position,
+            duration: duration,
+            speed: speed,
+            max: maxDuration,
+            onUpdate: (start, end) {
+              setState(() {
+                trimStart = start.floor();
+                trimEnd = end.floor();
+              });
+            },
+            thumbnails: thumbnails,
+            provider: provider,
+          ),
+        ],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/providers/ad_provider.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class MyGalaxyAd extends StatefulWidget {
   const MyGalaxyAd({Key? key}) : super(key: key);
@@ -26,12 +27,14 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: false);
     try {
       provider.initialization.then((value) {
         setState(() {
           _ad = NativeAd(
             adUnitId: provider.nativeAd,
-            factoryId: 'myGalaxy',
+            factoryId: themeProvider.isDark ? 'myGalaxyDark' : 'myGalaxy',
             request: const AdRequest(
                 // keywords: [],
                 // extras: {'theme': 'dark'},
@@ -70,26 +73,32 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
   Widget build(BuildContext context) {
     super.build(context);
     return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-          width: constraints.maxWidth,
-          height: 300,
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-          ),
-          child: _isAdLoaded
-              ? AdWidget(ad: _ad)
-              : Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: Text(
-                      'Ad.',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                  ),
-                ));
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: SizedBox(
+              width: constraints.maxWidth,
+              height: 300,
+              child: _isAdLoaded
+                  ? AdWidget(ad: _ad)
+                  : Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 8),
+                        child: Text(
+                          'Ad.',
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
+                      ),
+                    )),
+        ),
+      );
     });
   }
 }

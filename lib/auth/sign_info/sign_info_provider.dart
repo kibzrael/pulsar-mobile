@@ -12,10 +12,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -42,34 +42,10 @@ class SignInfoProvider extends ChangeNotifier {
   }
 
   fetchInterests(BuildContext context) async {
-    String categoriesJson = await DefaultAssetBundle.of(context)
-        .loadString('assets/categories.json');
-    var categories = jsonDecode(categoriesJson);
-    interests.clear();
-    categories.forEach((key, item) {
-      Interest interest = Interest(
-        name: key,
-        user: item['user'],
-        users: item['users'],
-        coverPhoto: Photo(thumbnail: item['cover']),
-      );
-      interests.add(interest);
-      Map<String, dynamic>? subcategories = item['subcategories'];
-      if (subcategories != null) {
-        subcategories.forEach((key, item) {
-          interests.add(
-            Interest(
-                name: key,
-                user: item['user'] ?? interest.user,
-                users: item['users'] ?? interest.users,
-                coverPhoto: item['cover'] != null
-                    ? Photo(thumbnail: item['cover'])
-                    : interest.coverPhoto,
-                parent: interest),
-          );
-        });
-      }
-    });
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+
+    interests = await userProvider.activeCategories(context);
   }
 
   Future<MyResponse> signup(

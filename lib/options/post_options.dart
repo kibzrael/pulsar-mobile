@@ -72,8 +72,13 @@ class PostOptions extends StatelessWidget {
           toastNotImplemented();
         });
 
-    Option delete =
-        Option(name: 'Delete', icon: MyIcons.delete, onPressed: (context) {});
+    Option delete = Option(
+        name: 'Delete',
+        icon: MyIcons.delete,
+        onPressed: (context) {
+          post.delete(context, () {});
+          // TODO: implement on delete post
+        });
 
     List<Option> options = post.user.id == userProvider.user.id
         ? [download, edit, delete]

@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/post/audio/audio.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/post/camera_view.dart';
 import 'package:pulsar/post/capture_button.dart';
 import 'package:pulsar/post/capture_screen.dart';
@@ -51,8 +51,6 @@ class _CameraScreenState extends State<CameraScreen>
   late AnimationController _switchAnimationController;
 
   Widget? overlay;
-
-  bool showTimer = true;
 
   int timer = 60;
 
@@ -303,9 +301,10 @@ class _CameraScreenState extends State<CameraScreen>
                                       const SizedBox(height: 5),
                                       InkWell(
                                         onTap: () {
-                                          setState(() {
-                                            showTimer = !showTimer;
-                                          });
+                                          openBottomSheet(
+                                              context,
+                                              (context) =>
+                                                  const FineGrainTimer());
                                         },
                                         child: Column(
                                           children: [
@@ -346,9 +345,10 @@ class _CameraScreenState extends State<CameraScreen>
                                       const SizedBox(height: 5),
                                       InkWell(
                                         onTap: () {
-                                          openBottomSheet(context,
-                                              (context) => const PostAudio(),
-                                              root: false);
+                                          toastNotImplemented();
+                                          // openBottomSheet(context,
+                                          //     (context) => const PostAudio(),
+                                          //     root: false);
                                         },
                                         child: Column(
                                           children: [

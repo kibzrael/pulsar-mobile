@@ -12,6 +12,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/upload_post.dart';
@@ -38,10 +39,39 @@ class PostProvider extends ChangeNotifier {
 
   bool location = true;
   bool allowcomments = true;
+  bool save = true;
 
   int rotate = 0;
 
   int maxDuration = 90000;
+
+  List<Interest> tags = [];
+
+  List<Map<String, String>> resolutions = [
+    {
+      'name': 'low',
+      'fps': '21',
+      'frame size': '240',
+      'audio bitrate': '64K',
+      'video bitrate': '320K',
+    },
+    {
+      'name': 'medium',
+      'fps': '24',
+      'frame size': '360',
+      'audio bitrate': '96K',
+      'video bitrate': '480K',
+    },
+    {
+      'name': 'high',
+      'fps': '27',
+      'frame size': '480',
+      'audio bitrate': '128K',
+      'video bitrate': '640K',
+    },
+  ];
+
+  List<String> outputs = [];
 
   PostProvider({this.challenge, this.caption = ''});
 
@@ -103,49 +133,41 @@ class PostProvider extends ChangeNotifier {
   }
 
   editVideo(Function() onDone) async {
-    await Future.delayed(const Duration(seconds: 2));
-    onDone();
-    // try {
-    //   // Uint8List? thumbnailData = await thumb.VideoThumbnail.thumbnailData(
-    //   //     video: video!.video.path, timeMs: position);
+    try {
+      Directory tempDirectory = await getTemporaryDirectory();
+      String now = DateTime.now().toString().replaceAll(' ', '');
+      String command = ' -i "${video!.video.absolute.path}" ';
 
-    //   Directory tempDirectory = await getTemporaryDirectory();
-    //   String now = DateTime.now().toString().replaceAll(' ', '');
-    //   String outputPath = '${tempDirectory.absolute.path}/video$now.jpg';
+      for (Map<String, String> resolution in resolutions) {
+        String outputPath =
+            '${tempDirectory.absolute.path}/video$now-${resolution['name']}.jpg';
+        command += '-vf scale=${resolution['frame size']}:-2 ';
+        command += '-r ${resolution['fps']} ';
+        command += '-b:v ${resolution['video bitrate']} ';
+        command += '-b:a ${resolution['audio bitrate']} ';
+        command += outputPath;
+        outputs.add(outputPath);
+      }
 
-    //   String command = ' -i "${video!.video.absolute.path}" -c:a copy ';
+      await FFmpegKit.executeAsync(command, (FFmpegSession session) async {
+        String state =
+            FFmpegKitConfig.sessionStateToString(await session.getState());
+        ReturnCode? returnCode = await session.getReturnCode();
+        debugPrint(
+            "FFmpeg process exited with state $state and rc $returnCode");
 
-    //   command += '-filter_complex "convolution="${[
-    //     ...filter.convolution,
-    //     0,
-    //     0,
-    //     0,
-    //     0,
-    //     1
-    //   ].join(' ')}""';
-
-    //   command += outputPath;
-
-    //   await FFmpegKit.executeAsync(command, (FFmpegSession session) async {
-    //     String state =
-    //         FFmpegKitConfig.sessionStateToString(await session.getState());
-    //     ReturnCode? returnCode = await session.getReturnCode();
-    //     debugPrint(
-    //         "FFmpeg process exited with state $state and rc $returnCode");
-
-    //     if (ReturnCode.isSuccess(returnCode)) {
-    //       Fluttertoast.showToast(msg: outputPath);
-    //       onDone();
-    //       notifyListeners();
-    //     } else {
-    //       Fluttertoast.showToast(msg: "Error");
-    //     }
-    //   }, (Log log) {
-    //     debugPrint(log.getMessage());
-    //   });
-    // } catch (e) {
-    //   debugPrint(e.toString());
-    // }
+        if (ReturnCode.isSuccess(returnCode)) {
+          onDone();
+          notifyListeners();
+        } else {
+          Fluttertoast.showToast(msg: "Error");
+        }
+      }, (Log log) {
+        debugPrint(log.getMessage());
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   upload(context) {
@@ -163,6 +185,8 @@ class PostProvider extends ChangeNotifier {
         caption: caption,
         allowComments: allowcomments,
         challenge: challenge,
+        tags: tags,
+        filter: filter.name,
         token: user.token ?? '');
     operations.uploadPost?.upload(context);
     operations.notify();

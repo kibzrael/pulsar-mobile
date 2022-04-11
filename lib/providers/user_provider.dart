@@ -11,6 +11,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:image/image.dart' as img;
@@ -22,6 +23,9 @@ class UserProvider extends ChangeNotifier {
   late User user;
 
   List<Interest>? categories;
+
+  Future<List<Interest>> activeCategories(BuildContext context) async =>
+      categories ?? await localCategories(context);
 
   String? get token => user.token;
 
@@ -67,7 +71,8 @@ class UserProvider extends ChangeNotifier {
       required String fullname,
       required String portfolio,
       String? birthday,
-      File? profilePic}) async {
+      File? profilePic,
+      List<Interest> interests = const []}) async {
     File? resizedProfilePic;
     if (profilePic != null) {
       img.Image? image = img.decodeImage(profilePic.readAsBytesSync());
@@ -89,6 +94,7 @@ class UserProvider extends ChangeNotifier {
       'bio': bio,
       'portfolio': portfolio,
       'DOB': birthday,
+      'interests': interests.map((e) => e.name).join(','),
       'profilePic': resizedProfilePic == null
           ? null
           : await MultipartFile.fromFile(resizedProfilePic.path,
@@ -174,7 +180,34 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future fetchCategories() async {
-    await getCategories();
+    // await getCategories();
+    // TODO: Fix cast error
+    Box box = Hive.box('categories');
+    if (box.isOpen) {
+      if (box.isNotEmpty) {
+        var boxContent = box.toMap();
+        List<Map<String, dynamic>> mapContent = [];
+        boxContent.forEach((key, value) {
+          Map<String, dynamic> category = {};
+          value.forEach((key, categoryValue) {
+            late dynamic inputValue;
+            if (key == 'parent' && categoryValue != null) {
+              Map<String, dynamic> parent = {};
+              categoryValue
+                  .forEach((key, val) => parent.putIfAbsent(key, () => val));
+              inputValue = parent;
+            } else {
+              inputValue = categoryValue;
+            }
+            category.putIfAbsent(key, () => inputValue);
+          });
+          mapContent.add(category);
+        });
+        // debugPrint(mapContent.toString());
+        categories = [...mapContent.map((e) => Interest.fromJson(e))];
+        notifyListeners();
+      }
+    }
 
     //
     try {
@@ -187,9 +220,17 @@ class UserProvider extends ChangeNotifier {
             List<Map<String, dynamic>>.from(body['categories']);
         categories = [];
         for (Map<String, dynamic> category in categoriesJson) {
+          category.putIfAbsent(
+              'cover',
+              () => Photo(
+                    thumbnail: 'assets/categories/${category["name"]}-48.png',
+                    medium: 'assets/categories/${category["name"]}-96.png',
+                    high: 'assets/categories/${category["name"]}-256.png',
+                  ).toJson());
           Interest interest = Interest.fromJson(category);
           categories!.add(interest);
           for (Map<String, dynamic> subCategory in category['subCategories']) {
+            subCategory.putIfAbsent('cover', () => interest.cover?.toJson());
             Interest subInterest = Interest.fromJson(subCategory);
             subInterest.parent = interest;
             categories!.add(subInterest);
@@ -236,6 +277,48 @@ class UserProvider extends ChangeNotifier {
     for (Map<String, dynamic> category in categories) {
       box.add(category);
     }
+  }
+
+  Future<List<Interest>> localCategories(BuildContext context) async {
+    List<Interest> interests = [];
+    String categoriesJson = await DefaultAssetBundle.of(context)
+        .loadString('assets/categories.json');
+    var categories = jsonDecode(categoriesJson);
+    categories.forEach((key, item) {
+      String cover = item['cover'];
+      Interest interest = Interest(
+        name: key,
+        user: item['user'],
+        users: item['users'],
+        cover: Photo(
+          thumbnail: 'assets/categories/$cover-48.png',
+          medium: 'assets/categories/$cover-96.png',
+          high: 'assets/categories/$cover-256.png',
+        ),
+      );
+      interests.add(interest);
+      Map<String, dynamic>? subcategories = item['subcategories'];
+      if (subcategories != null) {
+        subcategories.forEach((key, item) {
+          String? cover = item['cover'];
+          interests.add(
+            Interest(
+                name: key,
+                user: item['user'] ?? interest.user,
+                users: item['users'] ?? interest.users,
+                cover: cover != null
+                    ? Photo(
+                        thumbnail: 'assets/categories/$cover-48.png',
+                        medium: 'assets/categories/$cover-96.png',
+                        high: 'assets/categories/$cover-256.png',
+                      )
+                    : interest.cover,
+                parent: interest),
+          );
+        });
+      }
+    });
+    return interests;
   }
 
   notify() {

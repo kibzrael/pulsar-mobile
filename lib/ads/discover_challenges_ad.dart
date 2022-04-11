@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/providers/ad_provider.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 
 class DiscoverChallengesAd extends StatefulWidget {
   const DiscoverChallengesAd({Key? key}) : super(key: key);
@@ -26,17 +27,20 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: false);
     try {
       provider.initialization.then((value) {
         setState(() {
           _ad = NativeAd(
             adUnitId: provider.nativeAd,
-            factoryId: 'discoverChallenges',
+            factoryId: themeProvider.isDark
+                ? 'discoverChallengesDark'
+                : 'discoverChallenges',
             request: const AdRequest(
-              // keywords: [],
-              extras: {'theme': 'dark'},
-              // nonPersonalizedAds: false,
-            ),
+                // keywords: [],
+                // nonPersonalizedAds: false,
+                ),
             listener: NativeAdListener(
               onAdLoaded: (_) {
                 setState(() {
@@ -69,34 +73,37 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container(
+    return Card(
       margin: const EdgeInsets.fromLTRB(7.5, 0, 7.5, 10),
-      width: 180,
-      child: LayoutBuilder(builder: (context, constraints) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(12), bottom: Radius.circular(15)),
-          child: Container(
-              width: constraints.maxWidth,
-              height: constraints.maxHeight,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-              ),
-              child: _isAdLoaded
-                  ? AdWidget(ad: _ad)
-                  : Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 8),
-                        child: Text(
-                          'Ad.',
-                          style: Theme.of(context).textTheme.bodyText1,
+      elevation: 4,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+              top: Radius.circular(12), bottom: Radius.circular(15))),
+      child: SizedBox(
+        width: 180,
+        child: LayoutBuilder(builder: (context, constraints) {
+          return ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12), bottom: Radius.circular(15)),
+            child: SizedBox(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: _isAdLoaded
+                    ? AdWidget(ad: _ad)
+                    : Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 8),
+                          child: Text(
+                            'Ad.',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ),
-                      ),
-                    )),
-        );
-      }),
+                      )),
+          );
+        }),
+      ),
     );
   }
 }

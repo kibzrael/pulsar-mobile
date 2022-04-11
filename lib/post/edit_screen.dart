@@ -12,7 +12,6 @@ import 'package:pulsar/post/upload_screen.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
-import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -183,24 +182,10 @@ class _EditScreenState extends State<EditScreen> {
                                 height: 30,
                                 onPressed: () async {
                                   provider.video = video;
-                                  await openDialog(
-                                      context,
-                                      (context) => Theme(
-                                          data: darkTheme,
-                                          child: LoadingDialog(
-                                              (dialogContext) =>
-                                                  provider.editVideo(() {
-                                                    Navigator.pop(
-                                                        dialogContext);
-                                                    Navigator.of(context).push(
-                                                        myPageRoute(
-                                                            builder: (context) =>
-                                                                UploadScreen(
-                                                                  caption: provider
-                                                                      .caption,
-                                                                )));
-                                                  }),
-                                              pop: false)));
+                                  // TODO: initialize video editing
+                                  Navigator.of(context).push(myPageRoute(
+                                      builder: (context) => UploadScreen(
+                                          caption: provider.caption)));
                                 }),
                           )
                         ],

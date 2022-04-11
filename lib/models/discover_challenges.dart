@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/discover_challenges_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
-import 'package:pulsar/data/categories.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
@@ -32,10 +32,19 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
 
   List<CategoryTag> tags = [
     CategoryTag(
-        'For you', Photo(thumbnail: 'assets/categories/for you-48.png')),
+        'For you',
+        Photo(
+          thumbnail: 'assets/categories/for you-48.png',
+          medium: 'assets/categories/for you-96.png',
+          high: 'assets/categories/for you-256.png',
+        )),
     CategoryTag(
-        'Trending', Photo(thumbnail: 'assets/categories/trending-48.png')),
-    ...allCategories.map((e) => CategoryTag(e.name, e.coverPhoto!))
+        'Trending',
+        Photo(
+          thumbnail: 'assets/categories/trending-48.png',
+          medium: 'assets/categories/trending-96.png',
+          high: 'assets/categories/trending-256.png',
+        )),
   ];
 
   String tag = 'For you';
@@ -45,6 +54,18 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
   @override
   void initState() {
     super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    setTags();
+  }
+
+  setTags() async {
+    List<Interest> activeTags = await userProvider.activeCategories(context);
+    tags = [
+      ...tags,
+      ...activeTags
+          .where((e) => e.parent == null)
+          .map((e) => CategoryTag(e.name, e.cover!))
+    ];
   }
 
   Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {
@@ -81,6 +102,9 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
             List<Challenge> challenges = [
               ...snapshotData.map((e) => Challenge.fromJson(e))
             ];
+            int ads = (challenges.length / 12).round();
+            int dataLength = challenges.length + ads;
+            int visibleAds = 0;
             return Column(
               children: [
                 SizedBox(
@@ -106,24 +130,26 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
                   child: challenges.isEmpty
                       ? snapshot.errorLoading
                           ? snapshot.error == ApiError.connection
-                              ? const NetworkErrorModel()
+                              ? NetworkErrorModel(
+                                  onRetry: snapshot.refreshCallback)
                               : const NoPostsModel()
                           : const Center(child: MyProgressIndicator())
                       : dataTag != tag
                           ? const Center(child: MyProgressIndicator())
                           : ListView.builder(
-                              itemCount: challenges.length,
+                              itemCount: dataLength,
                               scrollDirection: Axis.horizontal,
                               physics: const BouncingScrollPhysics(),
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 7.5),
                               itemBuilder: (context, index) {
-                                Challenge challenge = challenges[index];
-
-                                //TODO: Implement ad in list
-                                if (index == 3) {
+                                if (index == 0) visibleAds = 0;
+                                if ((index + 1) % 12 == 6 && visibleAds < ads) {
+                                  visibleAds++;
                                   return const DiscoverChallengesAd();
                                 }
+                                Challenge challenge =
+                                    challenges[index - visibleAds];
 
                                 return InkWell(
                                   onTap: () {

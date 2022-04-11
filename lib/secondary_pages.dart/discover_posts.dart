@@ -67,7 +67,9 @@ class _DiscoverPostsState extends State<DiscoverPosts>
               List<Map<String, dynamic>> snapshotData = snapshot.data;
               if (dataTag == tag) data = [...snapshotData];
               List<Post> postData = [...data.map((e) => Post.fromJson(e))];
-              debugPrint(snapshot.error.toString());
+              int ads = (postData.length / 12).round();
+              int dataLength = postData.length + ads;
+              int visibleAds = 0;
               return LayoutBuilder(builder: (context, constraints) {
                 int cols = constraints.maxWidth > 1024
                     ? 4
@@ -99,7 +101,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                     triggerMode:
                                         RefreshIndicatorTriggerMode.anywhere,
                                     child: GridView.builder(
-                                        itemCount: data.length,
+                                        itemCount: dataLength,
                                         padding: EdgeInsets.fromLTRB(
                                             6,
                                             0,
@@ -114,12 +116,14 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                 crossAxisSpacing: 6,
                                                 mainAxisSpacing: 6),
                                         itemBuilder: (context, index) {
-                                          Post post = postData[index];
-
-                                          //TODO: Implement ad in list
-                                          if (index == 2) {
+                                          if (index == 0) visibleAds = 0;
+                                          if ((index + 1) % 12 == 6 &&
+                                              visibleAds < ads) {
+                                            visibleAds++;
                                             return const GridAd();
                                           }
+                                          Post post =
+                                              postData[index - visibleAds];
 
                                           return InkWell(
                                             onTap: () {

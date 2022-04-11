@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/sign_info/seach_category.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -108,8 +107,8 @@ class _SelectCategoryState extends State<SelectCategory>
                                           .inputDecorationTheme
                                           .fillColor,
                                       image: DecorationImage(
-                                          image: CachedNetworkImageProvider(
-                                              category.coverPhoto!.thumbnail),
+                                          image: AssetImage(category.cover!
+                                              .photo(context, max: 'medium')),
                                           fit: BoxFit.cover),
                                       shape: BoxShape.circle,
                                     ),

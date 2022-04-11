@@ -1,15 +1,18 @@
 package com.pulsar.pulsar
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
-class ListTileNativeAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAdFactory {
+class ListTileNativeAdFactory(val context: Context, val dark: Boolean) :
+    GoogleMobileAdsPlugin.NativeAdFactory {
 
     override fun createNativeAd(
         nativeAd: NativeAd,
@@ -38,13 +41,22 @@ class ListTileNativeAdFactory(val context: Context) : GoogleMobileAdsPlugin.Nati
 
             val headlineView = findViewById<TextView>(R.id.tv_list_tile_native_ad_headline)
             headlineView.text = nativeAd.headline.trim()
-            this.headlineView = headlineView
 
             val bodyView = findViewById<TextView>(R.id.tv_list_tile_native_ad_body)
             with(bodyView) {
                 text = nativeAd.body
                 visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
             }
+            val background = findViewById<FrameLayout>(R.id.iv_list_tile_native_ad_background)
+
+            if (dark) {
+                background.setBackgroundColor(Color.parseColor("#181818"))
+                headlineView.setTextColor(Color.parseColor("#FFFFFF"))
+                bodyView.setTextColor(Color.parseColor("#BDBDBD"))
+            }
+
+            this.headlineView = headlineView
+
             this.bodyView = bodyView
 
             setNativeAd(nativeAd)

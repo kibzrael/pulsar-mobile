@@ -1,11 +1,13 @@
 package com.pulsar.pulsar
 
 import android.content.Context
+import android.graphics.Color
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.gms.ads.nativead.MediaView
@@ -13,7 +15,8 @@ import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
 import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin
 
-class MyGalaxyAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAdFactory {
+class MyGalaxyAdFactory(val context: Context, val dark: Boolean = false) :
+    GoogleMobileAdsPlugin.NativeAdFactory {
 
     override fun createNativeAd(
         nativeAd: NativeAd,
@@ -45,6 +48,14 @@ class MyGalaxyAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAdFa
                 iconView.visibility = View.INVISIBLE
                 headlineView.gravity = Gravity.CENTER
                 bodyView.gravity = Gravity.CENTER
+            }
+
+            val background = findViewById<FrameLayout>(R.id.my_galaxy_ad_background)
+
+            if (dark) {
+                background.setBackgroundColor(Color.parseColor("#242424"))
+                headlineView.setTextColor(Color.parseColor("#FFFFFF"))
+                bodyView.setTextColor(Color.parseColor("#BDBDBD"))
             }
 
             this.headlineView = headlineView

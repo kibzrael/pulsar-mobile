@@ -2,9 +2,11 @@ import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:detectable_text_field/widgets/detectable_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/post/post_preview.dart';
 import 'package:pulsar/post/post_provider.dart';
+import 'package:pulsar/post/tags.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -72,29 +74,38 @@ class _UploadScreenState extends State<UploadScreen> {
                                   myPageRoute(
                                       builder: (context) =>
                                           PostPreview(provider))),
-                              child: Container(
-                                width: 120,
-                                height: 150,
+                              child: Stack(
                                 alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: Theme.of(context)
-                                        .inputDecorationTheme
-                                        .fillColor,
-                                    image: DecorationImage(
-                                        image: MemoryImage(
-                                            provider.thumbnail.thumbnail!),
-                                        fit: BoxFit.cover)),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  child: Text(
-                                    'Preview',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                children: [
+                                  ColorFiltered(
+                                    colorFilter: ColorFilter.matrix(
+                                        provider.filter.convolution),
+                                    child: Container(
+                                      width: 120,
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Theme.of(context)
+                                              .inputDecorationTheme
+                                              .fillColor,
+                                          image: DecorationImage(
+                                              image: MemoryImage(provider
+                                                  .thumbnail.thumbnail!),
+                                              fit: BoxFit.cover)),
+                                    ),
                                   ),
-                                ),
+                                  const Positioned(
+                                    bottom: 12,
+                                    child: Text(
+                                      'Preview',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(width: 15),
@@ -117,6 +128,9 @@ class _UploadScreenState extends State<UploadScreen> {
                                               expands: true,
                                               minLines: null,
                                               maxLines: null,
+                                              basicStyle: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2,
                                               controller: captionController,
                                               onChanged: (text) {
                                                 setState(() {
@@ -131,25 +145,30 @@ class _UploadScreenState extends State<UploadScreen> {
                                             ),
                                           ),
                                           const SizedBox(height: 12),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '# Tag',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .copyWith(fontSize: 16.5),
-                                              ),
-                                              Text(
-                                                '@ Person',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .copyWith(fontSize: 16.5),
-                                              ),
-                                            ],
+                                          FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '# Hashtag',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle2!
+                                                      .copyWith(fontSize: 16.5),
+                                                ),
+                                                const SizedBox(width: 12),
+                                                Text(
+                                                  '@ Person',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .subtitle2!
+                                                      .copyWith(fontSize: 16.5),
+                                                ),
+                                              ],
+                                            ),
                                           )
                                         ])))
                           ],
@@ -157,32 +176,22 @@ class _UploadScreenState extends State<UploadScreen> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    // const Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 15),
-                    //   child:
-                    //       //  ExtendedTextField(
-                    //       //   controller: tagController,
-                    //       //   decoration: InputDecoration(
-                    //       //       hintText: 'Tags',
-                    //       //       helperMaxLines: 5,
-                    //       //       helperText:
-                    //       //           'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
-                    //       //   maxLines: 3,
-                    //       //   minLines: 1,
-                    //       //   specialTextSpanBuilder: TagTextBuilder(context,
-                    //       //       controller: tagController),
-                    //       // )
-                    //       TextField(
-                    //     decoration: InputDecoration(
-                    //         hintText: 'Tags',
-                    //         helperMaxLines: 5,
-                    //         helperText:
-                    //             'Tag your post to a category to give an idea of what the post is about. This will help with distrubution of your post to the appropriate audience.'),
-                    //     maxLines: 3,
-                    //     minLines: 1,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 12),
+                    MyListTile(
+                        title: 'Tags',
+                        onPressed: () => Navigator.of(context)
+                                .push(myPageRoute(
+                                    builder: (context) => SeletectTags(
+                                        initialInterests: provider.tags)))
+                                .then((value) {
+                              if (value is List<Interest>) {
+                                setState(() {
+                                  provider.tags = [...value];
+                                });
+                              }
+                            }),
+                        subtitle: provider.tags.isEmpty
+                            ? 'None'
+                            : "${provider.tags[0].name}${provider.tags.length > 1 ? ', ' + provider.tags[1].name : ''}${provider.tags.length > 2 ? ', +${provider.tags.length - 2}' : ''}"),
                     MyListTile(
                       title: 'Challenge',
                       trailingText: provider.challenge?.name ?? 'None',
@@ -196,6 +205,16 @@ class _UploadScreenState extends State<UploadScreen> {
                           value: provider.allowcomments,
                           onChanged: (value) {
                             provider.allowcomments = value;
+                            provider.notify();
+                          }),
+                    ),
+                    MyListTile(
+                      title: 'Save video on Device',
+                      trailingArrow: false,
+                      trailing: Switch.adaptive(
+                          value: provider.save,
+                          onChanged: (value) {
+                            provider.save = value;
                             provider.notify();
                           }),
                     ),

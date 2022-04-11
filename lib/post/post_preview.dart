@@ -38,7 +38,7 @@ class _PostPreviewState extends State<PostPreview> {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.center,
                 child:
-                    Text('-', style: TextStyle(fontWeight: FontWeight.w500))),
+                    Text('0', style: TextStyle(fontWeight: FontWeight.w500))),
           ),
         );
 
@@ -47,7 +47,7 @@ class _PostPreviewState extends State<PostPreview> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          title: Text('@${user.username}'),
+          // title: Text('@${user.username}'),
           centerTitle: true,
           backgroundColor: Colors.black.withOpacity(0.0),
         ),
@@ -60,12 +60,16 @@ class _PostPreviewState extends State<PostPreview> {
               borderRadius: BorderRadius.circular(15),
               child: Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).inputDecorationTheme.fillColor,
-                      image: DecorationImage(
-                          image: MemoryImage(provider.thumbnail.thumbnail!),
-                          fit: BoxFit.cover),
+                  ColorFiltered(
+                    colorFilter:
+                        ColorFilter.matrix(provider.filter.convolution),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).inputDecorationTheme.fillColor,
+                        image: DecorationImage(
+                            image: MemoryImage(provider.thumbnail.thumbnail!),
+                            fit: BoxFit.cover),
+                      ),
                     ),
                   ),
                   Column(children: [
@@ -247,7 +251,7 @@ class _PostPreviewState extends State<PostPreview> {
                                           .textTheme
                                           .bodyText2!
                                           .copyWith(
-                                              fontWeight: FontWeight.w500),
+                                              fontWeight: FontWeight.w400),
                                       detectedStyle:
                                           const TextStyle(color: Colors.blue),
                                       onTap: (String text) {
@@ -256,22 +260,21 @@ class _PostPreviewState extends State<PostPreview> {
                                       },
                                     ),
                                   ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.start,
-                                    spacing: 8,
-                                    runSpacing: 7.5,
-                                    alignment: WrapAlignment.start,
-                                    runAlignment: WrapAlignment.start,
-                                    children: [
-                                      const Tag('art'),
-                                      const Tag('music'),
-                                      const Tag('dance'),
-                                    ],
-                                  ),
-                                )
+                                if (provider.tags.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Wrap(
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.start,
+                                      spacing: 8,
+                                      runSpacing: 7.5,
+                                      alignment: WrapAlignment.start,
+                                      runAlignment: WrapAlignment.start,
+                                      children: [
+                                        ...provider.tags.map((e) => Tag(e.name))
+                                      ],
+                                    ),
+                                  )
                               ],
                             ),
                           ),

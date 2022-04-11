@@ -5,8 +5,10 @@
     android:layout_height="wrap_content">
 
     <FrameLayout
+        android:id="@+id/my_galaxy_ad_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FFF">
 
 
         <LinearLayout
@@ -45,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="Headline"
-                        android:textColor="#FFF"
+                        android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -55,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:text="Body..."
-                        android:textColor="#FFF"
+                        android:textColor="#9E9E9E"
                         android:textSize="15sp" />
                 </LinearLayout>
 

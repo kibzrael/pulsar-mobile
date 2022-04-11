@@ -27,11 +27,13 @@ class CommentCard extends StatefulWidget {
   final Function(Comment comment) onReply;
   final List<Comment> replies;
   final List<Map<String, dynamic>> sendingReplies;
+  final Function() onDelete;
 
   const CommentCard(this.comment,
       {Key? key,
       required this.onReply,
       required this.post,
+      required this.onDelete,
       this.replies = const [],
       this.sendingReplies = const []})
       : super(key: key);
@@ -63,7 +65,8 @@ class _CommentCardState extends State<CommentCard> {
 
     String url;
 
-    url = getUrl(PostUrls.comment(comment.post, index: 0));
+    url =
+        getUrl(PostUrls.comments(comment.post, index: 0, replyTo: comment.id));
 
     try {
       http.Response response = await http.get(Uri.parse(url),
@@ -114,26 +117,25 @@ class _CommentCardState extends State<CommentCard> {
         SnackBar snackBar =
             [comment.user.id, widget.post.id].contains(userProvider.user.id)
                 ? SnackBar(
+                    content: const Text('Delete this Comment?'),
+                    duration: const Duration(seconds: 10),
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    action: SnackBarAction(
+                        label: 'Delete',
+                        onPressed: () async {
+                          await comment.delete(context, widget.onDelete);
+                        }),
+                  )
+                : SnackBar(
                     content: const Text('Report This User?'),
                     duration: const Duration(seconds: 10),
-                    backgroundColor: Theme.of(context).colorScheme.onError,
+                    backgroundColor: Theme.of(context).colorScheme.error,
                     action: SnackBarAction(
                         label: 'Report',
                         onPressed: () {
                           Navigator.of(context).push(myPageRoute(
                               builder: (context) => ReportScreen(
                                   initialIndex: 1, user: comment.user)));
-                        }),
-                  )
-                : SnackBar(
-                    content: const Text('Delete this Comment?'),
-                    duration: const Duration(seconds: 10),
-                    backgroundColor: Theme.of(context).colorScheme.onError,
-                    action: SnackBarAction(
-                        label: 'Delete',
-                        onPressed: () async {
-                          await comment.delete(context);
-                          // TODO: remove from comment's list
                         }),
                   );
 
@@ -238,10 +240,15 @@ class _CommentCardState extends State<CommentCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...widget.sendingReplies.map((e) => SendingCommentCard(e)),
-                  ...widget.replies.map((e) =>
-                      CommentCard(e, onReply: (_) {}, post: widget.post)),
-                  ...replies.map((e) =>
-                      CommentCard(e, onReply: (_) {}, post: widget.post)),
+                  ...widget.replies.map((e) => CommentCard(e,
+                      onReply: (_) {},
+                      post: widget.post,
+                      onDelete: () =>
+                          setState(() => widget.replies.remove(e)))),
+                  ...replies.map((e) => CommentCard(e,
+                      onReply: (_) {},
+                      post: widget.post,
+                      onDelete: () => setState(() => replies.remove(e)))),
                   if (comment.replies - replies.length > 0)
                     Container(
                         alignment: Alignment.centerLeft,
