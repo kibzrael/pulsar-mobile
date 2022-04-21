@@ -53,10 +53,6 @@ class _PostVideoState extends State<PostVideo> {
     super.dispose();
   }
 
-  // initVideo() {
-  //   videoProvider.initializeVideo(video.video);
-  // }
-
   @override
   Widget build(BuildContext context) {
     videoProvider = Provider.of<VideoProvider>(context);

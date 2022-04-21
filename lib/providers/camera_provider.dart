@@ -52,7 +52,7 @@ class CameraProvider extends ChangeNotifier {
       }
 
       CameraController newController =
-          CameraController(camera, ResolutionPreset.max, enableAudio: true);
+          CameraController(camera, ResolutionPreset.medium, enableAudio: true);
       await newController.initialize();
       maxZoom = await newController.getMaxZoomLevel();
       controller = newController;

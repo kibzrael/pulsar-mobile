@@ -6,19 +6,16 @@
     "subcategories": {
       "Painting": {
         "user": "Painter",
-        "users": "Painters",
-        "cover": "assets/categories/artist.jpg"
+        "users": "Painters"
       },
       "Fine Art": {
         "user": "Fine Artist",
-        "users": "Fine Artists",
-        "cover": "assets/categories/artist.jpg"
+        "users": "Fine Artists"
       },
       "Sculpture": {},
       "Make-up Art": {
         "user": "Make-up Artist",
-        "users": "Make-up Artists",
-        "cover": "assets/categories/make up artist.jpg"
+        "users": "Make-up Artists"
       }
     }
   },
@@ -29,18 +26,15 @@
     "subcategories": {
       "Singing": {
         "user": "Singer",
-        "users": "Singers",
-        "cover": "assets/categories/musician.jpg"
+        "users": "Singers"
       },
       "Music Production": {
         "user": "Music Producer",
-        "users": "Music Producers",
-        "cover": "assets/categories/music producer.jpg"
+        "users": "Music Producers"
       },
       "Sound Engineering": {
         "user": "Sound Engineer",
-        "users": "Sound Engineers",
-        "cover": "assets/categories/sound engineer.jpg"
+        "users": "Sound Engineers"
       }
     }
   },
@@ -49,36 +43,44 @@
     "users": "Dancers",
     "cover": "dance",
     "subcategories": {
-      "Ballet": {},
-      "Break Dance": {},
-      "Hip Hop Dance": {},
-      "Contemporary": {}
+      "Ballet": {
+        "user": "Ballet Dancer",
+        "users": "Ballet Dancers"
+      },
+      "Break Dance": {
+        "user": "Break Dancer",
+        "users": "Break Dancers"
+      },
+      "Hip Hop Dance": {
+        "user": "Hip Hop Dancer",
+        "users": "Hip Hop Dancers"
+      },
+      "Contemporary": {
+        "user": "Contemporary Dancer",
+        "users": "Contemporary Dancers"
+      }
     }
   },
   "Performing Arts": {
     "user": "Performing Artist",
     "users": "Performing Artists",
-    "cover": "juggling",
+    "cover": "performing arts",
     "subcategories": {
       "Gymnastic": {
         "user": "Gymnast",
-        "users": "Gymnasts",
-        "cover": "assets/categories/gymnast.jpg"
+        "users": "Gymnasts"
       },
       "Juggling": {
         "user": "Juggler",
-        "users": "Jugglers",
-        "cover": "assets/categories/artist.jpg"
+        "users": "Jugglers"
       },
       "Puppetry": {
         "user": "Puppet Master",
-        "users": "Puppet Masters",
-        "cover": "assets/categories/puppet master.jpg"
+        "users": "Puppet Masters"
       },
       "Magic": {
         "user": "Magician",
-        "users": "Magicians",
-        "cover": "assets/categories/magician.jpg"
+        "users": "Magicians"
       }
     }
   },
@@ -87,8 +89,14 @@
     "users": "Comedians",
     "cover": "comedy",
     "subcategories": {
-      "Standup Comedy": {},
-      "Drama": {}
+      "Standup Comedy": {
+        "user": "Standup Comedian",
+        "users": "Standup Comedians"
+      },
+      "Drama": {
+        "user": "Dramatist",
+        "users": "Dramatists"
+      }
     }
   },
   "Film": {
@@ -98,13 +106,11 @@
     "subcategories": {
       "Acting": {
         "user": "Actor",
-        "users": "Actors",
-        "cover": "assets/categories/actor.jpg"
+        "users": "Actors"
       },
       "Film Production": {
         "user": "Film Producer",
-        "users": "Film Producers",
-        "cover": "assets/categories/film producer.jpg"
+        "users": "Film Producers"
       }
     }
   },
@@ -112,30 +118,43 @@
   "Design": {
     "user": "Designer",
     "users": "Designers",
-    "cover": "interior design",
+    "cover": "design",
     "subcategories": {
-      "Interior Design": {},
-      "Graphics Design": {},
-      "Fashion Design": {},
-      "Architectural Design": {}
+      "Interior Design": {
+        "user": "Interior Designer",
+        "users": "Interior Designers"
+      },
+      "Graphics Design": {
+        "user": "Graphics Designer",
+        "users": "Graphics Designers"
+      },
+      "Fashion Design": {
+        "user": "Fashion Designer",
+        "users": "Fashion Designers"
+      },
+      "Architectural Design": {
+        "user": "Architectural Designer",
+        "users": "Architectural Designers"
+      }
     }
   },
   "Modelling": {
     "user": "Model",
     "users": "Models",
-    "cover": "modeling",
+    "cover": "modelling",
     "subcategories": {
       "Fashion Modelling": {
         "user": "Fashion Model",
-        "users": "Fashion Models",
-        "cover": "assets/categories/model.jpg"
+        "users": "Fashion Models"
       },
       "Body Building": {
         "user": "Body Builder",
-        "users": "Body Builders",
-        "cover": "assets/categories/model.jpg"
+        "users": "Body Builders"
       },
-      "Runway Modelling": {}
+      "Runway Modelling": {
+        "user": "Runway Model",
+        "users": "Runway Models"
+      }
     }
   },
   "Photography": {
@@ -143,12 +162,30 @@
     "users": "Photographers",
     "cover": "photography",
     "subcategories": {
-      "Landscape": {},
-      "Portrait": {},
-      "Wildlife": {},
-      "Fashion": {},
-      "Sport": {},
-      "Architecture": {}
+      "Landscape": {
+        "user": "Landscape Photographer",
+        "users": "Landscape Photographers"
+      },
+      "Portrait": {
+        "user": "Portrait Photographer",
+        "users": "Portrait Photographers"
+      },
+      "Wildlife": {
+        "user": "Wildlife Photographer",
+        "users": "Wildlife Photographers"
+      },
+      "Fashion": {
+        "user": "Fashion Photographer",
+        "users": "Fashion Photographers"
+      },
+      "Sport": {
+        "user": "Sport Photographer",
+        "users": "Sport Photographers"
+      },
+      "Architecture": {
+        "user": "Architecture Photographer",
+        "users": "Architecture Photographers"
+      }
     }
   }
 }

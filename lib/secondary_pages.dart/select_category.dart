@@ -33,14 +33,14 @@ class _SelectCategoryState extends State<SelectCategory>
   List<Interest> categories = [];
 
   search() {
-    Navigator.of(context)
-        .push(myPageRoute(builder: (context) => const SearchCategory()));
+    Navigator.of(context).push(
+        myPageRoute(builder: (context) => SearchCategory(widget.categories)));
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    categories = [...widget.categories];
+    categories = [...widget.categories.where((e) => e.parent == null)];
 
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
@@ -86,6 +86,7 @@ class _SelectCategoryState extends State<SelectCategory>
                             childAspectRatio: 0.75),
                     itemBuilder: (context, index) {
                       Interest category = categories[index];
+                      debugPrint(category.toJson().toString());
 
                       bool selected =
                           category.user == widget.selectedCategory?.user;
@@ -102,16 +103,17 @@ class _SelectCategoryState extends State<SelectCategory>
                                   Container(
                                     width: double.infinity,
                                     height: snapshot.maxWidth,
+                                    padding: const EdgeInsets.all(12),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context)
                                           .inputDecorationTheme
                                           .fillColor,
-                                      image: DecorationImage(
-                                          image: AssetImage(category.cover!
-                                              .photo(context, max: 'medium')),
-                                          fit: BoxFit.cover),
                                       shape: BoxShape.circle,
                                     ),
+                                    child: Image.asset(
+                                        category.cover!
+                                            .photo(context, max: 'medium'),
+                                        fit: BoxFit.cover),
                                   ),
                                   if (selected)
                                     Align(

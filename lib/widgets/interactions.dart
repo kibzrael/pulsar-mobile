@@ -5,8 +5,15 @@ class LikeButton extends StatelessWidget {
   final bool liked;
   final double size;
   final Function? onPressed;
+  final bool fill;
 
-  const LikeButton({Key? key, required this.liked, this.onPressed, this.size = 24}) : super(key: key);
+  const LikeButton(
+      {Key? key,
+      required this.liked,
+      this.onPressed,
+      this.fill = false,
+      this.size = 24})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +22,7 @@ class LikeButton extends StatelessWidget {
         width: size + 16,
         height: size + 16,
         padding: const EdgeInsets.all(8.0),
-        child: Icon(liked ? MyIcons.like : MyIcons.likeOutline,
+        child: Icon(liked || fill ? MyIcons.like : MyIcons.likeOutline,
             size: size,
             color:
                 liked ? Colors.redAccent : Theme.of(context).iconTheme.color),
@@ -29,7 +36,8 @@ class CommentButton extends StatelessWidget {
   final Function? onPressed;
   final double size;
 
-  const CommentButton({Key? key, this.onPressed, this.size = 24}) : super(key: key);
+  const CommentButton({Key? key, this.onPressed, this.size = 24})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +58,9 @@ class RepostButton extends StatelessWidget {
   final double size;
   final Function? onPressed;
 
-  const RepostButton({Key? key, required this.reposted, this.onPressed, this.size = 24}) : super(key: key);
+  const RepostButton(
+      {Key? key, required this.reposted, this.onPressed, this.size = 24})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +84,8 @@ class ShareButton extends StatelessWidget {
   final Function? onPressed;
   final double size;
 
-   const ShareButton({Key? key, this.onPressed, this.size = 24}) : super(key: key);
+  const ShareButton({Key? key, this.onPressed, this.size = 24})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +105,8 @@ class ReplyButton extends StatelessWidget {
   final Function? onPressed;
   final double size;
 
-  const ReplyButton({Key? key, this.onPressed, this.size = 24}) : super(key: key);
+  const ReplyButton({Key? key, this.onPressed, this.size = 24})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

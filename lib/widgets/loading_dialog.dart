@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 
 class LoadingDialog extends StatefulWidget {
@@ -35,8 +36,9 @@ class _LoadingDialogState extends State<LoadingDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MyProgressIndicator(
+              MyProgressIndicator(
                 margin: EdgeInsets.zero,
+                color: Colors.grey[350],
               ),
               const SizedBox(height: 24),
               FittedBox(

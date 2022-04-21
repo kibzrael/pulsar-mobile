@@ -22,6 +22,8 @@ class UploadPost {
   Challenge? challenge;
   bool allowComments;
   File video;
+  File medium;
+  File low;
   Uint8List thumbnail;
   String? caption;
   String? location;
@@ -33,6 +35,8 @@ class UploadPost {
 
   bool error = false;
 
+  bool save;
+
   String token;
 
   CancelToken cancelToken = CancelToken();
@@ -40,6 +44,8 @@ class UploadPost {
   UploadPost({
     required this.user,
     required this.video,
+    required this.medium,
+    required this.low,
     required this.thumbnail,
     required this.token,
     this.challenge,
@@ -48,12 +54,23 @@ class UploadPost {
     this.filter = "Original",
     this.tags = const [],
     this.location,
+    this.save = true,
     this.linkedAccounts = const [],
   });
 
   upload(BuildContext context) async {
     BackgroundOperations bgOperations =
         Provider.of<BackgroundOperations>(context, listen: false);
+
+    Directory? storage = await getExternalStorageDirectory();
+    if (storage != null && save) {
+      Directory appDir = Directory(join(storage.path, "Pulsar"));
+      if (!await appDir.exists()) {
+        await appDir.create();
+      }
+
+      await video.copy(join(appDir.absolute.path, video.path.split("/").last));
+    }
 
     String uploadUrl = getUrl(PostUrls.upload);
 
@@ -75,6 +92,10 @@ class UploadPost {
       'tags': tags.map((e) => e.name).join(','),
       'filter': filter,
       'source': await MultipartFile.fromFile(video.path,
+          filename: 'video.mp4', contentType: parser.MediaType('video', 'mp4')),
+      'sourceMedium': await MultipartFile.fromFile(medium.path,
+          filename: 'video.mp4', contentType: parser.MediaType('video', 'mp4')),
+      'sourceLow': await MultipartFile.fromFile(low.path,
           filename: 'video.mp4', contentType: parser.MediaType('video', 'mp4')),
       'thumbnail': await MultipartFile.fromFile(thumbnailFile.path,
           filename: 'thumbnail.jpg',

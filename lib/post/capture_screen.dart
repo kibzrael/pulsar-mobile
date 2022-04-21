@@ -18,10 +18,10 @@ import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/trimmer.dart';
-import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:pulsar/widgets/text_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 
@@ -139,6 +139,11 @@ class _CaptureScreenState extends State<CaptureScreen>
           });
           // Fluttertoast.showToast(msg: outputPath);
           Navigator.pop(dialogContext);
+          if (await trimmedVideo.video.length() > 2000000) {
+            provider.compress();
+          } else {
+            provider.getThumbnails(endPoint.compareTo(startPoint));
+          }
           await Future.delayed(const Duration(milliseconds: 300));
           Navigator.of(context).push(
               myPageRoute(builder: (context) => EditScreen(trimmedVideo)));
@@ -169,6 +174,8 @@ class _CaptureScreenState extends State<CaptureScreen>
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
         // backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: const Text("Trim"),
         leading: IconButton(
             onPressed: () {
               openDialog(
@@ -193,10 +200,8 @@ class _CaptureScreenState extends State<CaptureScreen>
           Container(
             width: 100,
             alignment: Alignment.center,
-            child: ActionButton(
-                title: 'Next',
-                width: 70,
-                height: 30,
+            child: MyTextButton(
+                text: 'Next',
                 onPressed: () async {
                   provider.video = video;
                   // trim();
@@ -206,91 +211,93 @@ class _CaptureScreenState extends State<CaptureScreen>
           )
         ],
       ),
-      body: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              controller.play();
-            },
-            child: Container(
-              decoration:
-                  BoxDecoration(color: Theme.of(context).colorScheme.surface),
-              child: Stack(
-                children: [
-                  controller.value.isInitialized
-                      ? SizedBox.expand(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: kToolbarHeight),
-                            child: FittedBox(
-                              fit:
-                                  // video.camera && (rotate == 0 || rotate == 180)
-                                  //     ? BoxFit.cover
-                                  //     :
-                                  BoxFit.contain,
-                              child: RotatedBox(
-                                quarterTurns: rotate ~/ 90,
-                                child: SizedBox(
-                                  width: controller.value.size.width,
-                                  height: controller.value.size.height,
-                                  child: ColorFiltered(
-                                      colorFilter: ColorFilter.matrix(
-                                          provider.filter.convolution),
-                                      child: VideoPlayer(controller)),
-                                ),
-                              ),
-                            ),
+      body: InkWell(
+        onTap: () {
+          controller.play();
+        },
+        child: Container(
+          decoration:
+              BoxDecoration(color: Theme.of(context).colorScheme.surface),
+          child: Stack(
+            children: [
+              controller.value.isInitialized
+                  ? SizedBox.expand(
+                      child: FittedBox(
+                        fit:
+                            // video.camera && (rotate == 0 || rotate == 180)
+                            //     ? BoxFit.cover
+                            //     :
+                            BoxFit.contain,
+                        child: RotatedBox(
+                          quarterTurns: rotate ~/ 90,
+                          child: SizedBox(
+                            width: controller.value.size.width,
+                            height: controller.value.size.height,
+                            child: ColorFiltered(
+                                colorFilter: ColorFilter.matrix(
+                                    provider.filter.convolution),
+                                child: VideoPlayer(controller)),
                           ),
-                        )
-                      : Container(),
-                ],
-              ),
-            ),
+                        ),
+                      ),
+                    )
+                  : Container(),
+            ],
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: InkWell(
-              onTap: () {
-                if (provider.rotate < 270) {
-                  provider.rotate += 90;
-                } else {
-                  provider.rotate = 0;
-                }
-                provider.notify();
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(MyIcons.rotate),
-                  ),
-                  const Text(
-                    'Rotate',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(15, 8, 15, 0),
+              child: InkWell(
+                onTap: () {
+                  if (provider.rotate < 270) {
+                    provider.rotate += 90;
+                  } else {
+                    provider.rotate = 0;
+                  }
+                  provider.notify();
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(MyIcons.rotate),
                     ),
-                  )
-                ],
+                    const Text(
+                      'Rotate',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Trimmer(
-            position: position,
-            duration: duration,
-            speed: speed,
-            max: maxDuration,
-            onUpdate: (start, end) {
-              setState(() {
-                trimStart = start.floor();
-                trimEnd = end.floor();
-              });
-            },
-            thumbnails: thumbnails,
-            provider: provider,
-          ),
-        ],
+            Trimmer(
+              position: position,
+              duration: duration,
+              speed: speed,
+              max: maxDuration,
+              onUpdate: (start, end) {
+                setState(() {
+                  trimStart = start.floor();
+                  trimEnd = end.floor();
+                });
+              },
+              thumbnails: thumbnails,
+              provider: provider,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/settings/blank.dart';
 import 'package:pulsar/settings/language.dart';
+import 'package:pulsar/settings/policies/privacy_policy.dart';
+import 'package:pulsar/settings/policies/terms_of_use.dart';
 import 'package:pulsar/settings/theme.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -39,15 +40,15 @@ class AuthMenu extends StatelessWidget {
             leading: Icon(MyIcons.terms),
             onPressed: () {
               Navigator.of(context)
-                  .push(myPageRoute(builder: (context) => const Blank()));
+                  .push(myPageRoute(builder: (context) => const TermsOfUse()));
             },
           ),
           MyListTile(
             title: 'Privacy Policy',
             leading: Icon(MyIcons.policies),
             onPressed: () {
-              Navigator.of(context)
-                  .push(myPageRoute(builder: (context) => const Blank()));
+              Navigator.of(context).push(
+                  myPageRoute(builder: (context) => const PrivacyPolicy()));
             },
           )
         ],

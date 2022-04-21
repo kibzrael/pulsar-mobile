@@ -5,16 +5,20 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/option.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/options/options.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/report/report.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class PostOptions extends StatelessWidget {
   final Post post;
+  final Function() onDelete;
 
-  const PostOptions(this.post, {Key? key}) : super(key: key);
+  const PostOptions(this.post, {Key? key, required this.onDelete})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +79,20 @@ class PostOptions extends StatelessWidget {
     Option delete = Option(
         name: 'Delete',
         icon: MyIcons.delete,
-        onPressed: (context) {
-          post.delete(context, () {});
-          // TODO: implement on delete post
+        onPressed: (context) async {
+          var response = await openDialog(
+            context,
+            (context) => const MyDialog(
+              title: 'Delete Post?',
+              body: "Confirm that you want to delete this post",
+              actions: ['Cancel', 'Delete'],
+              destructive: 'Delete',
+            ),
+            dismissible: true,
+          );
+          if (response == 'Delete') {
+            post.delete(context, onDelete);
+          }
         });
 
     List<Option> options = post.user.id == userProvider.user.id

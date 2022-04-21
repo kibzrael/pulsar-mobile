@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_interests.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -20,47 +19,22 @@ class EditInterests extends StatefulWidget {
 }
 
 class _EditInterestsState extends State<EditInterests> {
+  late UserProvider userProvider;
+
   List<Interest> interests = [];
   List<Interest> selected = [];
 
   @override
   void initState() {
     super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     selected = [...widget.initialInterests];
     fetchInterests();
   }
 
   fetchInterests() async {
-    String categoriesJson = await DefaultAssetBundle.of(context)
-        .loadString('assets/categories.json');
-    var categories = jsonDecode(categoriesJson);
-    interests.clear();
-    categories.forEach((key, item) {
-      Interest interest = Interest(
-        name: key,
-        user: item['user'],
-        users: item['users'],
-        cover: Photo(thumbnail: item['cover']),
-      );
-      interests.add(interest);
-      setState(() {});
-      Map<String, dynamic>? subcategories = item['subcategories'];
-      if (subcategories != null) {
-        subcategories.forEach((key, item) {
-          interests.add(
-            Interest(
-                name: key,
-                user: item['user'] ?? interest.user,
-                users: item['users'] ?? interest.users,
-                cover: item['cover'] != null
-                    ? Photo(thumbnail: item['cover'])
-                    : interest.cover,
-                parent: interest),
-          );
-          setState(() {});
-        });
-      }
-    });
+    interests = await userProvider.activeCategories(context);
+    setState(() {});
   }
 
   @override

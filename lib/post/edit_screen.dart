@@ -182,6 +182,8 @@ class _EditScreenState extends State<EditScreen> {
                                 height: 30,
                                 onPressed: () async {
                                   provider.video = video;
+                                  provider.aspectRatio =
+                                      controller.value.aspectRatio;
                                   // TODO: initialize video editing
                                   Navigator.of(context).push(myPageRoute(
                                       builder: (context) => UploadScreen(

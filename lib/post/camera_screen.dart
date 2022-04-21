@@ -13,6 +13,7 @@ import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/post/camera_view.dart';
 import 'package:pulsar/post/capture_button.dart';
 import 'package:pulsar/post/capture_screen.dart';
+import 'package:pulsar/post/edit_screen.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/timer.dart';
@@ -115,16 +116,17 @@ class _CameraScreenState extends State<CameraScreen>
         camera: true,
       );
       postProvider.video = videoCapture;
-      postProvider.getThumbnails(duration.floor());
+      // postProvider.getThumbnails(duration.floor());
+      postProvider.compress(duration: duration.floor());
       Navigator.of(context).push(myPageRoute(
-          builder: (context) => CaptureScreen(
-              VideoCapture(File(snapshot.video!.path), camera: true),
-              duration: duration)
-          // EditScreen(VideoCapture(
-          //   File(snapshot.video!.path),
-          //   camera: true,
-          // ))
-          ));
+          builder: (context) =>
+              // CaptureScreen(
+              //     VideoCapture(File(snapshot.video!.path), camera: true),
+              //     duration: duration)
+              EditScreen(VideoCapture(
+                File(snapshot.video!.path),
+                camera: true,
+              ))));
     }
   }
 

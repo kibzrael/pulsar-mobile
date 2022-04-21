@@ -130,7 +130,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                               maxLines: null,
                                               basicStyle: Theme.of(context)
                                                   .textTheme
-                                                  .bodyText2,
+                                                  .bodyText2!
+                                                  .copyWith(fontSize: 16.5),
                                               controller: captionController,
                                               onChanged: (text) {
                                                 setState(() {

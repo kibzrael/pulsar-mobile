@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:animations/animations.dart';
@@ -104,7 +103,6 @@ class _RootGalaxyState extends State<RootGalaxy>
         setState(() {});
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
       setState(() {
         errorLoading = true;
       });

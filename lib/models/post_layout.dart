@@ -25,8 +25,12 @@ class PostLayout extends StatefulWidget {
   final Post post;
   final bool isInView;
   final bool stretch;
+  final Function() onDelete;
   const PostLayout(this.post,
-      {Key? key, this.isInView = false, required this.stretch})
+      {Key? key,
+      this.isInView = false,
+      required this.stretch,
+      required this.onDelete})
       : super(key: key);
 
   @override
@@ -296,6 +300,7 @@ class _PostLayoutState extends State<PostLayout> {
                       LikeButton(
                         liked: isLiked,
                         size: 36,
+                        fill: true,
                         onPressed: () {
                           setState(() {
                             post.like(context,
@@ -341,7 +346,10 @@ class _PostLayoutState extends State<PostLayout> {
                               child: ShareButton(
                                 size: 36,
                                 onPressed: () {
-                                  openBottomSheet(_, (_) => PostOptions(post));
+                                  openBottomSheet(
+                                      _,
+                                      (_) => PostOptions(post,
+                                          onDelete: widget.onDelete));
                                 },
                               ),
                             );

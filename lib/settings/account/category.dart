@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
-import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_category.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -20,6 +19,8 @@ class EditCategory extends StatefulWidget {
 }
 
 class _EditCategoryState extends State<EditCategory> {
+  late UserProvider userProvider;
+
   // user isSolo
   bool isSolo = true;
 
@@ -32,25 +33,14 @@ class _EditCategoryState extends State<EditCategory> {
   @override
   void initState() {
     super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     selectedCategory = widget.initialCategory;
     fetchInterests();
   }
 
   fetchInterests() async {
-    String categoriesJson = await DefaultAssetBundle.of(context)
-        .loadString('assets/categories.json');
-    var interests = jsonDecode(categoriesJson);
-    categories.clear();
-    interests.forEach((key, item) {
-      Interest interest = Interest(
-        name: key,
-        user: item['user'],
-        users: item['users'],
-        cover: Photo(thumbnail: item['cover']),
-      );
-      categories.add(interest);
-      setState(() {});
-    });
+    categories = await userProvider.activeCategories(context);
+    setState(() {});
   }
 
   @override

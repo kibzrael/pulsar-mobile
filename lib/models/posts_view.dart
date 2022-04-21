@@ -9,9 +9,15 @@ class PostsView extends StatefulWidget {
   final List<Post> initialPosts;
   final int postInView;
   final CarouselController? controller;
+  final Future<List<Map<String, dynamic>>> Function(int index) target;
 
   const PostsView(
-      {Key? key, this.initialPosts = const [], this.postInView = 0, this.controller}) : super(key: key);
+      {Key? key,
+      this.initialPosts = const [],
+      required this.target,
+      this.postInView = 0,
+      this.controller})
+      : super(key: key);
 
   @override
   _PostsViewState createState() => _PostsViewState();
@@ -38,6 +44,7 @@ class _PostsViewState extends State<PostsView> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: implement recyclerview on posts_view
     return LayoutBuilder(builder: (context, constraints) {
       double aspectRatio = constraints.maxWidth / constraints.maxHeight;
       bool stretch = aspectRatio > 0.5;
@@ -53,8 +60,16 @@ class _PostsViewState extends State<PostsView> {
                   itemCount: posts.length,
                   carouselController: widget.controller,
                   itemBuilder: (context, index, _) {
-                    return PostLayout(posts[index],
-                        isInView: pageIndex == index, stretch: stretch);
+                    return PostLayout(
+                      posts[index],
+                      isInView: pageIndex == index,
+                      stretch: stretch,
+                      onDelete: () {
+                        setState(() {
+                          posts.removeAt(index);
+                        });
+                      },
+                    );
                   },
                   options: CarouselOptions(
                       height: constraints.maxHeight -

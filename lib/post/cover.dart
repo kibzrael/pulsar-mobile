@@ -54,10 +54,15 @@ class _PostCoverState extends State<PostCover> {
     thumbnails = [...postProvider.thumbnails];
   }
 
-  seekVideo(double setCover) {
-    position = ((setCover - 18) / maxWidth) * widget.duration;
-    controller.seekTo(Duration(milliseconds: position.floor()));
-    debugPrint("Seeking video....");
+  bool isSeeking = false;
+
+  seekVideo(double setCover) async {
+    if (!isSeeking) {
+      position = ((setCover - 18) / maxWidth) * widget.duration;
+      isSeeking = true;
+      await controller.seekTo(Duration(milliseconds: position.floor()));
+      isSeeking = false;
+    }
   }
 
   @override
@@ -237,6 +242,8 @@ class CoverWidget extends StatefulWidget {
 class _CoverWidgetState extends State<CoverWidget> {
   double cover = 18;
 
+  DragUpdateDetails? finalDetails;
+
   @override
   void initState() {
     super.initState();
@@ -246,19 +253,26 @@ class _CoverWidgetState extends State<CoverWidget> {
   @override
   Widget build(BuildContext context) {
     double maxWidth = widget.maxWidth;
+
+    seek(DragUpdateDetails details) {
+      if (cover + details.delta.dx < 18) {
+        cover = 18;
+      } else if (cover + details.delta.dx > maxWidth) {
+        cover = maxWidth;
+      } else {
+        cover += details.delta.dx;
+      }
+      widget.seekVideo(cover);
+      finalDetails = details;
+      setState(() {});
+    }
+
     return Positioned(
       left: cover,
       child: GestureDetector(
-        onPanUpdate: (details) {
-          if (cover + details.delta.dx < 18) {
-            cover = 18;
-          } else if (cover + details.delta.dx > maxWidth) {
-            cover = maxWidth;
-          } else {
-            cover += details.delta.dx;
-          }
-          widget.seekVideo(cover);
-          setState(() {});
+        onPanUpdate: seek,
+        onPanEnd: (details) {
+          if (finalDetails != null) seek(finalDetails!);
         },
         child: Card(
           elevation: 3,

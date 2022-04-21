@@ -41,7 +41,7 @@ class SlideTemplate extends StatelessWidget {
                 illustration,
                 height: constraints.maxWidth * 3 / 4,
               ),
-              const Spacer(),
+              const Spacer(flex: 2),
               if (title != null) title!,
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -49,7 +49,7 @@ class SlideTemplate extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .headline1!
-                      .copyWith(fontSize: 18),
+                      .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
                   child: Text(
                     description,
                     textAlign: TextAlign.center,

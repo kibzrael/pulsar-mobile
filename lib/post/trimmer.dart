@@ -98,7 +98,7 @@ class _TrimmerState extends State<Trimmer> {
     double thumbsWidth = (widget.duration * (widthNoCursor + 42)) / maxMilli;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+      padding: const EdgeInsets.fromLTRB(15, 0, 15, 12),
       child: SizedBox(
         height: 120,
         child: Stack(

@@ -8,11 +8,15 @@ class PostScreen extends StatefulWidget {
   final List<Post> initialPosts;
   final int postInView;
   final String title;
+  final Future<List<Map<String, dynamic>>> Function(int index) target;
 
   const PostScreen(
-      {Key? key, required this.initialPosts, // = const [],
+      {Key? key,
+      required this.initialPosts,
+      required this.target, // = const [],
       required this.title,
-      this.postInView = 0}) : super(key: key);
+      this.postInView = 0})
+      : super(key: key);
 
   @override
   _PostScreenState createState() => _PostScreenState();
@@ -36,9 +40,9 @@ class _PostScreenState extends State<PostScreen> {
                   child: IconButton(icon: Icon(MyIcons.more), onPressed: () {}))
             ]),
         body: PostsView(
-          initialPosts: widget.initialPosts,
-          postInView: widget.postInView,
-        ),
+            initialPosts: widget.initialPosts,
+            postInView: widget.postInView,
+            target: widget.target),
       ),
     );
   }

@@ -74,6 +74,7 @@ class _SelectInterestsState extends State<SelectInterests>
 
         List<Interest> subInterests =
             interests.where((element) => element.parent == interest).toList();
+        debugPrint(interest.toJson().toString());
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,13 +82,14 @@ class _SelectInterestsState extends State<SelectInterests>
             MyListTile(
                 title: interest.name,
                 // subtitle: '- posts',
-                leading: CircleAvatar(
-                  radius: 24,
-                  backgroundColor:
-                      Theme.of(context).inputDecorationTheme.fillColor,
-                  backgroundImage: AssetImage(
-                      interest.cover!.medium ?? interest.cover!.thumbnail),
-                  // TODO: Add image
+                leading: Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(interest.parent == null
+                              ? interest.cover!.thumbnail
+                              : interest.parent!.cover!.thumbnail))),
                 ),
                 trailingArrow: false,
                 trailing: InkWell(

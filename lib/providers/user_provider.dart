@@ -15,6 +15,7 @@ import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:image/image.dart' as img;
+import 'package:pulsar/data/users.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -180,35 +181,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future fetchCategories() async {
-    // await getCategories();
-    // TODO: Fix cast error
-    Box box = Hive.box('categories');
-    if (box.isOpen) {
-      if (box.isNotEmpty) {
-        var boxContent = box.toMap();
-        List<Map<String, dynamic>> mapContent = [];
-        boxContent.forEach((key, value) {
-          Map<String, dynamic> category = {};
-          value.forEach((key, categoryValue) {
-            late dynamic inputValue;
-            if (key == 'parent' && categoryValue != null) {
-              Map<String, dynamic> parent = {};
-              categoryValue
-                  .forEach((key, val) => parent.putIfAbsent(key, () => val));
-              inputValue = parent;
-            } else {
-              inputValue = categoryValue;
-            }
-            category.putIfAbsent(key, () => inputValue);
-          });
-          mapContent.add(category);
-        });
-        // debugPrint(mapContent.toString());
-        categories = [...mapContent.map((e) => Interest.fromJson(e))];
-        notifyListeners();
-      }
-    }
-
+    await getCategories();
     //
     try {
       String url = getUrl(UserUrls.categories);
@@ -223,9 +196,12 @@ class UserProvider extends ChangeNotifier {
           category.putIfAbsent(
               'cover',
               () => Photo(
-                    thumbnail: 'assets/categories/${category["name"]}-48.png',
-                    medium: 'assets/categories/${category["name"]}-96.png',
-                    high: 'assets/categories/${category["name"]}-256.png',
+                    thumbnail:
+                        'assets/categories/${category["name"].toLowerCase()}-48.png',
+                    medium:
+                        'assets/categories/${category["name"].toLowerCase()}-96.png',
+                    high:
+                        'assets/categories/${category["name"].toLowerCase()}-256.png',
                   ).toJson());
           Interest interest = Interest.fromJson(category);
           categories!.add(interest);
@@ -236,6 +212,8 @@ class UserProvider extends ChangeNotifier {
             categories!.add(subInterest);
           }
         }
+        categories!
+            .removeWhere((element) => element.name == "Personal Account");
         saveCategories([...categories!.map((e) => e.toJson())]);
         notifyListeners();
       }
@@ -255,8 +233,8 @@ class UserProvider extends ChangeNotifier {
             late dynamic inputValue;
             if (key == 'parent' && categoryValue != null) {
               Map<String, dynamic> parent = {};
-              categoryValue
-                  .forEach((key, val) => parent.putIfAbsent(key, () => val));
+              categoryValue.forEach(
+                  (key, val) => parent.putIfAbsent(key as String, () => val));
               inputValue = parent;
             } else {
               inputValue = categoryValue;
@@ -300,19 +278,12 @@ class UserProvider extends ChangeNotifier {
       Map<String, dynamic>? subcategories = item['subcategories'];
       if (subcategories != null) {
         subcategories.forEach((key, item) {
-          String? cover = item['cover'];
           interests.add(
             Interest(
                 name: key,
                 user: item['user'] ?? interest.user,
                 users: item['users'] ?? interest.users,
-                cover: cover != null
-                    ? Photo(
-                        thumbnail: 'assets/categories/$cover-48.png',
-                        medium: 'assets/categories/$cover-96.png',
-                        high: 'assets/categories/$cover-256.png',
-                      )
-                    : interest.cover,
+                cover: interest.cover,
                 parent: interest),
           );
         });

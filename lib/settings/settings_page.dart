@@ -11,6 +11,8 @@ import 'package:pulsar/settings/data_saver.dart';
 import 'package:pulsar/settings/drafts.dart';
 import 'package:pulsar/settings/language.dart';
 import 'package:pulsar/settings/log_out.dart';
+import 'package:pulsar/settings/policies/privacy_policy.dart';
+import 'package:pulsar/settings/policies/terms_of_use.dart';
 import 'package:pulsar/settings/privacy/privacy.dart';
 import 'package:pulsar/settings/report/report.dart';
 import 'package:pulsar/settings/theme.dart';
@@ -52,8 +54,8 @@ class _SettingsPageState extends State<SettingsPage> {
       'Admin Panel': {'icon': MyIcons.tune, 'page': const PulsarAdmin()},
     },
     'About': {
-      'Terms of use': {'icon': MyIcons.terms, 'page': null},
-      'Policies': {'icon': MyIcons.policies, 'page': null},
+      'Terms of use': {'icon': MyIcons.terms, 'page': const TermsOfUse()},
+      'Policies': {'icon': MyIcons.policies, 'page': const PrivacyPolicy()},
     }
   };
   @override

@@ -36,6 +36,7 @@ class _SeletectTagsState extends State<SeletectTags> {
         Provider.of<UserProvider>(context, listen: false);
 
     interests = await userProvider.activeCategories(context);
+    setState(() {});
   }
 
   @override

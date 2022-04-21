@@ -136,6 +136,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                           PostScreen(
                                                             initialPosts:
                                                                 postData,
+                                                            target: fetchData,
                                                             title: tag,
                                                             postInView: index,
                                                           )));

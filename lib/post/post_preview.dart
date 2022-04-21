@@ -54,6 +54,14 @@ class _PostPreviewState extends State<PostPreview> {
         body: LayoutBuilder(builder: (context, constraints) {
           double aspectRatio = constraints.maxWidth / constraints.maxHeight;
           bool stretch = aspectRatio > 0.5;
+
+          bool videoFit() {
+            double videoHeight = constraints.maxWidth / provider.aspectRatio;
+            double availableHeight =
+                constraints.maxHeight - (stretch ? 0 : kToolbarHeight);
+            return availableHeight - videoHeight < 100;
+          }
+
           return Padding(
             padding: EdgeInsets.only(bottom: stretch ? 0 : kToolbarHeight),
             child: ClipRRect(
@@ -65,10 +73,10 @@ class _PostPreviewState extends State<PostPreview> {
                         ColorFilter.matrix(provider.filter.convolution),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).inputDecorationTheme.fillColor,
+                        color: Colors.black,
                         image: DecorationImage(
                             image: MemoryImage(provider.thumbnail.thumbnail!),
-                            fit: BoxFit.cover),
+                            fit: videoFit() ? BoxFit.cover : BoxFit.contain),
                       ),
                     ),
                   ),

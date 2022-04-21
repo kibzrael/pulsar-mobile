@@ -15,10 +15,12 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/functions/files.dart';
 import 'package:pulsar/functions/upload_post.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/user_provider.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as thumb;
 
 part 'post_provider.g.dart';
@@ -44,6 +46,8 @@ class PostProvider extends ChangeNotifier {
   int rotate = 0;
 
   int maxDuration = 90000;
+
+  double aspectRatio = 1;
 
   List<Interest> tags = [];
 
@@ -75,6 +79,25 @@ class PostProvider extends ChangeNotifier {
 
   PostProvider({this.challenge, this.caption = ''});
 
+  compress({int? duration}) async {
+    try {
+      MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+          video!.video.path,
+          frameRate: 27,
+          quality: VideoQuality.LowQuality);
+      String originalSize = fileSize(video!.video.lengthSync());
+      if (mediaInfo?.file != null) video!.video = mediaInfo!.file!;
+      String compressedSize = fileSize(video!.video.lengthSync());
+      Fluttertoast.showToast(
+          msg:
+              'original size: $originalSize\ncompressed size: $compressedSize\nwidth: ${mediaInfo?.width}\nheight: ${mediaInfo?.height}');
+      // ignore: empty_catches
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    if (duration != null) getThumbnails(duration);
+  }
+
   getThumbnails(int duration) async {
     thumbnails.clear();
     maxDuration = duration < 90000 ? duration.floor() : 90000;
@@ -87,9 +110,6 @@ class PostProvider extends ChangeNotifier {
         if (step == 0) {
           thumbnail.thumbnail = thumbnailData;
         }
-
-        // await VideoCompress.getByteThumbnail(video.video.path,
-        //     position: position * 1000);
         thumbnails.add(thumbnailData);
         notifyListeners();
       } catch (e) {
@@ -160,7 +180,7 @@ class PostProvider extends ChangeNotifier {
           onDone();
           notifyListeners();
         } else {
-          Fluttertoast.showToast(msg: "Error");
+          Fluttertoast.showToast(msg: "Error: ${returnCode.toString()}");
         }
       }, (Log log) {
         debugPrint(log.getMessage());
@@ -178,18 +198,27 @@ class PostProvider extends ChangeNotifier {
 
     if (video == null || thumbnail.thumbnail == null) return;
 
+    // TODO: Split videos before uploading
+    // editVideo(() {
     operations.uploadPost = UploadPost(
         user: user,
         video: video!.video,
+        medium: video!.video,
+        low: video!.video,
+        // video: File(outputs[2]),
+        // medium: File(outputs[1]),
+        // low: File(outputs[0]),
         thumbnail: thumbnail.thumbnail!,
         caption: caption,
         allowComments: allowcomments,
         challenge: challenge,
         tags: tags,
+        save: save,
         filter: filter.name,
         token: user.token ?? '');
     operations.uploadPost?.upload(context);
     operations.notify();
+    // });
   }
 
   notify() {

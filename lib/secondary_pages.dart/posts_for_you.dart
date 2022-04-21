@@ -1,34 +1,34 @@
-import 'package:carousel_slider/carousel_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:pulsar/classes/post.dart';
-import 'package:pulsar/data/posts.dart';
-import 'package:pulsar/models/posts_view.dart';
+// import 'package:carousel_slider/carousel_controller.dart';
+// import 'package:flutter/material.dart';
+// import 'package:pulsar/classes/post.dart';
+// import 'package:pulsar/data/posts.dart';
+// import 'package:pulsar/models/posts_view.dart';
 
-class PostsForYou extends StatefulWidget {
-  final CarouselController controller;
+// class PostsForYou extends StatefulWidget {
+//   final CarouselController controller;
 
-  const PostsForYou({Key? key, required this.controller}) : super(key: key);
+//   const PostsForYou({Key? key, required this.controller}) : super(key: key);
 
-  @override
-  _PostsForYouState createState() => _PostsForYouState();
-}
+//   @override
+//   _PostsForYouState createState() => _PostsForYouState();
+// }
 
-class _PostsForYouState extends State<PostsForYou>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+// class _PostsForYouState extends State<PostsForYou>
+//     with AutomaticKeepAliveClientMixin {
+//   @override
+//   bool get wantKeepAlive => true;
 
-  List<Post> posts = [...allPosts];
+//   List<Post> posts = [...allPosts];
 
-  @override
-  void initState() {
-    super.initState();
-    posts.shuffle();
-  }
+//   @override
+//   void initState() {
+//     super.initState();
+//     posts.shuffle();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return PostsView(initialPosts: posts, controller: widget.controller);
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     super.build(context);
+//     return PostsView(initialPosts: posts, controller: widget.controller);
+//   }
+// }
