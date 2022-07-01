@@ -19,7 +19,7 @@ class _CameraViewState extends State<CameraView> {
   void initState() {
     super.initState();
     provider = widget.provider;
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       initCamera();
     });
   }

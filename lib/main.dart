@@ -105,7 +105,7 @@ class _PulsarState extends State<Pulsar> {
     //     [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     Brightness systemBrightness =
-        SchedulerBinding.instance!.window.platformBrightness;
+        SchedulerBinding.instance.window.platformBrightness;
 
     debugPrint(widget.deviceToken);
 
@@ -153,9 +153,9 @@ class _PulsarState extends State<Pulsar> {
             builder: (context, loginProvider, child) {
           return Consumer<ThemeProvider>(
               builder: (context, themeProvider, child) {
-            WidgetsBinding.instance!.window.onPlatformBrightnessChanged = () {
+            WidgetsBinding.instance.window.onPlatformBrightnessChanged = () {
               themeProvider.systemBrightness =
-                  WidgetsBinding.instance!.window.platformBrightness;
+                  WidgetsBinding.instance.window.platformBrightness;
               themeProvider.onSystemBrightnessChange();
             };
             return MaterialApp(

@@ -15,7 +15,6 @@ import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:image/image.dart' as img;
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
