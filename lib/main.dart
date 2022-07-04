@@ -109,6 +109,10 @@ class _PulsarState extends State<Pulsar> {
 
     debugPrint(widget.deviceToken);
 
+    Box settingsBox = Hive.box('settings');
+    Map settings = settingsBox.toMap();
+    bool dataSaver = settings['dataSaver'] as bool? ?? false;
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(
@@ -131,8 +135,7 @@ class _PulsarState extends State<Pulsar> {
             create: (_) => InteractionsSync()),
         ChangeNotifierProvider<ConnectivityProvider>(
           create: (_) => ConnectivityProvider(
-              dataSaver: false,
-              mediaQuality: MediaQuality.auto), // Get datasaver from settings
+              dataSaver: dataSaver, mediaQuality: MediaQuality.auto),
         ),
         ChangeNotifierProvider<MessagesProvider>(
           create: (_) => MessagesProvider(),

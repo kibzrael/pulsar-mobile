@@ -26,7 +26,7 @@ class _TrendingChallengesState extends State<TrendingChallenges> {
     return Section(
       title: 'Top 3 Chart',
       child: ListView.builder(
-        itemCount: 3,
+        itemCount: challenges.length,
         shrinkWrap: true,
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),

@@ -203,6 +203,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
                                                   .bodyText1!
                                                   .copyWith(fontSize: 18),
                                               maxLines: 1,
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           const SizedBox(height: 5),

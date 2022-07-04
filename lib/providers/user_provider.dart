@@ -196,11 +196,11 @@ class UserProvider extends ChangeNotifier {
               'cover',
               () => Photo(
                     thumbnail:
-                        'assets/categories/${category["name"].toLowerCase()}-48.png',
+                        'assets/categories/${category["name"].trim().toLowerCase()}-48.png',
                     medium:
-                        'assets/categories/${category["name"].toLowerCase()}-96.png',
+                        'assets/categories/${category["name"].trim().toLowerCase()}-96.png',
                     high:
-                        'assets/categories/${category["name"].toLowerCase()}-256.png',
+                        'assets/categories/${category["name"].trim().toLowerCase()}-256.png',
                   ).toJson());
           Interest interest = Interest.fromJson(category);
           categories!.add(interest);
@@ -230,10 +230,19 @@ class UserProvider extends ChangeNotifier {
           Map<String, dynamic> category = {};
           value.forEach((key, categoryValue) {
             late dynamic inputValue;
-            if (key == 'parent' && categoryValue != null) {
+            if (['parent', 'cover'].contains(key) && categoryValue != null) {
+              debugPrint('$key : $categoryValue');
               Map<String, dynamic> parent = {};
-              categoryValue.forEach(
-                  (key, val) => parent.putIfAbsent(key as String, () => val));
+              categoryValue.forEach((key, val) {
+                if (key == 'cover') {
+                  Map<String, dynamic> cover = {};
+                  val.forEach((coverKey, coverVal) =>
+                      cover.putIfAbsent(coverKey as String, () => coverVal));
+                  parent.putIfAbsent(key as String, () => cover);
+                } else {
+                  parent.putIfAbsent(key as String, () => val);
+                }
+              });
               inputValue = parent;
             } else {
               inputValue = categoryValue;
@@ -268,9 +277,9 @@ class UserProvider extends ChangeNotifier {
         user: item['user'],
         users: item['users'],
         cover: Photo(
-          thumbnail: 'assets/categories/$cover-48.png',
-          medium: 'assets/categories/$cover-96.png',
-          high: 'assets/categories/$cover-256.png',
+          thumbnail: 'assets/categories/${cover.trim()}-48.png',
+          medium: 'assets/categories/${cover.trim()}-96.png',
+          high: 'assets/categories/${cover.trim()}-256.png',
         ),
       );
       interests.add(interest);

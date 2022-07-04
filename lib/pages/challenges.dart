@@ -73,7 +73,7 @@ class _RootGalaxyState extends State<RootGalaxy>
 
   late UserProvider userProvider;
 
-  late Challenge newHighlight;
+  Challenge? newHighlight;
 
   @override
   void initState() {
@@ -202,11 +202,13 @@ class _RootGalaxyState extends State<RootGalaxy>
                       PinnedChallenges(
                           List<Map<String, dynamic>>.from(data['pinned'])),
                       space,
-                      TrendingChallenges(
-                          List<Map<String, dynamic>>.from(data['top'])),
+                      if (data['top'].length > 0)
+                        TrendingChallenges(
+                            List<Map<String, dynamic>>.from(data['top'])),
                       const MyGalaxyAd(),
                       space,
-                      HighlightChallege(newHighlight),
+                      if (newHighlight != null)
+                        HighlightChallege(newHighlight!),
                       space,
                       DiscoverChallenges(
                           List<Map<String, dynamic>>.from(data['discover'])),

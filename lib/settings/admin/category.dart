@@ -155,7 +155,7 @@ class _CreateCategoryState extends State<CreateCategory>
                     var value = await Navigator.of(context).push(myPageRoute(
                         builder: (context) => EditScreen(
                             field: "Category Name",
-                            maxLength: 15,
+                            maxLength: 24,
                             initialText: name)));
                     if (value is String) {
                       setState(() {
@@ -189,7 +189,7 @@ class _CreateCategoryState extends State<CreateCategory>
                     var value = await Navigator.of(context).push(myPageRoute(
                         builder: (context) => EditScreen(
                             field: "Category User",
-                            maxLength: 15,
+                            maxLength: 24,
                             initialText: user)));
                     if (value is String) {
                       setState(() {
@@ -205,7 +205,7 @@ class _CreateCategoryState extends State<CreateCategory>
                     var value = await Navigator.of(context).push(myPageRoute(
                         builder: (context) => EditScreen(
                             field: "Category Users",
-                            maxLength: 15,
+                            maxLength: 24,
                             initialText: users)));
                     if (value is String) {
                       setState(() {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/profile_stats.dart';
+import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/photo_view.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
@@ -102,39 +104,29 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         const SizedBox(height: 5),
-        // Container(
-        //   margin: EdgeInsets.symmetric(vertical: 5),
-        //   alignment: Alignment.center,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //     children: [
-        //       LinkedAccountLabel(
-        //         colors: [Colors.blue[900]!, Colors.blue[900]!],
-        //         icon: MyIcons.facebook,
-        //         user: '@rael',
-        //       ),
-        //       LinkedAccountLabel(colors: [
-        //         Colors.deepPurpleAccent,
-        //         Colors.orangeAccent,
-        //       ], icon: MyIcons.instagram, user: '@kibzrael'),
-        //       LinkedAccountLabel(
-        //         colors: [Colors.blue, Colors.blue],
-        //         icon: MyIcons.twitter,
-        //         user: '@kibzrael',
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // //if (user.portfolio != null)
-        // Container(
-        //   margin: EdgeInsets.symmetric(vertical: 5),
-        //   child: Text(
-        //     'https://www.mefletcher.com',
-        //     style:
-        //         TextStyle(color: Theme.of(context).buttonColor, fontSize: 14),
-        //     overflow: TextOverflow.ellipsis,
-        //   ),
-        // ),
+        if (user.portfolio != null)
+          ShaderMask(
+            shaderCallback: (rect) => primaryGradient().createShader(rect),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  MyIcons.link,
+                  color: Colors.white,
+                  size: 18,
+                ),
+                const SizedBox(width: 5),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 5),
+                  child: Text(
+                    user.portfolio!,
+                    style: const TextStyle(color: Colors.white),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
       ]),
     );
   }

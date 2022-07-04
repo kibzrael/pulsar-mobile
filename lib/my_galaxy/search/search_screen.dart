@@ -37,6 +37,7 @@ class _SearchScreenState extends State<SearchScreen>
   int tabIndex = 0;
 
   late FocusNode focusNode;
+  late TextEditingController controller;
 
   bool get isEditing =>
       pageController.hasClients ? pageController.page == 0 : true;
@@ -50,6 +51,7 @@ class _SearchScreenState extends State<SearchScreen>
     suggestions = [...settingsProvider.settings.searchHistory];
     pageController = PageController();
     focusNode = FocusNode();
+    controller = TextEditingController();
     tabController = TabController(length: 2, vsync: this);
     tabController.addListener(tabListener);
     fetchSuggestions();
@@ -123,6 +125,7 @@ class _SearchScreenState extends State<SearchScreen>
                   pageController.jumpToPage(0);
                   fetchSuggestions();
                 },
+                controller: controller,
                 onSubmitted: (text) {
                   pageController.jumpToPage(1);
                 },
@@ -161,7 +164,18 @@ class _SearchScreenState extends State<SearchScreen>
           body: PageView(
             controller: pageController,
             children: [
-              SearchSuggestions(suggestions),
+              SearchSuggestions(suggestions, onSearch: () {
+                focusNode.unfocus();
+                pageController.jumpToPage(1);
+                setState(() {});
+              }, onSelect: (text) {
+                keyword = text;
+                controller.text = text;
+                controller.selection = TextSelection.fromPosition(
+                    TextPosition(offset: controller.text.length));
+                fetchSuggestions();
+                setState(() {});
+              }),
               Container(
                 color: Theme.of(context).colorScheme.surface,
                 child: TabBarView(

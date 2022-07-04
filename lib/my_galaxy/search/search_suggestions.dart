@@ -4,7 +4,11 @@ import 'package:pulsar/widgets/list_tile.dart';
 
 class SearchSuggestions extends StatelessWidget {
   final List<String> suggestions;
-  const SearchSuggestions(this.suggestions, {Key? key}) : super(key: key);
+  final Function() onSearch;
+  final Function(String text) onSelect;
+  const SearchSuggestions(this.suggestions,
+      {Key? key, required this.onSearch, required this.onSelect})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +17,14 @@ class SearchSuggestions extends StatelessWidget {
       itemBuilder: (context, index) {
         return MyListTile(
           title: suggestions[index],
-          leading: const Icon(Icons.history),
-          trailing: Icon(MyIcons.searchHistory),
+          leading: Icon(MyIcons.history),
+          trailing: InkWell(
+              onTap: () {
+                onSelect(suggestions[index]);
+              },
+              child: Icon(MyIcons.searchHistory)),
           trailingArrow: false,
+          onPressed: onSearch,
         );
       },
     );

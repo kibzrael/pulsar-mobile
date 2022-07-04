@@ -6,6 +6,7 @@ class SearchField extends StatefulWidget {
   final double height;
   final bool autofocus;
   final FocusNode? focusNode;
+  final TextEditingController? controller;
   final String? initial;
   final Function(String text) onChanged;
   final Function(String text) onSubmitted;
@@ -21,6 +22,7 @@ class SearchField extends StatefulWidget {
     this.color,
     this.clearColor,
     this.focusNode,
+    this.controller,
     this.initial,
     required this.onChanged,
     required this.onSubmitted,
@@ -35,8 +37,8 @@ class _SearchFieldState extends State<SearchField>
   @override
   bool get wantKeepAlive => true;
 
-  FocusNode? focusNode;
-  TextEditingController? textEditingController;
+  late FocusNode focusNode;
+  late TextEditingController textEditingController;
 
   String searchText = '';
 
@@ -45,7 +47,8 @@ class _SearchFieldState extends State<SearchField>
     super.initState();
     focusNode = widget.focusNode ?? FocusNode();
     searchText = widget.initial ?? '';
-    textEditingController = TextEditingController(text: widget.initial);
+    textEditingController =
+        widget.controller ?? TextEditingController(text: widget.initial);
   }
 
   @override
@@ -54,7 +57,7 @@ class _SearchFieldState extends State<SearchField>
     return InkWell(
       borderRadius: BorderRadius.circular(30),
       onTap: () {
-        focusNode!.requestFocus();
+        focusNode.requestFocus();
       },
       child: Container(
         width: double.infinity,
@@ -90,7 +93,7 @@ class _SearchFieldState extends State<SearchField>
                     color: widget.clearColor,
                     onPressed: () {
                       setState(() {
-                        textEditingController!.clear();
+                        textEditingController.clear();
                         searchText = '';
                       });
                     })

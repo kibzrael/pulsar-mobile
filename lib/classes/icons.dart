@@ -99,6 +99,8 @@ class MyIcons {
 
   static IconData help = myIcon(Icons.help_outline, Icons.help_outline);
 
+  static IconData history = myIcon(Icons.history, Icons.history);
+
   static IconData home = myIcon(Icons.home, Icons.home);
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
