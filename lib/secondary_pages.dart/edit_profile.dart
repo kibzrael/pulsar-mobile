@@ -186,9 +186,10 @@ class _EditProfileState extends State<EditProfile> {
                                 onTap: () async {
                                   File? image = await openBottomSheet(
                                       context, (context) => PickImageSheet());
-                                  File? croppedImage;
+                                  CroppedFile? croppedImage;
                                   if (image != null) {
-                                    croppedImage = await ImageCropper.cropImage(
+                                    croppedImage =
+                                        await ImageCropper().cropImage(
                                       sourcePath: image.path,
                                       aspectRatio: const CropAspectRatio(
                                           ratioX: 1, ratioY: 1),
@@ -212,8 +213,7 @@ class _EditProfileState extends State<EditProfile> {
                                     width: 42,
                                     height: 42,
                                     decoration: BoxDecoration(
-                                        gradient: secondaryGradient(
-                                            begin: Alignment.topLeft),
+                                        gradient: accentGradient(),
                                         shape: BoxShape.circle),
                                     child: FittedBox(
                                       fit: BoxFit.scaleDown,

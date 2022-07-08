@@ -172,9 +172,9 @@ class _CreateChallengeState extends State<CreateChallenge>
                           onTap: () async {
                             File? image = await openBottomSheet(
                                 context, (context) => PickImageSheet());
-                            File? croppedImage;
+                            CroppedFile? croppedImage;
                             if (image != null) {
-                              croppedImage = await ImageCropper.cropImage(
+                              croppedImage = await ImageCropper().cropImage(
                                 sourcePath: image.path,
                                 aspectRatio:
                                     const CropAspectRatio(ratioX: 4, ratioY: 3),
@@ -198,8 +198,7 @@ class _CreateChallengeState extends State<CreateChallenge>
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                  gradient: secondaryGradient(
-                                      begin: Alignment.topLeft),
+                                  gradient: accentGradient(),
                                   shape: BoxShape.circle),
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,

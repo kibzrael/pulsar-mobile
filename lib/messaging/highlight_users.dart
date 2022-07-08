@@ -72,8 +72,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                           height: 52,
                           child: ShaderMask(
                             shaderCallback: (rect) =>
-                                secondaryGradient(begin: Alignment.topLeft)
-                                    .createShader(rect),
+                                accentGradient().createShader(rect),
                             child: Icon(
                               MyIcons.add,
                               color: Colors.white,

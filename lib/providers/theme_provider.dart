@@ -3,19 +3,23 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Blue
-Color kPrimary = const Color(0xFF2196F3);
+Color kPrimary = const Color(0xFF0081E7);
+
+/// Light Blue
+Color kPrimaryVariant = const Color(0xFF35ACFF);
 
 /// Purple
-Color kPrimaryVariant = const Color(0xFF7F20F3);
+Color kSecondary = const Color(0xFF7F20F3);
 
 /// Orange
-Color kSecondary = const Color(0xFFFF6E40);
+Color kAccent = const Color(0xFFFF6E40);
 
 Color kBackgroundColor = const Color(0xFF131313);
 Color kCardColor = const Color(0xFF242424);
 Color kInputColor = const Color(0xFF202020);
 Color kSurfaceColor = const Color(0xFF181818);
 Color kDividerColor = const Color(0xFF424242);
+Color kError = const Color(0xFFFF6767);
 
 LinearGradient primaryGradient({
   Alignment begin = Alignment.centerLeft,
@@ -23,8 +27,21 @@ LinearGradient primaryGradient({
 }) =>
     LinearGradient(
       colors: [
-        kPrimary,
         kPrimaryVariant,
+        kPrimary,
+      ],
+      begin: begin,
+      end: end,
+    );
+
+LinearGradient accentGradient({
+  Alignment begin = Alignment.topLeft,
+  Alignment end = Alignment.bottomRight,
+}) =>
+    LinearGradient(
+      colors: [
+        kAccent,
+        kSecondary,
       ],
       begin: begin,
       end: end,
@@ -36,8 +53,8 @@ LinearGradient secondaryGradient({
 }) =>
     LinearGradient(
       colors: [
+        kPrimary,
         kSecondary,
-        kPrimaryVariant,
       ],
       begin: begin,
       end: end,
@@ -80,7 +97,7 @@ ThemeData lightTheme = ThemeData(
       secondaryContainer: kSecondary,
       surface: Colors.grey.shade50,
       background: Colors.white,
-      error: Colors.red,
+      error: kError,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.black,
@@ -122,7 +139,7 @@ ThemeData darkTheme = ThemeData(
       secondaryContainer: Colors.deepOrange,
       surface: kSurfaceColor,
       background: Colors.grey.shade900,
-      error: Colors.redAccent,
+      error: kError,
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.white,
@@ -170,7 +187,8 @@ ChipThemeData chipTheme(Brightness brightness) {
   );
 }
 
-PageTransitionsTheme pageTransitionsTheme = const PageTransitionsTheme(builders: {
+PageTransitionsTheme pageTransitionsTheme =
+    const PageTransitionsTheme(builders: {
   TargetPlatform.android: ZoomPageTransitionsBuilder(),
   TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
 });

@@ -271,7 +271,10 @@ class _ChallengeTagState extends State<ChallengeTag> {
           padding: const EdgeInsets.only(left: 8, right: 12),
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
-              gradient: isSelected ? secondaryGradient() : null,
+              gradient: isSelected
+                  ? accentGradient(
+                      begin: Alignment.centerLeft, end: Alignment.centerRight)
+                  : null,
               borderRadius: BorderRadius.circular(30)),
           child: Row(children: [
             Container(

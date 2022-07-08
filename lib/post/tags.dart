@@ -128,9 +128,8 @@ class _SeletectTagsState extends State<SeletectTags> {
                               label: Text('@${selected[index].name}'),
                               backgroundColor: Theme.of(context).cardColor,
                               deleteIcon: ShaderMask(
-                                  shaderCallback: (rect) => secondaryGradient(
-                                          begin: Alignment.topLeft)
-                                      .createShader(rect),
+                                  shaderCallback: (rect) =>
+                                      accentGradient().createShader(rect),
                                   child: const Icon(
                                     Icons.cancel,
                                     color: Colors.white,

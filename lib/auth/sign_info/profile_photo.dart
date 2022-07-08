@@ -183,11 +183,12 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   onTap: () async {
                     File? image = await openBottomSheet(
                         context, (context) => PickImageSheet());
-                    File? croppedImage;
+                    CroppedFile? croppedImage;
                     if (image != null) {
-                      croppedImage = await ImageCropper.cropImage(
+                      croppedImage = await ImageCropper().cropImage(
                         sourcePath: image.path,
-                        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+                        aspectRatio:
+                            const CropAspectRatio(ratioX: 1, ratioY: 1),
                         cropStyle: CropStyle.circle,
                       );
                     }
@@ -204,9 +205,7 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                       width: 42,
                       height: 42,
                       decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient:
-                              secondaryGradient(begin: Alignment.topLeft)),
+                          shape: BoxShape.circle, gradient: accentGradient()),
                       child: Center(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,

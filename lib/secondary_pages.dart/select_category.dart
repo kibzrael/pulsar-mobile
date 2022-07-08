@@ -130,8 +130,7 @@ class _SelectCategoryState extends State<SelectCategory>
                                           padding: const EdgeInsets.all(4),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            gradient: secondaryGradient(
-                                                begin: Alignment.topLeft),
+                                            gradient: accentGradient(),
                                           ),
                                           child: FittedBox(
                                             fit: BoxFit.scaleDown,

@@ -144,7 +144,7 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
                 margin: const EdgeInsets.only(top: 15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    gradient: secondaryGradient(begin: Alignment.topLeft)),
+                    gradient: accentGradient()),
                 child: const Text(
                   '1',
                   style: TextStyle(color: Colors.white, fontSize: 13.5),

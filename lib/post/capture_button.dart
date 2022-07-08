@@ -108,9 +108,7 @@ class _CaptureButtonState extends State<CaptureButton> {
               height: 72,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                gradient: widget.isRecording
-                    ? null
-                    : secondaryGradient(begin: Alignment.topLeft),
+                gradient: widget.isRecording ? null : accentGradient(),
                 color: widget.isRecording
                     ? Colors.redAccent
                     : Theme.of(context).colorScheme.secondary,

@@ -10,10 +10,12 @@ class MessagingRecipients extends StatefulWidget {
   final Function() onClear;
   final ScrollController recipientsController;
   const MessagingRecipients(
-      {Key? key, required this.recipients,
+      {Key? key,
+      required this.recipients,
       required this.onRemove,
       required this.onClear,
-      required this.recipientsController}) : super(key: key);
+      required this.recipientsController})
+      : super(key: key);
   @override
   _MessagingRecipientsState createState() => _MessagingRecipientsState();
 }
@@ -66,8 +68,7 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                       label: Text('@${recipients![index].username}'),
                       deleteIcon: ShaderMask(
                           shaderCallback: (rect) =>
-                              secondaryGradient(begin: Alignment.topLeft)
-                                  .createShader(rect),
+                              accentGradient().createShader(rect),
                           child: const Icon(
                             Icons.cancel,
                             color: Colors.white,

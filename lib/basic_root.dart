@@ -176,65 +176,78 @@ class _BasicRootState extends State<BasicRoot> {
                               InkWell(
                                 onTap: () => navigationChange(2),
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          ((MediaQuery.of(context).size.width /
-                                                      5) -
-                                                  40) /
-                                              2),
-                                  child: Transform.rotate(
-                                    angle: 45,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: ((MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    5) -
+                                                40) /
+                                            2),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: barIsTransparent
-                                              ? darkTheme
-                                                  .bottomNavigationBarTheme
-                                                  .backgroundColor
-                                              : Theme.of(context)
-                                                  .bottomNavigationBarTheme
-                                                  .backgroundColor),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 5),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              themeIsDark
-                                                  ? Colors.transparent
-                                                  : Colors.white,
-                                              Theme.of(context)
-                                                  .colorScheme
-                                                  .primaryContainer,
-                                            ],
-                                          ),
-                                        ),
-                                        child: Transform.rotate(
-                                          angle: -45,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: themeIsDark
-                                                  ? Colors.black45
-                                                  : Colors.white54,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Icon(
-                                              MyIcons.add,
-                                              size: 30,
-                                              color: themeIsDark
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ),
-                                          ),
-                                        ),
+                                          gradient: accentGradient(),
+                                          shape: BoxShape.circle),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 5),
+                                      child: Icon(
+                                        MyIcons.add,
+                                        size: 30,
+                                        color: Colors.white,
                                       ),
+                                    )
+                                    // Transform.rotate(
+                                    //   angle: 45,
+                                    //   child: Container(
+                                    //     decoration: BoxDecoration(
+                                    //         shape: BoxShape.circle,
+                                    //         color: barIsTransparent
+                                    //             ? darkTheme
+                                    //                 .bottomNavigationBarTheme
+                                    //                 .backgroundColor
+                                    //             : Theme.of(context)
+                                    //                 .bottomNavigationBarTheme
+                                    //                 .backgroundColor),
+                                    //     child: Container(
+                                    //       padding: const EdgeInsets.symmetric(
+                                    //           horizontal: 5, vertical: 5),
+                                    //       decoration: BoxDecoration(
+                                    //         shape: BoxShape.circle,
+                                    //         gradient: LinearGradient(
+                                    //           colors: [
+                                    //             Theme.of(context)
+                                    //                 .colorScheme
+                                    //                 .secondary,
+                                    //             themeIsDark
+                                    //                 ? Colors.transparent
+                                    //                 : Colors.white,
+                                    //             Theme.of(context)
+                                    //                 .colorScheme
+                                    //                 .primaryContainer,
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //       child: Transform.rotate(
+                                    //         angle: -45,
+                                    //         child: Container(
+                                    //           decoration: BoxDecoration(
+                                    //             color: themeIsDark
+                                    //                 ? Colors.black45
+                                    //                 : Colors.white54,
+                                    //             shape: BoxShape.circle,
+                                    //           ),
+                                    //           child: Icon(
+                                    //             MyIcons.add,
+                                    //             size: 30,
+                                    //             color: themeIsDark
+                                    //                 ? Colors.white
+                                    //                 : Colors.black,
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     ),
-                                  ),
-                                ),
                               ),
                               NavigationBarItem(
                                 3,

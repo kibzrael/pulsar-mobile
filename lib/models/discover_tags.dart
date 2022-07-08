@@ -81,7 +81,10 @@ class TagWidget extends StatelessWidget {
                 width: 1.5,
                 color: Theme.of(context).dividerColor,
                 style: isSelected ? BorderStyle.none : BorderStyle.solid),
-            gradient: isSelected ? secondaryGradient() : null,
+            gradient: isSelected
+                ? accentGradient(
+                    begin: Alignment.centerLeft, end: Alignment.centerRight)
+                : null,
             borderRadius: BorderRadius.circular(30)),
         child: Text(
           text,

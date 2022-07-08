@@ -35,8 +35,7 @@ class RecipientCard extends StatelessWidget {
             : null,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient:
-                isSelected ? secondaryGradient(begin: Alignment.topLeft) : null,
+            gradient: isSelected ? accentGradient() : null,
             border: isSelected
                 ? null
                 : Border.all(
