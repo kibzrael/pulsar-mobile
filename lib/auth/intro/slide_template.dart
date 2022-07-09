@@ -7,9 +7,7 @@ import 'package:pulsar/widgets/text_button.dart';
 class SlideTemplate extends StatelessWidget {
   final String illustration;
   final String description;
-  final TextStyle? style;
-  final Widget? title;
-  final Widget? trailing;
+  final String title;
   final Function(int page)? toPage;
   final Function()? onNext;
   final Function()? onSkip;
@@ -17,9 +15,7 @@ class SlideTemplate extends StatelessWidget {
   const SlideTemplate(
       {required this.illustration,
       required this.description,
-      this.style,
-      this.title,
-      this.trailing,
+      required this.title,
       this.toPage,
       this.onNext,
       this.onSkip,
@@ -39,21 +35,33 @@ class SlideTemplate extends StatelessWidget {
               const Spacer(),
               SvgPicture.asset(
                 illustration,
-                height: constraints.maxWidth * 3 / 4,
+                height: constraints.maxWidth,
               ),
-              const Spacer(flex: 2),
-              if (title != null) title!,
+              const Spacer(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: DefaultTextStyle(
                   style: Theme.of(context)
                       .textTheme
                       .headline1!
-                      .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
+                      .copyWith(fontSize: 24, fontWeight: FontWeight.w800),
+                  child: Text(
+                    title,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: DefaultTextStyle(
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
                   child: Text(
                     description,
                     textAlign: TextAlign.center,
-                    style: style,
                   ),
                 ),
               ),
@@ -75,7 +83,7 @@ class SlideTemplate extends StatelessWidget {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: Theme.of(context).colorScheme.surface,
-                            gradient: index == i ? primaryGradient() : null,
+                            gradient: index == i ? accentGradient() : null,
                             border: index == i
                                 ? null
                                 : Border.all(
@@ -87,34 +95,32 @@ class SlideTemplate extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              if (trailing != null)
-                trailing!
-              else
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MyTextButton(
-                          text: 'Skip',
-                          onPressed: () {
-                            if (onSkip != null) {
-                              onSkip!();
-                            }
-                          }),
-                      ActionButton(
-                        title: 'Next',
-                        width: 100,
-                        height: 42,
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyTextButton(
+                        text: 'Skip',
+                        color: Theme.of(context).colorScheme.error,
                         onPressed: () {
-                          if (onNext != null) {
-                            onNext!();
+                          if (onSkip != null) {
+                            onSkip!();
                           }
-                        },
-                      )
-                    ],
-                  ),
-                )
+                        }),
+                    ActionButton(
+                      title: 'Next',
+                      width: 100,
+                      height: 42,
+                      onPressed: () {
+                        if (onNext != null) {
+                          onNext!();
+                        }
+                      },
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         );

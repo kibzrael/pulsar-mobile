@@ -131,7 +131,7 @@ class _SignupPageState extends State<SignupPage>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(leading: Container()),
         body: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -224,7 +224,10 @@ class _SignupPageState extends State<SignupPage>
                     ),
                   ),
                   // const Spacer(),
-                  const LinkedAccountLogin(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: LinkedAccountLogin(),
+                  ),
                   // const Spacer(),
                   ToggleAuthScreen(
                     isLogin: false,

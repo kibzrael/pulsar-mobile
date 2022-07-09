@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/auth/intro/auth.dart';
 import 'package:pulsar/auth/intro/final_slide.dart';
 import 'package:pulsar/auth/intro/intro_slide.dart';
 import 'package:pulsar/auth/intro/second_slide.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({Key? key}) : super(key: key);
@@ -21,10 +23,15 @@ class _IntroPageState extends State<IntroPage> {
   }
 
   skip() {
-    pageController.jumpToPage(2);
+    Navigator.of(context)
+        .push(myPageRoute(builder: (context) => const IntroAuth()));
   }
 
   next() {
+    if (index == 2) {
+      skip();
+      return;
+    }
     pageController.jumpToPage(index + 1);
   }
 
@@ -54,6 +61,8 @@ class _IntroPageState extends State<IntroPage> {
           ),
           FinalSlide(
             index: index,
+            onSkip: skip,
+            onNext: next,
             toPage: toPage,
           ),
         ],

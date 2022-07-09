@@ -63,13 +63,13 @@ LinearGradient secondaryGradient({
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: kSecondary,
+  toggleableActiveColor: kAccent,
   disabledColor: Colors.grey[300],
   dividerColor: Colors.grey[300],
   chipTheme: chipTheme(Brightness.light),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  indicatorColor: kSecondary,
+  indicatorColor: kPrimary,
   iconTheme: IconThemeData(color: Colors.grey[500]),
   textSelectionTheme: TextSelectionThemeData(cursorColor: kSecondary),
   inputDecorationTheme: InputDecorationTheme(
@@ -80,10 +80,10 @@ ThemeData lightTheme = ThemeData(
     elevation: 0.0,
     foregroundColor: Colors.black,
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.white,
       elevation: 0.0,
-      selectedItemColor: Colors.black,
+      selectedItemColor: kPrimary,
       unselectedItemColor: Colors.grey),
   sliderTheme: sliderThemeData,
   textTheme: textTheme(Brightness.light),
@@ -93,7 +93,7 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme(
       primary: kPrimary,
       primaryContainer: kPrimaryVariant,
-      secondary: kSecondary,
+      secondary: kAccent,
       secondaryContainer: kSecondary,
       surface: Colors.grey.shade50,
       background: Colors.white,
@@ -109,14 +109,14 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: kSecondary,
+  toggleableActiveColor: kAccent,
   disabledColor: kCardColor,
   dividerColor: kDividerColor,
   cardColor: kCardColor,
   chipTheme: chipTheme(Brightness.dark),
   splashColor: Colors.transparent,
   highlightColor: Colors.transparent,
-  indicatorColor: kSecondary,
+  indicatorColor: kPrimary,
   textSelectionTheme: TextSelectionThemeData(cursorColor: kSecondary),
   inputDecorationTheme: InputDecorationTheme(
       fillColor: kInputColor,
@@ -125,7 +125,7 @@ ThemeData darkTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: kBackgroundColor,
       elevation: 0.0,
-      selectedItemColor: Colors.white,
+      selectedItemColor: kPrimary,
       unselectedItemColor: Colors.grey),
   sliderTheme: sliderThemeData,
   textTheme: textTheme(Brightness.dark),
@@ -135,8 +135,8 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme(
       primary: kPrimary,
       primaryContainer: kPrimaryVariant,
-      secondary: kSecondary,
-      secondaryContainer: Colors.deepOrange,
+      secondary: kAccent,
+      secondaryContainer: kSecondary,
       surface: kSurfaceColor,
       background: Colors.grey.shade900,
       error: kError,

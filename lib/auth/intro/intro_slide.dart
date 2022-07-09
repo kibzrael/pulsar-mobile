@@ -22,9 +22,10 @@ class _IntroSlideState extends State<IntroSlide> {
   @override
   Widget build(BuildContext context) {
     return SlideTemplate(
-      illustration: 'assets/illustrations/art.svg',
+      illustration: 'assets/illustrations/music.svg',
+      title: 'Enjoy content that matches your interests.',
       description:
-          'Share you skills and talents with the world. Build a community around the people who share your interests.',
+          'Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
       index: widget.index,
       onSkip: widget.onSkip,
       onNext: widget.onNext,

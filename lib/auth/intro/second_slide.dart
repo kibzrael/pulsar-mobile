@@ -22,9 +22,10 @@ class _SecondSlideState extends State<SecondSlide> {
   @override
   Widget build(BuildContext context) {
     return SlideTemplate(
-      illustration: 'assets/illustrations/karaoke.svg',
+      illustration: 'assets/illustrations/art.svg',
+      title: 'Share your skills and talent with the world.',
       description:
-          'Participate in challenges to earn points and win prizes. Put your skills into great use',
+          'Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
       index: widget.index,
       onSkip: widget.onSkip,
       onNext: widget.onNext,

@@ -8,11 +8,13 @@ class MyTextButton extends StatelessWidget {
   final double fontSize;
 
   const MyTextButton(
-      {Key? key, this.enabled = true,
+      {Key? key,
+      this.enabled = true,
       required this.text,
       required this.onPressed,
       this.fontSize = 18,
-      this.color}) : super(key: key);
+      this.color})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class MyTextButton extends StatelessWidget {
                   colors: enabled
                       ? color == null
                           ? [
+                              Theme.of(context).colorScheme.primaryContainer,
                               Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.primaryContainer
                             ]
                           : [color!, color!]
                       : [

@@ -236,9 +236,16 @@ class AuthButton extends StatelessWidget {
 
 class LinkedAccountLogin extends StatelessWidget {
   final Color? color;
+  final String text;
   final Color? dividerColor;
+  final bool divider;
 
-  const LinkedAccountLogin({Key? key, this.color, this.dividerColor})
+  const LinkedAccountLogin(
+      {Key? key,
+      this.color,
+      this.dividerColor,
+      this.text = 'Login',
+      this.divider = true})
       : super(key: key);
 
   void onGoogle() {
@@ -252,12 +259,13 @@ class LinkedAccountLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         children: [
-          MyDivider(
-            color: dividerColor,
-          ),
+          if (divider)
+            MyDivider(
+              color: dividerColor,
+            ),
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -266,12 +274,14 @@ class LinkedAccountLogin extends StatelessWidget {
                 name: 'Google',
                 onPressed: onGoogle,
                 color: color,
+                text: text,
               ),
               LinkedAccountWidget(
                 icon: 'assets/images/logos/facebook.png',
                 name: 'Facebook',
                 onPressed: onFacebook,
                 color: color,
+                text: text,
               ),
             ],
           ),
@@ -284,6 +294,7 @@ class LinkedAccountLogin extends StatelessWidget {
 class LinkedAccountWidget extends StatelessWidget {
   final String icon;
   final String name;
+  final String text;
   final Function() onPressed;
   final Color? color;
 
@@ -291,6 +302,7 @@ class LinkedAccountWidget extends StatelessWidget {
       {Key? key,
       required this.icon,
       required this.name,
+      required this.text,
       required this.onPressed,
       this.color})
       : super(key: key);
@@ -316,7 +328,7 @@ class LinkedAccountWidget extends StatelessWidget {
             const SizedBox(width: 30),
             Expanded(
                 child: Text(
-              'Login with $name',
+              '$text with $name',
               style: Theme.of(context)
                   .textTheme
                   .headline1!

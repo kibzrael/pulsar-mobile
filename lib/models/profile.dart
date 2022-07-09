@@ -104,7 +104,7 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         const SizedBox(height: 5),
-        if (user.portfolio != null)
+        if (user.portfolio != null && user.portfolio != '')
           ShaderMask(
             shaderCallback: (rect) => primaryGradient().createShader(rect),
             child: Row(

@@ -116,8 +116,8 @@ class _BasicRootState extends State<BasicRoot> {
 
               bool barIsTransparent = barTransparent();
 
-              bool themeIsDark = barIsTransparent ||
-                  Theme.of(context).brightness == Brightness.dark;
+              // bool themeIsDark = barIsTransparent ||
+              //     Theme.of(context).brightness == Brightness.dark;
 
               return Scaffold(
                 extendBody: true,
