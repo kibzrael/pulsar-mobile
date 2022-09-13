@@ -1,6 +1,6 @@
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);
@@ -18,19 +18,12 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     load();
   }
 
-  load() async {
-    document =
-        await PDFDocument.fromAsset('assets/documents/Privacy Policy.pdf');
-    setState(() {});
-  }
+  load() async {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Privacy Policy')),
-      body: document == null
-          ? const Center(child: MyProgressIndicator())
-          : PDFViewer(document: document!),
-    );
+        appBar: AppBar(title: const Text('Privacy Policy')),
+        body: const NotImplementedError());
   }
 }

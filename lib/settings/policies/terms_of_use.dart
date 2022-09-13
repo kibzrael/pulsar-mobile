@@ -1,6 +1,6 @@
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/placeholders/not_implemented.dart';
 
 class TermsOfUse extends StatefulWidget {
   const TermsOfUse({Key? key}) : super(key: key);
@@ -18,19 +18,12 @@ class _TermsOfUseState extends State<TermsOfUse> {
     load();
   }
 
-  load() async {
-    document =
-        await PDFDocument.fromAsset('assets/documents/Terms of Service.pdf');
-    setState(() {});
-  }
+  load() async {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Terms of Use')),
-      body: document == null
-          ? const Center(child: MyProgressIndicator())
-          : PDFViewer(document: document!),
-    );
+        appBar: AppBar(title: const Text('Terms of Use')),
+        body: const NotImplementedError());
   }
 }
