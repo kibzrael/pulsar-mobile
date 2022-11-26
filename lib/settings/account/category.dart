@@ -9,7 +9,7 @@ import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class EditCategory extends StatefulWidget {
-  final Interest? initialCategory;
+  final String initialCategory;
 
   const EditCategory({Key? key, required this.initialCategory})
       : super(key: key);
@@ -34,13 +34,20 @@ class _EditCategoryState extends State<EditCategory> {
   void initState() {
     super.initState();
     userProvider = Provider.of<UserProvider>(context, listen: false);
-    selectedCategory = widget.initialCategory;
     fetchInterests();
   }
 
   fetchInterests() async {
     categories = await userProvider.activeCategories(context);
-    setState(() {});
+    setState(() {
+      String active = widget.initialCategory;
+      try {
+        selectedCategory =
+            categories.firstWhere((e) => e.user == active || e.users == active);
+      } catch (e) {
+        // Personal Account
+      }
+    });
   }
 
   @override

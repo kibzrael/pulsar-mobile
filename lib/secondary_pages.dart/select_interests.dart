@@ -10,12 +10,14 @@ class SelectInterests extends StatefulWidget {
   final Function(List<Interest> selectedInterests) onSelect;
   final bool title;
   final List<Interest>? selected;
+  final int max;
   const SelectInterests(
       {Key? key,
       required this.initialInterests,
       required this.interests,
       required this.onSelect,
       this.selected,
+      this.max = 10,
       this.title = true})
       : super(key: key);
 
@@ -74,7 +76,6 @@ class _SelectInterestsState extends State<SelectInterests>
 
         List<Interest> subInterests =
             interests.where((element) => element.parent == interest).toList();
-        debugPrint(interest.toJson().toString());
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +100,9 @@ class _SelectInterestsState extends State<SelectInterests>
                         selected.removeWhere(
                             (element) => element.name == interest.name);
                       } else {
-                        selected.add(interest);
+                        if (selected.length < widget.max) {
+                          selected.add(interest);
+                        }
                       }
                     });
                     widget.onSelect(selected);
@@ -133,7 +136,9 @@ class _SelectInterestsState extends State<SelectInterests>
                               selected.removeWhere((element) =>
                                   element.name == subInterests[i].name);
                             } else {
-                              selected.add(subInterests[i]);
+                              if (selected.length < widget.max) {
+                                selected.add(subInterests[i]);
+                              }
                             }
                           });
                           widget.onSelect(selected);

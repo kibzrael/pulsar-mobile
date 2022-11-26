@@ -19,14 +19,14 @@ User thomas = User(
           'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/users%2Fthomas.jpg?alt=media&token=b05e8522-0889-4431-85f8-685d7a56c295'),
 );
 
-User rael = User(
-  3,
-  username: 'rael',
-  category: 'Musician',
-  profilePic: Photo(
-      thumbnail:
-          'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/users%2Frael.jpg?alt=media&token=d9a3d65a-3a0e-4819-9a46-476e7de62f8f'),
-);
+// User rael = User(
+//   3,
+//   username: 'rael',
+//   category: 'Musician',
+//   profilePic: Photo(
+//       thumbnail:
+//           'https://firebasestorage.googleapis.com/v0/b/pulsar-ab466.appspot.com/o/users%2Frael.jpg?alt=media&token=d9a3d65a-3a0e-4819-9a46-476e7de62f8f'),
+// );
 
 User nick = User(
   4,
@@ -138,7 +138,7 @@ User tahlia = User(
 
 List<User> allUsers = [
   melissa,
-  rael,
+  // rael,
   nick,
   joe,
   tom,

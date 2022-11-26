@@ -66,7 +66,7 @@ class Comment {
         isLiked = mode != RequestMethod.post;
         mode == RequestMethod.post ? likes-- : likes++;
         onNotify();
-        debugPrint(data.toString());
+        debugPrint("Comment Like" + data.toString());
         Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
@@ -79,7 +79,7 @@ class Comment {
 
   delete(BuildContext context, Function() onDelete) async {
     User user = Provider.of<UserProvider>(context, listen: false).user;
-    String url = PostUrls.comment(id);
+    String url = PostUrls.comment(this);
 
     try {
       http.Response response = await http

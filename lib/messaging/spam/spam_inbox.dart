@@ -33,7 +33,7 @@ class _SpamInboxState extends State<SpamInbox> {
         isRead: false,
         time: DateTime.now().subtract(const Duration(days: 2))),
     Message(
-        user: rael,
+        user: evah,
         message: 'Wanna see someting interesting',
         isRead: true,
         time: DateTime.now().subtract(const Duration(days: 8))),

@@ -19,6 +19,8 @@ class _BirthdayPageState extends State<BirthdayPage>
 
   DateTime selectedDate = DateTime.utc(DateTime.now().year - 13);
 
+  bool selected = false;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -33,13 +35,14 @@ class _BirthdayPageState extends State<BirthdayPage>
               title: 'Birthday',
               onBack: provider.previousPage,
               onForward: () {
-                provider.user.birthday = selectedDate;
+                if (selected) provider.user.birthday = selectedDate;
                 provider.nextPage();
               }),
           body: SelectBirthday(
               initialDate: null,
               onSelected: (date) {
                 setState(() {
+                  selected = true;
                   selectedDate = date;
                 });
               })),

@@ -67,6 +67,8 @@ class _RootProfilePageState extends State<RootProfilePage>
   @override
   bool get wantKeepAlive => true;
 
+  bool refreshing = false;
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -93,6 +95,16 @@ class _RootProfilePageState extends State<RootProfilePage>
   }
 
   Future<bool> onRefresh() async {
+    refreshing = true;
+    if (mounted) {
+      setState(() {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          refreshing = false;
+          if (mounted) setState(() {});
+        });
+      });
+    }
+
     await user.getProfile(context, () {
       if (mounted) setState(() {});
     });
@@ -252,12 +264,14 @@ class _RootProfilePageState extends State<RootProfilePage>
                                 return await fetchPosts(index, 0);
                               },
                               title: '@${user.username}',
+                              refreshing: refreshing,
                             ),
                             GridPosts(
                               (index) async {
                                 return await fetchPosts(index, 1);
                               },
                               title: '@${user.username}',
+                              refreshing: refreshing,
                             ),
                           ],
                         ),

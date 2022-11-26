@@ -55,21 +55,21 @@ class PostProvider extends ChangeNotifier {
     {
       'name': 'low',
       'fps': '21',
-      'frame size': '240',
+      'frame size': '320',
       'audio bitrate': '64K',
       'video bitrate': '320K',
     },
     {
       'name': 'medium',
       'fps': '24',
-      'frame size': '360',
+      'frame size': '480',
       'audio bitrate': '96K',
       'video bitrate': '480K',
     },
     {
       'name': 'high',
       'fps': '27',
-      'frame size': '480',
+      'frame size': '640',
       'audio bitrate': '128K',
       'video bitrate': '640K',
     },
@@ -80,11 +80,12 @@ class PostProvider extends ChangeNotifier {
   PostProvider({this.challenge, this.caption = ''});
 
   compress({int? duration}) async {
+    if (duration != null) getThumbnails(duration);
     try {
       MediaInfo? mediaInfo = await VideoCompress.compressVideo(
           video!.video.path,
           frameRate: 27,
-          quality: VideoQuality.LowQuality);
+          quality: VideoQuality.DefaultQuality);
       String originalSize = fileSize(video!.video.lengthSync());
       if (mediaInfo?.file != null) video!.video = mediaInfo!.file!;
       String compressedSize = fileSize(video!.video.lengthSync());
@@ -93,9 +94,8 @@ class PostProvider extends ChangeNotifier {
               'original size: $originalSize\ncompressed size: $compressedSize\nwidth: ${mediaInfo?.width}\nheight: ${mediaInfo?.height}');
       // ignore: empty_catches
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      Fluttertoast.showToast(msg: "Compress: " + e.toString());
     }
-    if (duration != null) getThumbnails(duration);
   }
 
   getThumbnails(int duration) async {
@@ -113,7 +113,7 @@ class PostProvider extends ChangeNotifier {
         thumbnails.add(thumbnailData);
         notifyListeners();
       } catch (e) {
-        debugPrint(e.toString());
+        debugPrint("Get thumbnails " + e.toString());
       }
     }
   }
@@ -145,10 +145,10 @@ class PostProvider extends ChangeNotifier {
           Fluttertoast.showToast(msg: "Error");
         }
       }, (Log log) {
-        debugPrint(log.getMessage());
+        debugPrint("Set thumbnail log:" + log.getMessage());
       });
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("Set thumbnail error:" + e.toString());
     }
   }
 
@@ -183,10 +183,10 @@ class PostProvider extends ChangeNotifier {
           Fluttertoast.showToast(msg: "Error: ${returnCode.toString()}");
         }
       }, (Log log) {
-        debugPrint(log.getMessage());
+        debugPrint("edit video log:" + log.getMessage());
       });
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("edit video error:" + e.toString());
     }
   }
 

@@ -5,7 +5,8 @@ import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 
 class ListTileAd extends StatefulWidget {
-  const ListTileAd({Key? key}) : super(key: key);
+  final bool dark;
+  const ListTileAd({Key? key, this.dark = false}) : super(key: key);
 
   @override
   _ListTileAdState createState() => _ListTileAdState();
@@ -32,7 +33,8 @@ class _ListTileAdState extends State<ListTileAd>
       setState(() {
         _ad = NativeAd(
           adUnitId: provider.nativeAd,
-          factoryId: themeProvider.isDark ? 'listTileDark' : 'listTile',
+          factoryId:
+              widget.dark || themeProvider.isDark ? 'listTileDark' : 'listTile',
           request: const AdRequest(),
           listener: NativeAdListener(
             onAdLoaded: (_) {

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/pages/home_page.dart';
 import 'package:pulsar/pages/message_screen.dart';
 import 'package:pulsar/pages/challenges.dart';
@@ -130,7 +131,8 @@ class _BasicRootState extends State<BasicRoot> {
                     const HomePage(),
                     const ChallengesPage(),
                     Container(),
-                    const MessageScreen(),
+                    // const MessageScreen(),
+                    const NotificationsPage(),
                     const MyProfilePage(),
                   ],
                 ),
@@ -249,12 +251,21 @@ class _BasicRootState extends State<BasicRoot> {
                                     // ),
                                     ),
                               ),
+                              // NavigationBarItem(
+                              //   3,
+                              //   label: 'Inbox',
+                              //   selected: currentIndex,
+                              //   iconSize: 24,
+                              //   icon: MyIcons.messageOutline,
+                              //   onTap: navigationChange,
+                              //   barIsTransparent: barIsTransparent,
+                              // ),
                               NavigationBarItem(
                                 3,
-                                label: 'Inbox',
+                                label: 'Activity',
                                 selected: currentIndex,
                                 iconSize: 24,
-                                icon: MyIcons.messageOutline,
+                                icon: MyIcons.notifications,
                                 onTap: navigationChange,
                                 barIsTransparent: barIsTransparent,
                               ),

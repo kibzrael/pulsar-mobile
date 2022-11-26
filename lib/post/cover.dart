@@ -73,8 +73,6 @@ class _PostCoverState extends State<PostCover> {
     if (!isInitialized) cover = ((position / widget.duration) * maxWidth) + 18;
     isInitialized = true;
 
-    debugPrint("Build Method called....");
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,

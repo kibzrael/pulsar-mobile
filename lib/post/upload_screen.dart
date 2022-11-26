@@ -139,7 +139,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                                 });
                                               },
                                               onDetectionTyped: (detection) {
-                                                debugPrint(detection);
+                                                debugPrint(
+                                                    "Detection: " + detection);
                                               },
                                               detectionRegExp:
                                                   detectionRegExp()!,

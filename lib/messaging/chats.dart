@@ -32,7 +32,7 @@ class _ChatsState extends State<Chats> {
         isRead: false,
         time: DateTime.now().subtract(const Duration(days: 2))),
     Message(
-        user: rael,
+        user: thomas,
         message: 'Wanna see someting interesting',
         isRead: true,
         time: DateTime.now().subtract(const Duration(days: 8))),

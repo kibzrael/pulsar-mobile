@@ -19,10 +19,11 @@ class _SearchCategoryState extends State<SearchCategory> {
 
   @override
   Widget build(BuildContext context) {
+    RegExp pattern = RegExp(keyword, caseSensitive: false);
     results = [
-      ...widget.interests.where((e) => (e.name.contains(keyword) |
-              e.user.contains(keyword) |
-              (e.users?.contains(keyword) ?? false) &&
+      ...widget.interests.where((e) => (e.name.contains(pattern) |
+              e.user.contains(pattern) |
+              (e.users?.contains(pattern) ?? false) &&
           keyword != ''))
     ];
     return Scaffold(
@@ -42,6 +43,7 @@ class _SearchCategoryState extends State<SearchCategory> {
             Interest interest = results[index];
             return MyListTile(
               title: interest.user,
+              onPressed: () => Navigator.pop(context, interest),
               leading: Container(
                 width: 30,
                 height: 30,

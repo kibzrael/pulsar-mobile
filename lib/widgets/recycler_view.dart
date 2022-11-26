@@ -67,7 +67,7 @@ class _RecyclerViewState extends State<RecyclerView> {
           return [];
         });
       } catch (e) {
-        debugPrint(e.toString());
+        debugPrint("Recycler view: " + e.toString());
         connectionError();
         return;
       }
@@ -170,7 +170,7 @@ class _RecyclerViewState extends State<RecyclerView> {
   bool notificationListener(ScrollNotification notification) {
     listener(
         notification.metrics.maxScrollExtent - notification.metrics.pixels);
-    return true;
+    return false;
   }
 
   listener(double scrollExtent) {

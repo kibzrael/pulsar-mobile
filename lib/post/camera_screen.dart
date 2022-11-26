@@ -89,7 +89,7 @@ class _CameraScreenState extends State<CameraScreen>
     if (snapshot == null) return;
 
     if (snapshot.hasError) {
-      Fluttertoast.showToast(msg: '${snapshot.error!.description}');
+      Fluttertoast.showToast(msg: 'OnCapture:${snapshot.error!.description}');
     } else {
       _ticker.start();
     }
@@ -105,7 +105,8 @@ class _CameraScreenState extends State<CameraScreen>
       return;
     }
     if (snapshot.hasError) {
-      Fluttertoast.showToast(msg: '${snapshot.error!.description}');
+      Fluttertoast.showToast(
+          msg: 'stopRecording: ${snapshot.error!.description}');
     }
 
     if (snapshot.video != null) {
@@ -140,6 +141,21 @@ class _CameraScreenState extends State<CameraScreen>
 
     postProvider = Provider.of<PostProvider>(context);
 
+    cameraScale(double scale) {
+      setState(() {
+        if ((cameraSecondaryScale * scale) >= 1) {
+          if ((cameraSecondaryScale * scale) <= provider.maxZoom) {
+            cameraPreviewScale = (cameraSecondaryScale * scale);
+          } else {
+            cameraPreviewScale = provider.maxZoom;
+          }
+        } else {
+          cameraPreviewScale = 1;
+        }
+        provider.controller!.setZoomLevel(cameraPreviewScale);
+      });
+    }
+
     Widget captureButton() {
       return ValueListenableBuilder(
         valueListenable: recordingDurationNotifier.notifier,
@@ -150,6 +166,7 @@ class _CameraScreenState extends State<CameraScreen>
           return CaptureButton(
             isRecording: isRecording,
             onPressed: () {
+              Fluttertoast.showToast(msg: "Start Recording");
               if (provider.controller != null) {
                 if (isRecording) {
                   stopRecording(duration: duration);
@@ -159,17 +176,20 @@ class _CameraScreenState extends State<CameraScreen>
               }
             },
             onStop: () {
+              Fluttertoast.showToast(msg: "Stop Recording");
               stopRecording(duration: duration);
+            },
+            onScale: (offset) {
+              double max = MediaQuery.of(context).size.height / 2;
+              double position = offset < 0 ? -offset : offset;
+              double scale = (position / max) * provider.maxZoom;
+              cameraScale(scale);
             },
             position: duration,
             max: max * 1000,
           );
         },
       );
-    }
-
-    Widget recordingOverlay() {
-      return Align(alignment: Alignment.bottomCenter, child: captureButton());
     }
 
     // setSpeed(int index) {
@@ -184,19 +204,7 @@ class _CameraScreenState extends State<CameraScreen>
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
           onScaleUpdate: ((touch) {
-            double max = provider.maxZoom;
-            setState(() {
-              if ((cameraSecondaryScale * touch.scale) >= 1) {
-                if ((cameraSecondaryScale * touch.scale) <= max) {
-                  cameraPreviewScale = (cameraSecondaryScale * touch.scale);
-                } else {
-                  cameraPreviewScale = max;
-                }
-              } else {
-                cameraPreviewScale = 1;
-              }
-              provider.controller!.setZoomLevel(cameraPreviewScale);
-            });
+            cameraScale(touch.scale);
           }),
           onScaleEnd: (_) {
             setState(() {
@@ -214,7 +222,7 @@ class _CameraScreenState extends State<CameraScreen>
                 child: ScaledTransition(
                   reverse: overlay == null,
                   child: isRecording
-                      ? recordingOverlay()
+                      ? Container()
                       : overlay != null
                           ? Container(
                               decoration: BoxDecoration(
@@ -391,109 +399,79 @@ class _CameraScreenState extends State<CameraScreen>
                                 ),
                                 const Spacer(),
                                 Container(
-                                  height: 150,
-                                  alignment: Alignment.bottomCenter,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      // if (showTimer && !showFilters)
-                                      //   CaptureTimer(
-                                      //       initial: speed,
-                                      //       onPressed: setTimer),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.only(left: 15),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      XFile? pickedFile = await ImagePicker()
+                                          .pickVideo(
+                                              source: ImageSource.gallery);
+                                      File? file;
+                                      if (pickedFile != null) {
+                                        file = File(pickedFile.path);
+                                      }
+                                      if (file != null) {
+                                        VideoData? data =
+                                            await FlutterVideoInfo()
+                                                .getVideoInfo(file.path);
+                                        postProvider.video =
+                                            VideoCapture(file, camera: false);
+                                        postProvider.getThumbnails(
+                                            (data?.duration?.floor() ?? 3000) *
+                                                1);
+                                        Navigator.of(context).push(myPageRoute(
+                                            builder: (context) => CaptureScreen(
+                                                  VideoCapture(file!,
+                                                      camera: false),
+                                                  duration:
+                                                      data?.duration ?? 3000,
+                                                )));
+                                      }
+                                      // openBottomSheet(context,
+                                      //     (context) => Gallery(),
+                                      //     root: false);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: Column(
                                         children: [
-                                          InkWell(
-                                            onTap: () async {
-                                              XFile? pickedFile =
-                                                  await ImagePicker().pickVideo(
-                                                      source:
-                                                          ImageSource.gallery);
-                                              File? file;
-                                              if (pickedFile != null) {
-                                                file = File(pickedFile.path);
-                                              }
-                                              if (file != null) {
-                                                VideoData? data =
-                                                    await FlutterVideoInfo()
-                                                        .getVideoInfo(
-                                                            file.path);
-                                                postProvider.video =
-                                                    VideoCapture(file,
-                                                        camera: false);
-                                                postProvider.getThumbnails(
-                                                    (data?.duration?.floor() ??
-                                                            3000) *
-                                                        1);
-                                                Navigator.of(context).push(
-                                                    myPageRoute(
-                                                        builder: (context) =>
-                                                            CaptureScreen(
-                                                              VideoCapture(
-                                                                  file!,
-                                                                  camera:
-                                                                      false),
-                                                              duration:
-                                                                  data?.duration ??
-                                                                      3000,
-                                                            )));
-                                              }
-                                              // openBottomSheet(context,
-                                              //     (context) => Gallery(),
-                                              //     root: false);
-                                            },
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 12),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    height: 60,
-                                                    width: 60,
-                                                    decoration: BoxDecoration(
-                                                        color: Theme.of(context)
-                                                            .dividerColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        image: const DecorationImage(
-                                                            image: AssetImage(
-                                                                'assets/images/dance.jpg'),
-                                                            fit: BoxFit.cover),
-                                                        border: Border.all(
-                                                            width: 2,
-                                                            color:
-                                                                Colors.white)),
-                                                  ),
-                                                  const SizedBox(height: 3),
-                                                  const Text(
-                                                    'Upload',
-                                                    style: TextStyle(
-                                                        fontSize: 16.5,
-                                                        fontWeight:
-                                                            FontWeight.w500),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          captureButton(),
                                           Container(
+                                            height: 60,
                                             width: 60,
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .dividerColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                image: const DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/images/dance.jpg'),
+                                                    fit: BoxFit.cover),
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: Colors.white)),
+                                          ),
+                                          const SizedBox(height: 3),
+                                          const Text(
+                                            'Upload',
+                                            style: TextStyle(
+                                                fontSize: 16.5,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                 ),
               ),
+              Positioned.fill(
+                  bottom: kToolbarHeight,
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: captureButton())),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(

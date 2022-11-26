@@ -1,16 +1,16 @@
 class ChallengesUrl {
   ChallengesUrl._();
 
-  static String myGalaxy = 'galaxy';
+  static String myGalaxy = 'pages/galaxy';
 
-  static String pinned(int index) => 'pinned_challenge?offset=$index';
+  static String pinned(int index) => 'challenges/pinned?offset=$index';
 
-  static String top = 'challenges_chart';
+  static String top = 'challenges/chart';
 
-  static String highlight = 'highlight_challenge';
+  static String highlight = 'challenges/highlight';
 
   static String discover(String tag, int index) =>
-      'discover_challenges?tag=$tag&offset=$index';
+      'challenges/discover?tag=$tag&offset=$index';
 
   static String search(String keyword, int index) =>
       'challenges/search?keyword=$keyword&offset=$index';

@@ -150,6 +150,7 @@ class _SeletectTagsState extends State<SeletectTags> {
                   interests: interests,
                   selected: selected,
                   title: false,
+                  max: 5,
                   onSelect: (selectedInterests) {
                     setState(() {
                       selected = [...selectedInterests];

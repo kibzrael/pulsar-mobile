@@ -138,7 +138,7 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                                   .toList(),
                             );
                     })),
-            const ListTileAd()
+            const ListTileAd(dark: true)
           ],
         )),
       ),

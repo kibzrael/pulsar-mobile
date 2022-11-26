@@ -65,9 +65,9 @@ class _PostsViewState extends State<PostsView> {
                       isInView: pageIndex == index,
                       stretch: stretch,
                       onDelete: () {
-                        setState(() {
-                          posts.removeAt(index);
-                        });
+                        posts.removeAt(index);
+                        Navigator.pop(context);
+                        setState(() {});
                       },
                     );
                   },

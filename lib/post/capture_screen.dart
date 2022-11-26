@@ -58,6 +58,7 @@ class _CaptureScreenState extends State<CaptureScreen>
 
   int trimStart = 0;
   int trimEnd = 3000;
+  int initialEnd = 3000;
 
   @override
   void initState() {
@@ -82,6 +83,7 @@ class _CaptureScreenState extends State<CaptureScreen>
       trimEnd = controller.value.duration.inMilliseconds > maxDuration
           ? maxDuration
           : controller.value.duration.inMilliseconds;
+      initialEnd = trimEnd;
       duration = controller.value.duration.inMilliseconds.toDouble();
       controller.play();
       _ticker.start();
@@ -92,6 +94,15 @@ class _CaptureScreenState extends State<CaptureScreen>
   String state = 'none';
 
   Future<void> trim(BuildContext dialogContext) async {
+    // If not changed
+    if (provider.rotate == 0 && trimStart == 0 && trimEnd == initialEnd) {
+      Navigator.pop(dialogContext);
+      await Future.delayed(const Duration(milliseconds: 300));
+      Navigator.of(context)
+          .push(myPageRoute(builder: (context) => EditScreen(video)));
+      return;
+    }
+
     state = 'initial';
     Permission storage = Permission.storage;
     Permission manageStorage = Permission.manageExternalStorage;
@@ -112,7 +123,7 @@ class _CaptureScreenState extends State<CaptureScreen>
     String outputPath = '${tempDirectory.absolute.path}/Video$now.mp4';
 
     String command =
-        ' -ss $startPoint -i "${video.video.absolute.path}" -t ${endPoint - startPoint} -c:a copy ';
+        ' -ss $startPoint -i "${video.video.absolute.path}" -t ${endPoint - startPoint} ';
 
     command += provider.rotate == 0
         ? ''
@@ -142,7 +153,7 @@ class _CaptureScreenState extends State<CaptureScreen>
           if (await trimmedVideo.video.length() > 2000000) {
             provider.compress();
           } else {
-            provider.getThumbnails(endPoint.compareTo(startPoint));
+            provider.getThumbnails((endPoint - startPoint).inMilliseconds);
           }
           await Future.delayed(const Duration(milliseconds: 300));
           Navigator.of(context).push(
@@ -151,7 +162,7 @@ class _CaptureScreenState extends State<CaptureScreen>
           Fluttertoast.showToast(msg: "Error");
         }
       }, (Log log) {
-        debugPrint(log.getMessage());
+        debugPrint("Capture Screen:" + log.getMessage());
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());

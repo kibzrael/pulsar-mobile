@@ -56,7 +56,7 @@ class _EditProfileState extends State<EditProfile> {
         portfolioController.text != provider.user.portfolio ||
         profilePic != provider.user.profilePic?.photo(context) ||
         birthday != provider.user.dateOfBirth?.toString().split(' ')[0] ||
-        category?.name != provider.user.category ||
+        category?.user != provider.user.category ||
         interests != provider.user.interests;
     return result;
   }
@@ -71,6 +71,19 @@ class _EditProfileState extends State<EditProfile> {
     interests = provider.user.interests ?? [];
     birthday = provider.user.dateOfBirth?.toString().split(' ')[0];
     profilePic = provider.user.profilePic?.photo(context);
+    setCategory();
+  }
+
+  setCategory() async {
+    List<Interest> categories = await provider.activeCategories(context);
+    String active = provider.user.category;
+    try {
+      category =
+          categories.firstWhere((e) => e.user == active || e.users == active);
+    } catch (e) {
+      // Personal Account
+
+    }
   }
 
   exit() {
@@ -102,7 +115,7 @@ class _EditProfileState extends State<EditProfile> {
       (context) => LoadingDialog(
         (_) async {
           MyResponse response = await provider.editProfile(context,
-              category: category?.user,
+              category: category?.name,
               bio: bioController.text,
               fullname: fullnameController.text,
               portfolio: portfolioController.text,
@@ -116,7 +129,6 @@ class _EditProfileState extends State<EditProfile> {
         text: 'Submitting',
       ),
     );
-    debugPrint(response.statusCode.toString());
     if (response.statusCode != 200) {
       openDialog(
         context,
@@ -329,8 +341,9 @@ class _EditProfileState extends State<EditProfile> {
                     title: 'Category',
                     onPressed: () => Navigator.of(context)
                         .push(myPageRoute(
-                            builder: (context) =>
-                                EditCategory(initialCategory: category)))
+                            builder: (context) => EditCategory(
+                                initialCategory:
+                                    category?.user ?? user.category)))
                         .then((value) {
                       if (value is Interest) {
                         setState(() {

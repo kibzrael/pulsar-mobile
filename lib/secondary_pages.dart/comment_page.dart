@@ -139,7 +139,7 @@ class _CommentPageState extends State<CommentPage> {
         Fluttertoast.showToast(msg: body['message']);
       }
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("Make comment: " + e.toString());
       Fluttertoast.showToast(msg: e.toString());
     }
   }

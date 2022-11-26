@@ -48,7 +48,7 @@ class _ChooseCategoryState extends State<ChooseCategory>
                 provider.nextPage();
               }),
           body: SelectCategory(
-              categories: categories,
+              categories: provider.interests,
               selectedCategory: selectedCategory,
               isSolo: isSolo,
               onSelect: (category) {

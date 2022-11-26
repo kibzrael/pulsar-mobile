@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen>
       ...settingsProvider.settings.searchHistory
           .where((e) => e.contains(keyword))
     ];
-    debugPrint(suggestions.toString());
+    debugPrint("Suggestions: " + suggestions.toString());
     // Fetch from server
     setState(() {});
   }

@@ -94,13 +94,13 @@ class _TagPageState extends State<TagPage>
                                     Navigator.of(context, rootNavigator: true)
                                         .push(MaterialPageRoute(
                                             builder: (context) => PhotoView(
-                                                rael.profilePic!.photo(context),
+                                                tom.profilePic!.photo(context),
                                                 tag: 'tagPic')));
                                   },
                                   child: Hero(
                                       tag: 'tagPic',
                                       child: ProfilePic(
-                                          rael.profilePic?.thumbnail,
+                                          tom.profilePic?.thumbnail,
                                           radius: 60))
 
                                   // MyAvatar(user.tagPic, 45.0)

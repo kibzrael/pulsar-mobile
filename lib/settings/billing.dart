@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/info.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
@@ -21,7 +22,10 @@ class _BillingState extends State<Billing> {
             IconButton(
                 icon: Icon(MyIcons.info),
                 onPressed: () {
-                  openBottomSheet(context, (context) => const InfoSheet());
+                  openBottomSheet(
+                      context,
+                      (context) => InfoSheet(Info(
+                          [InfoSection(title: "Billing", description: "")])));
                 })
           ],
         ),

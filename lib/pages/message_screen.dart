@@ -70,7 +70,7 @@ class _RootMessageScreenState extends State<RootMessageScreen>
 
   void openNotifications() {
     Navigator.of(context)
-        .push(myPageRoute(builder: (context) => const NotificationsPage()));
+        .push(myPageRoute(builder: (context) => const RootNotificationsPage()));
   }
 
   @override

@@ -24,13 +24,21 @@ class UserProvider extends ChangeNotifier {
 
   List<Interest>? categories;
 
-  Future<List<Interest>> activeCategories(BuildContext context) async =>
-      categories ?? await localCategories(context);
+  Future<List<Interest>> activeCategories(BuildContext context) async {
+    List<Interest> results = categories ?? await localCategories(context);
+    Set names = {};
+    // Remove any duplicates
+    results.retainWhere((e) => names.add(e.name));
+    return results;
+  }
 
   String? get token => user.token;
 
   UserProvider(Map<String, dynamic>? loggedUser) {
-    if (loggedUser != null) setUser(loggedUser);
+    if (loggedUser != null) {
+      setUser(loggedUser);
+      updateProfile();
+    }
     fetchCategories();
   }
 
@@ -56,13 +64,36 @@ class UserProvider extends ChangeNotifier {
               });
     }
 
-    userJson.putIfAbsent('is_superuser',
-        () => newUser['is_superuser'] == 1 || newUser['is_superuser']);
+    if (newUser['is_superuser'] is int) {
+      userJson.putIfAbsent('is_superuser', () => newUser['is_superuser'] == 1);
+    } else if (newUser['is_superuser'] is bool) {
+      userJson.putIfAbsent('is_superuser', () => newUser['is_superuser']);
+    }
 
     user = User.fromJson(userJson);
     notifyListeners();
     // String userString = jsonEncode(newUser);
     // prefs.setString('user', userString);
+  }
+
+  updateProfile() async {
+    try {
+      String profileUrl = getUrl(UserUrls.profile(user.id));
+      http.Response response = await http.get(Uri.parse(profileUrl), headers: {
+        'Authorization': token ?? '',
+      });
+
+      var data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> userJson = Map<String, dynamic>.from(data["user"]);
+        userJson.putIfAbsent("jwtToken", () => token);
+        user = User.fromJson(userJson);
+        notifyListeners();
+        debugPrint("Profile Updated");
+      }
+    } catch (e) {
+      debugPrint("Update Profile:" + e.toString());
+    }
   }
 
   Future<MyResponse> editProfile(BuildContext context,
@@ -149,7 +180,7 @@ class UserProvider extends ChangeNotifier {
         'message':
             'There has been a problem processing your request. Please try again later.'
       };
-      debugPrint(e.toString());
+      debugPrint("Edit profile: " + e.toString());
     }
     return response;
   }
@@ -269,8 +300,8 @@ class UserProvider extends ChangeNotifier {
     List<Interest> interests = [];
     String categoriesJson = await DefaultAssetBundle.of(context)
         .loadString('assets/categories.json');
-    var categories = jsonDecode(categoriesJson);
-    categories.forEach((key, item) {
+    var localCategories = jsonDecode(categoriesJson);
+    localCategories.forEach((key, item) {
       String cover = item['cover'];
       Interest interest = Interest(
         name: key,

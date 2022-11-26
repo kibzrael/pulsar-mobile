@@ -10,7 +10,9 @@ import 'package:pulsar/widgets/recycler_view.dart';
 class GridPosts extends StatefulWidget {
   final Future<List<Map<String, dynamic>>> Function(int index) fetchData;
   final String title;
-  const GridPosts(this.fetchData, {Key? key, required this.title})
+  final bool refreshing;
+  const GridPosts(this.fetchData,
+      {Key? key, required this.title, this.refreshing = false})
       : super(key: key);
 
   @override
@@ -42,6 +44,10 @@ class _GridPostsState extends State<GridPosts>
         itemBuilder: (context, snapshot) {
           List<Map<String, dynamic>> snapshotData = snapshot.data;
           List<Post> posts = [...snapshotData.map((e) => Post.fromJson(e))];
+          if (widget.refreshing) {
+            debugPrint("Refreshing Grid");
+            snapshot.refreshCallback();
+          }
           return snapshotData.isEmpty
               ? snapshot.isLoading ?? true
                   ? const Align(
@@ -95,7 +101,9 @@ class _GridPostsState extends State<GridPosts>
                                           .fillColor,
                                       image: DecorationImage(
                                           image: CachedNetworkImageProvider(
-                                              posts[index].thumbnail.thumbnail),
+                                              posts[index].thumbnail.photo(
+                                                  context,
+                                                  max: 'medium')),
                                           fit: BoxFit.cover),
                                       borderRadius: BorderRadius.circular(8))),
                             );

@@ -10,6 +10,7 @@ import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool? _loggedIn;
@@ -20,9 +21,25 @@ class LoginProvider extends ChangeNotifier {
 
   late String _loginUrl;
 
-  LoginProvider(bool isLoggedIn, {this.deviceToken}) {
+  LoginProvider(bool isLoggedIn) {
     _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
+    initialize();
+  }
+
+  initialize() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    deviceToken = await messaging.getToken();
   }
 
   Future<LoginResponse> login(BuildContext context, info, password) async {
@@ -48,8 +65,6 @@ class LoginProvider extends ChangeNotifier {
             'There has been a problem processing your request. Please try again later.'
       };
     }
-    debugPrint(response.statusCode.toString());
-    debugPrint(response.body.toString());
     if (response.statusCode == 200) {
       await saveLogin(context,
           token: response.body!['user']['jwtToken'],

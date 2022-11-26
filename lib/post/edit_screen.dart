@@ -92,14 +92,18 @@ class _EditScreenState extends State<EditScreen> {
                     controller.pause();
                     isPaused = true;
                   } catch (e) {
-                    debugPrint(e.toString());
+                    debugPrintStack();
                   }
                 }
               }
               if (info.visibleFraction > 0.5) {
                 if (controller.value.isInitialized) {
-                  controller.play();
-                  isPaused = false;
+                  try {
+                    controller.play();
+                    isPaused = false;
+                  } catch (e) {
+                    debugPrintStack();
+                  }
                 }
               }
               if (mounted) {

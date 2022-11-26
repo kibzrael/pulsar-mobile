@@ -16,13 +16,13 @@ class UserUrls {
   static String notifications(int id, {int? index}) =>
       'users/$id/notifications${index == null ? '' : '?offset=$index'}';
 
-  static String changeUsername = 'change_username';
+  static String changeUsername = 'auth/change_username';
 
-  static String changePassword = 'change_password';
+  static String changePassword = 'auth/change_password';
 
-  static String categories = 'categories';
+  static String categories = 'users/categories';
 
-  static String createCategory = 'create_category';
+  static String createCategory = 'users/create_category';
 
   static String search(String keyword, int index) =>
       'users/search?keyword=$keyword&offset=$index';

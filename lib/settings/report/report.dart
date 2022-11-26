@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/info.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -31,7 +32,10 @@ class _ReportScreenState extends State<ReportScreen> {
           actions: [
             IconButton(
                 onPressed: () {
-                  openBottomSheet(context, (context) => const InfoSheet());
+                  openBottomSheet(
+                      context,
+                      (context) => InfoSheet(Info(
+                          [InfoSection(title: "Report", description: "")])));
                 },
                 icon: Icon(MyIcons.info))
           ],

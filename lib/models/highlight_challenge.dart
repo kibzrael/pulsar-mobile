@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -94,33 +95,42 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                           onNotify: () => setState(() {}));
                                     }),
                                   ),
-                                  Card(
-                                    elevation: 4,
-                                    margin: const EdgeInsets.only(left: 12),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .push(myPageRoute(
+                                              builder: (context) => PostProcess(
+                                                  challenge: challenge)));
+                                    },
+                                    child: Card(
+                                      elevation: 4,
+                                      margin: const EdgeInsets.only(left: 12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      child: Container(
+                                          width: width * 0.4,
+                                          height: 32,
+                                          padding: const EdgeInsets.all(4),
+                                          alignment: Alignment.center,
+                                          // decoration: BoxDecoration(
+                                          //     borderRadius: BorderRadius.circular(30),
+                                          //     border: Border.all(
+                                          //         color:
+                                          //             Theme.of(context).dividerColor,
+                                          //         style:
+                                          //             Theme.of(context).brightness ==
+                                          //                     Brightness.dark
+                                          //                 ? BorderStyle.solid
+                                          //                 : BorderStyle.none),
+                                          //     color: Theme.of(context)
+                                          //         .inputDecorationTheme
+                                          //         .fillColor),
+                                          child: const Text('Join',
+                                              style: TextStyle(
+                                                  fontWeight:
+                                                      FontWeight.w600))),
                                     ),
-                                    child: Container(
-                                        width: width * 0.4,
-                                        height: 32,
-                                        padding: const EdgeInsets.all(4),
-                                        alignment: Alignment.center,
-                                        // decoration: BoxDecoration(
-                                        //     borderRadius: BorderRadius.circular(30),
-                                        //     border: Border.all(
-                                        //         color:
-                                        //             Theme.of(context).dividerColor,
-                                        //         style:
-                                        //             Theme.of(context).brightness ==
-                                        //                     Brightness.dark
-                                        //                 ? BorderStyle.solid
-                                        //                 : BorderStyle.none),
-                                        //     color: Theme.of(context)
-                                        //         .inputDecorationTheme
-                                        //         .fillColor),
-                                        child: const Text('Join',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600))),
                                   )
                                 ],
                               );

@@ -9,7 +9,11 @@ class RecommendedChats extends StatefulWidget {
   final Function onAdd;
   final Function onRemove;
   const RecommendedChats(
-      {Key? key, required this.recipients, required this.onAdd, required this.onRemove}) : super(key: key);
+      {Key? key,
+      required this.recipients,
+      required this.onAdd,
+      required this.onRemove})
+      : super(key: key);
   @override
   _RecommendedChatsState createState() => _RecommendedChatsState();
 }
@@ -22,7 +26,6 @@ class _RecommendedChatsState extends State<RecommendedChats> {
       beth,
       melissa,
       thomas,
-      rael,
       nick,
       joy,
       lizzy,

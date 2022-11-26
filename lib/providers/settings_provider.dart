@@ -14,7 +14,6 @@ class SettingsProvider extends ChangeNotifier {
         Map<String, dynamic> mapContent = {};
         boxContent
             .forEach((key, value) => mapContent.putIfAbsent(key, () => value));
-        // debugPrint(boxContent.runtimeType.toString());
         settings = Settings.fromJson(mapContent);
       }
     }

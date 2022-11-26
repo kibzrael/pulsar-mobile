@@ -23,27 +23,12 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:device_preview/device_preview.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp();
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-  String? deviceToken = await messaging.getToken();
-
-  debugPrint('User granted permission: ${settings.authorizationStatus}');
+  Firebase.initializeApp();
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 
@@ -65,7 +50,6 @@ void main() async {
       Pulsar(
     loggedIn: loggedIn,
     user: user,
-    deviceToken: deviceToken,
   )
       //     ;
       //   },
@@ -76,10 +60,8 @@ void main() async {
 class Pulsar extends StatefulWidget {
   final bool loggedIn;
   final Map<String, dynamic>? user;
-  final String? deviceToken;
 
-  const Pulsar({Key? key, required this.loggedIn, this.user, this.deviceToken})
-      : super(key: key);
+  const Pulsar({Key? key, required this.loggedIn, this.user}) : super(key: key);
 
   @override
   _PulsarState createState() => _PulsarState();
@@ -107,8 +89,6 @@ class _PulsarState extends State<Pulsar> {
     Brightness systemBrightness =
         SchedulerBinding.instance.window.platformBrightness;
 
-    debugPrint(widget.deviceToken);
-
     Box settingsBox = Hive.box('settings');
     Map settings = settingsBox.toMap();
     bool dataSaver = settings['dataSaver'] as bool? ?? false;
@@ -119,8 +99,7 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => UserProvider(widget.user),
         ),
         ChangeNotifierProvider<LoginProvider>(
-          create: (_) =>
-              LoginProvider(widget.loggedIn, deviceToken: widget.deviceToken),
+          create: (_) => LoginProvider(widget.loggedIn),
         ),
         ChangeNotifierProvider<SignInfoProvider>(
           create: (_) => SignInfoProvider(),

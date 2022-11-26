@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
@@ -105,7 +106,7 @@ class SignInfoProvider extends ChangeNotifier {
 
     Dio dio = Dio();
 
-    String birthday = user.birthday?.toString().split(' ')[0] ?? '';
+    String? birthday = user.birthday?.toString().split(' ')[0];
 
     FormData form = FormData.fromMap({
       'category': user.category.name,
@@ -118,13 +119,6 @@ class SignInfoProvider extends ChangeNotifier {
           : await MultipartFile.fromFile(profilePic.path,
               filename: 'profile.jpg',
               contentType: parser.MediaType('image', 'jpeg'))
-
-      //  {
-      //     'image': await MultipartFile.fromFile(profilePic.path,
-      //         filename: 'profile.jpg',
-      //         contentType: parser.MediaType('image', 'jpeg')),
-      //     "type": "image/jpg"
-      //   }
     });
 
     try {
@@ -145,18 +139,18 @@ class SignInfoProvider extends ChangeNotifier {
         response.data['user'].forEach((key, value) {
           userJson.putIfAbsent(key, () => value);
         });
+        userJson.putIfAbsent("jwtToken", () => token);
         User userObject = User.fromJson(userJson);
         await Provider.of<LoginProvider>(context, listen: false)
             .saveLogin(context, token: token!, user: userObject.toJson());
 
         debugPrint('Saved user');
+        Fluttertoast.showToast(msg: 'Saved user');
       }
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint("Sign info provider" + e.toString());
+      Fluttertoast.showToast(msg: "Sign info provider" + e.toString());
     }
-
-    // debugPrint(response.statusCode.toString());
-    // debugPrint(response.data);
 
     return;
   }

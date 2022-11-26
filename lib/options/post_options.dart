@@ -91,6 +91,7 @@ class PostOptions extends StatelessWidget {
             dismissible: true,
           );
           if (response == 'Delete') {
+            Navigator.pop(context);
             post.delete(context, onDelete);
           }
         });

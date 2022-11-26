@@ -273,21 +273,18 @@ class _PostLayoutState extends State<PostLayout> {
                             },
                           ),
                         ),
-                      Container(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          spacing: 8,
-                          runSpacing: 7.5,
-                          alignment: WrapAlignment.start,
-                          runAlignment: WrapAlignment.start,
-                          children: const [
-                            Tag('art'),
-                            Tag('music'),
-                            Tag('dance'),
-                          ],
-                        ),
-                      )
+                      if (post.tags.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            spacing: 8,
+                            runSpacing: 7.5,
+                            alignment: WrapAlignment.start,
+                            runAlignment: WrapAlignment.start,
+                            children: [...post.tags.map((e) => Tag(e.name))],
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -299,7 +296,7 @@ class _PostLayoutState extends State<PostLayout> {
                     children: [
                       LikeButton(
                         liked: isLiked,
-                        size: 36,
+                        size: 40,
                         fill: true,
                         onPressed: () {
                           setState(() {
@@ -317,7 +314,7 @@ class _PostLayoutState extends State<PostLayout> {
                         child: Builder(builder: (_) {
                           return Theme(
                             data: Theme.of(context),
-                            child: CommentButton(size: 36, onPressed: comment),
+                            child: CommentButton(size: 40, onPressed: comment),
                           );
                         }),
                       ),
@@ -325,7 +322,7 @@ class _PostLayoutState extends State<PostLayout> {
                       if (post.user.id != userProvider.user.id)
                         RepostButton(
                           reposted: isReposted,
-                          size: 36,
+                          size: 40,
                           onPressed: () {
                             setState(() {
                               post.repost(context,
@@ -344,7 +341,7 @@ class _PostLayoutState extends State<PostLayout> {
                             return Theme(
                               data: Theme.of(context),
                               child: ShareButton(
-                                size: 36,
+                                size: 40,
                                 onPressed: () {
                                   openBottomSheet(
                                       _,

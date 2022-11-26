@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/auth/sign_info/seach_category.dart';
+import 'package:pulsar/auth/sign_info/search_category.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -33,14 +33,25 @@ class _SelectCategoryState extends State<SelectCategory>
   List<Interest> categories = [];
 
   search() {
-    Navigator.of(context).push(
-        myPageRoute(builder: (context) => SearchCategory(widget.categories)));
+    Navigator.of(context)
+        .push(myPageRoute(
+            builder: (context) => SearchCategory(widget.categories)))
+        .then((value) {
+      if (value != null) {
+        if (value is Interest) {
+          widget.onSelect(value);
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     categories = [...widget.categories.where((e) => e.parent == null)];
+    bool inList =
+        categories.any((e) => widget.selectedCategory?.name == e.name) ||
+            widget.selectedCategory == null;
 
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
@@ -77,7 +88,7 @@ class _SelectCategoryState extends State<SelectCategory>
               ),
               Flexible(
                 child: GridView.builder(
-                    itemCount: categories.length,
+                    itemCount: categories.length + (inList ? 0 : 1),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
@@ -85,11 +96,19 @@ class _SelectCategoryState extends State<SelectCategory>
                             mainAxisSpacing: 15,
                             childAspectRatio: 0.75),
                     itemBuilder: (context, index) {
-                      Interest category = categories[index];
-                      debugPrint(category.toJson().toString());
+                      Interest category;
+                      if (inList) {
+                        category = categories[index];
+                      } else {
+                        if (index == 0) {
+                          category = widget.selectedCategory!;
+                        } else {
+                          category = categories[index - 1];
+                        }
+                      }
 
                       bool selected =
-                          category.user == widget.selectedCategory?.user;
+                          category.name == widget.selectedCategory?.name;
 
                       return LayoutBuilder(builder: (context, snapshot) {
                         return InkWell(

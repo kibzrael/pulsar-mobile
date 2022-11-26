@@ -35,7 +35,6 @@ class User {
   @JsonKey(name: 'is_superuser')
   bool isSuperuser;
 
-// name as jwtToken
   @JsonKey(name: 'jwtToken')
   String? token;
 

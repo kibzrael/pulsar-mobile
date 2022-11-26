@@ -5,6 +5,7 @@ import 'package:pulsar/providers/theme_provider.dart';
 class CaptureButton extends StatefulWidget {
   final Function() onPressed;
   final Function() onStop;
+  final Function(double scale) onScale;
   final bool isRecording;
 
   final double position;
@@ -14,6 +15,7 @@ class CaptureButton extends StatefulWidget {
       required this.isRecording,
       required this.onPressed,
       required this.onStop,
+      required this.onScale,
       required this.position,
       required this.max})
       : super(key: key);
@@ -26,11 +28,15 @@ class _CaptureButtonState extends State<CaptureButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: widget.onPressed,
       onLongPressDown: (_) {
         widget.onPressed();
       },
-      onLongPressEnd: (_) {},
+      onLongPressMoveUpdate: (details) {
+        widget.onScale(details.localOffsetFromOrigin.dy);
+      },
+      onLongPressEnd: (_) {
+        widget.onStop();
+      },
       child:
 
           // SleekCircularSlider(

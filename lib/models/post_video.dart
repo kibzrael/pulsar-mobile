@@ -102,13 +102,16 @@ class _PostVideoState extends State<PostVideo> {
       },
       child: VisibilityDetector(
         onVisibilityChanged: (info) {
-          debugPrint(info.visibleFraction.toString());
           if (info.visibleFraction < 0.5) {
             visible = false;
             if (controller != null) {
               if (video.video(context) == controller!.dataSource) {
                 isPlaying = false;
-                controller?.pause();
+                try {
+                  controller?.pause();
+                } catch (e) {
+                  debugPrintStack();
+                }
               }
             }
           }
@@ -116,7 +119,11 @@ class _PostVideoState extends State<PostVideo> {
             visible = true;
             if (controller != null && !isPlaying && !isPaused) {
               if (video.video(context) == controller!.dataSource) {
-                controller?.play();
+                try {
+                  controller?.play();
+                } catch (e) {
+                  debugPrintStack();
+                }
                 isPlaying = true;
               }
             }
@@ -143,6 +150,21 @@ class _PostVideoState extends State<PostVideo> {
               const Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(height: 2, child: LinearProgressIndicator())),
+            Positioned.fill(
+                child: Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                Colors.black12,
+                Colors.transparent,
+                Colors.transparent,
+                Colors.black26
+              ], stops: [
+                0,
+                0.3,
+                0.6,
+                1
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+            )),
             PausePlay(isPaused)
           ],
         ),

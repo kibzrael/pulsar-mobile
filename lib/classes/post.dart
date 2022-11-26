@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/classes/user.dart';
@@ -24,6 +25,7 @@ class Post {
   Photo thumbnail;
   String? caption;
   Challenge? challenge;
+
   @JsonKey(name: 'allow_comments')
   bool allowComments;
 
@@ -36,6 +38,8 @@ class Post {
   bool isLiked;
   @JsonKey(name: 'is_reposted')
   bool isReposted;
+
+  List<Interest> tags;
 
   String get url => '';
 
@@ -52,6 +56,7 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.reposts = 0,
+    this.tags = const [],
     this.time,
   });
 
@@ -166,7 +171,7 @@ class Post {
 
   delete(BuildContext context, Function() onDelete) async {
     User user = Provider.of<UserProvider>(context, listen: false).user;
-    String url = PostUrls.postItem(this);
+    String url = getUrl(PostUrls.postItem(this));
 
     try {
       http.Response response = await http
@@ -175,6 +180,7 @@ class Post {
       if (response.statusCode == 200) {
         Fluttertoast.showToast(msg: 'Success...');
         onDelete();
+        // TODO: Refresh my profile
       } else {
         Fluttertoast.showToast(msg: data['message']);
       }
