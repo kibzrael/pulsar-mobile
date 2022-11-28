@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>150765293881-oli0jmvcv7buf6chfrps7ruqk2bakukn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.150765293881-oli0jmvcv7buf6chfrps7ruqk2bakukn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDpYF9ysYQ1Te6V70nJ1G0X5lAhwhjzDPI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>150765293881</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.pulsar.pulsar</string>
+	<key>PROJECT_ID</key>
+	<string>pulsar-2217f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pulsar-2217f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:150765293881:ios:442a7100cabbd0bf0698e8</string>
+</dict>
+</plist>

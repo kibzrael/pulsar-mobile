@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -29,6 +31,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Firebase.initializeApp();
+  FlutterError.onError = ((errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  });
+  FlutterError.onError = ((errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+  });
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 

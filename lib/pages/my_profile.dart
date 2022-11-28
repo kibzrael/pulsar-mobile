@@ -177,15 +177,18 @@ class _RootProfilePageState extends State<RootProfilePage>
                                 child: ActionButton(
                                   title: 'Edit Profile',
                                   onPressed: () async {
-                                    await Navigator.push(
-                                        context,
-                                        myPageRoute(
-                                            builder: (context) =>
-                                                const EditProfile()));
-                                    user.getProfile(context, () {
-                                      if (mounted) setState(() {});
-                                    });
+                                    throw Exception();
+                                    
+                                    // await Navigator.push(
+                                    //     context,
+                                    //     myPageRoute(
+                                    //         builder: (context) =>
+                                    //             const EditProfile()));
+                                    // user.getProfile(context, () {
+                                    //   if (mounted) setState(() {});
+                                    // });
                                   },
+                                  
                                   height: 37.5,
                                 ),
                               ),
