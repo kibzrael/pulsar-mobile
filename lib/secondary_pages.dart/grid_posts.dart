@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
@@ -93,19 +94,29 @@ class _GridPostsState extends State<GridPosts>
                                         )));
                               },
                               child: Container(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .inputDecorationTheme
-                                          .fillColor,
-                                      image: DecorationImage(
-                                          image: CachedNetworkImageProvider(
-                                              posts[index].thumbnail.photo(
-                                                  context,
-                                                  max: 'medium')),
-                                          fit: BoxFit.cover),
-                                      borderRadius: BorderRadius.circular(8))),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .inputDecorationTheme
+                                      .fillColor,
+                                ),
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.matrix(
+                                      getFilter(posts[index].filter)
+                                          .convolution),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: CachedNetworkImageProvider(
+                                                posts[index].thumbnail.photo(
+                                                    context,
+                                                    max: 'medium')),
+                                            fit: BoxFit.cover),
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                ),
+                              ),
                             );
                           }));
                 });

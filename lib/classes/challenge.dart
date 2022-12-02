@@ -24,6 +24,9 @@ class Challenge {
   @JsonKey(name: 'is_pinned')
   bool isPinned;
 
+  @JsonKey(name: 'is_joined')
+  bool isJoined;
+
   int pins;
   int posts;
 
@@ -34,6 +37,7 @@ class Challenge {
       required this.cover,
       this.timeCreated,
       this.isPinned = false,
+      this.isJoined = false,
       this.pins = 0,
       this.posts = 0});
 

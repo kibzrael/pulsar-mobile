@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -24,6 +26,7 @@ import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +45,7 @@ void main() async {
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
   await Hive.openBox('categories');
+  if (Platform.isAndroid) WebView.platform = AndroidWebView();
   runApp(
       // DevicePreview(
       // enabled: kDebugMode,

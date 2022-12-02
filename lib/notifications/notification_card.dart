@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
@@ -130,8 +131,16 @@ class _InteractionNotificationCardState
                 width: 60,
                 height: type == Interaction.comment ? 75 : 50,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).inputDecorationTheme.fillColor,
-                    borderRadius: BorderRadius.circular(5)),
+                  color: Theme.of(context).inputDecorationTheme.fillColor,
+                ),
+                child: ColorFiltered(
+                  colorFilter:
+                      ColorFilter.matrix(getFilter(post?.filter).convolution),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                  ),
+                ),
               )
           ],
         ));

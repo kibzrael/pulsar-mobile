@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/media.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -10,10 +11,12 @@ import 'package:visibility_detector/visibility_detector.dart';
 class PostVideo extends StatefulWidget {
   final Video video;
   final Photo thumbnail;
+  final String? filter;
 
   final bool isInView;
 
-  const PostVideo(this.video, this.thumbnail, {Key? key, this.isInView = false})
+  const PostVideo(this.video, this.thumbnail,
+      {Key? key, this.filter, this.isInView = false})
       : super(key: key);
 
   @override
@@ -28,6 +31,11 @@ class _PostVideoState extends State<PostVideo> {
 
   bool videoIsInitialized = false;
   bool isPlaying = false;
+
+  bool get controllerPlaying {
+    if (controller == null) return false;
+    return controller!.value.isPlaying;
+  }
 
   bool isPaused = false;
 
@@ -79,7 +87,6 @@ class _PostVideoState extends State<PostVideo> {
 
     Widget thumbnail = Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).inputDecorationTheme.fillColor,
         image: DecorationImage(
             image: CachedNetworkImageProvider(widget.thumbnail.photo(context)),
             fit: BoxFit.cover),
@@ -132,21 +139,25 @@ class _PostVideoState extends State<PostVideo> {
         key: visibilityKey,
         child: Stack(
           children: [
-            controller != null
-                ? controller!.dataSource == video.video(context) &&
-                        controller!.value.isInitialized
-                    ? SizedBox.expand(
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          child: SizedBox(
-                              width: controller?.value.size.width ?? 0,
-                              height: controller?.value.size.height ?? 0,
-                              child: VideoPlayer(controller!)),
-                        ),
-                      )
-                    : thumbnail
-                : thumbnail,
-            if (!isPlaying && !isPaused)
+            ColorFiltered(
+              colorFilter:
+                  ColorFilter.matrix(getFilter(widget.filter).convolution),
+              child: controller != null
+                  ? controller!.dataSource == video.video(context) &&
+                          controller!.value.isInitialized
+                      ? SizedBox.expand(
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: SizedBox(
+                                width: controller?.value.size.width ?? 0,
+                                height: controller?.value.size.height ?? 0,
+                                child: VideoPlayer(controller!)),
+                          ),
+                        )
+                      : thumbnail
+                  : thumbnail,
+            ),
+            if (!controllerPlaying && !isPlaying && !isPaused)
               const Align(
                   alignment: Alignment.bottomCenter,
                   child: SizedBox(height: 2, child: LinearProgressIndicator())),
@@ -185,7 +196,7 @@ class PausePlay extends StatelessWidget {
       child: paused
           ? Icon(
               MyIcons.play,
-              size: 150,
+              size: 100,
             )
           : Container(),
     );

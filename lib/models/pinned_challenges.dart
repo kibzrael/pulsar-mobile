@@ -156,9 +156,9 @@ class _PinnedChallengesState extends State<PinnedChallenges> {
                                         child: Transform.rotate(
                                           angle: 45,
                                           child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(4.0),
                                             child: Icon(MyIcons.pin,
-                                                color: Colors.white),
+                                                color: Colors.white, size: 30),
                                           ),
                                         ))
                                 ],

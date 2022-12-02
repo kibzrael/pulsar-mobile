@@ -6,12 +6,14 @@ class LikeButton extends StatelessWidget {
   final double size;
   final Function? onPressed;
   final bool fill;
+  final EdgeInsets padding;
 
   const LikeButton(
       {Key? key,
       required this.liked,
       this.onPressed,
       this.fill = false,
+      this.padding = const EdgeInsets.all(8.0),
       this.size = 24})
       : super(key: key);
 
@@ -21,7 +23,7 @@ class LikeButton extends StatelessWidget {
       child: Container(
         width: size + 16,
         height: size + 16,
-        padding: const EdgeInsets.all(8.0),
+        padding: padding,
         child: Icon(liked || fill ? MyIcons.like : MyIcons.likeOutline,
             size: size,
             color:
@@ -35,15 +37,20 @@ class LikeButton extends StatelessWidget {
 class CommentButton extends StatelessWidget {
   final Function? onPressed;
   final double size;
+  final EdgeInsets padding;
 
-  const CommentButton({Key? key, this.onPressed, this.size = 24})
+  const CommentButton(
+      {Key? key,
+      this.onPressed,
+      this.padding = const EdgeInsets.all(8.0),
+      this.size = 24})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: padding,
         width: size + 16,
         height: size + 16,
         child: Icon(MyIcons.comment, size: size),
@@ -57,16 +64,21 @@ class RepostButton extends StatelessWidget {
   final bool reposted;
   final double size;
   final Function? onPressed;
+  final EdgeInsets padding;
 
   const RepostButton(
-      {Key? key, required this.reposted, this.onPressed, this.size = 24})
+      {Key? key,
+      required this.reposted,
+      this.onPressed,
+      this.padding = const EdgeInsets.all(8.0),
+      this.size = 24})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: padding,
         width: size + 16,
         height: size + 16,
         child: Icon(reposted ? MyIcons.reposted : MyIcons.repost,
@@ -83,15 +95,20 @@ class RepostButton extends StatelessWidget {
 class ShareButton extends StatelessWidget {
   final Function? onPressed;
   final double size;
+  final EdgeInsets padding;
 
-  const ShareButton({Key? key, this.onPressed, this.size = 24})
+  const ShareButton(
+      {Key? key,
+      this.onPressed,
+      this.padding = const EdgeInsets.all(8.0),
+      this.size = 24})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: padding,
         width: size + 16,
         height: size + 16,
         child: Icon(MyIcons.share, size: size),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/functions/upload_post.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
@@ -48,22 +49,34 @@ class _UploadProgressState extends State<UploadProgress> {
               : null),
       child: Row(
         children: [
-          Container(
-            width: 50,
-            height: double.infinity,
-            margin: const EdgeInsets.only(right: 7.5),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                color: barIsTransparent
-                    ? Colors.white12
-                    : Theme.of(context).inputDecorationTheme.fillColor,
-                image:
-                    DecorationImage(image: MemoryImage(uploadPost.thumbnail))),
-            child: const Center(
-                child: MyProgressIndicator(
-              size: 21,
-              margin: EdgeInsets.zero,
-            )),
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 7.5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: barIsTransparent
+                      ? Colors.white12
+                      : Theme.of(context).inputDecorationTheme.fillColor,
+                ),
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.matrix(
+                      getFilter(uploadPost.filter).convolution),
+                  child: Container(
+                    width: 50,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: MemoryImage(uploadPost.thumbnail))),
+                  ),
+                ),
+              ),
+              const Center(
+                  child: MyProgressIndicator(
+                size: 21,
+                margin: EdgeInsets.zero,
+              )),
+            ],
           ),
           Expanded(
               child: Column(

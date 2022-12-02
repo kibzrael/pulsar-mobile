@@ -186,6 +186,7 @@ class _SignupPageState extends State<SignupPage>
                         hintText: 'Username',
                         controller: usernameController,
                         focusNode: usernameNode,
+                        max: 15,
                         onFieldSubmitted: (_) {
                           passwordNode.requestFocus();
                         },

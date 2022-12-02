@@ -20,7 +20,7 @@ Info leaderboardInfo = Info([
   InfoSection(
       title: "Variables",
       description:
-          "• COMMENTS – 10 POINTS\n• LIKES - 05 POINTS\n• SHARES - 50 POINTS *outside the app by other users.*to facilitate marketing.\n• REPOSTS - 20 POINTS *inside the app by other users."),
+          "• COMMENTS – 10 POINTS\n• LIKES - 5 POINTS\n• SHARES - 50 POINTS\n• REPOSTS - 20 POINTS"),
   InfoSection(
       title: "Winner",
       description:

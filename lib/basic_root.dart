@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/pages/home_page.dart';
-import 'package:pulsar/pages/message_screen.dart';
 import 'package:pulsar/pages/challenges.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
@@ -163,7 +162,8 @@ class _BasicRootState extends State<BasicRoot> {
                                 0,
                                 label: 'Home',
                                 selected: currentIndex,
-                                icon: MyIcons.home,
+                                icon: MyIcons.homeOutline,
+                                activeIcon: MyIcons.home,
                                 onTap: navigationChange,
                                 barIsTransparent: barIsTransparent,
                               ),
@@ -171,7 +171,8 @@ class _BasicRootState extends State<BasicRoot> {
                                 1,
                                 label: 'Challenges',
                                 selected: currentIndex,
-                                icon: MyIcons.explore,
+                                icon: MyIcons.exploreOutline,
+                                activeIcon: MyIcons.explore,
                                 onTap: navigationChange,
                                 barIsTransparent: barIsTransparent,
                               ),
@@ -196,60 +197,7 @@ class _BasicRootState extends State<BasicRoot> {
                                         size: 30,
                                         color: Colors.white,
                                       ),
-                                    )
-                                    // Transform.rotate(
-                                    //   angle: 45,
-                                    //   child: Container(
-                                    //     decoration: BoxDecoration(
-                                    //         shape: BoxShape.circle,
-                                    //         color: barIsTransparent
-                                    //             ? darkTheme
-                                    //                 .bottomNavigationBarTheme
-                                    //                 .backgroundColor
-                                    //             : Theme.of(context)
-                                    //                 .bottomNavigationBarTheme
-                                    //                 .backgroundColor),
-                                    //     child: Container(
-                                    //       padding: const EdgeInsets.symmetric(
-                                    //           horizontal: 5, vertical: 5),
-                                    //       decoration: BoxDecoration(
-                                    //         shape: BoxShape.circle,
-                                    //         gradient: LinearGradient(
-                                    //           colors: [
-                                    //             Theme.of(context)
-                                    //                 .colorScheme
-                                    //                 .secondary,
-                                    //             themeIsDark
-                                    //                 ? Colors.transparent
-                                    //                 : Colors.white,
-                                    //             Theme.of(context)
-                                    //                 .colorScheme
-                                    //                 .primaryContainer,
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       child: Transform.rotate(
-                                    //         angle: -45,
-                                    //         child: Container(
-                                    //           decoration: BoxDecoration(
-                                    //             color: themeIsDark
-                                    //                 ? Colors.black45
-                                    //                 : Colors.white54,
-                                    //             shape: BoxShape.circle,
-                                    //           ),
-                                    //           child: Icon(
-                                    //             MyIcons.add,
-                                    //             size: 30,
-                                    //             color: themeIsDark
-                                    //                 ? Colors.white
-                                    //                 : Colors.black,
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    ),
+                                    )),
                               ),
                               // NavigationBarItem(
                               //   3,
@@ -264,7 +212,6 @@ class _BasicRootState extends State<BasicRoot> {
                                 3,
                                 label: 'Activity',
                                 selected: currentIndex,
-                                iconSize: 24,
                                 icon: MyIcons.notifications,
                                 onTap: navigationChange,
                                 barIsTransparent: barIsTransparent,
@@ -273,8 +220,8 @@ class _BasicRootState extends State<BasicRoot> {
                                 4,
                                 label: 'Account',
                                 selected: currentIndex,
-                                iconSize: 21,
-                                icon: MyIcons.account,
+                                icon: MyIcons.accountOutline,
+                                activeIcon: MyIcons.account,
                                 onTap: navigationChange,
                                 barIsTransparent: barIsTransparent,
                               ),
@@ -285,106 +232,6 @@ class _BasicRootState extends State<BasicRoot> {
                     ),
                   ),
                 ),
-                // BottomAppBar(
-                //   elevation: barTransparent() ? 0 : 16,
-                //   color: barTransparent()
-                //       ? Colors.transparent
-                //       : Theme.of(context)
-                //           .bottomNavigationBarTheme
-                //           .backgroundColor,
-                //   child: CupertinoTabBar(
-                //     border: Border.all(style: BorderStyle.none),
-                //     //  Border(
-                //     //   top:
-                //     //    BorderSide(
-                //     //       color: barTransparent()
-                //     //           ? Colors.transparent
-                //     //           : Theme.of(context).colorScheme.surface),
-                //     // ),
-                //     backgroundColor: barTransparent()
-                //         ? Colors.transparent
-                //         : Theme.of(context)
-                //             .bottomNavigationBarTheme
-                //             .backgroundColor,
-                //     activeColor: barTransparent()
-                //         ? Colors.white
-                //         : Theme.of(context)
-                //             .bottomNavigationBarTheme
-                //             .selectedItemColor,
-                //     inactiveColor: Theme.of(context)
-                //         .bottomNavigationBarTheme
-                //         .unselectedItemColor!,
-                //     onTap: navigationChange,
-                //     iconSize: 27,
-                //     currentIndex: currentIndex,
-                //     items: [
-                //       BottomNavigationBarItem(
-                //           label: 'Home',
-                //           icon: Icon(
-                //             MyIcons.home,
-                //           )),
-                //       BottomNavigationBarItem(
-                //           label: 'My Galaxy',
-                //           icon: Icon(
-                //             MyIcons.explore,
-                //           )),
-                //       BottomNavigationBarItem(
-                //         icon: Padding(
-                //           padding: EdgeInsets.only(top: 5),
-                //           child: Transform.rotate(
-                //             angle: 45,
-                //             child: Container(
-                //               padding: EdgeInsets.symmetric(
-                //                   horizontal: 5, vertical: 5),
-                //               decoration: BoxDecoration(
-                //                 shape: BoxShape.circle,
-                //                 gradient: LinearGradient(
-                //                   colors: [
-                //                     Theme.of(context).accentColor,
-                //                     themeIsDark
-                //                         ? Colors.transparent
-                //                         : Colors.white,
-                //                     Theme.of(context).buttonColor,
-                //                   ],
-                //                 ),
-                //               ),
-                //               child: Transform.rotate(
-                //                 angle: -45,
-                //                 child: Container(
-                //                   decoration: BoxDecoration(
-                //                     color: themeIsDark
-                //                         ? Colors.black45
-                //                         : Colors.white54,
-                //                     shape: BoxShape.circle,
-                //                   ),
-                //                   child: Icon(
-                //                     MyIcons.add,
-                //                     size: 30,
-                //                     color: themeIsDark
-                //                         ? Colors.white
-                //                         : Colors.black,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       BottomNavigationBarItem(
-                //           label: 'Inbox',
-                //           icon: Icon(
-                //             MyIcons.messageOutline,
-                //             size: 24,
-                //           )),
-                //       BottomNavigationBarItem(
-                //           label: 'Account',
-                //           icon: Icon(
-                //             MyIcons.account,
-                //             size: 21,
-                //           )),
-                //     ],
-                //   ),
-                // ),
               );
             });
           }),
@@ -417,6 +264,7 @@ class NavigationBarItem extends StatelessWidget {
   final int index;
   final String label;
   final IconData icon;
+  final IconData? activeIcon;
   final double iconSize;
   final int selected;
   final bool barIsTransparent;
@@ -430,6 +278,7 @@ class NavigationBarItem extends StatelessWidget {
       required this.icon,
       required this.onTap,
       required this.barIsTransparent,
+      this.activeIcon,
       this.iconSize = 27})
       : super(key: key);
 
@@ -454,7 +303,7 @@ class NavigationBarItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
+              isSelected ? activeIcon ?? icon : icon,
               size: iconSize,
               color: isSelected ? activeColor : inactiveColor,
             ),

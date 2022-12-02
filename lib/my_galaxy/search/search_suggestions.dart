@@ -4,7 +4,7 @@ import 'package:pulsar/widgets/list_tile.dart';
 
 class SearchSuggestions extends StatelessWidget {
   final List<String> suggestions;
-  final Function() onSearch;
+  final Function(String text) onSearch;
   final Function(String text) onSelect;
   const SearchSuggestions(this.suggestions,
       {Key? key, required this.onSearch, required this.onSelect})
@@ -24,7 +24,7 @@ class SearchSuggestions extends StatelessWidget {
               },
               child: Icon(MyIcons.searchHistory)),
           trailingArrow: false,
-          onPressed: onSearch,
+          onPressed: () => onSearch(suggestions[index]),
         );
       },
     );

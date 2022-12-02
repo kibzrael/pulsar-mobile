@@ -6,5 +6,6 @@ Map<int, String> statusCodes = {
   401: 'Access Denied',
   404: 'Not Found',
   422: 'Invalid Info',
-  503: 'Server error'
+  500: 'Server error',
+  503: 'Server error',
 };

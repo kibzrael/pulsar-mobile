@@ -39,6 +39,11 @@ class Post {
   @JsonKey(name: 'is_reposted')
   bool isReposted;
 
+  @JsonKey(name: 'filter_name')
+  String? filter;
+
+  double? ratio;
+
   List<Interest> tags;
 
   String get url => '';
@@ -57,6 +62,8 @@ class Post {
     this.comments = 0,
     this.reposts = 0,
     this.tags = const [],
+    this.filter,
+    this.ratio,
     this.time,
   });
 
@@ -86,7 +93,6 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         isLiked = mode != RequestMethod.post;
         mode == RequestMethod.post ? likes-- : likes++;
@@ -134,7 +140,6 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         isReposted = mode != RequestMethod.post;
         mode == RequestMethod.post ? reposts-- : reposts++;
@@ -178,7 +183,6 @@ class Post {
           .delete(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: 'Success...');
         onDelete();
         // TODO: Refresh my profile
       } else {

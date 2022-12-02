@@ -21,6 +21,12 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       likes: json['likes'] as int? ?? 0,
       comments: json['comments'] as int? ?? 0,
       reposts: json['reposts'] as int? ?? 0,
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map((e) => Interest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      filter: json['filter_name'] as String?,
+      ratio: (json['ratio'] as num?)?.toDouble(),
       time:
           json['time'] == null ? null : DateTime.parse(json['time'] as String),
     );
@@ -39,4 +45,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'time': instance.time?.toIso8601String(),
       'is_liked': instance.isLiked,
       'is_reposted': instance.isReposted,
+      'filter_name': instance.filter,
+      'ratio': instance.ratio,
+      'tags': instance.tags.map((e) => e.toJson()).toList(),
     };

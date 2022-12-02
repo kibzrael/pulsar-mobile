@@ -6,15 +6,18 @@ class Section extends StatelessWidget {
   final Widget child;
   final Widget? trailing;
   const Section(
-      {Key? key, required this.title,
+      {Key? key,
+      required this.title,
       required this.child,
       this.titleSize,
-      this.trailing}) : super(key: key);
+      this.trailing})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionTitle(title: title, titleSize: titleSize, trailing: trailing),
           child,
@@ -28,7 +31,9 @@ class SectionTitle extends StatelessWidget {
   final String title;
   final double? titleSize;
   final Widget? trailing;
-  const SectionTitle({Key? key, required this.title, this.titleSize, this.trailing}) : super(key: key);
+  const SectionTitle(
+      {Key? key, required this.title, this.titleSize, this.trailing})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
