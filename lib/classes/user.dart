@@ -78,7 +78,11 @@ class User {
       {RequestMethod mode = RequestMethod.post,
       required Function() onNotify}) async {
     isFollowing = mode == RequestMethod.post;
-    followers = followers == null ? null : followers! + 1;
+    if (mode == RequestMethod.post) {
+      followers = followers == null ? null : followers! + 1;
+    } else {
+      followers = followers == null ? null : followers! - 1;
+    }
     syncFollow(context);
     onNotify();
     User user = Provider.of<UserProvider>(context, listen: false).user;
@@ -94,17 +98,24 @@ class User {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         isFollowing = mode != RequestMethod.post;
-        followers = followers == null ? null : followers! - 1;
+        if (mode == RequestMethod.post) {
+          followers = followers == null ? null : followers! - 1;
+        } else {
+          followers = followers == null ? null : followers! + 1;
+        }
         syncFollow(context);
         onNotify();
         Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {
       isFollowing = mode != RequestMethod.post;
-      followers = followers == null ? null : followers! - 1;
+      if (mode == RequestMethod.post) {
+        followers = followers == null ? null : followers! - 1;
+      } else {
+        followers = followers == null ? null : followers! + 1;
+      }
       syncFollow(context);
       onNotify();
       Fluttertoast.showToast(msg: e.toString());
@@ -126,7 +137,6 @@ class User {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         Fluttertoast.showToast(msg: 'error');
       }

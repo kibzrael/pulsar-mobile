@@ -77,6 +77,8 @@ dependencies:
 
   share_plus: ^3.0.4
   permission_handler: ^8.1.4+2
+  url_launcher: ^6.1.7
+  webview_flutter: ^3.0.4
 
   # audio
   flutter_sound: ^9.2.13
@@ -145,9 +147,15 @@ flutter:
     - family: Champagne
       fonts:
         - asset: fonts/cac_champagne.ttf
-    - family: SvgIcons
+    - family: icomoon
       fonts:
-        - asset: fonts/icons.ttf
+        - asset: fonts/icomoon.ttf
+    - family: icomoon16
+      fonts:
+        - asset: fonts/icomoon16.ttf
+    - family: icomoon12
+      fonts:
+        - asset: fonts/icomoon12.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

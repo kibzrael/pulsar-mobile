@@ -37,6 +37,8 @@ class LogTextDecoration extends InputDecoration {
   @override
   final int errorMaxLines = 1;
   @override
+  final String? counterText = '';
+  @override
   final bool filled = true;
   @override
   final Color? fillColor;
@@ -63,6 +65,7 @@ class LogTextInput extends StatefulWidget {
   final bool isPassword;
   final Widget? prefixIcon;
   final Widget? prefix;
+  final int? max;
   const LogTextInput(
       {Key? key,
       this.controller,
@@ -73,6 +76,7 @@ class LogTextInput extends StatefulWidget {
       this.obscureText = false,
       this.onChanged,
       this.onFieldSubmitted,
+      this.max,
       this.keyboardType = TextInputType.text,
       this.prefix,
       this.prefixIcon})
@@ -113,6 +117,7 @@ class _LogTextInputState extends State<LogTextInput> {
               },
               keyboardType: widget.keyboardType,
               inputFormatters: widget.inputFormatters,
+              maxLength: widget.max,
               decoration: LogTextDecoration(
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.isPassword

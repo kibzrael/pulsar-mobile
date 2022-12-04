@@ -44,7 +44,7 @@ class ProfileStats extends StatelessWidget {
                             .textTheme
                             .subtitle1!
                             .copyWith(fontSize: 21)),
-                    Text('Posts',
+                    Text('Post${posts == 1 ? '' : 's'}',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
@@ -70,7 +70,7 @@ class ProfileStats extends StatelessWidget {
                             .textTheme
                             .subtitle1!
                             .copyWith(fontSize: 21)),
-                    Text(isPin ? 'Pins' : 'Followers',
+                    Text((isPin ? 'Pin' : 'Follower') + (pins == 1 ? '' : 's'),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme

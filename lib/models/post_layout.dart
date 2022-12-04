@@ -8,6 +8,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/options/post_options.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -82,6 +83,7 @@ class _PostLayoutState extends State<PostLayout> {
         PostVideo(
           post.source,
           post.thumbnail,
+          filter: post.filter,
           isInView: widget.isInView,
         ),
         Column(children: [
@@ -172,82 +174,98 @@ class _PostLayoutState extends State<PostLayout> {
                                             ),
                                           ),
                                           const SizedBox(width: 5),
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                post.user.follow(context,
-                                                    mode: isFollowing
-                                                        ? RequestMethod.delete
-                                                        : RequestMethod.post,
-                                                    onNotify: () =>
-                                                        setState(() {}));
-                                              });
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.all(1.5),
-                                              child: ShaderMask(
-                                                shaderCallback: (rect) {
-                                                  return LinearGradient(
-                                                          begin: Alignment
-                                                              .centerLeft,
-                                                          colors: isFollowing
-                                                              ? [
-                                                                  Colors.white,
-                                                                  Colors.white
-                                                                ]
-                                                              : [
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primary,
-                                                                  Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primaryContainer
-                                                                ])
-                                                      .createShader(rect);
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    Container(
-                                                      width: 5,
-                                                      height: 5,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 2.5),
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              color:
-                                                                  Colors.white),
-                                                    ),
-                                                    Text(
-                                                      isFollowing
-                                                          ? 'Following'
-                                                          : 'Follow',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText1!
-                                                          .copyWith(
-                                                              fontSize: 13.5),
-                                                    ),
-                                                  ],
+                                          if (post.user.id !=
+                                              userProvider.user.id)
+                                            InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  post.user.follow(context,
+                                                      mode: isFollowing
+                                                          ? RequestMethod.delete
+                                                          : RequestMethod.post,
+                                                      onNotify: () =>
+                                                          setState(() {}));
+                                                });
+                                              },
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(1.5),
+                                                child: ShaderMask(
+                                                  shaderCallback: (rect) {
+                                                    return LinearGradient(
+                                                            begin: Alignment
+                                                                .centerLeft,
+                                                            colors: isFollowing
+                                                                ? [
+                                                                    Colors
+                                                                        .white,
+                                                                    Colors.white
+                                                                  ]
+                                                                : [
+                                                                    Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary,
+                                                                    Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primaryContainer
+                                                                  ])
+                                                        .createShader(rect);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 5,
+                                                        height: 5,
+                                                        margin: const EdgeInsets
+                                                            .only(right: 2.5),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .white),
+                                                      ),
+                                                      Text(
+                                                        isFollowing
+                                                            ? 'Following'
+                                                            : 'Follow',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .copyWith(
+                                                                fontSize: 13.5),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          )
+                                            )
                                         ],
                                       ),
                                       const SizedBox(height: 2.5),
                                       Flexible(
-                                        child: Text('Challenge',
-                                            maxLines: 1,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2!
-                                                .copyWith(color: Colors.white)),
+                                        child: InkWell(
+                                          onTap: post.challenge == null
+                                              ? null
+                                              : () {
+                                                  Navigator.of(context).push(
+                                                      myPageRoute(
+                                                          builder: (context) =>
+                                                              ChallengePage(post
+                                                                  .challenge!)));
+                                                },
+                                          child: Text(
+                                              post.challenge?.name ??
+                                                  post.user.category,
+                                              maxLines: 1,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2!
+                                                  .copyWith(
+                                                      color: Colors.white)),
+                                        ),
                                       ),
                                     ]),
                               )
@@ -296,7 +314,8 @@ class _PostLayoutState extends State<PostLayout> {
                     children: [
                       LikeButton(
                         liked: isLiked,
-                        size: 40,
+                        size: 45,
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                         fill: true,
                         onPressed: () {
                           setState(() {
@@ -314,7 +333,10 @@ class _PostLayoutState extends State<PostLayout> {
                         child: Builder(builder: (_) {
                           return Theme(
                             data: Theme.of(context),
-                            child: CommentButton(size: 40, onPressed: comment),
+                            child: CommentButton(
+                                size: 45,
+                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                onPressed: comment),
                           );
                         }),
                       ),
@@ -322,7 +344,8 @@ class _PostLayoutState extends State<PostLayout> {
                       if (post.user.id != userProvider.user.id)
                         RepostButton(
                           reposted: isReposted,
-                          size: 40,
+                          size: 45,
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                           onPressed: () {
                             setState(() {
                               post.repost(context,
@@ -341,7 +364,8 @@ class _PostLayoutState extends State<PostLayout> {
                             return Theme(
                               data: Theme.of(context),
                               child: ShareButton(
-                                size: 40,
+                                size: 45,
+                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                                 onPressed: () {
                                   openBottomSheet(
                                       _,

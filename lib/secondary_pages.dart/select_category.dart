@@ -119,20 +119,19 @@ class _SelectCategoryState extends State<SelectCategory>
                             children: [
                               Stack(
                                 children: [
-                                  Container(
-                                    width: double.infinity,
-                                    height: snapshot.maxWidth,
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .inputDecorationTheme
-                                          .fillColor,
-                                      shape: BoxShape.circle,
+                                  Card(
+                                    elevation: 3,
+                                    shape: const CircleBorder(),
+                                    margin: EdgeInsets.zero,
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: snapshot.maxWidth,
+                                      padding: const EdgeInsets.all(12),
+                                      child: Image.asset(
+                                          category.cover!
+                                              .photo(context, max: 'medium'),
+                                          fit: BoxFit.cover),
                                     ),
-                                    child: Image.asset(
-                                        category.cover!
-                                            .photo(context, max: 'medium'),
-                                        fit: BoxFit.cover),
                                   ),
                                   if (selected)
                                     Align(

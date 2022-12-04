@@ -6,7 +6,10 @@ import 'package:pulsar/classes/svg_icons.dart';
 class MyIcons {
   MyIcons._();
 
-  static IconData account = myIcon(SvgIcons.user, SvgIcons.userOutline);
+  static IconData account = myIcon(SvgIcons.user, SvgIcons.user);
+
+  static IconData accountOutline =
+      myIcon(SvgIcons.userOutline, SvgIcons.userOutline);
 
   static IconData acting = myIcon(Icons.people, Icons.people);
 
@@ -45,11 +48,11 @@ class MyIcons {
 
   static IconData comment = myIcon(SvgIcons.comment, SvgIcons.comment);
 
-  static IconData dance = myIcon(Icons.emoji_people, Icons.emoji_people);
+  // static IconData dance = myIcon(Icons.emoji_people, Icons.emoji_people);
 
   static IconData dataSaver = myIcon(Icons.data_usage, Icons.data_usage);
 
-  static IconData delete = myIcon(Icons.delete_outline, Icons.delete_outline);
+  static IconData delete = myIcon(SvgIcons.trash, SvgIcons.trash);
 
   static IconData download = myIcon(Icons.download, Icons.download);
 
@@ -62,14 +65,17 @@ class MyIcons {
   static IconData expand = myIcon(
       Icons.keyboard_arrow_down_rounded, Icons.keyboard_arrow_down_sharp);
 
-  static IconData explore = myIcon(Icons.explore, Icons.explore_outlined);
+  static IconData explore = myIcon(Icons.explore, Icons.explore);
+
+  static IconData exploreOutline =
+      myIcon(Icons.explore_outlined, Icons.explore_outlined);
 
   static IconData eye = myIcon(Icons.visibility, Icons.visibility_outlined);
 
   static IconData eyeOff =
       myIcon(Icons.visibility_off, Icons.visibility_off_outlined);
 
-  static IconData facebook = myIcon(SvgIcons.facebook, SvgIcons.facebook);
+  // static IconData facebook = myIcon(SvgIcons.facebook, SvgIcons.facebook);
 
   static IconData fashion =
       myIcon(Icons.face_retouching_natural, Icons.face_retouching_natural);
@@ -95,19 +101,22 @@ class MyIcons {
 
   static IconData gallery = myIcon(Icons.photo, Icons.photo);
 
-  static IconData google = myIcon(SvgIcons.google, SvgIcons.google);
+  // static IconData google = myIcon(SvgIcons.google, SvgIcons.google);
 
   static IconData help = myIcon(Icons.help_outline, Icons.help_outline);
 
   static IconData history = myIcon(Icons.history, Icons.history);
 
-  static IconData home = myIcon(Icons.home, Icons.home);
+  static IconData home = myIcon(SvgIcons.home, SvgIcons.home);
+
+  static IconData homeOutline =
+      myIcon(SvgIcons.homeOutline, SvgIcons.homeOutline);
 
   static IconData info = myIcon(Icons.info_outline, Icons.info_outline);
 
   static IconData insights = myIcon(Icons.insights, Icons.insights);
 
-  static IconData instagram = myIcon(SvgIcons.instagram, SvgIcons.instagram);
+  // static IconData instagram = myIcon(SvgIcons.instagram, SvgIcons.instagram);
 
   static IconData interactions = myIcon(Icons.favorite, Icons.favorite);
 
@@ -118,10 +127,10 @@ class MyIcons {
 
   static IconData leaderboard = myIcon(Icons.emoji_events, Icons.emoji_events);
 
-  static IconData like = myIcon(Icons.favorite, Icons.favorite);
+  static IconData like = myIcon(SvgIcons.heart, SvgIcons.heart);
 
   static IconData likeOutline =
-      myIcon(Icons.favorite_outline, Icons.favorite_outline);
+      myIcon(SvgIcons.heartOutline, SvgIcons.heartOutline);
 
   static IconData link = myIcon(Icons.link, Icons.link);
 
@@ -130,14 +139,14 @@ class MyIcons {
 
   static IconData logOut = myIcon(Icons.logout, Icons.logout);
 
-  static IconData menu = myIcon(Icons.menu, Icons.menu);
+  static IconData menu = myIcon(SvgIcons.menu, SvgIcons.menu);
 
-  static IconData message = myIcon(SvgIcons.chat, SvgIcons.chat);
+  static IconData message = myIcon(SvgIcons.message, SvgIcons.message);
 
   static IconData messageOutline =
-      myIcon(SvgIcons.chatOutline, SvgIcons.chatOutline);
+      myIcon(SvgIcons.messageOutline, SvgIcons.messageOutline);
 
-  static IconData mic = myIcon(Icons.mic, Icons.mic);
+  static IconData mic = myIcon(SvgIcons.mic, SvgIcons.mic);
 
   static IconData more = myIcon(Icons.more_horiz, Icons.more_horiz);
 
@@ -162,24 +171,24 @@ class MyIcons {
 
   static IconData pin = myIcon(SvgIcons.pin, SvgIcons.pin); //change
 
-  static IconData play =
-      myIcon(Icons.play_arrow_rounded, Icons.play_arrow_rounded);
+  static IconData play = myIcon(SvgIcons.play, SvgIcons.play);
 
   static IconData policies = myIcon(Icons.policy, Icons.policy);
 
-  static IconData posts = myIcon(Icons.grid_view, Icons.grid_view);
+  static IconData posts = myIcon(SvgIcons.grid, SvgIcons.grid);
 
   static IconData privacy = myIcon(Icons.shield, Icons.shield);
 
-  static IconData prize = myIcon(SvgIcons.award, SvgIcons.award);
+  // static IconData prize = myIcon(SvgIcons.award, SvgIcons.award);
 
   static IconData reply = myIcon(Icons.reply, Icons.reply);
 
   static IconData report = myIcon(Icons.report, Icons.report);
 
-  static IconData repost = myIcon(Icons.repeat, Icons.repeat);
+  static IconData repost = myIcon(Icons.repeat_rounded, Icons.repeat_rounded);
 
-  static IconData reposted = myIcon(Icons.repeat_one, Icons.repeat_one);
+  static IconData reposted =
+      myIcon(Icons.repeat_one_rounded, Icons.repeat_one_rounded);
 
   static IconData rotate = myIcon(Icons.rotate_right, Icons.rotate_right);
 
@@ -189,7 +198,7 @@ class MyIcons {
 
   static IconData searchHistory = myIcon(Icons.north_west, Icons.north_west);
 
-  static IconData send = myIcon(Icons.send, Icons.send_outlined);
+  static IconData send = myIcon(SvgIcons.send, SvgIcons.sendOutline);
 
   static IconData share = myIcon(Icons.share, Icons.share_outlined);
 
@@ -218,11 +227,11 @@ class MyIcons {
 
   static IconData tune = myIcon(Icons.tune, Icons.tune);
 
-  static IconData twitter = myIcon(SvgIcons.twitter, SvgIcons.twitter);
+  // static IconData twitter = myIcon(SvgIcons.twitter, SvgIcons.twitter);
 
   static IconData volume = myIcon(Icons.volume_up, Icons.volume_up_outlined);
 
-  static IconData youtube = myIcon(SvgIcons.youtube, SvgIcons.youtube);
+  // static IconData youtube = myIcon(SvgIcons.youtube, SvgIcons.youtube);
 
   //
   // ios and android checkup

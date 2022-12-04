@@ -27,8 +27,12 @@ class DiscoverChallenges extends StatefulWidget {
   _DiscoverChallengesState createState() => _DiscoverChallengesState();
 }
 
-class _DiscoverChallengesState extends State<DiscoverChallenges> {
+class _DiscoverChallengesState extends State<DiscoverChallenges>
+    with AutomaticKeepAliveClientMixin {
   late UserProvider userProvider;
+
+  @override
+  bool get wantKeepAlive => true;
 
   List<CategoryTag> tags = [
     CategoryTag(
@@ -91,6 +95,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     userProvider = Provider.of<UserProvider>(context);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
