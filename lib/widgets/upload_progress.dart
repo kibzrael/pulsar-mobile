@@ -50,6 +50,7 @@ class _UploadProgressState extends State<UploadProgress> {
       child: Row(
         children: [
           Stack(
+            alignment: Alignment.center,
             children: [
               Container(
                 margin: const EdgeInsets.only(right: 7.5),
@@ -67,6 +68,7 @@ class _UploadProgressState extends State<UploadProgress> {
                     height: double.infinity,
                     decoration: BoxDecoration(
                         image: DecorationImage(
+                            fit: BoxFit.cover,
                             image: MemoryImage(uploadPost.thumbnail))),
                   ),
                 ),

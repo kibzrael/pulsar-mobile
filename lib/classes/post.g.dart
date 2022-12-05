@@ -21,6 +21,7 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       likes: json['likes'] as int? ?? 0,
       comments: json['comments'] as int? ?? 0,
       reposts: json['reposts'] as int? ?? 0,
+      points: json['points'] as int? ?? 0,
       tags: (json['tags'] as List<dynamic>?)
               ?.map((e) => Interest.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -42,6 +43,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'likes': instance.likes,
       'comments': instance.comments,
       'reposts': instance.reposts,
+      'points': instance.points,
       'time': instance.time?.toIso8601String(),
       'is_liked': instance.isLiked,
       'is_reposted': instance.isReposted,

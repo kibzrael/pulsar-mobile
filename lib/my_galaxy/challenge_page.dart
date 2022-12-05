@@ -51,6 +51,8 @@ class _ChallengePageState extends State<ChallengePage>
 
   late Challenge challenge;
 
+  bool refreshing = false;
+
   @override
   void initState() {
     super.initState();
@@ -71,7 +73,6 @@ class _ChallengePageState extends State<ChallengePage>
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
         challenge = Challenge.fromJson(data['challenge']);
-        setState(() {});
       }
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
@@ -90,6 +91,15 @@ class _ChallengePageState extends State<ChallengePage>
 
   Future<bool> onRefresh() async {
     await fetchChallenge();
+    refreshing = true;
+    if (mounted) {
+      setState(() {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          refreshing = false;
+          if (mounted) setState(() {});
+        });
+      });
+    }
     return true;
   }
 
@@ -251,28 +261,25 @@ class _ChallengePageState extends State<ChallengePage>
                       ),
                     ),
                   FollowLayout(
-                      child: challenge.isJoined
-                          ? Icon(MyIcons.insights)
-                          : const Text(
-                              'Join',
-                              style: TextStyle(
-                                  //color: Theme.of(context).buttonColor,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                      child: Icon(MyIcons.insights),
                       isFollowing: isPinned,
                       isPin: true,
-                      onChildPressed: challenge.isJoined
-                          ? () {
-                              Navigator.of(context).push(myPageRoute(
-                                  builder: (context) =>
-                                      Leaderboard(challenge)));
-                            }
-                          : () {
-                              Navigator.of(context, rootNavigator: true).push(
-                                  myPageRoute(
-                                      builder: (context) =>
-                                          PostProcess(challenge: challenge)));
-                            },
+                      middle: challenge.isJoined
+                          ? null
+                          : const Text(
+                              'Join',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                      onMiddlePressed: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            myPageRoute(
+                                builder: (context) =>
+                                    PostProcess(challenge: challenge)));
+                      },
+                      onChildPressed: () {
+                        Navigator.of(context).push(myPageRoute(
+                            builder: (context) => Leaderboard(challenge)));
+                      },
                       onFollow: () {
                         setState(() {
                           challenge.pin(context,
@@ -318,13 +325,15 @@ class _ChallengePageState extends State<ChallengePage>
                         (index) async {
                           return await fetchPosts(index, 0);
                         },
-                        title: '#${challenge.name}',
+                        title: challenge.name,
+                        refreshing: refreshing,
                       ),
                       GridPosts(
                         (index) async {
                           return await fetchPosts(index, 0);
                         },
-                        title: '#${challenge.name}',
+                        title: challenge.name,
+                        refreshing: refreshing,
                       ),
                     ],
                   ),

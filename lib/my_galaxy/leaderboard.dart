@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
@@ -17,7 +18,7 @@ import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
-import 'package:pulsar/secondary_pages.dart/profile_page.dart';
+import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/urls/challenge.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -42,7 +43,7 @@ class _LeaderboardState extends State<Leaderboard> {
 
   late ScrollController controller;
 
-  int? you;
+  Map you = {'points': 0, 'rank': 0};
 
   @override
   void initState() {
@@ -91,8 +92,8 @@ class _LeaderboardState extends State<Leaderboard> {
             target: fetchData,
             itemBuilder: (context, snapshot) {
               List<Map<String, dynamic>> snapshotData = snapshot.data;
-              List<User> users = [...snapshotData.map((e) => User.fromJson(e))];
-              int usersLength = users.length > 3 ? users.length - 3 : 0;
+              List<Post> posts = [...snapshotData.map((e) => Post.fromJson(e))];
+              int postsLength = posts.length > 3 ? posts.length - 3 : 0;
               return snapshotData.isEmpty
                   ? snapshot.isLoading ?? true
                       ? const Align(
@@ -148,19 +149,22 @@ class _LeaderboardState extends State<Leaderboard> {
                                         children: [
                                           winnersProfile(
                                               2,
-                                              users.length > 1
-                                                  ? users[1]
-                                                  : null),
+                                              posts.length > 1
+                                                  ? posts[1]
+                                                  : null,
+                                              posts),
                                           winnersProfile(
                                               1,
-                                              users.isNotEmpty
-                                                  ? users[0]
-                                                  : null),
+                                              posts.isNotEmpty
+                                                  ? posts[0]
+                                                  : null,
+                                              posts),
                                           winnersProfile(
                                               3,
-                                              users.length > 2
-                                                  ? users[2]
-                                                  : null),
+                                              posts.length > 2
+                                                  ? posts[2]
+                                                  : null,
+                                              posts),
                                         ],
                                       ),
                                     ),
@@ -190,12 +194,16 @@ class _LeaderboardState extends State<Leaderboard> {
                               children: [
                                 MyListTile(
                                   title: 'You',
-                                  subtitle: 'Current Position',
+                                  subtitle: you['rank'] == 0
+                                      ? 'N/A'
+                                      : '${roundCount(you['points'])} points',
                                   leading: ProfilePic(
                                     userProvider.user.profilePic?.thumbnail,
                                     radius: 21,
                                   ),
-                                  trailingText: you?.toString() ?? 'N/A',
+                                  trailingText: you['rank'] == 0
+                                      ? 'N/A'
+                                      : '${you['rank']}',
                                   flexRatio: const [4, 1],
                                 ),
                                 Expanded(
@@ -203,18 +211,27 @@ class _LeaderboardState extends State<Leaderboard> {
                                       color:
                                           Theme.of(context).colorScheme.surface,
                                       child: ListView.builder(
-                                          itemCount: usersLength,
+                                          itemCount: postsLength,
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) {
-                                            User user = users[index + 3];
+                                            Post post = posts[index + 3];
+                                            User user = post.user;
                                             return MyListTile(
                                               title: '@${user.username}',
-                                              subtitle: user.category,
+                                              subtitle:
+                                                  '${roundCount(post.points)} points',
                                               onPressed: () {
                                                 Navigator.of(context).push(
                                                     myPageRoute(
                                                         builder: (context) =>
-                                                            ProfilePage(user)));
+                                                            PostScreen(
+                                                              target: fetchData,
+                                                              initialPosts:
+                                                                  posts,
+                                                              postInView: index,
+                                                              title: challenge
+                                                                  .name,
+                                                            )));
                                               },
                                               leading: ProfilePic(
                                                 user.profilePic?.thumbnail,
@@ -252,7 +269,8 @@ class _LeaderboardState extends State<Leaderboard> {
             }));
   }
 
-  Widget winnersProfile(int pos, User? user) {
+  Widget winnersProfile(int pos, Post? post, List<Post> posts) {
+    User? user = post?.user;
     double width = MediaQuery.of(context).size.width - 50;
     double containerWidth = (width / 3) + (pos == 1 ? 20 : 0);
     double profileWidth =
@@ -261,8 +279,13 @@ class _LeaderboardState extends State<Leaderboard> {
     return InkWell(
       onTap: () {
         if (user != null) {
-          Navigator.of(context)
-              .push(myPageRoute(builder: (context) => ProfilePage(user)));
+          Navigator.of(context).push(myPageRoute(
+              builder: (context) => PostScreen(
+                    target: fetchData,
+                    initialPosts: posts,
+                    postInView: pos - 1,
+                    title: challenge.name,
+                  )));
         }
       },
       child: Column(
@@ -324,6 +347,14 @@ class _LeaderboardState extends State<Leaderboard> {
                   .textTheme
                   .subtitle2!
                   .copyWith(fontSize: 13.5),
+              maxLines: 1,
+            ),
+          if (post != null) const SizedBox(height: 3),
+          if (post != null)
+            Text(
+              '${roundCount(post.points)} points',
+              style:
+                  Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
               maxLines: 1,
             ),
           SizedBox(height: bottomPadding),

@@ -31,7 +31,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 

@@ -32,6 +32,7 @@ class Post {
   int likes;
   int comments;
   int reposts;
+  int points;
   DateTime? time;
 
   @JsonKey(name: 'is_liked')
@@ -61,6 +62,7 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.reposts = 0,
+    this.points = 0,
     this.tags = const [],
     this.filter,
     this.ratio,
@@ -116,6 +118,19 @@ class Post {
       interactionsSync.like(this);
     } else {
       interactionsSync.unlike(this);
+    }
+  }
+
+  // TODO: Fix sync -1 issue
+  int getLikes(BuildContext context) {
+    InteractionsSync interactionsSync =
+        Provider.of<InteractionsSync>(context, listen: false);
+    if (interactionsSync.isLiked(this) && !isLiked) {
+      return likes + 1;
+    } else if (!interactionsSync.isLiked(this) && isLiked) {
+      return likes - 1;
+    } else {
+      return likes;
     }
   }
 
