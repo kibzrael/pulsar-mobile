@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
@@ -86,6 +87,8 @@ class SignInfoProvider extends ChangeNotifier {
     _page = _pageController.page!.floor();
     _pageController.jumpToPage(_page! + 1);
   }
+
+  googleSignup(BuildContext context, GoogleSignInAccount account) {}
 
   submit(BuildContext context) async {
     File? profilePic;

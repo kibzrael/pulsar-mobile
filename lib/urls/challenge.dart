@@ -3,7 +3,7 @@ import 'package:pulsar/classes/challenge.dart';
 class ChallengeUrls {
   ChallengeUrls._();
 
-  static String createChallenge = 'challenges';
+  static String createChallenge = 'challenges/';
 
   static String challenge(Challenge e) => 'challenges/${e.id}';
 

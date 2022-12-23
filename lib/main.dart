@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,7 @@ import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/settings.dart';
+import 'package:pulsar/firebase_options.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
@@ -30,8 +32,24 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  FirebaseApp app = await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  print("Firebase App:");
+  print(app);
+  print(app.options.projectId);
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  await Firebase.initializeApp();
+  messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  String? deviceToken = await messaging.getToken();
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 

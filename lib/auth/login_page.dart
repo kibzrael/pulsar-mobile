@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/recover_account/recover_account.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -188,9 +188,9 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                   // const Spacer(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: LinkedAccountLogin(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: LinkedAccountLogin(loginProvider),
                   ),
                   // const Spacer(),
                   ToggleAuthScreen(

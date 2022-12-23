@@ -1,45 +1,29 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/providers/google.dart';
+import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool? _loggedIn;
 
   bool? get loggedIn => _loggedIn;
 
-  String? deviceToken;
-
   late String _loginUrl;
 
   LoginProvider(bool isLoggedIn) {
     _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
-    initialize();
-  }
-
-  initialize() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    deviceToken = await messaging.getToken();
   }
 
   Future<LoginResponse> login(BuildContext context, info, password) async {
@@ -66,7 +50,7 @@ class LoginProvider extends ChangeNotifier {
       };
     }
     if (response.statusCode == 200) {
-      await saveLogin(context,
+      saveLogin(context,
           token: response.body!['user']['jwtToken'],
           user: response.body!['user']);
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
@@ -77,6 +61,28 @@ class LoginProvider extends ChangeNotifier {
       });
     }
     return response;
+  }
+
+  googleSignin(BuildContext context) async {
+    GoogleSignInAccount? account = await GoogleProvider.signin();
+
+    if (account != null) {
+      GoogleSignInAuthentication authentication = await account.authentication;
+      // TODO: Make request to server
+      var response;
+      if (response.body['user'] == null) {
+        SignInfoProvider provider =
+            Provider.of<SignInfoProvider>(context, listen: false);
+        provider.googleSignup(context, account);
+      } else {
+        saveLogin(context,
+            token: response.body['user']['jwtToken'],
+            user: response.body['user']);
+        _loggedIn = true;
+        Navigator.of(context).pushReplacementNamed('/');
+        notifyListeners();
+      }
+    }
   }
 
   signup(BuildContext context,
