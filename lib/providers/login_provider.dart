@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
@@ -19,9 +20,11 @@ class LoginProvider extends ChangeNotifier {
 
   bool? get loggedIn => _loggedIn;
 
+  String? deviceToken;
+
   late String _loginUrl;
 
-  LoginProvider(bool isLoggedIn) {
+  LoginProvider(this.deviceToken, bool isLoggedIn) {
     _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
   }
@@ -33,7 +36,7 @@ class LoginProvider extends ChangeNotifier {
       http.Response requestResponse = await http.post(url, body: {
         'info': info,
         'password': password,
-        // 'deviceToken': deviceToken ?? ''
+        'deviceToken': deviceToken ?? ''
       });
 
       response.statusCode = requestResponse.statusCode;
@@ -68,19 +71,35 @@ class LoginProvider extends ChangeNotifier {
 
     if (account != null) {
       GoogleSignInAuthentication authentication = await account.authentication;
-      // TODO: Make request to server
-      var response;
-      if (response.body['user'] == null) {
-        SignInfoProvider provider =
-            Provider.of<SignInfoProvider>(context, listen: false);
-        provider.googleSignup(context, account);
-      } else {
-        saveLogin(context,
-            token: response.body['user']['jwtToken'],
-            user: response.body['user']);
+
+      Uri uri = Uri.parse(getUrl(AuthUrls.googleSignin));
+      http.Response response = await http.post(uri, body: {
+        'id': account.id,
+        'email': account.email,
+        'access_token': authentication.accessToken,
+        'auth_code': account.serverAuthCode,
+        'device_token': deviceToken ?? ''
+      });
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['linked']) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Account Linked Successfully")));
+        }
+        saveLogin(context, token: data['user']['jwtToken'], user: data['user']);
         _loggedIn = true;
         Navigator.of(context).pushReplacementNamed('/');
         notifyListeners();
+      } else if (response.statusCode == 404) {
+        SignInfoProvider provider =
+            Provider.of<SignInfoProvider>(context, listen: false);
+        provider.googleSignup(context, account, authentication.accessToken);
+      } else {
+        Fluttertoast.showToast(msg: 'Error Signing in.');
+        // TODO: Remove this
+        SignInfoProvider provider =
+            Provider.of<SignInfoProvider>(context, listen: false);
+        provider.googleSignup(context, account, authentication.accessToken);
       }
     }
   }

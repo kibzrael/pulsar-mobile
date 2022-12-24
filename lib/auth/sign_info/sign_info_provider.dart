@@ -12,15 +12,22 @@ import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/sign_info/sign_info.dart';
+import 'package:pulsar/auth/sign_info/username.dart';
 
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/response.dart';
+import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
+import 'package:pulsar/widgets/dialog.dart';
+import 'package:pulsar/widgets/loading_dialog.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class SignInfoProvider extends ChangeNotifier {
   PageController? get pageController => _pageController;
@@ -37,7 +44,9 @@ class SignInfoProvider extends ChangeNotifier {
 
   String? token;
 
-  SignInfoProvider() {
+  String? deviceToken;
+
+  SignInfoProvider(this.deviceToken) {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
     user = SignUserInfo();
@@ -88,7 +97,76 @@ class SignInfoProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
-  googleSignup(BuildContext context, GoogleSignInAccount account) {}
+  googleSignup(BuildContext context, GoogleSignInAccount account,
+      String? access_token) async {
+    print('Photo: ${account.photoUrl}');
+    if (account.photoUrl != null) {
+      http.get(Uri.parse(account.photoUrl!)).then((response) async {
+        Directory dir = await getApplicationDocumentsDirectory();
+        String photoPath = join(dir.path, 'img-${account.id}.png');
+        File photo = File(photoPath);
+        await photo.writeAsBytes(response.bodyBytes);
+        user.profilePic = photoPath;
+        print(user.profilePic);
+      });
+    }
+    fetchInterests(context);
+    Navigator.of(context).push(myPageRoute(
+        builder: (context) => SelectUsername(
+                onSubmit: (BuildContext context, String username) async {
+              http.Response response = await openDialog(
+                  context,
+                  (_) => LoadingDialog(
+                        (_) async {
+                          Uri url = Uri.parse(getUrl(AuthUrls.googleSignup));
+                          print(username);
+                          http.Response response = await http.post(
+                            url,
+                            body: {
+                              'id': account.id,
+                              'email': account.email,
+                              'username': username,
+                              'auth_code': account.serverAuthCode,
+                              'access_token': access_token,
+                              'device_token': deviceToken ?? ''
+                            },
+                          );
+
+                          return response;
+                        },
+                        text: 'Submitting',
+                      ));
+              if (response.statusCode == 201) {
+                var data = jsonDecode(response.body);
+                print(data);
+                user.id = data['user']['id'];
+                user.username = data['user']['username'];
+                user.birthday = data['user']['date_of_birth'] == null
+                    ? null
+                    : DateTime.parse(data['user']['date_of_birth'] as String);
+                print(user.birthday);
+                token = data['user']['jwtToken'];
+                LoginProvider loginProvider =
+                    Provider.of<LoginProvider>(context, listen: false);
+                await loginProvider.signup(context,
+                    token: token ?? '', user: data['user']);
+                Navigator.of(context, rootNavigator: true).pushReplacement(
+                    myPageRoute(builder: (context) => const SignInfo()));
+              } else if (response.statusCode == 422) {
+                var data = jsonDecode(response.body);
+                openDialog(
+                  context,
+                  (context) => MyDialog(
+                    title: statusCodes[response.statusCode]!,
+                    body: data['message'],
+                    actions: const ['Ok'],
+                  ),
+                );
+              } else {
+                Fluttertoast.showToast(msg: "Error Signing up");
+              }
+            })));
+  }
 
   submit(BuildContext context) async {
     File? profilePic;

@@ -28,6 +28,13 @@ class _ProfilePhotoState extends State<ProfilePhoto>
   String? profilePic;
 
   @override
+  void initState() {
+    super.initState();
+    provider = Provider.of<SignInfoProvider>(context, listen: false);
+    profilePic = provider.user.profilePic;
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     provider = Provider.of<SignInfoProvider>(context);
@@ -183,18 +190,18 @@ class _ProfilePhotoState extends State<ProfilePhoto>
                   onTap: () async {
                     File? image = await openBottomSheet(
                         context, (context) => PickImageSheet());
-                    CroppedFile? croppedImage;
                     if (image != null) {
+                      CroppedFile? croppedImage;
                       croppedImage = await ImageCropper().cropImage(
                         sourcePath: image.path,
                         aspectRatio:
                             const CropAspectRatio(ratioX: 1, ratioY: 1),
                         cropStyle: CropStyle.circle,
                       );
+                      setState(() {
+                        profilePic = croppedImage?.path;
+                      });
                     }
-                    setState(() {
-                      profilePic = croppedImage?.path;
-                    });
                   },
                   child: Container(
                     padding: const EdgeInsets.all(3),

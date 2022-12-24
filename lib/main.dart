@@ -35,9 +35,6 @@ void main() async {
   FirebaseApp app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  print("Firebase App:");
-  print(app);
-  print(app.options.projectId);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   messaging.requestPermission(
@@ -72,6 +69,7 @@ void main() async {
       Pulsar(
     loggedIn: loggedIn,
     user: user,
+    deviceToken: deviceToken,
   )
       //     ;
       //   },
@@ -82,8 +80,10 @@ void main() async {
 class Pulsar extends StatefulWidget {
   final bool loggedIn;
   final Map<String, dynamic>? user;
+  final String? deviceToken;
 
-  const Pulsar({Key? key, required this.loggedIn, this.user}) : super(key: key);
+  const Pulsar({Key? key, required this.loggedIn, this.user, this.deviceToken})
+      : super(key: key);
 
   @override
   _PulsarState createState() => _PulsarState();
@@ -121,10 +121,10 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => UserProvider(widget.user),
         ),
         ChangeNotifierProvider<LoginProvider>(
-          create: (_) => LoginProvider(widget.loggedIn),
+          create: (_) => LoginProvider(widget.deviceToken, widget.loggedIn),
         ),
         ChangeNotifierProvider<SignInfoProvider>(
-          create: (_) => SignInfoProvider(),
+          create: (_) => SignInfoProvider(widget.deviceToken),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(systemBrightness),

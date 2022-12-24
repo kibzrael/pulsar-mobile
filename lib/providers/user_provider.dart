@@ -262,7 +262,6 @@ class UserProvider extends ChangeNotifier {
           value.forEach((key, categoryValue) {
             late dynamic inputValue;
             if (['parent', 'cover'].contains(key) && categoryValue != null) {
-              debugPrint('$key : $categoryValue');
               Map<String, dynamic> parent = {};
               categoryValue.forEach((key, val) {
                 if (key == 'cover') {
