@@ -44,6 +44,8 @@ dependencies:
   firebase_storage: ^10.2.3
   google_mobile_ads: ^1.0.1
 
+  flutter_facebook_auth: ^5.0.6
+
   # storage
   shared_preferences:
   sqflite:

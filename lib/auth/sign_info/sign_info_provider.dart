@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
@@ -97,13 +96,12 @@ class SignInfoProvider extends ChangeNotifier {
     _pageController.jumpToPage(_page! + 1);
   }
 
-  googleSignup(BuildContext context, GoogleSignInAccount account,
-      String? accessToken) async {
+  providerSignup(BuildContext context, LinkedAccount provider) {
     fetchInterests(context);
-    if (account.photoUrl != null) {
-      http.get(Uri.parse(account.photoUrl!)).then((response) async {
+    if (provider.photo != null) {
+      http.get(Uri.parse(provider.photo!)).then((response) async {
         Directory dir = await getApplicationDocumentsDirectory();
-        String photoPath = join(dir.path, 'img-${account.id}.png');
+        String photoPath = join(dir.path, 'img-${provider.id}.png');
         File photo = File(photoPath);
         await photo.writeAsBytes(response.bodyBytes);
         user.profilePic = photoPath;
@@ -116,15 +114,18 @@ class SignInfoProvider extends ChangeNotifier {
                   context,
                   (_) => LoadingDialog(
                         (_) async {
-                          Uri url = Uri.parse(getUrl(AuthUrls.googleSignup));
+                          Uri url = Uri.parse(getUrl(provider.name == 'google'
+                              ? AuthUrls.googleSignup
+                              : AuthUrls.facebookSignup));
                           http.Response response = await http.post(
                             url,
                             body: {
-                              'id': account.id,
-                              'email': account.email,
+                              'id': provider.id,
+                              'email': provider.email,
                               'username': username,
-                              'auth_code': account.serverAuthCode,
-                              'access_token': accessToken,
+                              'auth_code': provider.authCode ?? '',
+                              'access_token': provider.accessToken,
+                              'birthday': provider.birthday ?? '',
                               'device_token': deviceToken ?? ''
                             },
                           );
@@ -244,3 +245,23 @@ class SignUserInfo {
 }
 
 enum UserType { solo, group }
+
+class LinkedAccount {
+  String name;
+  String id;
+  String email;
+  String accessToken;
+  String? photo;
+  String? authCode;
+  String? birthday;
+
+  LinkedAccount(
+    this.name, {
+    required this.id,
+    required this.email,
+    required this.accessToken,
+    this.photo,
+    this.authCode,
+    this.birthday,
+  });
+}

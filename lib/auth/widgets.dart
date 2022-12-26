@@ -255,10 +255,6 @@ class LinkedAccountLogin extends StatelessWidget {
       this.divider = true})
       : super(key: key);
 
-  void onFacebook() {
-    toastNotImplemented();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -282,7 +278,7 @@ class LinkedAccountLogin extends StatelessWidget {
               LinkedAccountWidget(
                 icon: 'assets/images/logos/facebook.png',
                 name: 'Facebook',
-                onPressed: onFacebook,
+                onPressed: () => provider.facebookSignin(context),
                 color: color,
                 text: text,
               ),
