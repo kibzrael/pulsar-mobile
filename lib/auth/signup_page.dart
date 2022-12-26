@@ -227,7 +227,7 @@ class _SignupPageState extends State<SignupPage>
                   // const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: LinkedAccountLogin(loginProvider),
+                    child: LinkedAccountLogin(loginProvider, text: 'Signup'),
                   ),
                   // const Spacer(),
                   ToggleAuthScreen(

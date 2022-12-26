@@ -98,8 +98,8 @@ class SignInfoProvider extends ChangeNotifier {
   }
 
   googleSignup(BuildContext context, GoogleSignInAccount account,
-      String? access_token) async {
-    print('Photo: ${account.photoUrl}');
+      String? accessToken) async {
+    fetchInterests(context);
     if (account.photoUrl != null) {
       http.get(Uri.parse(account.photoUrl!)).then((response) async {
         Directory dir = await getApplicationDocumentsDirectory();
@@ -107,10 +107,8 @@ class SignInfoProvider extends ChangeNotifier {
         File photo = File(photoPath);
         await photo.writeAsBytes(response.bodyBytes);
         user.profilePic = photoPath;
-        print(user.profilePic);
       });
     }
-    fetchInterests(context);
     Navigator.of(context).push(myPageRoute(
         builder: (context) => SelectUsername(
                 onSubmit: (BuildContext context, String username) async {
@@ -119,7 +117,6 @@ class SignInfoProvider extends ChangeNotifier {
                   (_) => LoadingDialog(
                         (_) async {
                           Uri url = Uri.parse(getUrl(AuthUrls.googleSignup));
-                          print(username);
                           http.Response response = await http.post(
                             url,
                             body: {
@@ -127,7 +124,7 @@ class SignInfoProvider extends ChangeNotifier {
                               'email': account.email,
                               'username': username,
                               'auth_code': account.serverAuthCode,
-                              'access_token': access_token,
+                              'access_token': accessToken,
                               'device_token': deviceToken ?? ''
                             },
                           );
@@ -138,13 +135,11 @@ class SignInfoProvider extends ChangeNotifier {
                       ));
               if (response.statusCode == 201) {
                 var data = jsonDecode(response.body);
-                print(data);
                 user.id = data['user']['id'];
                 user.username = data['user']['username'];
                 user.birthday = data['user']['date_of_birth'] == null
                     ? null
                     : DateTime.parse(data['user']['date_of_birth'] as String);
-                print(user.birthday);
                 token = data['user']['jwtToken'];
                 LoginProvider loginProvider =
                     Provider.of<LoginProvider>(context, listen: false);

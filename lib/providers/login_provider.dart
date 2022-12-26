@@ -96,10 +96,6 @@ class LoginProvider extends ChangeNotifier {
         provider.googleSignup(context, account, authentication.accessToken);
       } else {
         Fluttertoast.showToast(msg: 'Error Signing in.');
-        // TODO: Remove this
-        SignInfoProvider provider =
-            Provider.of<SignInfoProvider>(context, listen: false);
-        provider.googleSignup(context, account, authentication.accessToken);
       }
     }
   }

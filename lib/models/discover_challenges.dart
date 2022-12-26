@@ -70,6 +70,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
           .where((e) => e.parent == null)
           .map((e) => CategoryTag(e.name, e.cover!))
     ];
+    setState(() {});
   }
 
   Future<List<Map<String, dynamic>>> fetchChallenges(int index) async {

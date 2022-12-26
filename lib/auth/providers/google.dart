@@ -13,10 +13,13 @@ class GoogleProvider {
   static Future<GoogleSignInAccount?> signin() async {
     GoogleSignInAccount? account;
     try {
-      await _googleSignIn.disconnect();
+      try {
+        await _googleSignIn.disconnect();
+        // ignore: empty_catches
+      } catch (e) {}
       account = await _googleSignIn.signIn();
     } catch (e) {
-      Fluttertoast.showToast(msg: "Signin Error");
+      Fluttertoast.showToast(msg: "Signin Error $e");
     }
     return account;
   }

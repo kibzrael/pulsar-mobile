@@ -281,7 +281,6 @@ class UserProvider extends ChangeNotifier {
           });
           mapContent.add(category);
         });
-        // debugPrint(mapContent.toString());
         categories = [...mapContent.map((e) => Interest.fromJson(e))];
         notifyListeners();
       }

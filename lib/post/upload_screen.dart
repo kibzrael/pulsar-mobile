@@ -135,7 +135,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                               controller: captionController,
                                               onChanged: (text) {
                                                 setState(() {
-                                                  provider.caption = text;
+                                                  provider.caption =
+                                                      text.trim();
                                                 });
                                               },
                                               onDetectionTyped: (detection) {
