@@ -6,55 +6,8 @@ class PulsarLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColorFiltered(
-      colorFilter: Theme.of(context).brightness == Brightness.dark
-          ? const ColorFilter.matrix(<double>[
-              -1,
-              0,
-              0,
-              0,
-              255,
-              0,
-              -1,
-              0,
-              0,
-              255,
-              0,
-              0,
-              -1,
-              0,
-              255,
-              0,
-              0,
-              0,
-              1,
-              0,
-            ])
-          : const ColorFilter.matrix(<double>[
-              1,
-              0,
-              0,
-              0,
-              0,
-              0,
-              1,
-              0,
-              0,
-              0,
-              0,
-              0,
-              1,
-              0,
-              0,
-              0,
-              0,
-              0,
-              1,
-              0,
-            ]),
-      child: Image.asset('assets/logo.png',
-          width: size, height: size, fit: BoxFit.cover),
-    );
+    return Image.asset('assets/logo.png',
+        width: size, height: size, fit: BoxFit.cover);
   }
 }
 
