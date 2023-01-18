@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/classes/post.dart';
-import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/classes/activity.dart';
+import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
-import 'package:pulsar/secondary_pages.dart/profile_page.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
-import 'package:pulsar/widgets/route.dart';
 
 class InteractionNotificationCard extends StatefulWidget {
-  final User user;
-  final Post? post;
-  final Interaction type;
-  const InteractionNotificationCard(this.user,
-      {Key? key, required this.type, this.post})
+  final InteractionActivity activity;
+  const InteractionNotificationCard(this.activity, {Key? key})
       : super(key: key);
 
   @override
@@ -26,22 +21,15 @@ class _InteractionNotificationCardState
     extends State<InteractionNotificationCard> {
   late InteractionsSync interactionsSync;
 
-  late User user;
-  Post? post;
-  late Interaction type;
-  bool get isFollowing => interactionsSync.isFollowing(user);
+  late InteractionActivity activity;
+
+  // TODO:Implement following
+  bool get isFollowing => false; //interactionsSync.isFollowing(user);
 
   @override
   void initState() {
     super.initState();
-    user = widget.user;
-    post = widget.post;
-    type = widget.type;
-  }
-
-  openUser() {
-    Navigator.of(context)
-        .push(myPageRoute(builder: (context) => ProfilePage(user)));
+    activity = widget.activity;
   }
 
   @override
@@ -55,11 +43,10 @@ class _InteractionNotificationCardState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: openUser,
               child: Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfilePic(
-                  user.profilePic?.thumbnail,
+                  activity.thumbnail,
                   radius: 24,
                 ),
               ),
@@ -70,13 +57,12 @@ class _InteractionNotificationCardState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     InkWell(
-                      onTap: openUser,
                       child: Container(
                         padding: const EdgeInsets.only(bottom: 5),
                         child: Row(
                           children: [
                             Text(
-                              '@${user.username}',
+                              '@${activity.username}',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle1!
@@ -84,30 +70,24 @@ class _InteractionNotificationCardState
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              'Yesterday',
+                              timeAgo(activity.time),
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    Text(
-                      type == Interaction.follow
-                          ? 'Followed you'
-                          : type == Interaction.like
-                              ? "Liked your post"
-                              : type == Interaction.repost
-                                  ? "Reposted your post"
-                                  : "Commmented on your post:\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." //comment
-                      ,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
+                    if (!['', null].contains(activity.description))
+                      Text(
+                        activity.description!,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
                   ]),
             ),
             const SizedBox(width: 15),
-            if (type == Interaction.follow)
+            if (activity.type == Interaction.follow)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: FollowButton(
@@ -117,28 +97,33 @@ class _InteractionNotificationCardState
                   isFollowing: isFollowing,
                   onPressed: () {
                     setState(() {
-                      user.follow(context,
-                          mode: isFollowing
-                              ? RequestMethod.delete
-                              : RequestMethod.post,
-                          onNotify: () => setState(() {}));
+                      // user.follow(context,
+                      //     mode: isFollowing
+                      //         ? RequestMethod.delete
+                      //         : RequestMethod.post,
+                      //     onNotify: () => setState(() {}));
                     });
                   },
                 ),
               )
-            else
+            else if (!['', null].contains(activity.media))
               Container(
                 width: 60,
-                height: type == Interaction.comment ? 75 : 50,
+                height: activity.type == Interaction.comment ? 75 : 50,
                 decoration: BoxDecoration(
                   color: Theme.of(context).inputDecorationTheme.fillColor,
                 ),
                 child: ColorFiltered(
-                  colorFilter:
-                      ColorFilter.matrix(getFilter(post?.filter).convolution),
+                  colorFilter: ColorFilter.matrix(original.convolution),
+                  // TODO:Implement post filter
+                  // colorFilter:
+                  //     ColorFilter.matrix(getFilter(post?.filter).convolution),
                   child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        image: DecorationImage(
+                            image: NetworkImage('${activity.media}'),
+                            fit: BoxFit.cover)),
                   ),
                 ),
               )
@@ -146,5 +131,3 @@ class _InteractionNotificationCardState
         ));
   }
 }
-
-enum Interaction { like, follow, comment, repost }

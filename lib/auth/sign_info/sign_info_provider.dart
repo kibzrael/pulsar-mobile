@@ -67,6 +67,7 @@ class SignInfoProvider extends ChangeNotifier {
         'username': username,
         'email': email,
         'password': password,
+        'device': deviceToken ?? ''
       },
     );
 
@@ -126,7 +127,7 @@ class SignInfoProvider extends ChangeNotifier {
                               'auth_code': provider.authCode ?? '',
                               'access_token': provider.accessToken,
                               'birthday': provider.birthday ?? '',
-                              'device_token': deviceToken ?? ''
+                              'device': deviceToken ?? ''
                             },
                           );
 

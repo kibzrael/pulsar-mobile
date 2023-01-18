@@ -7,6 +7,7 @@ import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class GridPosts extends StatefulWidget {
   final Future<List<Map<String, dynamic>>> Function(int index) fetchData;
@@ -83,7 +84,7 @@ class _GridPostsState extends State<GridPosts>
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
+                                Navigator.of(context).push(myPageRoute(
                                     settings:
                                         const RouteSettings(name: 'postView'),
                                     builder: (context) => PostScreen(

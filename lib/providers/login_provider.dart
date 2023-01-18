@@ -38,7 +38,7 @@ class LoginProvider extends ChangeNotifier {
       http.Response requestResponse = await http.post(url, body: {
         'info': info,
         'password': password,
-        'deviceToken': deviceToken ?? ''
+        'device': deviceToken ?? ''
       });
 
       response.statusCode = requestResponse.statusCode;
@@ -89,7 +89,7 @@ class LoginProvider extends ChangeNotifier {
         'email': account.email,
         'access_token': authentication.accessToken,
         'auth_code': account.serverAuthCode,
-        'device_token': deviceToken ?? ''
+        'device': deviceToken ?? ''
       });
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
@@ -127,7 +127,7 @@ class LoginProvider extends ChangeNotifier {
           'id': accessToken.userId,
           'email': account.email,
           'access_token': accessToken.token,
-          'device_token': deviceToken ?? ''
+          'device': deviceToken ?? ''
         });
         if (response.statusCode == 200) {
           var data = jsonDecode(response.body);

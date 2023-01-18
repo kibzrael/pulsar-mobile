@@ -32,7 +32,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseApp app = await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -46,6 +46,10 @@ void main() async {
     provisional: false,
     sound: true,
   );
+
+  RemoteMessage? initialMessage = await messaging.getInitialMessage();
+  String? initialLink = initialMessage?.data['link'];
+
   String? deviceToken = await messaging.getToken();
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
@@ -70,6 +74,7 @@ void main() async {
     loggedIn: loggedIn,
     user: user,
     deviceToken: deviceToken,
+    initialLink: initialLink,
   )
       //     ;
       //   },
@@ -81,8 +86,14 @@ class Pulsar extends StatefulWidget {
   final bool loggedIn;
   final Map<String, dynamic>? user;
   final String? deviceToken;
+  final String? initialLink;
 
-  const Pulsar({Key? key, required this.loggedIn, this.user, this.deviceToken})
+  const Pulsar(
+      {Key? key,
+      required this.loggedIn,
+      this.user,
+      this.deviceToken,
+      this.initialLink})
       : super(key: key);
 
   @override

@@ -19,6 +19,9 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
 
   late AdProvider provider;
 
+  late ThemeProvider themeProvider;
+  late bool isDark;
+
   late NativeAd _ad;
 
   bool _isAdLoaded = false;
@@ -27,8 +30,12 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
-    ThemeProvider themeProvider =
-        Provider.of<ThemeProvider>(context, listen: false);
+    themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    isDark = themeProvider.isDark;
+    initialize();
+  }
+
+  initialize() {
     try {
       provider.initialization.then((value) {
         setState(() {
@@ -73,6 +80,11 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
+    if (themeProvider.isDark != isDark) {
+      initialize();
+      isDark = themeProvider.isDark;
+    }
     return Card(
       margin: const EdgeInsets.fromLTRB(7.5, 0, 7.5, 10),
       elevation: 4,

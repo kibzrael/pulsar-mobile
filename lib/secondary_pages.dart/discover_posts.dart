@@ -17,6 +17,7 @@ import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/home.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class DiscoverPosts extends StatefulWidget {
   const DiscoverPosts({Key? key}) : super(key: key);
@@ -137,7 +138,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                           return InkWell(
                                             onTap: () {
                                               Navigator.of(context).push(
-                                                  MaterialPageRoute(
+                                                  myPageRoute(
                                                       settings:
                                                           const RouteSettings(
                                                               name: 'postView'),

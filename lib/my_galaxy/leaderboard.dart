@@ -223,6 +223,10 @@ class _LeaderboardState extends State<Leaderboard> {
                                               onPressed: () {
                                                 Navigator.of(context).push(
                                                     myPageRoute(
+                                                        settings:
+                                                            const RouteSettings(
+                                                                name:
+                                                                    'postView'),
                                                         builder: (context) =>
                                                             PostScreen(
                                                               target: fetchData,
@@ -280,6 +284,7 @@ class _LeaderboardState extends State<Leaderboard> {
       onTap: () {
         if (user != null) {
           Navigator.of(context).push(myPageRoute(
+              settings: const RouteSettings(name: 'postView'),
               builder: (context) => PostScreen(
                     target: fetchData,
                     initialPosts: posts,

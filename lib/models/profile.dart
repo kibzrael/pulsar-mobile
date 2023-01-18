@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
                     onTap: () {
                       if (user.profilePic != null) {
                         Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
+                            myPageRoute(
                                 builder: (context) => PhotoView(
                                     user.profilePic!.photo(context),
                                     tag: '${user.id}ProfilePic')));

@@ -11,6 +11,7 @@ import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class TagPage extends StatefulWidget {
   final String tag;
@@ -92,7 +93,7 @@ class _TagPageState extends State<TagPage>
                               child: InkWell(
                                   onTap: () {
                                     Navigator.of(context, rootNavigator: true)
-                                        .push(MaterialPageRoute(
+                                        .push(myPageRoute(
                                             builder: (context) => PhotoView(
                                                 tom.profilePic!.photo(context),
                                                 tag: 'tagPic')));
@@ -144,7 +145,7 @@ class _TagPageState extends State<TagPage>
                                 isFollowing: isFollowing,
                                 onChildPressed: () {
                                   Navigator.of(context, rootNavigator: true)
-                                      .push(MaterialPageRoute(
+                                      .push(myPageRoute(
                                           builder: (context) =>
                                               PostProcess(tag: tag)));
                                 },
