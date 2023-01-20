@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/models/posts_view.dart';
 import 'package:pulsar/providers/theme_provider.dart';
@@ -31,14 +30,10 @@ class _PostScreenState extends State<PostScreen> {
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-            title: Text(widget.title),
-            actions: [
-              Opacity(
-                  opacity: 0,
-                  child: IconButton(icon: Icon(MyIcons.more), onPressed: () {}))
-            ]),
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: Text(widget.title),
+        ),
         body: PostsView(
             initialPosts: widget.initialPosts,
             postInView: widget.postInView,

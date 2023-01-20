@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/notifications/notifications_page.dart';
 import 'package:pulsar/pages/home_page.dart';
-import 'package:pulsar/pages/message_screen.dart';
 import 'package:pulsar/pages/challenges.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
+import 'package:pulsar/providers/activity_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -93,299 +93,155 @@ class _BasicRootState extends State<BasicRoot> {
         }
         return response;
       },
-      child: ChangeNotifierProvider<BasicRootProvider>(
-          create: (_) => BasicRootProvider(),
+      child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ActivityProvider>(
+                create: (_) => ActivityProvider(context)),
+            ChangeNotifierProvider<BasicRootProvider>(
+                create: (_) => BasicRootProvider())
+          ],
           builder: (context, child) {
-            return Consumer<BasicRootProvider>(
+            return Consumer<ActivityProvider>(
                 builder: (context, provider, child) {
-              basicRootProvider = provider;
-              Map<int, String> navigatorTop = provider.navigatorsTop;
-              bool barTransparent() {
-                bool transparent = false;
+              return Consumer<BasicRootProvider>(
+                  builder: (context, provider, child) {
+                basicRootProvider = provider;
+                Map<int, String> navigatorTop = provider.navigatorsTop;
+                bool barTransparent() {
+                  bool transparent = false;
 
-                if (navigatorTop[0] == '/' && currentIndex == 0) {
-                  transparent = true;
-                }
-                navigatorTop.forEach((key, value) {
-                  if (value == 'postView' && currentIndex == key) {
+                  if (navigatorTop[0] == '/' && currentIndex == 0) {
                     transparent = true;
                   }
-                });
+                  navigatorTop.forEach((key, value) {
+                    if (value == 'postView' && currentIndex == key) {
+                      transparent = true;
+                    }
+                  });
 
-                return transparent;
-              }
+                  return transparent;
+                }
 
-              bool barIsTransparent = barTransparent();
+                bool barIsTransparent = barTransparent();
 
-              // bool themeIsDark = barIsTransparent ||
-              //     Theme.of(context).brightness == Brightness.dark;
+                // bool themeIsDark = barIsTransparent ||
+                //     Theme.of(context).brightness == Brightness.dark;
 
-              return Scaffold(
-                extendBody: true,
-                resizeToAvoidBottomInset: false,
-                body: PageView(
-                  controller: pageController,
-                  onPageChanged: onPageChanged,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    const HomePage(),
-                    const ChallengesPage(),
-                    Container(),
-                    // const MessageScreen(),
-                    const NotificationsPage(),
-                    const MyProfilePage(),
-                  ],
-                ),
-                bottomNavigationBar: BottomAppBar(
-                  elevation: barIsTransparent ? 0 : 16,
-                  color: barIsTransparent
-                      ? Colors.transparent
-                      : Theme.of(context)
-                          .bottomNavigationBarTheme
-                          .backgroundColor,
-                  child: SizedBox.fromSize(
-                    size: Size(
-                        MediaQuery.of(context).size.width,
-                        kToolbarHeight +
-                            (isUploadingPost ? kToolbarHeight : 0)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isUploadingPost)
-                          UploadProgress(bgOperations.uploadPost!,
-                              barIsTransparent: barIsTransparent),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              NavigationBarItem(
-                                0,
-                                label: 'Home',
-                                selected: currentIndex,
-                                icon: MyIcons.home,
-                                onTap: navigationChange,
-                                barIsTransparent: barIsTransparent,
-                              ),
-                              NavigationBarItem(
-                                1,
-                                label: 'Challenges',
-                                selected: currentIndex,
-                                icon: MyIcons.explore,
-                                onTap: navigationChange,
-                                barIsTransparent: barIsTransparent,
-                              ),
-                              InkWell(
-                                onTap: () => navigationChange(2),
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: ((MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    5) -
-                                                40) /
-                                            2),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          gradient: accentGradient(),
-                                          shape: BoxShape.circle),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5, vertical: 5),
-                                      child: Icon(
-                                        MyIcons.add,
-                                        size: 30,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                    // Transform.rotate(
-                                    //   angle: 45,
-                                    //   child: Container(
-                                    //     decoration: BoxDecoration(
-                                    //         shape: BoxShape.circle,
-                                    //         color: barIsTransparent
-                                    //             ? darkTheme
-                                    //                 .bottomNavigationBarTheme
-                                    //                 .backgroundColor
-                                    //             : Theme.of(context)
-                                    //                 .bottomNavigationBarTheme
-                                    //                 .backgroundColor),
-                                    //     child: Container(
-                                    //       padding: const EdgeInsets.symmetric(
-                                    //           horizontal: 5, vertical: 5),
-                                    //       decoration: BoxDecoration(
-                                    //         shape: BoxShape.circle,
-                                    //         gradient: LinearGradient(
-                                    //           colors: [
-                                    //             Theme.of(context)
-                                    //                 .colorScheme
-                                    //                 .secondary,
-                                    //             themeIsDark
-                                    //                 ? Colors.transparent
-                                    //                 : Colors.white,
-                                    //             Theme.of(context)
-                                    //                 .colorScheme
-                                    //                 .primaryContainer,
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //       child: Transform.rotate(
-                                    //         angle: -45,
-                                    //         child: Container(
-                                    //           decoration: BoxDecoration(
-                                    //             color: themeIsDark
-                                    //                 ? Colors.black45
-                                    //                 : Colors.white54,
-                                    //             shape: BoxShape.circle,
-                                    //           ),
-                                    //           child: Icon(
-                                    //             MyIcons.add,
-                                    //             size: 30,
-                                    //             color: themeIsDark
-                                    //                 ? Colors.white
-                                    //                 : Colors.black,
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    ),
-                              ),
-                              // NavigationBarItem(
-                              //   3,
-                              //   label: 'Inbox',
-                              //   selected: currentIndex,
-                              //   iconSize: 24,
-                              //   icon: MyIcons.messageOutline,
-                              //   onTap: navigationChange,
-                              //   barIsTransparent: barIsTransparent,
-                              // ),
-                              NavigationBarItem(
-                                3,
-                                label: 'Activity',
-                                selected: currentIndex,
-                                iconSize: 24,
-                                icon: MyIcons.notifications,
-                                onTap: navigationChange,
-                                barIsTransparent: barIsTransparent,
-                              ),
-                              NavigationBarItem(
-                                4,
-                                label: 'Account',
-                                selected: currentIndex,
-                                iconSize: 21,
-                                icon: MyIcons.account,
-                                onTap: navigationChange,
-                                barIsTransparent: barIsTransparent,
-                              ),
-                            ],
+                return Scaffold(
+                  extendBody: true,
+                  resizeToAvoidBottomInset: false,
+                  body: PageView(
+                    controller: pageController,
+                    onPageChanged: onPageChanged,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      const HomePage(),
+                      const ChallengesPage(),
+                      Container(),
+                      // const MessageScreen(),
+                      const NotificationsPage(),
+                      const MyProfilePage(),
+                    ],
+                  ),
+                  bottomNavigationBar: BottomAppBar(
+                    elevation: barIsTransparent ? 0 : 16,
+                    color: barIsTransparent
+                        ? Colors.transparent
+                        : Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .backgroundColor,
+                    child: SizedBox.fromSize(
+                      size: Size(
+                          MediaQuery.of(context).size.width,
+                          kToolbarHeight +
+                              (isUploadingPost ? kToolbarHeight : 0)),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (isUploadingPost)
+                            UploadProgress(bgOperations.uploadPost!,
+                                barIsTransparent: barIsTransparent),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                NavigationBarItem(
+                                  0,
+                                  label: 'Home',
+                                  selected: currentIndex,
+                                  icon: MyIcons.homeOutline,
+                                  activeIcon: MyIcons.home,
+                                  onTap: navigationChange,
+                                  barIsTransparent: barIsTransparent,
+                                ),
+                                NavigationBarItem(
+                                  1,
+                                  label: 'Challenges',
+                                  selected: currentIndex,
+                                  icon: MyIcons.exploreOutline,
+                                  activeIcon: MyIcons.explore,
+                                  onTap: navigationChange,
+                                  barIsTransparent: barIsTransparent,
+                                ),
+                                InkWell(
+                                  onTap: () => navigationChange(2),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: ((MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      5) -
+                                                  40) /
+                                              2),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            gradient: accentGradient(),
+                                            shape: BoxShape.circle),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 5),
+                                        child: Icon(
+                                          MyIcons.add,
+                                          size: 30,
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                ),
+                                // NavigationBarItem(
+                                //   3,
+                                //   label: 'Inbox',
+                                //   selected: currentIndex,
+                                //   iconSize: 24,
+                                //   icon: MyIcons.messageOutline,
+                                //   onTap: navigationChange,
+                                //   barIsTransparent: barIsTransparent,
+                                // ),
+                                NavigationBarItem(
+                                  3,
+                                  label: 'Activity',
+                                  selected: currentIndex,
+                                  icon: MyIcons.notifications,
+                                  onTap: navigationChange,
+                                  barIsTransparent: barIsTransparent,
+                                ),
+                                NavigationBarItem(
+                                  4,
+                                  label: 'Account',
+                                  selected: currentIndex,
+                                  icon: MyIcons.accountOutline,
+                                  activeIcon: MyIcons.account,
+                                  onTap: navigationChange,
+                                  barIsTransparent: barIsTransparent,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                // BottomAppBar(
-                //   elevation: barTransparent() ? 0 : 16,
-                //   color: barTransparent()
-                //       ? Colors.transparent
-                //       : Theme.of(context)
-                //           .bottomNavigationBarTheme
-                //           .backgroundColor,
-                //   child: CupertinoTabBar(
-                //     border: Border.all(style: BorderStyle.none),
-                //     //  Border(
-                //     //   top:
-                //     //    BorderSide(
-                //     //       color: barTransparent()
-                //     //           ? Colors.transparent
-                //     //           : Theme.of(context).colorScheme.surface),
-                //     // ),
-                //     backgroundColor: barTransparent()
-                //         ? Colors.transparent
-                //         : Theme.of(context)
-                //             .bottomNavigationBarTheme
-                //             .backgroundColor,
-                //     activeColor: barTransparent()
-                //         ? Colors.white
-                //         : Theme.of(context)
-                //             .bottomNavigationBarTheme
-                //             .selectedItemColor,
-                //     inactiveColor: Theme.of(context)
-                //         .bottomNavigationBarTheme
-                //         .unselectedItemColor!,
-                //     onTap: navigationChange,
-                //     iconSize: 27,
-                //     currentIndex: currentIndex,
-                //     items: [
-                //       BottomNavigationBarItem(
-                //           label: 'Home',
-                //           icon: Icon(
-                //             MyIcons.home,
-                //           )),
-                //       BottomNavigationBarItem(
-                //           label: 'My Galaxy',
-                //           icon: Icon(
-                //             MyIcons.explore,
-                //           )),
-                //       BottomNavigationBarItem(
-                //         icon: Padding(
-                //           padding: EdgeInsets.only(top: 5),
-                //           child: Transform.rotate(
-                //             angle: 45,
-                //             child: Container(
-                //               padding: EdgeInsets.symmetric(
-                //                   horizontal: 5, vertical: 5),
-                //               decoration: BoxDecoration(
-                //                 shape: BoxShape.circle,
-                //                 gradient: LinearGradient(
-                //                   colors: [
-                //                     Theme.of(context).accentColor,
-                //                     themeIsDark
-                //                         ? Colors.transparent
-                //                         : Colors.white,
-                //                     Theme.of(context).buttonColor,
-                //                   ],
-                //                 ),
-                //               ),
-                //               child: Transform.rotate(
-                //                 angle: -45,
-                //                 child: Container(
-                //                   decoration: BoxDecoration(
-                //                     color: themeIsDark
-                //                         ? Colors.black45
-                //                         : Colors.white54,
-                //                     shape: BoxShape.circle,
-                //                   ),
-                //                   child: Icon(
-                //                     MyIcons.add,
-                //                     size: 30,
-                //                     color: themeIsDark
-                //                         ? Colors.white
-                //                         : Colors.black,
-                //                   ),
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       BottomNavigationBarItem(
-                //           label: 'Inbox',
-                //           icon: Icon(
-                //             MyIcons.messageOutline,
-                //             size: 24,
-                //           )),
-                //       BottomNavigationBarItem(
-                //           label: 'Account',
-                //           icon: Icon(
-                //             MyIcons.account,
-                //             size: 21,
-                //           )),
-                //     ],
-                //   ),
-                // ),
-              );
+                );
+              });
             });
           }),
     );
@@ -417,6 +273,7 @@ class NavigationBarItem extends StatelessWidget {
   final int index;
   final String label;
   final IconData icon;
+  final IconData? activeIcon;
   final double iconSize;
   final int selected;
   final bool barIsTransparent;
@@ -430,6 +287,7 @@ class NavigationBarItem extends StatelessWidget {
       required this.icon,
       required this.onTap,
       required this.barIsTransparent,
+      this.activeIcon,
       this.iconSize = 27})
       : super(key: key);
 
@@ -454,7 +312,7 @@ class NavigationBarItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
+              isSelected ? activeIcon ?? icon : icon,
               size: iconSize,
               color: isSelected ? activeColor : inactiveColor,
             ),

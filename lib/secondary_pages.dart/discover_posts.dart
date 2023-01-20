@@ -10,12 +10,14 @@ import 'package:pulsar/data/posts.dart';
 import 'package:pulsar/models/discover_tags.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/home.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class DiscoverPosts extends StatefulWidget {
   const DiscoverPosts({Key? key}) : super(key: key);
@@ -66,10 +68,22 @@ class _DiscoverPostsState extends State<DiscoverPosts>
             itemBuilder: (context, snapshot) {
               List<Map<String, dynamic>> snapshotData = snapshot.data;
               if (dataTag == tag) data = [...snapshotData];
-              List<Post> postData = [...data.map((e) => Post.fromJson(e))];
+              List<Post?> postData = [...data.map((e) => Post.fromJson(e))];
               int ads = (postData.length / 12).round();
-              int dataLength = postData.length + ads;
-              int visibleAds = 0;
+              for (int i = 0; i < ads; i++) {
+                int index = i * 12 + 5;
+                if (postData.length > index) {
+                  postData.insert(index, null);
+                } else if (postData.length >= index) {
+                  postData.add(null);
+                }
+              }
+              List<Post> noAdPosts = [];
+              for (Post? e in postData) {
+                if (e != null) {
+                  noAdPosts.add(e);
+                }
+              }
               return LayoutBuilder(builder: (context, constraints) {
                 int cols = constraints.maxWidth > 1024
                     ? 4
@@ -101,7 +115,7 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                     triggerMode:
                                         RefreshIndicatorTriggerMode.anywhere,
                                     child: GridView.builder(
-                                        itemCount: dataLength,
+                                        itemCount: postData.length,
                                         padding: EdgeInsets.fromLTRB(
                                             6,
                                             0,
@@ -116,29 +130,28 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                 crossAxisSpacing: 6,
                                                 mainAxisSpacing: 6),
                                         itemBuilder: (context, index) {
-                                          if (index == 0) visibleAds = 0;
-                                          if ((index + 1) % 12 == 6 &&
-                                              visibleAds < ads) {
-                                            visibleAds++;
+                                          Post? post = postData[index];
+                                          if (post == null) {
                                             return const GridAd();
                                           }
-                                          Post post =
-                                              postData[index - visibleAds];
 
                                           return InkWell(
                                             onTap: () {
                                               Navigator.of(context).push(
-                                                  MaterialPageRoute(
+                                                  myPageRoute(
                                                       settings:
                                                           const RouteSettings(
                                                               name: 'postView'),
                                                       builder: (context) =>
                                                           PostScreen(
                                                             initialPosts:
-                                                                postData,
+                                                                noAdPosts,
                                                             target: fetchData,
                                                             title: tag,
-                                                            postInView: index,
+                                                            postInView: noAdPosts
+                                                                .indexWhere((e) =>
+                                                                    post.id ==
+                                                                    e.id),
                                                           )));
                                             },
                                             child: ClipRRect(
@@ -155,13 +168,26 @@ class _DiscoverPostsState extends State<DiscoverPosts>
                                                         color: Theme.of(context)
                                                             .inputDecorationTheme
                                                             .fillColor,
-                                                        image: DecorationImage(
-                                                            image: CachedNetworkImageProvider(post
-                                                                .thumbnail
-                                                                .photo(context,
-                                                                    max:
-                                                                        'medium')),
-                                                            fit: BoxFit.cover),
+                                                      ),
+                                                      child: ColorFiltered(
+                                                        colorFilter: ColorFilter
+                                                            .matrix(getFilter(
+                                                                    post.filter)
+                                                                .convolution),
+                                                        child: Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image: DecorationImage(
+                                                                image: CachedNetworkImageProvider(post
+                                                                    .thumbnail
+                                                                    .photo(
+                                                                        context,
+                                                                        max:
+                                                                            'medium')),
+                                                                fit: BoxFit
+                                                                    .cover),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),

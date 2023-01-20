@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/profile_stats.dart';
@@ -7,6 +8,7 @@ import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/photo_view.dart';
 import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/route.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   final User user;
@@ -40,7 +42,7 @@ class _ProfileState extends State<Profile> {
                     onTap: () {
                       if (user.profilePic != null) {
                         Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(
+                            myPageRoute(
                                 builder: (context) => PhotoView(
                                     user.profilePic!.photo(context),
                                     tag: '${user.id}ProfilePic')));
@@ -105,26 +107,34 @@ class _ProfileState extends State<Profile> {
           ),
         const SizedBox(height: 5),
         if (user.portfolio != null && user.portfolio != '')
-          ShaderMask(
-            shaderCallback: (rect) => primaryGradient().createShader(rect),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  MyIcons.link,
-                  color: Colors.white,
-                  size: 18,
-                ),
-                const SizedBox(width: 5),
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5),
-                  child: Text(
-                    user.portfolio!,
-                    style: const TextStyle(color: Colors.white),
-                    overflow: TextOverflow.ellipsis,
+          InkWell(
+            onTap: () async {
+              Uri url = Uri.parse(user.portfolio!);
+              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                Fluttertoast.showToast(msg: 'Could not launch $url');
+              }
+            },
+            child: ShaderMask(
+              shaderCallback: (rect) => primaryGradient().createShader(rect),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    MyIcons.link,
+                    color: Colors.white,
+                    size: 18,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 5),
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      user.portfolio!,
+                      style: const TextStyle(color: Colors.white),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
       ]),

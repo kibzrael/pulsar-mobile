@@ -1,16 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/auth/providers/facebook.dart';
+import 'package:pulsar/auth/providers/google.dart';
+import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 
 import 'package:pulsar/urls/auth.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LoginProvider extends ChangeNotifier {
   bool? _loggedIn;
@@ -21,25 +26,9 @@ class LoginProvider extends ChangeNotifier {
 
   late String _loginUrl;
 
-  LoginProvider(bool isLoggedIn) {
+  LoginProvider(this.deviceToken, bool isLoggedIn) {
     _loggedIn = isLoggedIn;
     _loginUrl = getUrl(AuthUrls.loginUrl);
-    initialize();
-  }
-
-  initialize() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-    deviceToken = await messaging.getToken();
   }
 
   Future<LoginResponse> login(BuildContext context, info, password) async {
@@ -49,7 +38,7 @@ class LoginProvider extends ChangeNotifier {
       http.Response requestResponse = await http.post(url, body: {
         'info': info,
         'password': password,
-        // 'deviceToken': deviceToken ?? ''
+        'device': deviceToken ?? ''
       });
 
       response.statusCode = requestResponse.statusCode;
@@ -66,7 +55,7 @@ class LoginProvider extends ChangeNotifier {
       };
     }
     if (response.statusCode == 200) {
-      await saveLogin(context,
+      saveLogin(context,
           token: response.body!['user']['jwtToken'],
           user: response.body!['user']);
       Future.delayed(const Duration(milliseconds: 300)).then((value) {
@@ -77,6 +66,93 @@ class LoginProvider extends ChangeNotifier {
       });
     }
     return response;
+  }
+
+  googleSignin(BuildContext context) async {
+    GoogleSignInAccount? account = await GoogleProvider.signin();
+
+    if (account != null) {
+      GoogleSignInAuthentication authentication = await account.authentication;
+
+      LinkedAccount linkedAccount = LinkedAccount(
+        'google',
+        id: account.id,
+        email: account.email,
+        authCode: account.serverAuthCode,
+        accessToken: authentication.accessToken ?? '',
+        photo: account.photoUrl,
+      );
+
+      Uri uri = Uri.parse(getUrl(AuthUrls.googleSignin));
+      http.Response response = await http.post(uri, body: {
+        'id': account.id,
+        'email': account.email,
+        'access_token': authentication.accessToken,
+        'auth_code': account.serverAuthCode,
+        'device': deviceToken ?? ''
+      });
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['linked']) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Account Linked Successfully")));
+        }
+        saveLogin(context, token: data['user']['jwtToken'], user: data['user']);
+        _loggedIn = true;
+        Navigator.of(context).pushReplacementNamed('/');
+        notifyListeners();
+      } else if (response.statusCode == 404) {
+        SignInfoProvider provider =
+            Provider.of<SignInfoProvider>(context, listen: false);
+        provider.providerSignup(context, linkedAccount);
+      } else {
+        Fluttertoast.showToast(msg: 'Error Signing in.');
+      }
+    }
+  }
+
+  facebookSignin(BuildContext context) async {
+    AccessToken? accessToken = await FacebookProvider.signIn();
+    if (accessToken != null) {
+      Map<String, dynamic>? userData = await FacebookProvider.fetchUser();
+      if (userData != null) {
+        LinkedAccount account = LinkedAccount('facebook',
+            id: accessToken.userId,
+            email: userData['email'],
+            accessToken: accessToken.token,
+            photo: userData['picture']['data']['url'],
+            birthday: userData['birthday']);
+        Uri uri = Uri.parse(getUrl(AuthUrls.facebookSignin));
+        http.Response response = await http.post(uri, body: {
+          'id': accessToken.userId,
+          'email': account.email,
+          'access_token': accessToken.token,
+          'device': deviceToken ?? ''
+        });
+        if (response.statusCode == 200) {
+          var data = jsonDecode(response.body);
+          if (data['linked']) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Account Linked Successfully")));
+          }
+          saveLogin(context,
+              token: data['user']['jwtToken'], user: data['user']);
+          _loggedIn = true;
+          Navigator.of(context).pushReplacementNamed('/');
+          notifyListeners();
+        } else if (response.statusCode == 404) {
+          SignInfoProvider provider =
+              Provider.of<SignInfoProvider>(context, listen: false);
+          provider.providerSignup(context, account);
+        } else {
+          Fluttertoast.showToast(msg: 'Error Signing in.');
+        }
+      } else {
+        Fluttertoast.showToast(msg: 'Error fetching Data.');
+      }
+    } else {
+      Fluttertoast.showToast(msg: 'Error Signing in');
+    }
   }
 
   signup(BuildContext context,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/auth/auth.dart';
-import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/widgets.dart';
+import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
@@ -16,6 +18,7 @@ class IntroAuth extends StatefulWidget {
 class _IntroAuthState extends State<IntroAuth> {
   @override
   Widget build(BuildContext context) {
+    LoginProvider provider = Provider.of<LoginProvider>(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -31,7 +34,7 @@ class _IntroAuthState extends State<IntroAuth> {
                 style: Theme.of(context).textTheme.headline1?.copyWith(
                     fontStyle: FontStyle.italic, fontWeight: FontWeight.w500)),
             const Spacer(flex: 2),
-            const LinkedAccountLogin(divider: false, text: 'Continue'),
+            LinkedAccountLogin(provider, divider: false, text: 'Continue'),
             const Spacer(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),

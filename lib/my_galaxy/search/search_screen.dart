@@ -84,9 +84,9 @@ class _SearchScreenState extends State<SearchScreen>
     List<Map<String, dynamic>> results = [];
     String url;
     if (page == 0) {
-      url = getUrl(UserUrls.search(keyword, index));
+      url = getUrl(UserUrls.search(keyword.trim(), index));
     } else {
-      url = getUrl(ChallengesUrl.search(keyword, index));
+      url = getUrl(ChallengesUrl.search(keyword.trim(), index));
     }
 
     http.Response response = await http.get(Uri.parse(url),
@@ -128,6 +128,7 @@ class _SearchScreenState extends State<SearchScreen>
                 controller: controller,
                 onSubmitted: (text) {
                   pageController.jumpToPage(1);
+                  setState(() {});
                 },
                 hintText:
                     tabIndex == 0 ? 'Search Users...' : 'Search Challenges...',
@@ -164,7 +165,9 @@ class _SearchScreenState extends State<SearchScreen>
           body: PageView(
             controller: pageController,
             children: [
-              SearchSuggestions(suggestions, onSearch: () {
+              SearchSuggestions(suggestions, onSearch: (text) {
+                keyword = text;
+                controller.text = text;
                 focusNode.unfocus();
                 pageController.jumpToPage(1);
                 setState(() {});

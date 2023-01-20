@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
@@ -186,6 +186,7 @@ class _SignupPageState extends State<SignupPage>
                         hintText: 'Username',
                         controller: usernameController,
                         focusNode: usernameNode,
+                        max: 15,
                         onFieldSubmitted: (_) {
                           passwordNode.requestFocus();
                         },
@@ -224,9 +225,9 @@ class _SignupPageState extends State<SignupPage>
                     ),
                   ),
                   // const Spacer(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 12),
-                    child: LinkedAccountLogin(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    child: LinkedAccountLogin(loginProvider, text: 'Signup'),
                   ),
                   // const Spacer(),
                   ToggleAuthScreen(

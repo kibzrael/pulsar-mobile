@@ -36,13 +36,15 @@ dependencies:
   dio: ^4.0.6
   connectivity_plus: ^2.2.0
 
-  # firebase
+  # Google
   firebase_core: ^1.10.5
   firebase_analytics: ^9.0.3
-  google_sign_in: ^5.2.1
+  google_sign_in: ^5.4.2
   cloud_firestore: ^3.1.4
   firebase_storage: ^10.2.3
   google_mobile_ads: ^1.0.1
+
+  flutter_facebook_auth: ^5.0.6
 
   # storage
   shared_preferences:
@@ -77,6 +79,8 @@ dependencies:
 
   share_plus: ^3.0.4
   permission_handler: ^8.1.4+2
+  url_launcher: ^6.1.7
+  webview_flutter: ^3.0.4
 
   # audio
   flutter_sound: ^9.2.13
@@ -146,9 +150,15 @@ flutter:
     - family: Champagne
       fonts:
         - asset: fonts/cac_champagne.ttf
-    - family: SvgIcons
+    - family: icomoon
       fonts:
-        - asset: fonts/icons.ttf
+        - asset: fonts/icomoon.ttf
+    - family: icomoon16
+      fonts:
+        - asset: fonts/icomoon16.ttf
+    - family: icomoon12
+      fonts:
+        - asset: fonts/icomoon12.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

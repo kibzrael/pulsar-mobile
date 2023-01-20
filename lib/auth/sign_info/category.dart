@@ -18,8 +18,6 @@ class _ChooseCategoryState extends State<ChooseCategory>
   bool get wantKeepAlive => true;
   late SignInfoProvider provider;
 
-  List<Interest> categories = [];
-
   Interest? selectedCategory;
 
   @override
@@ -28,10 +26,6 @@ class _ChooseCategoryState extends State<ChooseCategory>
     provider = Provider.of<SignInfoProvider>(context);
 
     bool isSolo = provider.user.userType == UserType.solo;
-
-    categories = [
-      ...provider.interests.where((element) => element.parent == null)
-    ];
 
     return GestureDetector(
       onTap: () {

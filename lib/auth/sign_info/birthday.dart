@@ -39,7 +39,7 @@ class _BirthdayPageState extends State<BirthdayPage>
                 provider.nextPage();
               }),
           body: SelectBirthday(
-              initialDate: null,
+              initialDate: provider.user.birthday,
               onSelected: (date) {
                 setState(() {
                   selected = true;

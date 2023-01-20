@@ -32,12 +32,18 @@ class Post {
   int likes;
   int comments;
   int reposts;
+  int points;
   DateTime? time;
 
   @JsonKey(name: 'is_liked')
   bool isLiked;
   @JsonKey(name: 'is_reposted')
   bool isReposted;
+
+  @JsonKey(name: 'filter_name')
+  String? filter;
+
+  double? ratio;
 
   List<Interest> tags;
 
@@ -56,7 +62,10 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.reposts = 0,
+    this.points = 0,
     this.tags = const [],
+    this.filter,
+    this.ratio,
     this.time,
   });
 
@@ -86,7 +95,6 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         isLiked = mode != RequestMethod.post;
         mode == RequestMethod.post ? likes-- : likes++;
@@ -113,6 +121,19 @@ class Post {
     }
   }
 
+  // TODO: Fix sync -1 issue
+  int getLikes(BuildContext context) {
+    InteractionsSync interactionsSync =
+        Provider.of<InteractionsSync>(context, listen: false);
+    if (interactionsSync.isLiked(this) && !isLiked) {
+      return likes + 1;
+    } else if (!interactionsSync.isLiked(this) && isLiked) {
+      return likes - 1;
+    } else {
+      return likes;
+    }
+  }
+
   // repost(BuildContext context,
   //     {RequestMethod mode = RequestMethod.post, String comment}) {}
   repost(BuildContext context,
@@ -134,7 +155,6 @@ class Post {
             headers: {'Authorization': user.token ?? ''});
       }
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
       } else {
         isReposted = mode != RequestMethod.post;
         mode == RequestMethod.post ? reposts-- : reposts++;
@@ -178,7 +198,6 @@ class Post {
           .delete(Uri.parse(url), headers: {'Authorization': user.token ?? ''});
       var data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: 'Success...');
         onDelete();
         // TODO: Refresh my profile
       } else {

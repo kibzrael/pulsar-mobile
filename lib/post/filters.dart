@@ -3,6 +3,26 @@ import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
+List<Filter> filters = [
+  original,
+  pop,
+  sepia,
+  grayscale,
+  warm,
+  cool,
+  natural,
+  vintage,
+  rise,
+  bw,
+  landscape,
+  lofi,
+  invert,
+];
+
+Filter getFilter(String? name) {
+  return filters.firstWhere((e) => e.name == name, orElse: () => original);
+}
+
 class Filters extends StatefulWidget {
   final PostProvider postProvider;
   const Filters(this.postProvider, {Key? key}) : super(key: key);
@@ -11,22 +31,6 @@ class Filters extends StatefulWidget {
 }
 
 class _FiltersState extends State<Filters> {
-  List<Filter> filters = [
-    original,
-    pop,
-    sepia,
-    grayscale,
-    warm,
-    cool,
-    natural,
-    vintage,
-    rise,
-    bw,
-    landscape,
-    lofi,
-    invert,
-  ];
-
   @override
   Widget build(BuildContext context) {
     return MyBottomSheet(

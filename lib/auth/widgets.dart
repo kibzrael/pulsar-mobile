@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
@@ -37,6 +38,8 @@ class LogTextDecoration extends InputDecoration {
   @override
   final int errorMaxLines = 1;
   @override
+  final String? counterText = '';
+  @override
   final bool filled = true;
   @override
   final Color? fillColor;
@@ -63,6 +66,7 @@ class LogTextInput extends StatefulWidget {
   final bool isPassword;
   final Widget? prefixIcon;
   final Widget? prefix;
+  final int? max;
   const LogTextInput(
       {Key? key,
       this.controller,
@@ -73,6 +77,7 @@ class LogTextInput extends StatefulWidget {
       this.obscureText = false,
       this.onChanged,
       this.onFieldSubmitted,
+      this.max,
       this.keyboardType = TextInputType.text,
       this.prefix,
       this.prefixIcon})
@@ -113,6 +118,7 @@ class _LogTextInputState extends State<LogTextInput> {
               },
               keyboardType: widget.keyboardType,
               inputFormatters: widget.inputFormatters,
+              maxLength: widget.max,
               decoration: LogTextDecoration(
                 prefixIcon: widget.prefixIcon,
                 suffixIcon: widget.isPassword
@@ -235,26 +241,19 @@ class AuthButton extends StatelessWidget {
 }
 
 class LinkedAccountLogin extends StatelessWidget {
+  final LoginProvider provider;
   final Color? color;
   final String text;
   final Color? dividerColor;
   final bool divider;
 
-  const LinkedAccountLogin(
+  const LinkedAccountLogin(this.provider,
       {Key? key,
       this.color,
       this.dividerColor,
       this.text = 'Login',
       this.divider = true})
       : super(key: key);
-
-  void onGoogle() {
-    toastNotImplemented();
-  }
-
-  void onFacebook() {
-    toastNotImplemented();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -272,14 +271,14 @@ class LinkedAccountLogin extends StatelessWidget {
               LinkedAccountWidget(
                 icon: 'assets/images/logos/google.png',
                 name: 'Google',
-                onPressed: onGoogle,
+                onPressed: () => provider.googleSignin(context),
                 color: color,
                 text: text,
               ),
               LinkedAccountWidget(
                 icon: 'assets/images/logos/facebook.png',
                 name: 'Facebook',
-                onPressed: onFacebook,
+                onPressed: () => provider.facebookSignin(context),
                 color: color,
                 text: text,
               ),

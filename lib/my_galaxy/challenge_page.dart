@@ -51,13 +51,32 @@ class _ChallengePageState extends State<ChallengePage>
 
   late Challenge challenge;
 
+  bool refreshing = false;
+
   @override
   void initState() {
     super.initState();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     tabController = TabController(length: 2, vsync: this);
     scrollController = ScrollController();
     scrollController!.addListener(scrollListener);
     challenge = widget.challenge;
+    fetchChallenge();
+  }
+
+  fetchChallenge() async {
+    String url = getUrl(ChallengeUrls.challenge(challenge));
+    Uri uri = Uri.parse(url);
+    http.Response response = await http
+        .get(uri, headers: {'Authorization': userProvider.user.token ?? ''});
+    try {
+      var data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        challenge = Challenge.fromJson(data['challenge']);
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   scrollListener() {
@@ -71,7 +90,16 @@ class _ChallengePageState extends State<ChallengePage>
   }
 
   Future<bool> onRefresh() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await fetchChallenge();
+    refreshing = true;
+    if (mounted) {
+      setState(() {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          refreshing = false;
+          if (mounted) setState(() {});
+        });
+      });
+    }
     return true;
   }
 
@@ -134,7 +162,7 @@ class _ChallengePageState extends State<ChallengePage>
                     expandedHeight: expandedHeight,
                     actions: [
                       IconButton(
-                        icon: const Icon(Icons.more_horiz),
+                        icon: Icon(MyIcons.more),
                         iconSize: 30,
                         onPressed: moreOnChallenge,
                       )
@@ -222,7 +250,7 @@ class _ChallengePageState extends State<ChallengePage>
                       ],
                     ),
                   ),
-                  if (challenge.description != '')
+                  if (!['', null].contains(challenge.description))
                     Padding(
                       padding: const EdgeInsets.fromLTRB(30, 0, 30, 5),
                       child: Text(
@@ -233,24 +261,24 @@ class _ChallengePageState extends State<ChallengePage>
                       ),
                     ),
                   FollowLayout(
-                      middle: Icon(MyIcons.insights),
-                      onMiddlePressed: () {
-                        Navigator.of(context).push(myPageRoute(
-                            builder: (context) => Leaderboard(challenge)));
-                      },
-                      child: const Text(
-                        'Join',
-                        style: TextStyle(
-                            //color: Theme.of(context).buttonColor,
-                            fontWeight: FontWeight.w600),
-                      ),
+                      child: Icon(MyIcons.insights),
                       isFollowing: isPinned,
                       isPin: true,
-                      onChildPressed: () {
+                      middle: challenge.isJoined
+                          ? null
+                          : const Text(
+                              'Join',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                      onMiddlePressed: () {
                         Navigator.of(context, rootNavigator: true).push(
                             myPageRoute(
                                 builder: (context) =>
                                     PostProcess(challenge: challenge)));
+                      },
+                      onChildPressed: () {
+                        Navigator.of(context).push(myPageRoute(
+                            builder: (context) => Leaderboard(challenge)));
                       },
                       onFollow: () {
                         setState(() {
@@ -297,13 +325,15 @@ class _ChallengePageState extends State<ChallengePage>
                         (index) async {
                           return await fetchPosts(index, 0);
                         },
-                        title: '#${challenge.name}',
+                        title: challenge.name,
+                        refreshing: refreshing,
                       ),
                       GridPosts(
                         (index) async {
                           return await fetchPosts(index, 0);
                         },
-                        title: '#${challenge.name}',
+                        title: challenge.name,
+                        refreshing: refreshing,
                       ),
                     ],
                   ),

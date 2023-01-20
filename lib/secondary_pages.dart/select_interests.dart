@@ -74,8 +74,9 @@ class _SelectInterestsState extends State<SelectInterests>
         bool isSelected =
             selected.any((element) => element.name == interest.name);
 
-        List<Interest> subInterests =
-            interests.where((element) => element.parent == interest).toList();
+        List<Interest> subInterests = interests
+            .where((element) => element.parent?.name == interest.name)
+            .toList();
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

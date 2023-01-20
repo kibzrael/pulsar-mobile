@@ -19,6 +19,9 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
 
   late AdProvider provider;
 
+  late ThemeProvider themeProvider;
+  late bool isDark;
+
   late NativeAd _ad;
 
   bool _isAdLoaded = false;
@@ -27,8 +30,12 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
-    ThemeProvider themeProvider =
-        Provider.of<ThemeProvider>(context, listen: false);
+    themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    isDark = themeProvider.isDark;
+    initialize();
+  }
+
+  initialize() {
     try {
       provider.initialization.then((value) {
         setState(() {
@@ -65,13 +72,17 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
   @override
   void dispose() {
     _ad.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
+    if (themeProvider.isDark != isDark) {
+      initialize();
+      isDark = themeProvider.isDark;
+    }
     return LayoutBuilder(builder: (context, constraints) {
       return Card(
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),

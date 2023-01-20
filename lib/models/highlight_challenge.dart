@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
+import 'package:pulsar/my_galaxy/leaderboard.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
 import 'package:pulsar/widgets/follow_button.dart';
@@ -97,10 +99,18 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .push(myPageRoute(
-                                              builder: (context) => PostProcess(
-                                                  challenge: challenge)));
+                                      if (challenge.isJoined) {
+                                        Navigator.of(context).push(myPageRoute(
+                                            builder: (context) =>
+                                                Leaderboard(challenge)));
+                                      } else {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .push(myPageRoute(
+                                                builder: (context) =>
+                                                    PostProcess(
+                                                        challenge: challenge)));
+                                      }
                                     },
                                     child: Card(
                                       elevation: 4,
@@ -113,39 +123,21 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                           height: 32,
                                           padding: const EdgeInsets.all(4),
                                           alignment: Alignment.center,
-                                          // decoration: BoxDecoration(
-                                          //     borderRadius: BorderRadius.circular(30),
-                                          //     border: Border.all(
-                                          //         color:
-                                          //             Theme.of(context).dividerColor,
-                                          //         style:
-                                          //             Theme.of(context).brightness ==
-                                          //                     Brightness.dark
-                                          //                 ? BorderStyle.solid
-                                          //                 : BorderStyle.none),
-                                          //     color: Theme.of(context)
-                                          //         .inputDecorationTheme
-                                          //         .fillColor),
-                                          child: const Text('Join',
-                                              style: TextStyle(
-                                                  fontWeight:
-                                                      FontWeight.w600))),
+                                          child: challenge.isJoined
+                                              ? Icon(MyIcons.insights,
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color)
+                                              : const Text('Join',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600))),
                                     ),
                                   )
                                 ],
                               );
                             }),
-                            // FollowLayout(
-                            //     child: Text(
-                            //       'Join',
-                            //       style: TextStyle(fontWeight: FontWeight.w600),
-                            //     ),
-                            //     isFollowed: isPinned,
-                            //     isPin: true,
-                            //     height:30,
-                            //     onChildPressed: () {},
-                            //     onFollow: () =>
-                            //         setState(() => isPinned = !isPinned))
                           ]),
                     ),
                   )

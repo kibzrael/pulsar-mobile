@@ -1,34 +1,49 @@
 {
   "project_info": {
-    "project_number": "150765293881",
-    "project_id": "pulsar-2217f",
-    "storage_bucket": "pulsar-2217f.appspot.com"
+    "project_number": "141088194665",
+    "project_id": "pulsar-inc-1",
+    "storage_bucket": "pulsar-inc-1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:150765293881:android:cee21fdbbbf5873f0698e8",
+        "mobilesdk_app_id": "1:141088194665:android:1bfb9c27b92c4cc4f4e2f8",
         "android_client_info": {
           "package_name": "com.pulsar.pulsar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "150765293881-1kj46s0p4ior7esfnbngkd438q5bgi46.apps.googleusercontent.com",
+          "client_id": "141088194665-1oh8ons5vtopthl6njcl0ub8u94fg455.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pulsar.pulsar",
+            "certificate_hash": "1ed19b2af129796959dab4ff2faa8966831103e6"
+          }
+        },
+        {
+          "client_id": "141088194665-6e8kdvb22bm9fbsslltj75p8cmufkh0f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDWCwjAZtRooTZ6c03IfvrZ6Pf5mrQKKoE"
+          "current_key": "AIzaSyAGnfeG_TT6McjjTZXLr8T-YHXYteilLi8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "150765293881-1kj46s0p4ior7esfnbngkd438q5bgi46.apps.googleusercontent.com",
+              "client_id": "141088194665-6e8kdvb22bm9fbsslltj75p8cmufkh0f.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pulsar.pulsar"
+              }
             }
           ]
         }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';

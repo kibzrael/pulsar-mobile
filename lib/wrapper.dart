@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/widgets/route.dart';
 
 class Wrapper extends StatefulWidget {
   final Widget child;
@@ -21,10 +22,10 @@ class _WrapperState extends State<Wrapper> {
       if (loggedIn != provider.loggedIn) {
         if (provider.loggedIn == false) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const IntroPage()));
+              myPageRoute(builder: (context) => const IntroPage()));
         } else if (provider.loggedIn == true) {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const BasicRoot()));
+              myPageRoute(builder: (context) => const BasicRoot()));
         }
       }
     }

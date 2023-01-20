@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/providers/ad_provider.dart';
@@ -19,6 +20,9 @@ class _ListTileAdState extends State<ListTileAd>
 
   late AdProvider provider;
 
+  late ThemeProvider themeProvider;
+  late bool isDark;
+
   late NativeAd _ad;
 
   bool _isAdLoaded = false;
@@ -27,44 +31,57 @@ class _ListTileAdState extends State<ListTileAd>
   void initState() {
     super.initState();
     provider = Provider.of<AdProvider>(context, listen: false);
-    ThemeProvider themeProvider =
-        Provider.of<ThemeProvider>(context, listen: false);
-    provider.initialization.then((value) {
-      setState(() {
-        _ad = NativeAd(
-          adUnitId: provider.nativeAd,
-          factoryId:
-              widget.dark || themeProvider.isDark ? 'listTileDark' : 'listTile',
-          request: const AdRequest(),
-          listener: NativeAdListener(
-            onAdLoaded: (_) {
-              setState(() {
-                _isAdLoaded = true;
-              });
-            },
-            onAdFailedToLoad: (ad, error) {
-              // Releases an ad resource when it fails to load
-              ad.dispose();
+    themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    isDark = themeProvider.isDark;
+    initialize();
+  }
 
-              debugPrint(
-                  'Ad load failed (code=${error.code} message=${error.message})');
-            },
-          ),
-        )..load();
+  initialize() {
+    try {
+      provider.initialization.then((value) {
+        setState(() {
+          _ad = NativeAd(
+            adUnitId: provider.nativeAd,
+            factoryId: widget.dark || themeProvider.isDark
+                ? 'listTileDark'
+                : 'listTile',
+            request: const AdRequest(),
+            listener: NativeAdListener(
+              onAdLoaded: (_) {
+                setState(() {
+                  _isAdLoaded = true;
+                });
+              },
+              onAdFailedToLoad: (ad, error) {
+                // Releases an ad resource when it fails to load
+                ad.dispose();
+
+                debugPrint(
+                    'Ad load failed (code=${error.code} message=${error.message})');
+              },
+            ),
+          )..load();
+        });
       });
-    });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   @override
   void dispose() {
     _ad.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
+    if (themeProvider.isDark != isDark) {
+      initialize();
+      isDark = themeProvider.isDark;
+    }
     return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 8),

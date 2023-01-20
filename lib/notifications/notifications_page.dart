@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
+import 'package:pulsar/classes/activity.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/user.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/notifications/notification_card.dart';
 import 'package:pulsar/pages/route_observer.dart';
+import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/activity_provider.dart';
+import 'package:pulsar/widgets/progress_indicator.dart';
+import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -44,25 +48,7 @@ class RootNotificationsPage extends StatefulWidget {
 }
 
 class _RootNotificationsPageState extends State<RootNotificationsPage> {
-  List<User> users = [
-    tom,
-    beth,
-    melissa,
-    thomas,
-    nick,
-    joy,
-    lizzy,
-    evah,
-    joe,
-    chris
-  ];
-
-  List<Interaction> types = [
-    Interaction.like,
-    Interaction.follow,
-    Interaction.repost,
-    Interaction.comment
-  ];
+  late ActivityProvider provider;
 
   Future onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
@@ -71,26 +57,42 @@ class _RootNotificationsPageState extends State<RootNotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<ActivityProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: const Text('Activity'),
         actions: [IconButton(icon: Icon(MyIcons.tune), onPressed: () {})],
       ),
-      body: RefreshIndicator(
-        onRefresh: onRefresh,
-        child: ListView.separated(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            return InteractionNotificationCard(users[index],
-                type: types[index % 4]);
-          },
-          separatorBuilder: (context, index) {
-            return const SizedBox(
-              height: 12,
-            );
-          },
-        ),
-      ),
+      body: RecyclerView(
+          target: provider.fetchUpdates,
+          dataLength: 20,
+          itemBuilder: (context, snapshot) {
+            List<InteractionActivity> data = [
+              ...snapshot.data.map((e) => InteractionActivity.fromJson(e))
+            ];
+            return data.isEmpty
+                ? snapshot.errorLoading
+                    ? snapshot.noData
+                        ? const NoPosts(
+                            alignment: Alignment.center,
+                            message: 'You have no Activity')
+                        : NetworkError(onRetry: snapshot.refreshCallback)
+                    : const Center(child: MyProgressIndicator())
+                : RefreshIndicator(
+                    onRefresh: onRefresh,
+                    child: ListView.separated(
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return InteractionNotificationCard(data[index]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 12,
+                        );
+                      },
+                    ),
+                  );
+          }),
     );
   }
 }

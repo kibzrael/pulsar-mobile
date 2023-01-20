@@ -5,8 +5,9 @@ class ChallengeUrls {
 
   static String createChallenge = 'challenges/';
 
-  static String challengeItem(Challenge challenge) =>
-      'challenges/${challenge.id}/';
+  static String challenge(Challenge e) => 'challenges/${e.id}';
+
+  static String leaderboard(Challenge e) => 'challenges/${e.id}/leaderboard';
 
   static String pins(Challenge challenge, {int? index}) =>
       'challenges/${challenge.id}/pins${index == null ? '' : '?offset=$index'}';

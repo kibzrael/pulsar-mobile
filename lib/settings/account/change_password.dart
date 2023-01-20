@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/auth/log_widget.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class ChangePassword extends StatefulWidget {

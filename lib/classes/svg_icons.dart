@@ -3,46 +3,51 @@ import 'package:flutter/widgets.dart';
 class SvgIcons {
   SvgIcons._();
 
-  static const _kFontFam = 'SvgIcons';
+  static const _kFontFam = 'icomoon';
   static const String? _kFontPkg = null;
 
-  static const IconData homeOutline =
-      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData google =
-      IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData comment =
-      IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData music =
-      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe90c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData grid =
+      IconData(0xe909, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData heart =
+      IconData(0xe900, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData heartOutline =
+      IconData(0xe90f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData home =
-      IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData user =
-      IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData rules =
-      IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData chat =
-      IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe911, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData homeOutline =
+      IconData(0xe910, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData megaphone =
+      IconData(0xe906, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData menu =
+      IconData(0xe901, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData message =
+      IconData(0xe914, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData messageOutline =
+      IconData(0xe915, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData mic =
+      IconData(0xe904, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData music =
+      IconData(0xe902, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData notifications =
-      IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData award =
-      IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData share =
-      IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData userOutline =
-      IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe913, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pause =
+      IconData(0xe903, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData pin =
-      IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData chatOutline =
-      IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData instagram =
-      IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData twitter =
-      IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData facebook =
-      IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData leaderboard =
-      IconData(0xe811, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData youtube =
-      IconData(0xe812, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  // static const IconData chat_empty = IconData(0xf0e6, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+      IconData(0xe912, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData play =
+      IconData(0xe907, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData send =
+      IconData(0xe90a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData sendOutline =
+      IconData(0xe90b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData share =
+      IconData(0xe905, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData trash =
+      IconData(0xe908, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData user =
+      IconData(0xe90e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData userOutline =
+      IconData(0xe90d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

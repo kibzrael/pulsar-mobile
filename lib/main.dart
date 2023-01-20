@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
+<<<<<<< HEAD
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+=======
+import 'package:firebase_messaging/firebase_messaging.dart';
+>>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +19,7 @@ import 'package:pulsar/auth/intro/intro.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/settings.dart';
+import 'package:pulsar/firebase_options.dart';
 import 'package:pulsar/providers/ad_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
@@ -26,10 +33,16 @@ import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
+<<<<<<< HEAD
   Firebase.initializeApp();
   FlutterError.onError = ((errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -41,6 +54,22 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+=======
+  messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  RemoteMessage? initialMessage = await messaging.getInitialMessage();
+  String? initialLink = initialMessage?.data['link'];
+
+  String? deviceToken = await messaging.getToken();
+>>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 
@@ -54,6 +83,7 @@ void main() async {
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
   await Hive.openBox('categories');
+  if (Platform.isAndroid) WebView.platform = AndroidWebView();
   runApp(
       // DevicePreview(
       // enabled: kDebugMode,
@@ -62,6 +92,8 @@ void main() async {
       Pulsar(
     loggedIn: loggedIn,
     user: user,
+    deviceToken: deviceToken,
+    initialLink: initialLink,
   )
       //     ;
       //   },
@@ -72,8 +104,16 @@ void main() async {
 class Pulsar extends StatefulWidget {
   final bool loggedIn;
   final Map<String, dynamic>? user;
+  final String? deviceToken;
+  final String? initialLink;
 
-  const Pulsar({Key? key, required this.loggedIn, this.user}) : super(key: key);
+  const Pulsar(
+      {Key? key,
+      required this.loggedIn,
+      this.user,
+      this.deviceToken,
+      this.initialLink})
+      : super(key: key);
 
   @override
   _PulsarState createState() => _PulsarState();
@@ -111,10 +151,10 @@ class _PulsarState extends State<Pulsar> {
           create: (_) => UserProvider(widget.user),
         ),
         ChangeNotifierProvider<LoginProvider>(
-          create: (_) => LoginProvider(widget.loggedIn),
+          create: (_) => LoginProvider(widget.deviceToken, widget.loggedIn),
         ),
         ChangeNotifierProvider<SignInfoProvider>(
-          create: (_) => SignInfoProvider(),
+          create: (_) => SignInfoProvider(widget.deviceToken),
         ),
         ChangeNotifierProvider<ThemeProvider>(
           create: (_) => ThemeProvider(systemBrightness),
