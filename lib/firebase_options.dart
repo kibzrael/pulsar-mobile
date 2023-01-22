@@ -17,14 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-<<<<<<< HEAD
       return web;
-=======
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
->>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -53,38 +46,23 @@ class DefaultFirebaseOptions {
     }
   }
 
-<<<<<<< HEAD
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC-44p69oKZdcyNJjN_tjea93J1LApi75E',
-    appId: '1:150765293881:web:204f6dfd404d0fd30698e8',
-    messagingSenderId: '150765293881',
-    projectId: 'pulsar-2217f',
-    authDomain: 'pulsar-2217f.firebaseapp.com',
-    storageBucket: 'pulsar-2217f.appspot.com',
-    measurementId: 'G-S5GP3S6XMH',
+    apiKey: 'AIzaSyCWzMOfJCBlk0xbWv4goABibOCD8hcpyaA',
+    appId: '1:141088194665:web:ea73bc906ba9b29df4e2f8',
+    messagingSenderId: '141088194665',
+    projectId: 'pulsar-inc-1',
+    authDomain: 'pulsar-inc-1.firebaseapp.com',
+    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'pulsar-inc-1.appspot.com',
+    measurementId: 'G-DN53YEFM0X',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDWCwjAZtRooTZ6c03IfvrZ6Pf5mrQKKoE',
-    appId: '1:150765293881:android:cee21fdbbbf5873f0698e8',
-    messagingSenderId: '150765293881',
-    projectId: 'pulsar-2217f',
-    storageBucket: 'pulsar-2217f.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDpYF9ysYQ1Te6V70nJ1G0X5lAhwhjzDPI',
-    appId: '1:150765293881:ios:442a7100cabbd0bf0698e8',
-    messagingSenderId: '150765293881',
-    projectId: 'pulsar-2217f',
-    storageBucket: 'pulsar-2217f.appspot.com',
-    iosClientId: '150765293881-oli0jmvcv7buf6chfrps7ruqk2bakukn.apps.googleusercontent.com',
-=======
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAGnfeG_TT6McjjTZXLr8T-YHXYteilLi8',
     appId: '1:141088194665:android:1bfb9c27b92c4cc4f4e2f8',
     messagingSenderId: '141088194665',
     projectId: 'pulsar-inc-1',
+    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'pulsar-inc-1.appspot.com',
   );
 
@@ -93,12 +71,10 @@ class DefaultFirebaseOptions {
     appId: '1:141088194665:ios:70b1c450a4f460b5f4e2f8',
     messagingSenderId: '141088194665',
     projectId: 'pulsar-inc-1',
+    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'pulsar-inc-1.appspot.com',
-    androidClientId:
-        '141088194665-1oh8ons5vtopthl6njcl0ub8u94fg455.apps.googleusercontent.com',
-    iosClientId:
-        '141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com',
->>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
+    androidClientId: '141088194665-1oh8ons5vtopthl6njcl0ub8u94fg455.apps.googleusercontent.com',
+    iosClientId: '141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com',
     iosBundleId: 'com.pulsar.pulsar',
   );
 }

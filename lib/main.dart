@@ -1,12 +1,9 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
-<<<<<<< HEAD
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-=======
 import 'package:firebase_messaging/firebase_messaging.dart';
->>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -42,8 +39,7 @@ void main() async {
   );
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-<<<<<<< HEAD
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   FlutterError.onError = ((errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   });
@@ -54,7 +50,6 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-=======
   messaging.requestPermission(
     alert: true,
     announcement: false,
@@ -69,7 +64,6 @@ void main() async {
   String? initialLink = initialMessage?.data['link'];
 
   String? deviceToken = await messaging.getToken();
->>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 
   String dbPath = join(await getDatabasesPath(), 'pulsar.db');
 
