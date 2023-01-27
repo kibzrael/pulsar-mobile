@@ -176,7 +176,7 @@ class _RootProfilePageState extends State<RootProfilePage>
                               Flexible(
                                 child: ActionButton(
                                   title: 'Edit Profile',
-                                  onPressed: () async {
+                                  onPressed: () {
                                     throw Exception();
                                     
                                     // await Navigator.push(
