@@ -3,6 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
+<<<<<<< HEAD
+	<string>150765293881-oli0jmvcv7buf6chfrps7ruqk2bakukn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.150765293881-oli0jmvcv7buf6chfrps7ruqk2bakukn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDpYF9ysYQ1Te6V70nJ1G0X5lAhwhjzDPI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>150765293881</string>
+=======
 	<string>141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm</string>
@@ -12,14 +21,21 @@
 	<string>AIzaSyC6CfU1Vui0AISwJ0V2SLQjKfRtFE3D99E</string>
 	<key>GCM_SENDER_ID</key>
 	<string>141088194665</string>
+>>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.pulsar.pulsar</string>
 	<key>PROJECT_ID</key>
+<<<<<<< HEAD
+	<string>pulsar-2217f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pulsar-2217f.appspot.com</string>
+=======
 	<string>pulsar-inc-1</string>
 	<key>STORAGE_BUCKET</key>
 	<string>pulsar-inc-1.appspot.com</string>
+>>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +47,10 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
+<<<<<<< HEAD
+	<string>1:150765293881:ios:442a7100cabbd0bf0698e8</string>
+=======
 	<string>1:141088194665:ios:70b1c450a4f460b5f4e2f8</string>
+>>>>>>> 81e1adc6cdc4932898faef996d3fcabff8b05034
 </dict>
 </plist>
