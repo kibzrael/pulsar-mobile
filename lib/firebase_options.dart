@@ -47,34 +47,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCWzMOfJCBlk0xbWv4goABibOCD8hcpyaA',
-    appId: '1:141088194665:web:ea73bc906ba9b29df4e2f8',
-    messagingSenderId: '141088194665',
-    projectId: 'pulsar-inc-1',
-    authDomain: 'pulsar-inc-1.firebaseapp.com',
-    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'pulsar-inc-1.appspot.com',
-    measurementId: 'G-DN53YEFM0X',
+    apiKey: 'AIzaSyB4_GE-3BDHk962PhW7ObAeSnnaizg1_Bw',
+    appId: '1:62932810627:web:18ce81272b449878a8d4b6',
+    messagingSenderId: '62932810627',
+    projectId: 'pulsarinc-dev',
+    authDomain: 'pulsarinc-dev.firebaseapp.com',
+    storageBucket: 'pulsarinc-dev.appspot.com',
+    measurementId: 'G-4WBYB007WT',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAGnfeG_TT6McjjTZXLr8T-YHXYteilLi8',
-    appId: '1:141088194665:android:1bfb9c27b92c4cc4f4e2f8',
-    messagingSenderId: '141088194665',
-    projectId: 'pulsar-inc-1',
-    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'pulsar-inc-1.appspot.com',
+    apiKey: 'AIzaSyB3Jld267wCVlVcyichL_4mb9DTda4CH30',
+    appId: '1:62932810627:android:a1ccda753f4932e0a8d4b6',
+    messagingSenderId: '62932810627',
+    projectId: 'pulsarinc-dev',
+    storageBucket: 'pulsarinc-dev.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC6CfU1Vui0AISwJ0V2SLQjKfRtFE3D99E',
-    appId: '1:141088194665:ios:70b1c450a4f460b5f4e2f8',
-    messagingSenderId: '141088194665',
-    projectId: 'pulsar-inc-1',
-    databaseURL: 'https://pulsar-inc-1-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'pulsar-inc-1.appspot.com',
-    androidClientId: '141088194665-1oh8ons5vtopthl6njcl0ub8u94fg455.apps.googleusercontent.com',
-    iosClientId: '141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAjuhyLJ1-KqC_EskW24XQJS-LmpEvhzDs',
+    appId: '1:62932810627:ios:78f4183d24e0cc64a8d4b6',
+    messagingSenderId: '62932810627',
+    projectId: 'pulsarinc-dev',
+    storageBucket: 'pulsarinc-dev.appspot.com',
+    androidClientId: '62932810627-c53reqk25fjftajh1gcuqcmisshp352v.apps.googleusercontent.com',
+    iosClientId: '62932810627-rvkqim1kiq03lrlqtku7c8uca5r9r4et.apps.googleusercontent.com',
     iosBundleId: 'com.pulsar.pulsar',
   );
 }
