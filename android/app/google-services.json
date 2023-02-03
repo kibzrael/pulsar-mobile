@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "141088194665",
-    "project_id": "pulsar-inc-1",
-    "storage_bucket": "pulsar-inc-1.appspot.com"
+    "project_number": "62932810627",
+    "project_id": "pulsarinc-dev",
+    "storage_bucket": "pulsarinc-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:141088194665:android:1bfb9c27b92c4cc4f4e2f8",
+        "mobilesdk_app_id": "1:62932810627:android:a1ccda753f4932e0a8d4b6",
         "android_client_info": {
           "package_name": "com.pulsar.pulsar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "141088194665-1oh8ons5vtopthl6njcl0ub8u94fg455.apps.googleusercontent.com",
+          "client_id": "62932810627-c53reqk25fjftajh1gcuqcmisshp352v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pulsar.pulsar",
@@ -22,24 +22,24 @@
           }
         },
         {
-          "client_id": "141088194665-6e8kdvb22bm9fbsslltj75p8cmufkh0f.apps.googleusercontent.com",
+          "client_id": "62932810627-p68t34ecdck99si4tbjl93ookv2prug2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAGnfeG_TT6McjjTZXLr8T-YHXYteilLi8"
+          "current_key": "AIzaSyB3Jld267wCVlVcyichL_4mb9DTda4CH30"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "141088194665-6e8kdvb22bm9fbsslltj75p8cmufkh0f.apps.googleusercontent.com",
+              "client_id": "62932810627-p68t34ecdck99si4tbjl93ookv2prug2.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "141088194665-ieoru2bq7me8oq6kk6p7uvnmss197aqm.apps.googleusercontent.com",
+              "client_id": "62932810627-rvkqim1kiq03lrlqtku7c8uca5r9r4et.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.pulsar.pulsar"
