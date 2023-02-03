@@ -10,7 +10,7 @@ class MessagingCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MessagingCardState createState() => _MessagingCardState();
+  State<MessagingCard> createState() => _MessagingCardState();
 }
 
 class _MessagingCardState extends State<MessagingCard> {
@@ -110,7 +110,7 @@ class _MessagingCardState extends State<MessagingCard> {
                       '${message.time.hour}:${message.time.minute < 10 ? '0' : ''}${message.time.minute}',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 11),
                     ),
                   ),

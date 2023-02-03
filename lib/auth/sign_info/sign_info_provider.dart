@@ -111,7 +111,7 @@ class SignInfoProvider extends ChangeNotifier {
     Navigator.of(context).push(myPageRoute(
         builder: (context) => SelectUsername(
                 onSubmit: (BuildContext context, String username) async {
-              http.Response response = await openDialog(
+              await openDialog(
                   context,
                   (_) => LoadingDialog(
                         (_) async {
@@ -134,34 +134,37 @@ class SignInfoProvider extends ChangeNotifier {
                           return response;
                         },
                         text: 'Submitting',
-                      ));
-              if (response.statusCode == 201) {
-                var data = jsonDecode(response.body);
-                user.id = data['user']['id'];
-                user.username = data['user']['username'];
-                user.birthday = data['user']['date_of_birth'] == null
-                    ? null
-                    : DateTime.parse(data['user']['date_of_birth'] as String);
-                token = data['user']['jwtToken'];
-                LoginProvider loginProvider =
-                    Provider.of<LoginProvider>(context, listen: false);
-                await loginProvider.signup(context,
-                    token: token ?? '', user: data['user']);
-                Navigator.of(context, rootNavigator: true).pushReplacement(
-                    myPageRoute(builder: (context) => const SignInfo()));
-              } else if (response.statusCode == 422) {
-                var data = jsonDecode(response.body);
-                openDialog(
-                  context,
-                  (context) => MyDialog(
-                    title: statusCodes[response.statusCode]!,
-                    body: data['message'],
-                    actions: const ['Ok'],
-                  ),
-                );
-              } else {
-                Fluttertoast.showToast(msg: "Error Signing up");
-              }
+                      )).then((response) {
+                if (response.statusCode == 201) {
+                  var data = jsonDecode(response.body);
+                  user.id = data['user']['id'];
+                  user.username = data['user']['username'];
+                  user.birthday = data['user']['date_of_birth'] == null
+                      ? null
+                      : DateTime.parse(data['user']['date_of_birth'] as String);
+                  token = data['user']['jwtToken'];
+                  LoginProvider loginProvider =
+                      Provider.of<LoginProvider>(context, listen: false);
+                  loginProvider
+                      .signup(context, token: token ?? '', user: data['user'])
+                      .then((_) {
+                    Navigator.of(context, rootNavigator: true).pushReplacement(
+                        myPageRoute(builder: (context) => const SignInfo()));
+                  });
+                } else if (response.statusCode == 422) {
+                  var data = jsonDecode(response.body);
+                  openDialog(
+                    context,
+                    (context) => MyDialog(
+                      title: statusCodes[response.statusCode]!,
+                      body: data['message'],
+                      actions: const ['Ok'],
+                    ),
+                  );
+                } else {
+                  Fluttertoast.showToast(msg: "Error Signing up");
+                }
+              });
             })));
   }
 
@@ -200,7 +203,7 @@ class SignInfoProvider extends ChangeNotifier {
     });
 
     try {
-      Response response = await dio.post(
+      await dio.post(
         profileUrl,
         options: Options(headers: {
           'Authorization': token ?? '',
@@ -210,24 +213,23 @@ class SignInfoProvider extends ChangeNotifier {
         onSendProgress: (int sent, int total) {
           debugPrint("sent${sent.toString()} total${total.toString()}");
         },
-      );
-
-      if (response.statusCode == 200 && response.data is Map) {
-        Map<String, dynamic> userJson = {};
-        response.data['user'].forEach((key, value) {
-          userJson.putIfAbsent(key, () => value);
-        });
-        userJson.putIfAbsent("jwtToken", () => token);
-        User userObject = User.fromJson(userJson);
-        await Provider.of<LoginProvider>(context, listen: false)
-            .saveLogin(context, token: token!, user: userObject.toJson());
-
-        debugPrint('Saved user');
-        Fluttertoast.showToast(msg: 'Saved user');
-      }
+      ).then((response) {
+        if (response.statusCode == 200 && response.data is Map) {
+          Map<String, dynamic> userJson = {};
+          response.data['user'].forEach((key, value) {
+            userJson.putIfAbsent(key, () => value);
+          });
+          userJson.putIfAbsent("jwtToken", () => token);
+          User userObject = User.fromJson(userJson);
+          Provider.of<LoginProvider>(context, listen: false)
+              .saveLogin(context, token: token!, user: userObject.toJson());
+          debugPrint('Saved user');
+          Fluttertoast.showToast(msg: 'Saved user');
+        }
+      });
     } catch (e) {
-      debugPrint("Sign info provider" + e.toString());
-      Fluttertoast.showToast(msg: "Sign info provider" + e.toString());
+      debugPrint("Sign info provider$e");
+      Fluttertoast.showToast(msg: "Sign info provider$e");
     }
 
     return;

@@ -18,7 +18,7 @@ class TagPage extends StatefulWidget {
   const TagPage(this.tag, {Key? key}) : super(key: key);
 
   @override
-  _TagPageState createState() => _TagPageState();
+  State<TagPage> createState() => _TagPageState();
 }
 
 class _TagPageState extends State<TagPage>
@@ -112,7 +112,7 @@ class _TagPageState extends State<TagPage>
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1!
+                                  .titleLarge!
                                   .copyWith(fontSize: 21),
                             ),
                             const SizedBox(height: 1.5),
@@ -124,7 +124,7 @@ class _TagPageState extends State<TagPage>
                                   size: 21,
                                   color: Theme.of(context)
                                       .textTheme
-                                      .subtitle2!
+                                      .titleSmall!
                                       .color,
                                 ),
                                 Text(
@@ -132,16 +132,13 @@ class _TagPageState extends State<TagPage>
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .subtitle2!
+                                      .titleSmall!
                                       .copyWith(fontSize: 18),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 12),
                             FollowLayout(
-                                child: const Text(
-                                  'Post',
-                                ),
                                 isFollowing: isFollowing,
                                 onChildPressed: () {
                                   Navigator.of(context, rootNavigator: true)
@@ -153,7 +150,10 @@ class _TagPageState extends State<TagPage>
                                   setState(() {
                                     isFollowing = !isFollowing;
                                   });
-                                })
+                                },
+                                child: const Text(
+                                  'Post',
+                                ))
                           ],
                         ),
                       ],

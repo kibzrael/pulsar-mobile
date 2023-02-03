@@ -63,7 +63,6 @@ LinearGradient secondaryGradient({
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: kAccent,
   disabledColor: Colors.grey[300],
   dividerColor: Colors.grey[300],
   chipTheme: chipTheme(Brightness.light),
@@ -109,7 +108,6 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.grey,
-  toggleableActiveColor: kAccent,
   disabledColor: kCardColor,
   dividerColor: kDividerColor,
   cardColor: kCardColor,
@@ -149,20 +147,20 @@ ThemeData darkTheme = ThemeData(
 );
 
 TextTheme textTheme(Brightness brightness) => TextTheme(
-    bodyText1: const TextStyle(
+    bodyLarge: const TextStyle(
       fontSize: 16.5,
       fontWeight: FontWeight.w500,
     ),
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       fontSize: 21,
       fontWeight: FontWeight.bold,
       color: Colors.grey[brightness == Brightness.light ? 600 : 350],
     ),
-    subtitle1: const TextStyle(
+    titleMedium: const TextStyle(
       fontSize: 18,
       fontWeight: FontWeight.w600,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w400,
         color: Colors.grey[brightness == Brightness.light ? 500 : 400]));

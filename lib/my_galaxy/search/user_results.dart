@@ -13,7 +13,7 @@ class UserResults extends StatefulWidget {
   const UserResults({required this.target, Key? key}) : super(key: key);
 
   @override
-  _UserResultsState createState() => _UserResultsState();
+  State<UserResults> createState() => _UserResultsState();
 }
 
 class _UserResultsState extends State<UserResults> {

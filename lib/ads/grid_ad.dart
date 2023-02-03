@@ -8,7 +8,7 @@ class GridAd extends StatefulWidget {
   const GridAd({Key? key}) : super(key: key);
 
   @override
-  _GridAdState createState() => _GridAdState();
+  State<GridAd> createState() => _GridAdState();
 }
 
 class _GridAdState extends State<GridAd> with AutomaticKeepAliveClientMixin {
@@ -86,7 +86,7 @@ class _GridAdState extends State<GridAd> with AutomaticKeepAliveClientMixin {
                           horizontal: 15, vertical: 8),
                       child: Text(
                         'Ad.',
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ),
                   )),

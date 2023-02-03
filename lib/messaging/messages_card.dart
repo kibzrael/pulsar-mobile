@@ -14,7 +14,7 @@ class MessagesCard extends StatefulWidget {
   final Message message;
   const MessagesCard(this.message, {Key? key}) : super(key: key);
   @override
-  _MessagesCardState createState() => _MessagesCardState();
+  State<MessagesCard> createState() => _MessagesCardState();
 }
 
 class _MessagesCardState extends State<MessagesCard> {
@@ -114,13 +114,13 @@ class _MessagesCardState extends State<MessagesCard> {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle1!
+                              .titleLarge!
                               .copyWith(fontSize: 16.5),
                         ),
                         const SizedBox(width: 10),
                         Text(
                           'Yesterday',
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ],
                     ),

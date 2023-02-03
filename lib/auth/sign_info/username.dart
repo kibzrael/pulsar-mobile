@@ -6,7 +6,7 @@ class SelectUsername extends StatefulWidget {
   const SelectUsername({Key? key, required this.onSubmit}) : super(key: key);
 
   @override
-  _SelectUsernameState createState() => _SelectUsernameState();
+  State<SelectUsername> createState() => _SelectUsernameState();
 }
 
 class _SelectUsernameState extends State<SelectUsername> {
@@ -51,7 +51,7 @@ class _SelectUsernameState extends State<SelectUsername> {
             children: [
               Text('Enter the username\nyou\'d like to use.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1),
+                  style: Theme.of(context).textTheme.displayLarge),
               const SizedBox(height: 30),
               TextField(
                   autofocus: true,

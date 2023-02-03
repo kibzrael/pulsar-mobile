@@ -20,7 +20,7 @@ class EditScreen extends StatefulWidget {
   final VideoCapture video;
   const EditScreen(this.video, {Key? key}) : super(key: key);
   @override
-  _EditScreenState createState() => _EditScreenState();
+  State<EditScreen> createState() => _EditScreenState();
 }
 
 class _EditScreenState extends State<EditScreen> {

@@ -5,7 +5,7 @@ class Promote extends StatefulWidget {
   const Promote({Key? key}) : super(key: key);
 
   @override
-  _PromoteState createState() => _PromoteState();
+  State<Promote> createState() => _PromoteState();
 }
 
 class _PromoteState extends State<Promote> {

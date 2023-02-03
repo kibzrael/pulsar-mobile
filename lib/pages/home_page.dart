@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -39,7 +39,7 @@ class RootHomePage extends StatefulWidget {
   const RootHomePage({Key? key}) : super(key: key);
 
   @override
-  _RootHomePageState createState() => _RootHomePageState();
+  State<RootHomePage> createState() => _RootHomePageState();
 }
 
 class _RootHomePageState extends State<RootHomePage>
@@ -147,7 +147,7 @@ class SegmentObject extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SegmentObjectState createState() => _SegmentObjectState();
+  State<SegmentObject> createState() => _SegmentObjectState();
 }
 
 class _SegmentObjectState extends State<SegmentObject> {

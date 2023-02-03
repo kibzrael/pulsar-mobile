@@ -15,7 +15,7 @@ class IntroSlide extends StatefulWidget {
       : super(key: key);
 
   @override
-  _IntroSlideState createState() => _IntroSlideState();
+  State<IntroSlide> createState() => _IntroSlideState();
 }
 
 class _IntroSlideState extends State<IntroSlide> {

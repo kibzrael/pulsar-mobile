@@ -39,13 +39,13 @@ class DiscoverChallengesAdFactory(val context: Context, val dark: Boolean = fals
             }
 
             val headlineView = findViewById<TextView>(R.id.discover_challenges_ad_headline)
-            headlineView.text = nativeAd.headline.trim()
+            headlineView.text = nativeAd.headline?.trim()
 
 
             val bodyView = findViewById<TextView>(R.id.discover_challenges_ad_body)
             with(bodyView) {
                 text = nativeAd.body
-                visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+                visibility = if (nativeAd.body?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
             }
 
             val background = findViewById<FrameLayout>(R.id.discover_challenges_ad_background)

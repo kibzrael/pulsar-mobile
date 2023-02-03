@@ -1,4 +1,3 @@
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
 
@@ -10,8 +9,6 @@ class PrivacyPolicy extends StatefulWidget {
 }
 
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
-  PDFDocument? document;
-
   @override
   void initState() {
     super.initState();

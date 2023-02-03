@@ -16,7 +16,7 @@ class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);
 
   @override
-  _NotificationsPageState createState() => _NotificationsPageState();
+  State<NotificationsPage> createState() => _NotificationsPageState();
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
@@ -44,7 +44,7 @@ class RootNotificationsPage extends StatefulWidget {
   const RootNotificationsPage({Key? key}) : super(key: key);
 
   @override
-  _RootNotificationsPageState createState() => _RootNotificationsPageState();
+  State<RootNotificationsPage> createState() => _RootNotificationsPageState();
 }
 
 class _RootNotificationsPageState extends State<RootNotificationsPage> {

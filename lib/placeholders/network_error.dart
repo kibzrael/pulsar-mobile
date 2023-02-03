@@ -31,7 +31,7 @@ class NetworkError extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         'No connection',
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 32, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -40,7 +40,7 @@ class NetworkError extends StatelessWidget {
                     'Tap to retry',
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .displayLarge!
                         .copyWith(fontSize: 21, fontWeight: FontWeight.w400),
                   )
                 ],
@@ -84,7 +84,7 @@ class NetworkErrorModel extends StatelessWidget {
                           'No connection',
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2!
+                              .titleSmall!
                               .copyWith(
                                   fontSize: 24, fontWeight: FontWeight.w600),
                         ),
@@ -94,7 +94,7 @@ class NetworkErrorModel extends StatelessWidget {
                       'Tap to retry',
                       style: Theme.of(context)
                           .textTheme
-                          .headline1!
+                          .displayLarge!
                           .copyWith(fontSize: 21, fontWeight: FontWeight.w400),
                     )
                   ],

@@ -101,11 +101,11 @@ class TagText extends SpecialText {
                                   text: controller.text.replaceRange(
                                       start,
                                       start + text.length,
-                                      textEditingController.text + " "),
+                                      "${textEditingController.text} "),
                                   selection: TextSelection.fromPosition(
                                       TextPosition(
                                           offset: start +
-                                              (textEditingController.text + " ")
+                                              ("${textEditingController.text} ")
                                                   .length)));
 
                               Navigator.pop(context);

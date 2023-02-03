@@ -94,7 +94,7 @@ class PostProvider extends ChangeNotifier {
               'original size: $originalSize\ncompressed size: $compressedSize\nwidth: ${mediaInfo?.width}\nheight: ${mediaInfo?.height}');
       // ignore: empty_catches
     } catch (e) {
-      Fluttertoast.showToast(msg: "Compress: " + e.toString());
+      Fluttertoast.showToast(msg: "Compress: $e");
     }
   }
 
@@ -113,7 +113,7 @@ class PostProvider extends ChangeNotifier {
         thumbnails.add(thumbnailData);
         notifyListeners();
       } catch (e) {
-        debugPrint("Get thumbnails " + e.toString());
+        debugPrint("Get thumbnails $e");
       }
     }
   }
@@ -145,10 +145,10 @@ class PostProvider extends ChangeNotifier {
           Fluttertoast.showToast(msg: "Error");
         }
       }, (Log log) {
-        debugPrint("Set thumbnail log:" + log.getMessage());
+        debugPrint("Set thumbnail log:${log.getMessage()}");
       });
     } catch (e) {
-      debugPrint("Set thumbnail error:" + e.toString());
+      debugPrint("Set thumbnail error:$e");
     }
   }
 
@@ -183,10 +183,10 @@ class PostProvider extends ChangeNotifier {
           Fluttertoast.showToast(msg: "Error: ${returnCode.toString()}");
         }
       }, (Log log) {
-        debugPrint("edit video log:" + log.getMessage());
+        debugPrint("edit video log:${log.getMessage()}");
       });
     } catch (e) {
-      debugPrint("edit video error:" + e.toString());
+      debugPrint("edit video error:$e");
     }
   }
 

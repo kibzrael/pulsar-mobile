@@ -24,7 +24,7 @@ class CommentPage extends StatefulWidget {
   final Post post;
   const CommentPage(this.post, {Key? key}) : super(key: key);
   @override
-  _CommentPageState createState() => _CommentPageState();
+  State<CommentPage> createState() => _CommentPageState();
 }
 
 class _CommentPageState extends State<CommentPage> {
@@ -139,7 +139,7 @@ class _CommentPageState extends State<CommentPage> {
         Fluttertoast.showToast(msg: body['message']);
       }
     } catch (e) {
-      debugPrint("Make comment: " + e.toString());
+      debugPrint("Make comment: $e");
       Fluttertoast.showToast(msg: e.toString());
     }
   }
@@ -247,7 +247,7 @@ class _CommentPageState extends State<CommentPage> {
                             ),
                             Text(
                               replyTo!.comment,
-                              style: Theme.of(context).textTheme.subtitle2,
+                              style: Theme.of(context).textTheme.titleSmall,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             )
@@ -309,16 +309,16 @@ class _CommentPageState extends State<CommentPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(21)),
                         child: Container(
-                          child: Icon(
-                            MyIcons.send,
-                            color: Colors.white,
-                          ),
                           height: 42,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(21),
                               gradient: primaryGradient()),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 5),
+                          child: Icon(
+                            MyIcons.send,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),

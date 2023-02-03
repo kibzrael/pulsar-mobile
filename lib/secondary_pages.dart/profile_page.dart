@@ -25,7 +25,7 @@ class ProfilePage extends StatefulWidget {
   final User user;
   const ProfilePage(this.user, {Key? key}) : super(key: key);
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage>
@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
   }
 
   Future<List<Map<String, dynamic>>> fetchPosts(int index, int page) async {
-    List<Map<String, dynamic>> _posts = [];
+    List<Map<String, dynamic>> results = [];
 
     String url = getUrl(UserUrls.posts(user.id, page, index));
 
@@ -104,11 +104,11 @@ class _ProfilePageState extends State<ProfilePage>
 
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      _posts = [...List<Map<String, dynamic>>.from(body['posts'])];
+      results = [...List<Map<String, dynamic>>.from(body['posts'])];
     } else {
       Fluttertoast.showToast(msg: body['message']);
     }
-    return _posts;
+    return results;
   }
 
   @override
@@ -146,13 +146,6 @@ class _ProfilePageState extends State<ProfilePage>
                                         'assets/images/logos/instagram.png'),
                                     width: 24,
                                   ),
-                                  child: Icon(
-                                    MyIcons.send,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText2!
-                                        .color,
-                                  ),
                                   isFollowing: isFollowing,
                                   onMiddlePressed: () {
                                     toastNotImplemented();
@@ -172,7 +165,14 @@ class _ProfilePageState extends State<ProfilePage>
                                               : RequestMethod.post,
                                           onNotify: () => setState(() {}));
                                     });
-                                  })
+                                  },
+                                  child: Icon(
+                                    MyIcons.send,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color,
+                                  ))
                             ],
                           ),
                         ),

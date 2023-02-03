@@ -13,27 +13,26 @@ class VideoProvider extends ChangeNotifier {
 
   Future initializeVideo(source) async {
     isInitializing = true;
-    VideoPlayerController _newController =
-        VideoPlayerController.network(source);
-    VideoPlayerController? _oldController = _videoPlayerController;
-    if (_oldController != null) {
-      _oldController.pause();
-      _oldController.removeListener(() {});
+    VideoPlayerController newController = VideoPlayerController.network(source);
+    VideoPlayerController? oldController = _videoPlayerController;
+    if (oldController != null) {
+      oldController.pause();
+      oldController.removeListener(() {});
     }
-    _videoPlayerController = _newController;
+    _videoPlayerController = newController;
     _videoPlayerController!.setLooping(true);
     /*
-    _newController
+    newController
       ..initialize().then((value) {
-        _oldController?.dispose();
-        _newController.play();
-        _videoDuration = _newController.value.duration;
+        oldController?.dispose();
+        newController.play();
+        _videoDuration = newController.value.duration;
         notifyListeners();
       });*/
-    await _newController.initialize().catchError(onError);
+    await newController.initialize().catchError(onError);
     isInitialized = true;
-    _videoDuration = _newController.value.duration;
-    _oldController?.dispose();
+    _videoDuration = newController.value.duration;
+    oldController?.dispose();
     notifyListeners();
     return;
   }

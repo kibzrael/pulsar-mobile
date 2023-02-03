@@ -26,7 +26,7 @@ class MyProfilePage extends StatefulWidget {
   const MyProfilePage({Key? key}) : super(key: key);
 
   @override
-  _MyProfilePageState createState() => _MyProfilePageState();
+  State<MyProfilePage> createState() => _MyProfilePageState();
 }
 
 class _MyProfilePageState extends State<MyProfilePage> {
@@ -52,7 +52,7 @@ class RootProfilePage extends StatefulWidget {
   const RootProfilePage({Key? key}) : super(key: key);
 
   @override
-  _RootProfilePageState createState() => _RootProfilePageState();
+  State<RootProfilePage> createState() => _RootProfilePageState();
 }
 
 class _RootProfilePageState extends State<RootProfilePage>
@@ -113,7 +113,7 @@ class _RootProfilePageState extends State<RootProfilePage>
   }
 
   Future<List<Map<String, dynamic>>> fetchPosts(int index, int page) async {
-    List<Map<String, dynamic>> _posts = [];
+    List<Map<String, dynamic>> results = [];
 
     String url = getUrl(UserUrls.posts(user.id, page, index));
 
@@ -122,11 +122,11 @@ class _RootProfilePageState extends State<RootProfilePage>
 
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      _posts = [...List<Map<String, dynamic>>.from(body['posts'])];
+      results = [...List<Map<String, dynamic>>.from(body['posts'])];
     } else {
       Fluttertoast.showToast(msg: body['message']);
     }
-    return _posts;
+    return results;
   }
 
   @override
@@ -181,9 +181,10 @@ class _RootProfilePageState extends State<RootProfilePage>
                                         context,
                                         myPageRoute(
                                             builder: (context) =>
-                                                const EditProfile()));
-                                    user.getProfile(context, () {
-                                      if (mounted) setState(() {});
+                                                const EditProfile())).then((_) {
+                                      user.getProfile(context, () {
+                                        if (mounted) setState(() {});
+                                      });
                                     });
                                   },
                                   height: 37.5,
@@ -204,15 +205,15 @@ class _RootProfilePageState extends State<RootProfilePage>
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                   child: Container(
+                                    height: 35,
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 5),
                                     child: const Text(
                                       'Promote',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
-                                    height: 35,
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 5),
                                   ),
                                 ),
                               ),

@@ -4,7 +4,7 @@ class HomeDiscoverAd extends StatefulWidget {
   const HomeDiscoverAd({Key? key}) : super(key: key);
 
   @override
-  _HomeDiscoverAdState createState() => _HomeDiscoverAdState();
+  State<HomeDiscoverAd> createState() => _HomeDiscoverAdState();
 }
 
 class _HomeDiscoverAdState extends State<HomeDiscoverAd> {

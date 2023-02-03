@@ -11,7 +11,7 @@ class InterestsPage extends StatefulWidget {
   const InterestsPage({Key? key}) : super(key: key);
 
   @override
-  _InterestsPageState createState() => _InterestsPageState();
+  State<InterestsPage> createState() => _InterestsPageState();
 }
 
 class _InterestsPageState extends State<InterestsPage>
@@ -33,8 +33,9 @@ class _InterestsPageState extends State<InterestsPage>
         await provider.submit(context);
         return;
       }),
-    );
-    Navigator.of(context).pushReplacementNamed('/');
+    ).then((_) {
+      Navigator.of(context).pushReplacementNamed('/');
+    });
     return;
   }
 

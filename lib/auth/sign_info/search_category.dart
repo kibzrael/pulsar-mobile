@@ -9,7 +9,7 @@ class SearchCategory extends StatefulWidget {
   const SearchCategory(this.interests, {Key? key}) : super(key: key);
 
   @override
-  _SearchCategoryState createState() => _SearchCategoryState();
+  State<SearchCategory> createState() => _SearchCategoryState();
 }
 
 class _SearchCategoryState extends State<SearchCategory> {

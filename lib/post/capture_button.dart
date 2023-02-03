@@ -21,7 +21,7 @@ class CaptureButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CaptureButtonState createState() => _CaptureButtonState();
+  State<CaptureButton> createState() => _CaptureButtonState();
 }
 
 class _CaptureButtonState extends State<CaptureButton> {

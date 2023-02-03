@@ -5,10 +5,12 @@ class ProfileInfo extends StatefulWidget {
   final String info;
   final int maxCharacters;
   final bool multiline;
-  const ProfileInfo(this.info, {Key? key, required this.maxCharacters, this.multiline = false}) : super(key: key);
+  const ProfileInfo(this.info,
+      {Key? key, required this.maxCharacters, this.multiline = false})
+      : super(key: key);
 
   @override
-  _ProfileInfoState createState() => _ProfileInfoState();
+  State<ProfileInfo> createState() => _ProfileInfoState();
 }
 
 class _ProfileInfoState extends State<ProfileInfo> {
@@ -30,7 +32,7 @@ class _ProfileInfoState extends State<ProfileInfo> {
             Text(
               'Edit your ${widget.info.toLowerCase()} with a maximum of ${widget.maxCharacters} characters',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(
               height: 30,

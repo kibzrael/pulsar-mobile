@@ -23,7 +23,7 @@ class DiscoverPosts extends StatefulWidget {
   const DiscoverPosts({Key? key}) : super(key: key);
 
   @override
-  _DiscoverPostsState createState() => _DiscoverPostsState();
+  State<DiscoverPosts> createState() => _DiscoverPostsState();
 }
 
 class _DiscoverPostsState extends State<DiscoverPosts>

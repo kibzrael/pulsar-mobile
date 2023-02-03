@@ -33,7 +33,7 @@ class Leaderboard extends StatefulWidget {
   final Challenge challenge;
   const Leaderboard(this.challenge, {Key? key}) : super(key: key);
   @override
-  _LeaderboardState createState() => _LeaderboardState();
+  State<Leaderboard> createState() => _LeaderboardState();
 }
 
 class _LeaderboardState extends State<Leaderboard> {
@@ -178,7 +178,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                           '${roundCount(challenge.posts)} post${challenge.posts == 1 ? '' : 's'}',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .subtitle2,
+                                              .titleSmall,
                                         ),
                                       ),
                                     ),
@@ -258,7 +258,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                                       '${index + 4}',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .bodyText1,
+                                                          .bodyLarge,
                                                     )),
                                               ),
                                               trailingArrow: false,
@@ -350,7 +350,7 @@ class _LeaderboardState extends State<Leaderboard> {
               user.username,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontSize: 13.5),
               maxLines: 1,
             ),
@@ -358,8 +358,10 @@ class _LeaderboardState extends State<Leaderboard> {
           if (post != null)
             Text(
               '${roundCount(post.points)} points',
-              style:
-                  Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 15),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontSize: 15),
               maxLines: 1,
             ),
           SizedBox(height: bottomPadding),

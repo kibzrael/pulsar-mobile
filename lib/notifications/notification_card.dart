@@ -13,7 +13,7 @@ class InteractionNotificationCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _InteractionNotificationCardState createState() =>
+  State<InteractionNotificationCard> createState() =>
       _InteractionNotificationCardState();
 }
 
@@ -65,13 +65,13 @@ class _InteractionNotificationCardState
                               '@${activity.username}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1!
+                                  .titleLarge!
                                   .copyWith(fontSize: 16.5),
                             ),
                             const SizedBox(width: 10),
                             Text(
                               timeAgo(activity.time),
-                              style: Theme.of(context).textTheme.subtitle2,
+                              style: Theme.of(context).textTheme.titleSmall,
                             ),
                           ],
                         ),
@@ -82,7 +82,7 @@ class _InteractionNotificationCardState
                         activity.description!,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                   ]),
             ),

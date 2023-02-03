@@ -15,7 +15,7 @@ class EditInterests extends StatefulWidget {
       : super(key: key);
 
   @override
-  _EditInterestsState createState() => _EditInterestsState();
+  State<EditInterests> createState() => _EditInterestsState();
 }
 
 class _EditInterestsState extends State<EditInterests> {

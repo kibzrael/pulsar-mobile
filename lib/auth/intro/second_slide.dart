@@ -15,7 +15,7 @@ class SecondSlide extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SecondSlideState createState() => _SecondSlideState();
+  State<SecondSlide> createState() => _SecondSlideState();
 }
 
 class _SecondSlideState extends State<SecondSlide> {

@@ -14,7 +14,7 @@ class DiscoverTags extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DiscoverTagsState createState() => _DiscoverTagsState();
+  State<DiscoverTags> createState() => _DiscoverTagsState();
 }
 
 class _DiscoverTagsState extends State<DiscoverTags> {
@@ -92,7 +92,7 @@ class TagWidget extends StatelessWidget {
               fontSize: 16.5,
               color: isSelected
                   ? Colors.white
-                  : Theme.of(context).textTheme.subtitle2!.color),
+                  : Theme.of(context).textTheme.titleSmall!.color),
         ),
       ),
     );

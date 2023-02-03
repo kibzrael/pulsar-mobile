@@ -32,7 +32,7 @@ class InteractionScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _InteractionScreenState createState() => _InteractionScreenState();
+  State<InteractionScreen> createState() => _InteractionScreenState();
 }
 
 class _InteractionScreenState extends State<InteractionScreen> {
@@ -87,7 +87,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
           title: isUser ? 'Followers' : 'Pins',
           trailing: Text(
             widget.value == null ? '-' : roundCount(widget.value!),
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Theme.of(context).textTheme.titleSmall,
           ),
           child: Flexible(
               child: Padding(

@@ -7,7 +7,7 @@ class IntroduceYourself extends StatefulWidget {
   const IntroduceYourself({Key? key}) : super(key: key);
 
   @override
-  _IntroduceYourselfState createState() => _IntroduceYourselfState();
+  State<IntroduceYourself> createState() => _IntroduceYourselfState();
 }
 
 class _IntroduceYourselfState extends State<IntroduceYourself> {
@@ -122,13 +122,13 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .headline1!
+                          .displayLarge!
                           .copyWith(fontSize: 48),
                     ),
                     const SizedBox(height: 30),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 8),
                       child: ActionButton(
                         title: 'Solo',
                         onPressed: () {
@@ -138,8 +138,8 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 8),
                       child: ActionButton(
                         title: 'Group',
                         onPressed: () {
@@ -149,7 +149,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                         backgroundColor:
                             Theme.of(context).inputDecorationTheme.fillColor,
                         titleColor:
-                            Theme.of(context).textTheme.bodyText1!.color,
+                            Theme.of(context).textTheme.bodyLarge!.color,
                       ),
                     )
                   ],

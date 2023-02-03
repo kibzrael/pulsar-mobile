@@ -20,7 +20,7 @@ class PostsView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PostsViewState createState() => _PostsViewState();
+  State<PostsView> createState() => _PostsViewState();
 }
 
 class _PostsViewState extends State<PostsView> {

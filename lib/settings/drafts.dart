@@ -5,7 +5,7 @@ class Drafts extends StatefulWidget {
   const Drafts({Key? key}) : super(key: key);
 
   @override
-  _DraftsState createState() => _DraftsState();
+  State<Drafts> createState() => _DraftsState();
 }
 
 class _DraftsState extends State<Drafts> {

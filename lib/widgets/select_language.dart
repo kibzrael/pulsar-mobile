@@ -7,7 +7,7 @@ class SelectLanguage extends StatefulWidget {
   const SelectLanguage({Key? key}) : super(key: key);
 
   @override
-  _SelectLanguageState createState() => _SelectLanguageState();
+  State<SelectLanguage> createState() => _SelectLanguageState();
 }
 
 class _SelectLanguageState extends State<SelectLanguage> {

@@ -25,7 +25,7 @@ class Trimmer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TrimmerState createState() => _TrimmerState();
+  State<Trimmer> createState() => _TrimmerState();
 }
 
 class _TrimmerState extends State<Trimmer> {

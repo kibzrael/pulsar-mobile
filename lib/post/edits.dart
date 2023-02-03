@@ -4,7 +4,7 @@ class VideoEdits extends StatefulWidget {
   const VideoEdits({Key? key}) : super(key: key);
 
   @override
-  _VideoEditsState createState() => _VideoEditsState();
+  State<VideoEdits> createState() => _VideoEditsState();
 }
 
 class _VideoEditsState extends State<VideoEdits> {

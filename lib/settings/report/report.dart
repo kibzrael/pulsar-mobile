@@ -17,7 +17,7 @@ class ReportScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ReportScreenState createState() => _ReportScreenState();
+  State<ReportScreen> createState() => _ReportScreenState();
 }
 
 class _ReportScreenState extends State<ReportScreen> {

@@ -25,7 +25,7 @@ class HighlightUsers extends StatefulWidget {
   const HighlightUsers({Key? key}) : super(key: key);
 
   @override
-  _HighlightUsersState createState() => _HighlightUsersState();
+  State<HighlightUsers> createState() => _HighlightUsersState();
 }
 
 class _HighlightUsersState extends State<HighlightUsers> {
@@ -86,7 +86,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText1
+                            .bodyLarge
                             ?.copyWith(fontSize: 16.5),
                       )
                     ],
@@ -124,7 +124,7 @@ class _HighlightUsersState extends State<HighlightUsers> {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1
+                          .bodyLarge
                           ?.copyWith(fontSize: 16.5),
                     )
                   ],

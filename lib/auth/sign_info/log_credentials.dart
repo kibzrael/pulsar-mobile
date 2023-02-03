@@ -127,7 +127,7 @@
 //                   'Set your login\nCredentials',
 //                   style: Theme.of(context)
 //                       .textTheme
-//                       .headline1!
+//                       .displayLarge!
 //                       .copyWith(fontSize: 36),
 //                   textAlign: TextAlign.center,
 //                 ),
@@ -153,7 +153,7 @@
 //                         'Only letters, numbers, . and _ are allowed.',
 //                         style: Theme.of(context)
 //                             .textTheme
-//                             .subtitle2!
+//                             .titleSmall!
 //                             .copyWith(fontSize: 12),
 //                       ),
 //                     ),
@@ -195,7 +195,7 @@
 //                         'Minimum of 6 characters.',
 //                         style: Theme.of(context)
 //                             .textTheme
-//                             .subtitle2!
+//                             .titleSmall!
 //                             .copyWith(fontSize: 12),
 //                       ),
 //                     ),

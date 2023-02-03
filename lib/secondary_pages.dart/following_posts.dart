@@ -5,7 +5,7 @@ class FollowingPosts extends StatefulWidget {
   const FollowingPosts({Key? key}) : super(key: key);
 
   @override
-  _FollowingPostsState createState() => _FollowingPostsState();
+  State<FollowingPosts> createState() => _FollowingPostsState();
 }
 
 class _FollowingPostsState extends State<FollowingPosts>

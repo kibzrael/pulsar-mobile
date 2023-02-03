@@ -9,7 +9,7 @@ class Wrapper extends StatefulWidget {
   final Widget child;
   const Wrapper({Key? key, required this.child}) : super(key: key);
   @override
-  _WrapperState createState() => _WrapperState();
+  State<Wrapper> createState() => _WrapperState();
 }
 
 class _WrapperState extends State<Wrapper> {

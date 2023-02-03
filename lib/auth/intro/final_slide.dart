@@ -15,7 +15,7 @@ class FinalSlide extends StatefulWidget {
       : super(key: key);
 
   @override
-  _FinalSlideState createState() => _FinalSlideState();
+  State<FinalSlide> createState() => _FinalSlideState();
 }
 
 class _FinalSlideState extends State<FinalSlide> {

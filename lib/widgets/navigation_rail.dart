@@ -8,7 +8,7 @@ class OptionsRail extends StatefulWidget {
       : super(key: key);
 
   @override
-  _OptionsRailState createState() => _OptionsRailState();
+  State<OptionsRail> createState() => _OptionsRailState();
 }
 
 class _OptionsRailState extends State<OptionsRail> {
@@ -38,7 +38,7 @@ class _OptionsRailState extends State<OptionsRail> {
                     option,
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .displayLarge!
                         .copyWith(fontSize: 18),
                   ),
                 ),

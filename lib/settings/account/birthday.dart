@@ -11,7 +11,7 @@ class EditBirthday extends StatefulWidget {
   const EditBirthday({Key? key, required this.initialDate}) : super(key: key);
 
   @override
-  _EditBirthdayState createState() => _EditBirthdayState();
+  State<EditBirthday> createState() => _EditBirthdayState();
 }
 
 class _EditBirthdayState extends State<EditBirthday> {

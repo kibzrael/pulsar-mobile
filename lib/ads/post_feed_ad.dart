@@ -4,7 +4,7 @@ class PostFeedAd extends StatefulWidget {
   const PostFeedAd({Key? key}) : super(key: key);
 
   @override
-  _PostFeedAdState createState() => _PostFeedAdState();
+  State<PostFeedAd> createState() => _PostFeedAdState();
 }
 
 class _PostFeedAdState extends State<PostFeedAd> {

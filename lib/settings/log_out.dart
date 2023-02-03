@@ -10,7 +10,7 @@ class LogOut extends StatefulWidget {
   const LogOut({Key? key}) : super(key: key);
 
   @override
-  _LogOutState createState() => _LogOutState();
+  State<LogOut> createState() => _LogOutState();
 }
 
 class _LogOutState extends State<LogOut> {
@@ -25,7 +25,7 @@ class _LogOutState extends State<LogOut> {
         trailingArrow: false,
         trailing: Icon(MyIcons.logOut),
         onPressed: () async {
-          var response = await openDialog(
+          await openDialog(
             context,
             (context) => const MyDialog(
               title: 'Log out?',
@@ -34,11 +34,12 @@ class _LogOutState extends State<LogOut> {
               destructive: 'Log out',
             ),
             dismissible: true,
-          );
-          if (response == 'Log out') {
-            loginProvider!.logout(context);
-            Navigator.pop(context);
-          }
+          ).then((response) {
+            if (response == 'Log out') {
+              loginProvider!.logout(context);
+              Navigator.pop(context);
+            }
+          });
         },
       ),
     );

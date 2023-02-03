@@ -12,7 +12,7 @@ class ChallengeResults extends StatefulWidget {
   const ChallengeResults({required this.target, Key? key}) : super(key: key);
 
   @override
-  _ChallengeResultsState createState() => _ChallengeResultsState();
+  State<ChallengeResults> createState() => _ChallengeResultsState();
 }
 
 class _ChallengeResultsState extends State<ChallengeResults> {

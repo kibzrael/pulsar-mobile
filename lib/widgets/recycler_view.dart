@@ -19,7 +19,7 @@ class RecyclerView extends StatefulWidget {
       this.bufferExtent = 1})
       : super(key: key);
   @override
-  _RecyclerViewState createState() => _RecyclerViewState();
+  State<RecyclerView> createState() => _RecyclerViewState();
 }
 
 class _RecyclerViewState extends State<RecyclerView> {
@@ -67,7 +67,7 @@ class _RecyclerViewState extends State<RecyclerView> {
           return [];
         });
       } catch (e) {
-        debugPrint("Recycler view: " + e.toString());
+        debugPrint("Recycler view: $e");
         connectionError();
         return;
       }

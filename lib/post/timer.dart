@@ -10,7 +10,7 @@ class CaptureTimer extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CaptureTimerState createState() => _CaptureTimerState();
+  State<CaptureTimer> createState() => _CaptureTimerState();
 }
 
 class _CaptureTimerState extends State<CaptureTimer> {

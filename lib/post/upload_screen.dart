@@ -17,7 +17,7 @@ class UploadScreen extends StatefulWidget {
   const UploadScreen({Key? key, required this.caption}) : super(key: key);
 
   @override
-  _UploadScreenState createState() => _UploadScreenState();
+  State<UploadScreen> createState() => _UploadScreenState();
 }
 
 class _UploadScreenState extends State<UploadScreen> {
@@ -39,11 +39,11 @@ class _UploadScreenState extends State<UploadScreen> {
   Widget build(BuildContext context) {
     provider = Provider.of<PostProvider>(context);
     captionController.setTextStyle(DetectedType.hashtag,
-        Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.blue));
+        Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.blue));
     captionController.setTextStyle(DetectedType.mention,
-        Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.blue));
+        Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.blue));
     captionController.setTextStyle(DetectedType.url,
-        Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.blue));
+        Theme.of(context).textTheme.titleLarge!.copyWith(color: Colors.blue));
 
     return GestureDetector(
       onTap: () {
@@ -130,8 +130,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                               maxLines: null,
                                               basicStyle: Theme.of(context)
                                                   .textTheme
-                                                  .bodyText2!
-                                                  .copyWith(fontSize: 16.5),
+                                                  .bodyMedium
+                                                  ?.copyWith(fontSize: 16.5),
                                               controller: captionController,
                                               onChanged: (text) {
                                                 setState(() {
@@ -141,7 +141,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                               },
                                               onDetectionTyped: (detection) {
                                                 debugPrint(
-                                                    "Detection: " + detection);
+                                                    "Detection: $detection");
                                               },
                                               detectionRegExp:
                                                   detectionRegExp()!,
@@ -159,7 +159,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                                   '# Hashtag',
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(fontSize: 16.5),
                                                 ),
                                                 const SizedBox(width: 12),
@@ -167,7 +167,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                                   '@ Person',
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .subtitle2!
+                                                      .titleSmall!
                                                       .copyWith(fontSize: 16.5),
                                                 ),
                                               ],
@@ -194,7 +194,7 @@ class _UploadScreenState extends State<UploadScreen> {
                             }),
                         subtitle: provider.tags.isEmpty
                             ? 'None'
-                            : "${provider.tags[0].name}${provider.tags.length > 1 ? ', ' + provider.tags[1].name : ''}${provider.tags.length > 2 ? ', +${provider.tags.length - 2}' : ''}"),
+                            : "${provider.tags[0].name}${provider.tags.length > 1 ? ', ${provider.tags[1].name}' : ''}${provider.tags.length > 2 ? ', +${provider.tags.length - 2}' : ''}"),
                     MyListTile(
                       title: 'Challenge',
                       trailingText: provider.challenge?.name ?? 'None',
@@ -234,7 +234,7 @@ class _UploadScreenState extends State<UploadScreen> {
                               toastNotImplemented();
                             },
                             titleColor:
-                                Theme.of(context).textTheme.bodyText2!.color,
+                                Theme.of(context).textTheme.bodyMedium?.color,
                           ),
                         ),
                         const SizedBox(width: 15),

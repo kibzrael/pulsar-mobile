@@ -154,7 +154,10 @@ class _CreateChallengeState extends State<CreateChallenge>
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  Theme.of(context).textTheme.headline1!.color!,
+                                  Theme.of(context)
+                                      .textTheme
+                                      .displayLarge!
+                                      .color!,
                                   Theme.of(context)
                                       .inputDecorationTheme
                                       .fillColor!
@@ -237,7 +240,7 @@ class _CreateChallengeState extends State<CreateChallenge>
                             name ?? "Challenge Name",
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText1!
+                                .bodyLarge!
                                 .copyWith(fontSize: 21),
                           ),
                           const SizedBox(width: 5),

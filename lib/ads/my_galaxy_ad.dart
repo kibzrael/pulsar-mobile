@@ -9,7 +9,7 @@ class MyGalaxyAd extends StatefulWidget {
   const MyGalaxyAd({Key? key}) : super(key: key);
 
   @override
-  _MyGalaxyAdState createState() => _MyGalaxyAdState();
+  State<MyGalaxyAd> createState() => _MyGalaxyAdState();
 }
 
 class _MyGalaxyAdState extends State<MyGalaxyAd>
@@ -104,7 +104,7 @@ class _MyGalaxyAdState extends State<MyGalaxyAd>
                             horizontal: 15, vertical: 8),
                         child: Text(
                           'Ad.',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     )),

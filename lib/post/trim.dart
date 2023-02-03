@@ -8,13 +8,15 @@ class TrimVideo extends StatefulWidget {
   final Function(double start, double end) onUpdate;
 
   const TrimVideo(
-      {Key? key, required this.position,
+      {Key? key,
+      required this.position,
       required this.duration,
       required this.speed,
-      required this.onUpdate}) : super(key: key);
+      required this.onUpdate})
+      : super(key: key);
 
   @override
-  _TrimVideoState createState() => _TrimVideoState();
+  State<TrimVideo> createState() => _TrimVideoState();
 }
 
 class _TrimVideoState extends State<TrimVideo> {
@@ -86,14 +88,16 @@ class _TrimVideoState extends State<TrimVideo> {
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                 child: Text(videoDuration(trimStart ~/ 1000)),
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
                 child: Text(videoDuration(trimEnd ~/ 1000)),
               ),
             ),
@@ -120,11 +124,11 @@ class _TrimVideoState extends State<TrimVideo> {
                   height: 75,
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
-                      borderRadius:
-                          const BorderRadius.horizontal(right: Radius.circular(15))),
+                      borderRadius: const BorderRadius.horizontal(
+                          right: Radius.circular(15))),
                   child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.horizontal(right: Radius.circular(15)),
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -171,11 +175,11 @@ class _TrimVideoState extends State<TrimVideo> {
                   height: 75,
                   decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
-                      borderRadius:
-                          const BorderRadius.horizontal(left: Radius.circular(15))),
+                      borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(15))),
                   child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.horizontal(left: Radius.circular(15)),
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(15)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

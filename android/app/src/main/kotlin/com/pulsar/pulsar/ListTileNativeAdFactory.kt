@@ -40,12 +40,12 @@ class ListTileNativeAdFactory(val context: Context, val dark: Boolean) :
             this.iconView = iconView
 
             val headlineView = findViewById<TextView>(R.id.tv_list_tile_native_ad_headline)
-            headlineView.text = nativeAd.headline.trim()
+            headlineView.text = nativeAd.headline?.trim()
 
             val bodyView = findViewById<TextView>(R.id.tv_list_tile_native_ad_body)
             with(bodyView) {
                 text = nativeAd.body
-                visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+                visibility = if (nativeAd.body?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
             }
             val background = findViewById<FrameLayout>(R.id.iv_list_tile_native_ad_background)
 

@@ -24,7 +24,7 @@ class FollowLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconTheme(
-      data: IconThemeData(color: Theme.of(context).textTheme.bodyText1!.color),
+      data: IconThemeData(color: Theme.of(context).textTheme.bodyLarge!.color),
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         child: LayoutBuilder(builder: (context, constraints) {
@@ -53,11 +53,11 @@ class FollowLayout extends StatelessWidget {
                       borderRadius: BorderRadius.circular(18),
                     ),
                     child: Container(
-                      child: middle,
                       height: 35,
                       alignment: Alignment.center,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 5),
+                      child: middle,
                     ),
                   ),
                 ),
@@ -72,11 +72,11 @@ class FollowLayout extends StatelessWidget {
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Container(
-                    child: child,
                     height: 35,
                     alignment: Alignment.center,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    child: child,
                   ),
                 ),
               ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/user_provider.dart';
@@ -12,7 +11,7 @@ class ChangeUsername extends StatefulWidget {
   const ChangeUsername({Key? key}) : super(key: key);
 
   @override
-  _ChangeUsernameState createState() => _ChangeUsernameState();
+  State<ChangeUsername> createState() => _ChangeUsernameState();
 }
 
 class _ChangeUsernameState extends State<ChangeUsername> {
@@ -38,24 +37,26 @@ class _ChangeUsernameState extends State<ChangeUsername> {
   // }
 
   onSubmit() async {
-    MyResponse response = await openDialog(
+    openDialog(
         context,
         (context) => LoadingDialog(
               (_) async => await provider.changeUsername(context, text),
               text: 'Submitting',
-            ));
-    await openDialog(
-      context,
-      (context) => MyDialog(
-        title: statusCodes[response.statusCode]!,
-        body: response.body!['message'],
-        actions: const ['Ok'],
-      ),
-      dismissible: true,
-    );
-    if (response.statusCode == 200) {
-      Navigator.pop(context);
-    }
+            )).then((response) {
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
+        ),
+        dismissible: true,
+      ).then((_) {
+        if (response.statusCode == 200) {
+          Navigator.pop(context);
+        }
+      });
+    });
   }
 
   @override
@@ -81,7 +82,7 @@ class _ChangeUsernameState extends State<ChangeUsername> {
             children: [
               Text('Enter the username\nyou\'d like to use.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1),
+                  style: Theme.of(context).textTheme.displayLarge),
               const SizedBox(height: 30),
               TextField(
                   autofocus: true,

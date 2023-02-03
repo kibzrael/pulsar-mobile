@@ -31,7 +31,7 @@ class _IntroAuthState extends State<IntroAuth> {
             const PulsarLogo(size: 150),
             const PulsarTextLogo(),
             Text('Express Your Play',
-                style: Theme.of(context).textTheme.headline1?.copyWith(
+                style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     fontStyle: FontStyle.italic, fontWeight: FontWeight.w500)),
             const Spacer(flex: 2),
             LinkedAccountLogin(provider, divider: false, text: 'Continue'),
@@ -61,7 +61,7 @@ class _IntroAuthState extends State<IntroAuth> {
                   textAlign: TextAlign.center,
                   text: TextSpan(
                       text: 'By joining you agree to our ',
-                      style: Theme.of(context).textTheme.subtitle2,
+                      style: Theme.of(context).textTheme.titleSmall,
                       children: [
                         TextSpan(
                             text: 'Privacy Policy',

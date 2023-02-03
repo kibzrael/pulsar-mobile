@@ -4,7 +4,7 @@ class AudioWidget extends StatefulWidget {
   const AudioWidget({Key? key}) : super(key: key);
 
   @override
-  _AudioWidgetState createState() => _AudioWidgetState();
+  State<AudioWidget> createState() => _AudioWidgetState();
 }
 
 class _AudioWidgetState extends State<AudioWidget> {
@@ -48,8 +48,8 @@ class _AudioWidgetState extends State<AudioWidget> {
                 height: 75,
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
-                    borderRadius:
-                        const BorderRadius.horizontal(right: Radius.circular(15))),
+                    borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(15))),
                 child: const ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(right: Radius.circular(15)),
@@ -63,8 +63,8 @@ class _AudioWidgetState extends State<AudioWidget> {
                 height: 75,
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.secondary,
-                    borderRadius:
-                        const BorderRadius.horizontal(left: Radius.circular(15))),
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(15))),
                 child: const ClipRRect(
                   borderRadius:
                       BorderRadius.horizontal(left: Radius.circular(15)),

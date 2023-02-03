@@ -31,7 +31,7 @@ class CaptureScreen extends StatefulWidget {
   const CaptureScreen(this.video, {Key? key, required this.duration})
       : super(key: key);
   @override
-  _CaptureScreenState createState() => _CaptureScreenState();
+  State<CaptureScreen> createState() => _CaptureScreenState();
 }
 
 class _CaptureScreenState extends State<CaptureScreen>
@@ -97,9 +97,11 @@ class _CaptureScreenState extends State<CaptureScreen>
     // If not changed
     if (provider.rotate == 0 && trimStart == 0 && trimEnd == initialEnd) {
       Navigator.pop(dialogContext);
-      await Future.delayed(const Duration(milliseconds: 300));
-      Navigator.of(context)
-          .push(myPageRoute(builder: (context) => EditScreen(video)));
+      await Future.delayed(const Duration(milliseconds: 300)).then((_) {
+        Navigator.of(context)
+            .push(myPageRoute(builder: (context) => EditScreen(video)));
+      });
+
       return;
     }
 
@@ -140,7 +142,10 @@ class _CaptureScreenState extends State<CaptureScreen>
       await FFmpegKit.executeAsync(command, (FFmpegSession session) async {
         String state =
             FFmpegKitConfig.sessionStateToString(await session.getState());
-        ReturnCode? returnCode = await session.getReturnCode();
+        ReturnCode? returnCode = await session.getReturnCode().then((code) {
+          Navigator.pop(dialogContext);
+          return code;
+        });
         debugPrint(
             "FFmpeg process exited with state $state and rc $returnCode");
 
@@ -149,20 +154,20 @@ class _CaptureScreenState extends State<CaptureScreen>
             trimmedVideo = VideoCapture(File(outputPath), camera: video.camera);
           });
           // Fluttertoast.showToast(msg: outputPath);
-          Navigator.pop(dialogContext);
           if (await trimmedVideo.video.length() > 2000000) {
             provider.compress();
           } else {
             provider.getThumbnails((endPoint - startPoint).inMilliseconds);
           }
-          await Future.delayed(const Duration(milliseconds: 300));
-          Navigator.of(context).push(
-              myPageRoute(builder: (context) => EditScreen(trimmedVideo)));
+          await Future.delayed(const Duration(milliseconds: 300)).then((_) {
+            Navigator.of(context).push(
+                myPageRoute(builder: (context) => EditScreen(trimmedVideo)));
+          });
         } else {
           Fluttertoast.showToast(msg: "Error");
         }
       }, (Log log) {
-        debugPrint("Capture Screen:" + log.getMessage());
+        debugPrint("Capture Screen:${log.getMessage()}");
       });
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());

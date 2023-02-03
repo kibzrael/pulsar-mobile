@@ -11,13 +11,15 @@ class OptionTile extends StatelessWidget {
   final Function? onPressed;
 
   const OptionTile(
-      {Key? key, this.leading,
+      {Key? key,
+      this.leading,
       this.onPressed,
       this.subtitle,
       required this.title,
       this.trailing,
       this.trailingArrow = true,
-      this.trailingText}) : super(key: key);
+      this.trailingText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class OptionTile extends StatelessWidget {
                         Text(title!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.subtitle1),
+                            style: Theme.of(context).textTheme.titleLarge),
                       ]),
                 ),
                 const SizedBox(width: 15),
@@ -52,7 +54,7 @@ class OptionTile extends StatelessWidget {
                         textAlign: TextAlign.end,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.subtitle2),
+                        style: Theme.of(context).textTheme.titleSmall),
                   )
                 else
                   const Spacer(),
@@ -72,7 +74,7 @@ class OptionTile extends StatelessWidget {
               Text(subtitle!,
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.subtitle2)
+                  style: Theme.of(context).textTheme.titleSmall)
           ],
         ),
       ),

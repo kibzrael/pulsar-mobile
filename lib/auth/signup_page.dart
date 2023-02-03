@@ -5,7 +5,6 @@ import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
@@ -17,7 +16,7 @@ class SignupPage extends StatefulWidget {
   final Function(int page) onChange;
   const SignupPage({Key? key, required this.onChange}) : super(key: key);
   @override
-  _SignupPageState createState() => _SignupPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
 class _SignupPageState extends State<SignupPage>
@@ -65,37 +64,42 @@ class _SignupPageState extends State<SignupPage>
     setState(() {
       isSubmitting = true;
     });
-    MyResponse response = await provider.signup(email, username, password);
-    setState(() {
-      isSubmitting = false;
-    });
-    if (response.statusCode == 201) {
+    await provider.signup(email, username, password).then((response) {
       setState(() {
-        isSubmitted = true;
+        isSubmitting = false;
       });
-      await Future.delayed(const Duration(milliseconds: 300));
-      provider.fetchInterests(context);
+      if (response.statusCode == 201) {
+        setState(() {
+          isSubmitted = true;
+        });
+        Future.delayed(const Duration(milliseconds: 300)).then((_) {
+          provider.fetchInterests(context);
+          provider.user.id = response.body!['user']['id'];
+          provider.user.username = response.body!['user']['username'];
+          provider.token = response.body!['user']['jwtToken'];
 
-      provider.user.id = response.body!['user']['id'];
-      provider.user.username = response.body!['user']['username'];
-      provider.token = response.body!['user']['jwtToken'];
+          loginProvider
+              .signup(context,
+                  token: response.body!['user']['jwtToken'],
+                  user: response.body!['user'])
+              .then((_) {
+            Navigator.of(context, rootNavigator: true).pushReplacement(
+                myPageRoute(builder: (context) => const SignInfo()));
+          });
+        });
 
-      await loginProvider.signup(context,
-          token: response.body!['user']['jwtToken'],
-          user: response.body!['user']);
-      Navigator.of(context, rootNavigator: true)
-          .pushReplacement(myPageRoute(builder: (context) => const SignInfo()));
-      return;
-    }
+        return;
+      }
 
-    openDialog(
-      context,
-      (context) => MyDialog(
-        title: statusCodes[response.statusCode]!,
-        body: response.body!['message'],
-        actions: const ['Ok'],
-      ),
-    );
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
+        ),
+      );
+    });
   }
 
   @override
@@ -254,7 +258,7 @@ class SelectCountry extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SelectCountryState createState() => _SelectCountryState();
+  State<SelectCountry> createState() => _SelectCountryState();
 }
 
 class _SelectCountryState extends State<SelectCountry>

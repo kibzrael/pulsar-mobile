@@ -22,7 +22,7 @@ class SelectInterests extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SelectInterestsState createState() => _SelectInterestsState();
+  State<SelectInterests> createState() => _SelectInterestsState();
 }
 
 class _SelectInterestsState extends State<SelectInterests>
@@ -63,7 +63,7 @@ class _SelectInterestsState extends State<SelectInterests>
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .displayLarge!
                         .copyWith(fontSize: 24),
                   ),
                 )

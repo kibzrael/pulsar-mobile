@@ -122,7 +122,7 @@ class OptionLayout extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontSize: share ? 15 : 13.5, color: option.color),
             )
           ],

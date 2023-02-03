@@ -20,7 +20,7 @@ class PostPreview extends StatefulWidget {
   const PostPreview(this.provider, {Key? key}) : super(key: key);
 
   @override
-  _PostPreviewState createState() => _PostPreviewState();
+  State<PostPreview> createState() => _PostPreviewState();
 }
 
 class _PostPreviewState extends State<PostPreview> {
@@ -150,7 +150,7 @@ class _PostPreviewState extends State<PostPreview> {
                                                             TextOverflow.clip,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .subtitle1!
+                                                            .titleLarge!
                                                             .copyWith(
                                                                 fontSize:
                                                                     16.5)),
@@ -164,7 +164,7 @@ class _PostPreviewState extends State<PostPreview> {
                                                       'now',
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .subtitle2!
+                                                          .titleSmall!
                                                           .copyWith(
                                                               fontSize: 12,
                                                               color:
@@ -216,7 +216,7 @@ class _PostPreviewState extends State<PostPreview> {
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
-                                                                  .bodyText1!
+                                                                  .bodyLarge!
                                                                   .copyWith(
                                                                       fontSize:
                                                                           13.5),
@@ -236,7 +236,7 @@ class _PostPreviewState extends State<PostPreview> {
                                                     maxLines: 1,
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .subtitle2!
+                                                        .titleSmall!
                                                         .copyWith(
                                                             color:
                                                                 Colors.white)),
@@ -257,8 +257,8 @@ class _PostPreviewState extends State<PostPreview> {
                                       overflow: TextOverflow.ellipsis,
                                       basicStyle: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
-                                          .copyWith(
+                                          .bodyMedium
+                                          ?.copyWith(
                                               fontWeight: FontWeight.w400),
                                       detectedStyle:
                                           const TextStyle(color: Colors.blue),

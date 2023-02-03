@@ -7,7 +7,7 @@ class AuthScreen extends StatefulWidget {
   final int initialPage;
   const AuthScreen({Key? key, this.initialPage = 0}) : super(key: key);
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
@@ -29,10 +29,10 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return ScaledTransition(
       fill: Theme.of(context).scaffoldBackgroundColor,
+      reverse: index == 0,
       child: index == 0
           ? LoginPage(onChange: onChange)
           : SignupPage(onChange: onChange),
-      reverse: index == 0,
     );
   }
 }

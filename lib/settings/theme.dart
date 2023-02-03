@@ -7,7 +7,7 @@ class SelectTheme extends StatefulWidget {
   const SelectTheme({Key? key}) : super(key: key);
 
   @override
-  _SelectThemeState createState() => _SelectThemeState();
+  State<SelectTheme> createState() => _SelectThemeState();
 }
 
 class _SelectThemeState extends State<SelectTheme> {

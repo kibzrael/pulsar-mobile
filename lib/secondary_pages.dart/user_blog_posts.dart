@@ -4,7 +4,7 @@ class UserBlogPosts extends StatefulWidget {
   const UserBlogPosts({Key? key}) : super(key: key);
 
   @override
-  _UserBlogPostsState createState() => _UserBlogPostsState();
+  State<UserBlogPosts> createState() => _UserBlogPostsState();
 }
 
 class _UserBlogPostsState extends State<UserBlogPosts>
@@ -23,7 +23,7 @@ class _UserBlogPostsState extends State<UserBlogPosts>
     // for grid posts, reposts and saved posts
     await Future.delayed(const Duration(seconds: 2));
 
-    List<String> _posts = [
+    List<String> results = [
       'assets/capture15.JPG',
       'assets/images (14).jpeg',
       'assets/images.jpg',
@@ -50,7 +50,7 @@ class _UserBlogPostsState extends State<UserBlogPosts>
     // use this method just within the future for lazy loading
     if (mounted) {
       setState(() {
-        posts = [...posts, ..._posts];
+        posts = [...posts, ...results];
         isLoading = false;
         // errorLoading = true;
       });

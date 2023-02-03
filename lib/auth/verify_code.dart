@@ -26,7 +26,7 @@ class VerifyCode extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _VerifyCodeState createState() => _VerifyCodeState();
+  State<VerifyCode> createState() => _VerifyCodeState();
 }
 
 class _VerifyCodeState extends State<VerifyCode> {
@@ -110,7 +110,7 @@ class _VerifyCodeState extends State<VerifyCode> {
               Text(
                 'A code has been sent to ${widget.account}. Please enter the code below.',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
               ),
               const Spacer(flex: 2),
               PinCodeTextField(

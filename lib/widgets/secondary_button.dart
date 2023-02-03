@@ -6,7 +6,8 @@ class SecondaryButton extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const SecondaryButton({Key? key, this.height, required this.text, this.width}) : super(key: key);
+  const SecondaryButton({Key? key, this.height, required this.text, this.width})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class SecondaryButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ));
   }
 }

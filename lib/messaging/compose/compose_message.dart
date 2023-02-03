@@ -13,7 +13,7 @@ class ComposeMessage extends StatefulWidget {
   const ComposeMessage({Key? key}) : super(key: key);
 
   @override
-  _ComposeMessageState createState() => _ComposeMessageState();
+  State<ComposeMessage> createState() => _ComposeMessageState();
 }
 
 class _ComposeMessageState extends State<ComposeMessage> {

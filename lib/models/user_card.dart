@@ -15,7 +15,7 @@ class UserCard extends StatefulWidget {
   const UserCard(this.user, {Key? key}) : super(key: key);
 
   @override
-  _UserCardState createState() => _UserCardState();
+  State<UserCard> createState() => _UserCardState();
 }
 
 class _UserCardState extends State<UserCard> {

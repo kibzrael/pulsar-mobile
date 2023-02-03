@@ -116,7 +116,7 @@
 //                           ActionButton(
 //                             title: 'Login',
 //                             backgroundColor: Colors.white,
-//                             titleColor: lightTheme.textTheme.bodyText2!.color,
+//                             titleColor: lightTheme.textTheme.bodyMedium?.color,
 //                             onPressed: toLogin,
 //                           )
 //                         ])),

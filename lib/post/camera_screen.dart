@@ -26,7 +26,7 @@ class CameraScreen extends StatefulWidget {
   final Function onPop;
   const CameraScreen({Key? key, required this.onPop}) : super(key: key);
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
 class _CameraScreenState extends State<CameraScreen>
@@ -99,36 +99,37 @@ class _CameraScreenState extends State<CameraScreen>
 
   stopRecording({required double duration}) async {
     if (!isRecording) return;
-    VideoSnapshot? snapshot = await provider.stopVideoRecording();
-    if (snapshot == null) {
-      Fluttertoast.showToast(msg: '$snapshot');
-      return;
-    }
-    if (snapshot.hasError) {
-      Fluttertoast.showToast(
-          msg: 'stopRecording: ${snapshot.error!.description}');
-    }
+    await provider.stopVideoRecording().then((snapshot) {
+      if (snapshot == null) {
+        Fluttertoast.showToast(msg: '$snapshot');
+        return;
+      }
+      if (snapshot.hasError) {
+        Fluttertoast.showToast(
+            msg: 'stopRecording: ${snapshot.error!.description}');
+      }
 
-    if (snapshot.video != null) {
-      _ticker.stop();
-      setState(() {});
-      VideoCapture videoCapture = VideoCapture(
-        File(snapshot.video!.path),
-        camera: true,
-      );
-      postProvider.video = videoCapture;
-      // postProvider.getThumbnails(duration.floor());
-      postProvider.compress(duration: duration.floor());
-      Navigator.of(context).push(myPageRoute(
-          builder: (context) =>
-              // CaptureScreen(
-              //     VideoCapture(File(snapshot.video!.path), camera: true),
-              //     duration: duration)
-              EditScreen(VideoCapture(
-                File(snapshot.video!.path),
-                camera: true,
-              ))));
-    }
+      if (snapshot.video != null) {
+        _ticker.stop();
+        setState(() {});
+        VideoCapture videoCapture = VideoCapture(
+          File(snapshot.video!.path),
+          camera: true,
+        );
+        postProvider.video = videoCapture;
+        // postProvider.getThumbnails(duration.floor());
+        postProvider.compress(duration: duration.floor());
+        Navigator.of(context).push(myPageRoute(
+            builder: (context) =>
+                // CaptureScreen(
+                //     VideoCapture(File(snapshot.video!.path), camera: true),
+                //     duration: duration)
+                EditScreen(VideoCapture(
+                  File(snapshot.video!.path),
+                  camera: true,
+                ))));
+      }
+    });
   }
 
   setTimer(int time) {
@@ -411,21 +412,27 @@ class _CameraScreenState extends State<CameraScreen>
                                         file = File(pickedFile.path);
                                       }
                                       if (file != null) {
-                                        VideoData? data =
-                                            await FlutterVideoInfo()
-                                                .getVideoInfo(file.path);
-                                        postProvider.video =
-                                            VideoCapture(file, camera: false);
-                                        postProvider.getThumbnails(
-                                            (data?.duration?.floor() ?? 3000) *
-                                                1);
-                                        Navigator.of(context).push(myPageRoute(
-                                            builder: (context) => CaptureScreen(
-                                                  VideoCapture(file!,
-                                                      camera: false),
-                                                  duration:
-                                                      data?.duration ?? 3000,
-                                                )));
+                                        await FlutterVideoInfo()
+                                            .getVideoInfo(file.path)
+                                            .then((data) {
+                                          postProvider.video = VideoCapture(
+                                              file!,
+                                              camera: false);
+                                          postProvider.getThumbnails(
+                                              (data?.duration?.floor() ??
+                                                      3000) *
+                                                  1);
+                                          Navigator.of(context).push(
+                                              myPageRoute(
+                                                  builder: (context) =>
+                                                      CaptureScreen(
+                                                        VideoCapture(file!,
+                                                            camera: false),
+                                                        duration:
+                                                            data?.duration ??
+                                                                3000,
+                                                      )));
+                                        });
                                       }
                                       // openBottomSheet(context,
                                       //     (context) => Gallery(),

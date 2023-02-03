@@ -19,7 +19,7 @@ class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key}) : super(key: key);
 
   @override
-  _MessageScreenState createState() => _MessageScreenState();
+  State<MessageScreen> createState() => _MessageScreenState();
 }
 
 class _MessageScreenState extends State<MessageScreen> {
@@ -47,7 +47,7 @@ class RootMessageScreen extends StatefulWidget {
   const RootMessageScreen({Key? key}) : super(key: key);
 
   @override
-  _RootMessageScreenState createState() => _RootMessageScreenState();
+  State<RootMessageScreen> createState() => _RootMessageScreenState();
 }
 
 class _RootMessageScreenState extends State<RootMessageScreen>
@@ -130,8 +130,8 @@ class _RootMessageScreenState extends State<RootMessageScreen>
           // : IconButton(icon: Icon(MyIcons.sort), onPressed: () {})
         ],
         bottom: PreferredSize(
-            child: const HighlightUsers(),
-            preferredSize: Size(MediaQuery.of(context).size.width, 100)),
+            preferredSize: Size(MediaQuery.of(context).size.width, 100),
+            child: const HighlightUsers()),
       ),
       body: Container(
         color: Theme.of(context).colorScheme.surface,

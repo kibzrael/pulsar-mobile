@@ -24,7 +24,7 @@ class DiscoverChallenges extends StatefulWidget {
   const DiscoverChallenges(this.initial, {Key? key}) : super(key: key);
 
   @override
-  _DiscoverChallengesState createState() => _DiscoverChallengesState();
+  State<DiscoverChallenges> createState() => _DiscoverChallengesState();
 }
 
 class _DiscoverChallengesState extends State<DiscoverChallenges>
@@ -206,7 +206,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                               challenge.name,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .bodyText1!
+                                                  .bodyLarge!
                                                   .copyWith(fontSize: 18),
                                               maxLines: 1,
                                               textAlign: TextAlign.center,
@@ -221,7 +221,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
                                               challenge.description ?? '',
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .titleSmall!
                                                   .copyWith(fontSize: 15),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -259,7 +259,7 @@ class ChallengeTag extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChallengeTagState createState() => _ChallengeTagState();
+  State<ChallengeTag> createState() => _ChallengeTagState();
 }
 
 class _ChallengeTagState extends State<ChallengeTag> {
@@ -299,7 +299,7 @@ class _ChallengeTagState extends State<ChallengeTag> {
                   fontWeight: FontWeight.w500,
                   color: isSelected
                       ? Colors.white
-                      : Theme.of(context).textTheme.subtitle2!.color),
+                      : Theme.of(context).textTheme.titleSmall!.color),
             )
           ]),
         ),

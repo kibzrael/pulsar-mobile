@@ -97,18 +97,22 @@ class User {
         response = await http.delete(Uri.parse(url),
             headers: {'Authorization': user.token ?? ''});
       }
-      if (response.statusCode == 200) {
-      } else {
-        isFollowing = mode != RequestMethod.post;
-        if (mode == RequestMethod.post) {
-          followers = followers == null ? null : followers! - 1;
+      interactionSync() {
+        if (response.statusCode == 200) {
         } else {
-          followers = followers == null ? null : followers! + 1;
+          isFollowing = mode != RequestMethod.post;
+          if (mode == RequestMethod.post) {
+            followers = followers == null ? null : followers! - 1;
+          } else {
+            followers = followers == null ? null : followers! + 1;
+          }
+          syncFollow(context);
+          onNotify();
+          Fluttertoast.showToast(msg: 'error');
         }
-        syncFollow(context);
-        onNotify();
-        Fluttertoast.showToast(msg: 'error');
       }
+
+      interactionSync();
     } catch (e) {
       isFollowing = mode != RequestMethod.post;
       if (mode == RequestMethod.post) {

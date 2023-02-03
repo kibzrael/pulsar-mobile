@@ -35,18 +35,29 @@ class LoginProvider extends ChangeNotifier {
     Uri url = Uri.parse(_loginUrl);
     LoginResponse response = LoginResponse();
     try {
-      http.Response requestResponse = await http.post(url, body: {
+      await http.post(url, body: {
         'info': info,
         'password': password,
         'device': deviceToken ?? ''
-      });
+      }).then((requestResponse) {
+        response.statusCode = requestResponse.statusCode;
+        //
+        var body = jsonDecode(requestResponse.body);
+        if (body is Map) {
+          response.body = body;
+        }
+        if (response.statusCode == 200) {
+          saveLogin(context,
+              token: response.body!['user']['jwtToken'],
+              user: response.body!['user']);
+          Future.delayed(const Duration(milliseconds: 300)).then((value) {
+            _loggedIn = true;
+            Navigator.of(context).pushReplacementNamed('/');
 
-      response.statusCode = requestResponse.statusCode;
-      //
-      var body = jsonDecode(requestResponse.body);
-      if (body is Map) {
-        response.body = body;
-      }
+            notifyListeners();
+          });
+        }
+      });
     } catch (e) {
       response.statusCode = 503;
       response.body = {
@@ -54,17 +65,7 @@ class LoginProvider extends ChangeNotifier {
             'There has been a problem processing your request. Please try again later.'
       };
     }
-    if (response.statusCode == 200) {
-      saveLogin(context,
-          token: response.body!['user']['jwtToken'],
-          user: response.body!['user']);
-      Future.delayed(const Duration(milliseconds: 300)).then((value) {
-        _loggedIn = true;
-        Navigator.of(context).pushReplacementNamed('/');
 
-        notifyListeners();
-      });
-    }
     return response;
   }
 
@@ -84,30 +85,32 @@ class LoginProvider extends ChangeNotifier {
       );
 
       Uri uri = Uri.parse(getUrl(AuthUrls.googleSignin));
-      http.Response response = await http.post(uri, body: {
+      await http.post(uri, body: {
         'id': account.id,
         'email': account.email,
         'access_token': authentication.accessToken,
         'auth_code': account.serverAuthCode,
         'device': deviceToken ?? ''
-      });
-      if (response.statusCode == 200) {
-        var data = jsonDecode(response.body);
-        if (data['linked']) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Account Linked Successfully")));
+      }).then((response) {
+        if (response.statusCode == 200) {
+          var data = jsonDecode(response.body);
+          if (data['linked']) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Account Linked Successfully")));
+          }
+          saveLogin(context,
+              token: data['user']['jwtToken'], user: data['user']);
+          _loggedIn = true;
+          Navigator.of(context).pushReplacementNamed('/');
+          notifyListeners();
+        } else if (response.statusCode == 404) {
+          SignInfoProvider provider =
+              Provider.of<SignInfoProvider>(context, listen: false);
+          provider.providerSignup(context, linkedAccount);
+        } else {
+          Fluttertoast.showToast(msg: 'Error Signing in.');
         }
-        saveLogin(context, token: data['user']['jwtToken'], user: data['user']);
-        _loggedIn = true;
-        Navigator.of(context).pushReplacementNamed('/');
-        notifyListeners();
-      } else if (response.statusCode == 404) {
-        SignInfoProvider provider =
-            Provider.of<SignInfoProvider>(context, listen: false);
-        provider.providerSignup(context, linkedAccount);
-      } else {
-        Fluttertoast.showToast(msg: 'Error Signing in.');
-      }
+      });
     }
   }
 
@@ -123,30 +126,31 @@ class LoginProvider extends ChangeNotifier {
             photo: userData['picture']['data']['url'],
             birthday: userData['birthday']);
         Uri uri = Uri.parse(getUrl(AuthUrls.facebookSignin));
-        http.Response response = await http.post(uri, body: {
+        await http.post(uri, body: {
           'id': accessToken.userId,
           'email': account.email,
           'access_token': accessToken.token,
           'device': deviceToken ?? ''
-        });
-        if (response.statusCode == 200) {
-          var data = jsonDecode(response.body);
-          if (data['linked']) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Account Linked Successfully")));
+        }).then((response) {
+          if (response.statusCode == 200) {
+            var data = jsonDecode(response.body);
+            if (data['linked']) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Account Linked Successfully")));
+            }
+            saveLogin(context,
+                token: data['user']['jwtToken'], user: data['user']);
+            _loggedIn = true;
+            Navigator.of(context).pushReplacementNamed('/');
+            notifyListeners();
+          } else if (response.statusCode == 404) {
+            SignInfoProvider provider =
+                Provider.of<SignInfoProvider>(context, listen: false);
+            provider.providerSignup(context, account);
+          } else {
+            Fluttertoast.showToast(msg: 'Error Signing in.');
           }
-          saveLogin(context,
-              token: data['user']['jwtToken'], user: data['user']);
-          _loggedIn = true;
-          Navigator.of(context).pushReplacementNamed('/');
-          notifyListeners();
-        } else if (response.statusCode == 404) {
-          SignInfoProvider provider =
-              Provider.of<SignInfoProvider>(context, listen: false);
-          provider.providerSignup(context, account);
-        } else {
-          Fluttertoast.showToast(msg: 'Error Signing in.');
-        }
+        });
       } else {
         Fluttertoast.showToast(msg: 'Error fetching Data.');
       }

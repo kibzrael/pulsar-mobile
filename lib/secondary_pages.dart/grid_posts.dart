@@ -18,7 +18,7 @@ class GridPosts extends StatefulWidget {
       : super(key: key);
 
   @override
-  _GridPostsState createState() => _GridPostsState();
+  State<GridPosts> createState() => _GridPostsState();
 }
 
 class _GridPostsState extends State<GridPosts>
@@ -27,14 +27,8 @@ class _GridPostsState extends State<GridPosts>
   bool get wantKeepAlive => true;
 
   Future<List<Map<String, dynamic>>> fetchPosts(int index) async {
-    List<Map<String, dynamic>> _posts = await widget.fetchData(index);
-
-    return _posts;
-  }
-
-  @override
-  void initState() {
-    super.initState();
+    List<Map<String, dynamic>> results = await widget.fetchData(index);
+    return results;
   }
 
   @override

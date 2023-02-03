@@ -39,7 +39,7 @@ class CommentCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CommentCardState createState() => _CommentCardState();
+  State<CommentCard> createState() => _CommentCardState();
 }
 
 class _CommentCardState extends State<CommentCard> {
@@ -167,14 +167,14 @@ class _CommentCardState extends State<CommentCard> {
                             Text('@${comment.user.username}',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .subtitle1!
+                                    .titleLarge!
                                     .copyWith(fontSize: 16.5)),
                             const SizedBox(width: 5),
                             Text(
                               timeAgo(comment.time),
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2!
+                                  .titleSmall!
                                   .copyWith(fontSize: 12),
                             )
                           ],
@@ -272,7 +272,7 @@ class _CommentCardState extends State<CommentCard> {
                                         'View${widget.replies.length + replies.length > 0 ? ' More' : ''} Replies',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .subtitle2!
+                                            .titleSmall!
                                             .copyWith(color: Colors.white),
                                       )),
                                 ),
@@ -293,7 +293,7 @@ class SendingCommentCard extends StatefulWidget {
   const SendingCommentCard(this.comment, {Key? key}) : super(key: key);
 
   @override
-  _SendingCommentCardState createState() => _SendingCommentCardState();
+  State<SendingCommentCard> createState() => _SendingCommentCardState();
 }
 
 class _SendingCommentCardState extends State<SendingCommentCard> {
@@ -320,14 +320,14 @@ class _SendingCommentCardState extends State<SendingCommentCard> {
                     Text('@${comment['user'].username}',
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleLarge!
                             .copyWith(fontSize: 16.5)),
                     const SizedBox(width: 5),
                     Text(
                       'now',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 12),
                     )
                   ],

@@ -27,7 +27,7 @@ class Filters extends StatefulWidget {
   final PostProvider postProvider;
   const Filters(this.postProvider, {Key? key}) : super(key: key);
   @override
-  _FiltersState createState() => _FiltersState();
+  State<Filters> createState() => _FiltersState();
 }
 
 class _FiltersState extends State<Filters> {
@@ -39,7 +39,7 @@ class _FiltersState extends State<Filters> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Filters', style: Theme.of(context).textTheme.headline1),
+            Text('Filters', style: Theme.of(context).textTheme.displayLarge),
             MyTextButton(text: 'Done', onPressed: () => Navigator.pop(context))
           ],
         ),
@@ -106,7 +106,7 @@ class FilterWidget extends StatelessWidget {
               maxLines: 1,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2
+                  .titleSmall
                   ?.copyWith(fontSize: 16.5),
             ),
           )

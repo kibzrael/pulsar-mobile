@@ -45,7 +45,7 @@ class SectionTitle extends StatelessWidget {
             title,
             style: Theme.of(context)
                 .textTheme
-                .headline1!
+                .displayLarge!
                 .copyWith(fontSize: titleSize),
           ),
           if (trailing != null) trailing!,

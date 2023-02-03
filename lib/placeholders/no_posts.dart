@@ -31,7 +31,7 @@ class NoPosts extends StatelessWidget {
                     'No Content',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 32, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -41,7 +41,7 @@ class NoPosts extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .headline1!
+                    .displayLarge!
                     .copyWith(fontSize: 21, fontWeight: FontWeight.w400),
               )
             ],
@@ -81,8 +81,11 @@ class NoPostsModel extends StatelessWidget {
                       child: Text(
                         'No Content\nAvailable',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                            fontSize: 24, fontWeight: FontWeight.w600),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(
+                                fontSize: 24, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),

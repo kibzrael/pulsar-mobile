@@ -13,7 +13,7 @@ class UploadProgress extends StatefulWidget {
       : super(key: key);
 
   @override
-  _UploadProgressState createState() => _UploadProgressState();
+  State<UploadProgress> createState() => _UploadProgressState();
 }
 
 class _UploadProgressState extends State<UploadProgress> {
@@ -27,7 +27,7 @@ class _UploadProgressState extends State<UploadProgress> {
     bool themeIsLight = Theme.of(context).brightness == Brightness.light;
     Color? textColor = barIsTransparent
         ? Colors.white
-        : Theme.of(context).textTheme.bodyText2!.color;
+        : Theme.of(context).textTheme.bodyMedium?.color;
     return Container(
       height: kToolbarHeight,
       width: double.infinity,
@@ -89,7 +89,7 @@ class _UploadProgressState extends State<UploadProgress> {
                 '@${uploadPost.user.username}',
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleLarge!
                     .copyWith(color: textColor),
               ),
               ShaderMask(
@@ -101,7 +101,7 @@ class _UploadProgressState extends State<UploadProgress> {
                 },
                 child: Text(
                   'Uploading...',
-                  style: Theme.of(context).textTheme.subtitle2,
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               )
             ],

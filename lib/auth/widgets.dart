@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/divider.dart';
@@ -83,7 +82,7 @@ class LogTextInput extends StatefulWidget {
       this.prefixIcon})
       : super(key: key);
   @override
-  _LogTextInputState createState() => _LogTextInputState();
+  State<LogTextInput> createState() => _LogTextInputState();
 }
 
 class _LogTextInputState extends State<LogTextInput> {
@@ -330,7 +329,7 @@ class LinkedAccountWidget extends StatelessWidget {
               '$text with $name',
               style: Theme.of(context)
                   .textTheme
-                  .headline1!
+                  .displayLarge!
                   .copyWith(fontSize: 16.5),
             ))
           ]),

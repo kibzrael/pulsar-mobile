@@ -20,7 +20,7 @@ class SelectCategory extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SelectCategoryState createState() => _SelectCategoryState();
+  State<SelectCategory> createState() => _SelectCategoryState();
 }
 
 class _SelectCategoryState extends State<SelectCategory>
@@ -69,7 +69,7 @@ class _SelectCategoryState extends State<SelectCategory>
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
-                      .headline1!
+                      .displayLarge!
                       .copyWith(fontSize: 24),
                 ),
               ),

@@ -7,7 +7,7 @@ class Chats extends StatefulWidget {
   final ScrollController scrollController;
   const Chats({Key? key, required this.scrollController}) : super(key: key);
   @override
-  _ChatsState createState() => _ChatsState();
+  State<Chats> createState() => _ChatsState();
 }
 
 class _ChatsState extends State<Chats> {

@@ -10,7 +10,7 @@ class PostAudio extends StatefulWidget {
   const PostAudio({Key? key}) : super(key: key);
 
   @override
-  _PostAudioState createState() => _PostAudioState();
+  State<PostAudio> createState() => _PostAudioState();
 }
 
 class _PostAudioState extends State<PostAudio> {
@@ -30,6 +30,7 @@ class _PostAudioState extends State<PostAudio> {
       //   top: Provider.of<ThemeProvider>(context, listen: false).topPadding,
       // ),
       child: ScaledTransition(
+        reverse: audio == null,
         child: audio == null
             ? SearchAudio(
                 onSelect: (selected) {
@@ -45,7 +46,6 @@ class _PostAudioState extends State<PostAudio> {
                   });
                 },
                 pop: () => Navigator.pop(context)),
-        reverse: audio == null,
       ),
     );
   }

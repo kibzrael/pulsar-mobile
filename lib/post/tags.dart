@@ -17,7 +17,7 @@ class SeletectTags extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SeletectTagsState createState() => _SeletectTagsState();
+  State<SeletectTags> createState() => _SeletectTagsState();
 }
 
 class _SeletectTagsState extends State<SeletectTags> {
@@ -108,7 +108,7 @@ class _SeletectTagsState extends State<SeletectTags> {
                             'Select tags for your post...',
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle2!
+                                .titleSmall!
                                 .copyWith(fontSize: 18),
                           ),
                         ),

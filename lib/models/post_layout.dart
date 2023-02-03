@@ -35,7 +35,7 @@ class PostLayout extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PostLayoutState createState() => _PostLayoutState();
+  State<PostLayout> createState() => _PostLayoutState();
 }
 
 class _PostLayoutState extends State<PostLayout> {
@@ -156,7 +156,7 @@ class _PostLayoutState extends State<PostLayout> {
                                                 overflow: TextOverflow.clip,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .subtitle1!
+                                                    .titleLarge!
                                                     .copyWith(fontSize: 16.5)),
                                           ),
                                           const SizedBox(width: 5),
@@ -167,7 +167,7 @@ class _PostLayoutState extends State<PostLayout> {
                                               timeAgo(post.time),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .titleSmall!
                                                   .copyWith(
                                                       fontSize: 12,
                                                       color: Colors.white),
@@ -233,7 +233,7 @@ class _PostLayoutState extends State<PostLayout> {
                                                             : 'Follow',
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .bodyText1!
+                                                            .bodyLarge!
                                                             .copyWith(
                                                                 fontSize: 13.5),
                                                       ),
@@ -262,7 +262,7 @@ class _PostLayoutState extends State<PostLayout> {
                                               maxLines: 1,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .subtitle2!
+                                                  .titleSmall!
                                                   .copyWith(
                                                       color: Colors.white)),
                                         ),
@@ -283,8 +283,8 @@ class _PostLayoutState extends State<PostLayout> {
                             overflow: TextOverflow.ellipsis,
                             basicStyle: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
-                                .copyWith(fontWeight: FontWeight.w400),
+                                .bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.w400),
                             detectedStyle: const TextStyle(color: Colors.blue),
                             onTap: (String text) {
                               Fluttertoast.showToast(msg: "Open $text");

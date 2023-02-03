@@ -29,7 +29,7 @@ class ChallengesPage extends StatefulWidget {
   const ChallengesPage({Key? key}) : super(key: key);
 
   @override
-  _ChallengesPageState createState() => _ChallengesPageState();
+  State<ChallengesPage> createState() => _ChallengesPageState();
 }
 
 class _ChallengesPageState extends State<ChallengesPage> {
@@ -55,7 +55,7 @@ class RootGalaxy extends StatefulWidget {
   const RootGalaxy({Key? key}) : super(key: key);
 
   @override
-  _RootGalaxyState createState() => _RootGalaxyState();
+  State<RootGalaxy> createState() => _RootGalaxyState();
 }
 
 class _RootGalaxyState extends State<RootGalaxy>

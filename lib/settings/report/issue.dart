@@ -6,7 +6,7 @@ class ReportIssue extends StatefulWidget {
   const ReportIssue({Key? key}) : super(key: key);
 
   @override
-  _ReportIssueState createState() => _ReportIssueState();
+  State<ReportIssue> createState() => _ReportIssueState();
 }
 
 class _ReportIssueState extends State<ReportIssue> {
@@ -26,7 +26,7 @@ class _ReportIssueState extends State<ReportIssue> {
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               child: Text(
                 'Report an error in the app, or a crash.',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
               ),
             ),

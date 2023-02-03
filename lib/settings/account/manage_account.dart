@@ -17,7 +17,7 @@ class ManageAccount extends StatefulWidget {
   const ManageAccount({Key? key}) : super(key: key);
 
   @override
-  _ManageAccountState createState() => _ManageAccountState();
+  State<ManageAccount> createState() => _ManageAccountState();
 }
 
 class _ManageAccountState extends State<ManageAccount> {
@@ -49,7 +49,7 @@ class _ManageAccountState extends State<ManageAccount> {
                           Text('@${user.username}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle1!
+                                  .titleLarge!
                                   .copyWith(fontSize: 21)),
                           const SizedBox(
                             height: 5,
@@ -57,7 +57,7 @@ class _ManageAccountState extends State<ManageAccount> {
                           Text(user.category,
                               style: Theme.of(context)
                                   .textTheme
-                                  .subtitle2!
+                                  .titleSmall!
                                   .copyWith(fontSize: 18)),
                         ])
                   ],
@@ -139,7 +139,7 @@ class _ManageAccountState extends State<ManageAccount> {
                   titleColor: Theme.of(context).colorScheme.error,
                   trailingArrow: false,
                   onPressed: () async {
-                    var response = await openDialog(
+                    await openDialog(
                       context,
                       (context) => MyDialog(
                         title: 'Delete @${user.username}?',
@@ -150,11 +150,11 @@ class _ManageAccountState extends State<ManageAccount> {
                       ),
                       dismissible: true,
                     );
-                    if (response == 'Delete') {
-                      await user.delete(context);
-                      // loginProvider!.logout(context);
-                      // Navigator.pop(context);
-                    }
+                    // if (response == 'Delete') {
+                    //   await user.delete(context);
+                    //   // loginProvider!.logout(context);
+                    //   // Navigator.pop(context);
+                    // }
 
                     //  log out
                   })

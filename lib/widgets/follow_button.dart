@@ -60,7 +60,7 @@ class FollowButton extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
                 color: isFollowing
-                    ? Theme.of(context).textTheme.bodyText1!.color
+                    ? Theme.of(context).textTheme.bodyLarge!.color
                     : Colors.white),
           ),
         ),

@@ -9,7 +9,7 @@ class DiscoverChallengesAd extends StatefulWidget {
   const DiscoverChallengesAd({Key? key}) : super(key: key);
 
   @override
-  _DiscoverChallengesAdState createState() => _DiscoverChallengesAdState();
+  State<DiscoverChallengesAd> createState() => _DiscoverChallengesAdState();
 }
 
 class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
@@ -109,7 +109,7 @@ class _DiscoverChallengesAdState extends State<DiscoverChallengesAd>
                               horizontal: 15, vertical: 8),
                           child: Text(
                             'Ad.',
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
                       )),

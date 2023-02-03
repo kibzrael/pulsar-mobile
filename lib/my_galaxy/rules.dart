@@ -5,9 +5,10 @@ import 'package:pulsar/classes/challenge.dart';
 class ChallengeRules extends StatefulWidget {
   final Challenge challenge;
   final String rules;
-  const ChallengeRules(this.challenge, {Key? key, required this.rules}) : super(key: key);
+  const ChallengeRules(this.challenge, {Key? key, required this.rules})
+      : super(key: key);
   @override
-  _ChallengeRulesState createState() => _ChallengeRulesState();
+  State<ChallengeRules> createState() => _ChallengeRulesState();
 }
 
 class _ChallengeRulesState extends State<ChallengeRules> {
@@ -23,8 +24,10 @@ class _ChallengeRulesState extends State<ChallengeRules> {
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             child: Text(
               '#${widget.challenge.name}',
-              style:
-                  Theme.of(context).textTheme.subtitle1!.copyWith(fontSize: 24),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontSize: 24),
               maxLines: 1,
             ),
           ),
@@ -35,7 +38,7 @@ class _ChallengeRulesState extends State<ChallengeRules> {
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(fontStyle: FontStyle.italic, fontSize: 16.5),
             ),
           ),

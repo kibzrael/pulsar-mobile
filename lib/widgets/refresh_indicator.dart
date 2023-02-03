@@ -314,7 +314,8 @@ class NestedScrollViewRefreshIndicatorState
     }
     _positionController.value =
         newValue.clamp(0.0, 1.0); // this triggers various rebuilds
-    if (_mode == _RefreshIndicatorMode.drag && _valueColor.value?.alpha == 0xFF) {
+    if (_mode == _RefreshIndicatorMode.drag &&
+        _valueColor.value?.alpha == 0xFF) {
       _mode = _RefreshIndicatorMode.armed;
     }
   }
@@ -367,21 +368,21 @@ class NestedScrollViewRefreshIndicatorState
           _mode = _RefreshIndicatorMode.refresh;
         });
 
-        final Future<void>? refreshResult = widget.onRefresh();
-        assert(() {
-          if (refreshResult == null) {
-            FlutterError.reportError(FlutterErrorDetails(
-              exception: FlutterError('The onRefresh callback returned null.\n'
-                  'The RefreshIndicator onRefresh callback must return a Future.'),
-              context: ErrorDescription('when calling onRefresh'),
-              library: 'material library',
-            ));
-          }
-          return true;
-        }());
-        if (refreshResult == null) {
-          return;
-        }
+        final Future<void> refreshResult = widget.onRefresh();
+        // assert(() {
+        //   if (refreshResult == null) {
+        //     FlutterError.reportError(FlutterErrorDetails(
+        //       exception: FlutterError('The onRefresh callback returned null.\n'
+        //           'The RefreshIndicator onRefresh callback must return a Future.'),
+        //       context: ErrorDescription('when calling onRefresh'),
+        //       library: 'material library',
+        //     ));
+        //   }
+        //   return true;
+        // }());
+        // if (refreshResult == null) {
+        //   return;
+        // }
         refreshResult.whenComplete(() {
           if (mounted && _mode == _RefreshIndicatorMode.refresh) {
             completer.complete();

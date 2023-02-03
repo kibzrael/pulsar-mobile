@@ -62,14 +62,17 @@ class PickImageOption extends StatelessWidget {
           Navigator.pop(context);
           return;
         }
-        XFile? pickedFile = await ImagePicker().pickImage(
-            source: option['option'] == PickImageOptions.gallery
-                ? ImageSource.gallery
-                : ImageSource.camera,
-            preferredCameraDevice: CameraDevice.front);
-        File? file;
-        if (pickedFile != null) file = File(pickedFile.path);
-        Navigator.pop(context, file);
+        await ImagePicker()
+            .pickImage(
+                source: option['option'] == PickImageOptions.gallery
+                    ? ImageSource.gallery
+                    : ImageSource.camera,
+                preferredCameraDevice: CameraDevice.front)
+            .then((pickedFile) {
+          File? file;
+          if (pickedFile != null) file = File(pickedFile.path);
+          Navigator.pop(context, file);
+        });
       },
       child: Container(
         alignment: Alignment.center,
@@ -77,7 +80,7 @@ class PickImageOption extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Text(
           option['label'],
-          style: Theme.of(context).textTheme.subtitle1!.copyWith(color: color),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(color: color),
         ),
       ),
     );

@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
   final Function(int page) onChange;
   const LoginPage({Key? key, required this.onChange}) : super(key: key);
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage>
@@ -52,20 +52,21 @@ class _LoginPageState extends State<LoginPage>
     setState(() {
       isSubmitting = true;
     });
-    LoginResponse response = await loginProvider.login(context, info, password);
-    setState(() {
-      isSubmitting = false;
-    });
-    if (response.statusCode == 200) return;
+    await loginProvider.login(context, info, password).then((response) {
+      setState(() {
+        isSubmitting = false;
+      });
+      if (response.statusCode == 200) return;
 
-    openDialog(
-      context,
-      (context) => MyDialog(
-        title: statusCodes[response.statusCode]!,
-        body: response.body!['message'],
-        actions: const ['Ok'],
-      ),
-    );
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
+        ),
+      );
+    });
   }
 
   void onForgotPassword() {

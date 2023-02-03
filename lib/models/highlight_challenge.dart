@@ -17,7 +17,7 @@ class HighlightChallege extends StatefulWidget {
   const HighlightChallege(this.challenge, {Key? key}) : super(key: key);
 
   @override
-  _HighlightChallegeState createState() => _HighlightChallegeState();
+  State<HighlightChallege> createState() => _HighlightChallegeState();
 }
 
 class _HighlightChallegeState extends State<HighlightChallege> {
@@ -71,7 +71,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                               challenge.name,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText1!
+                                  .bodyLarge!
                                   .copyWith(fontSize: 19.5),
                               maxLines: 2,
                             ),
@@ -127,7 +127,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                               ? Icon(MyIcons.insights,
                                                   color: Theme.of(context)
                                                       .textTheme
-                                                      .bodyText1!
+                                                      .bodyLarge!
                                                       .color)
                                               : const Text('Join',
                                                   style: TextStyle(

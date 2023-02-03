@@ -18,7 +18,7 @@ class PostScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PostScreenState createState() => _PostScreenState();
+  State<PostScreen> createState() => _PostScreenState();
 }
 
 class _PostScreenState extends State<PostScreen> {

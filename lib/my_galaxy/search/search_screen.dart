@@ -20,7 +20,7 @@ class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen>
@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen>
       ...settingsProvider.settings.searchHistory
           .where((e) => e.contains(keyword))
     ];
-    debugPrint("Suggestions: " + suggestions.toString());
+    debugPrint("Suggestions: $suggestions");
     // Fetch from server
     setState(() {});
   }

@@ -16,7 +16,7 @@ class ProfilePhoto extends StatefulWidget {
   const ProfilePhoto({Key? key}) : super(key: key);
 
   @override
-  _ProfilePhotoState createState() => _ProfilePhotoState();
+  State<ProfilePhoto> createState() => _ProfilePhotoState();
 }
 
 class _ProfilePhotoState extends State<ProfilePhoto>

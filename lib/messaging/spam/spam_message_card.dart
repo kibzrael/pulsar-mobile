@@ -13,7 +13,7 @@ class SpamMessagesCard extends StatefulWidget {
   final Message message;
   const SpamMessagesCard(this.message, {Key? key}) : super(key: key);
   @override
-  _SpamMessagesCardState createState() => _SpamMessagesCardState();
+  State<SpamMessagesCard> createState() => _SpamMessagesCardState();
 }
 
 class _SpamMessagesCardState extends State<SpamMessagesCard> {
@@ -82,13 +82,13 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleLarge!
                             .copyWith(fontSize: 16.5),
                       ),
                       const SizedBox(width: 10),
                       Text(
                         'Yesterday',
-                        style: Theme.of(context).textTheme.subtitle2,
+                        style: Theme.of(context).textTheme.titleSmall,
                       ),
                     ],
                   ),
@@ -114,7 +114,7 @@ class _SpamMessagesCardState extends State<SpamMessagesCard> {
                             onPressed: () {},
                             backgroundColor: Theme.of(context).disabledColor,
                             titleColor:
-                                Theme.of(context).textTheme.bodyText1!.color,
+                                Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
                         const Spacer(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +26,7 @@ import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +62,7 @@ void main() async {
   Hive.init((await getApplicationDocumentsDirectory()).path);
   await Hive.openBox('settings');
   await Hive.openBox('categories');
-  if (Platform.isAndroid) WebView.platform = AndroidWebView();
+  // if (Platform.isAndroid) WebView.platform = AndroidWebView();
   runApp(
       // DevicePreview(
       // enabled: kDebugMode,
@@ -97,7 +95,7 @@ class Pulsar extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PulsarState createState() => _PulsarState();
+  State<Pulsar> createState() => _PulsarState();
 }
 
 class _PulsarState extends State<Pulsar> {
@@ -198,7 +196,6 @@ class _PulsarState extends State<Pulsar> {
 }
 
 class MyScrollBehavior extends ScrollBehavior {
-  @override
   Widget buildViewportChrome(
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
@@ -208,9 +205,9 @@ class MyScrollBehavior extends ScrollBehavior {
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details) {
     return GlowingOverscrollIndicator(
-      child: child,
       axisDirection: details.direction,
       color: Theme.of(context).cardColor.withOpacity(0.15),
+      child: child,
     );
   }
 }

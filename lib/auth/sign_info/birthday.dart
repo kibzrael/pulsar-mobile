@@ -8,7 +8,7 @@ class BirthdayPage extends StatefulWidget {
   const BirthdayPage({Key? key}) : super(key: key);
 
   @override
-  _BirthdayPageState createState() => _BirthdayPageState();
+  State<BirthdayPage> createState() => _BirthdayPageState();
 }
 
 class _BirthdayPageState extends State<BirthdayPage>

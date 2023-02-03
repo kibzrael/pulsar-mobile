@@ -16,7 +16,7 @@ class PostCover extends StatefulWidget {
   const PostCover({Key? key, required this.video, required this.duration})
       : super(key: key);
   @override
-  _PostCoverState createState() => _PostCoverState();
+  State<PostCover> createState() => _PostCoverState();
 }
 
 class _PostCoverState extends State<PostCover> {
@@ -103,8 +103,9 @@ class _PostCoverState extends State<PostCover> {
             MyTextButton(
                 text: 'Done',
                 onPressed: () async {
-                  await postProvider.setThumbnail(position.floor());
-                  Navigator.pop(context);
+                  await postProvider.setThumbnail(position.floor()).then((_) {
+                    Navigator.pop(context);
+                  });
                 })
           ],
         ),

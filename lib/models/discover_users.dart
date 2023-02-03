@@ -26,7 +26,7 @@ class DiscoverUsers extends StatefulWidget {
   const DiscoverUsers({Key? key}) : super(key: key);
 
   @override
-  _DiscoverUsersState createState() => _DiscoverUsersState();
+  State<DiscoverUsers> createState() => _DiscoverUsersState();
 }
 
 class _DiscoverUsersState extends State<DiscoverUsers>
@@ -82,7 +82,7 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                 'No Posts',
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleLarge!
                     .copyWith(fontSize: 24),
                 maxLines: 1,
               ),
@@ -94,7 +94,7 @@ class _DiscoverUsersState extends State<DiscoverUsers>
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 16.5),
               ),
             ),
@@ -154,7 +154,7 @@ class DiscoverUsersCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DiscoverUsersCardState createState() => _DiscoverUsersCardState();
+  State<DiscoverUsersCard> createState() => _DiscoverUsersCardState();
 }
 
 class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
@@ -193,8 +193,8 @@ class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      lightTheme.textTheme.headline1!.color!,
-                      lightTheme.textTheme.subtitle1!.color!,
+                      lightTheme.textTheme.displayLarge!.color!,
+                      lightTheme.textTheme.titleLarge!.color!,
                     ]),
                 image: user.profilePic == null
                     ? null
@@ -225,7 +225,7 @@ class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1!
+                          .titleLarge!
                           .copyWith(fontSize: 16.5, color: Colors.white),
                     ),
                     Text(
@@ -233,7 +233,7 @@ class _DiscoverUsersCardState extends State<DiscoverUsersCard> {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 15, color: Colors.white70),
                     ),
                     Padding(

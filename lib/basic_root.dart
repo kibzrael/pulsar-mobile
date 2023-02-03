@@ -18,7 +18,7 @@ class BasicRoot extends StatefulWidget {
   const BasicRoot({Key? key}) : super(key: key);
 
   @override
-  _BasicRootState createState() => _BasicRootState();
+  State<BasicRoot> createState() => _BasicRootState();
 }
 
 class _BasicRootState extends State<BasicRoot> {

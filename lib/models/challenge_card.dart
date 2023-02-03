@@ -15,7 +15,7 @@ class ChallengeCard extends StatefulWidget {
   const ChallengeCard(this.challenge, {Key? key}) : super(key: key);
 
   @override
-  _ChallengeCardState createState() => _ChallengeCardState();
+  State<ChallengeCard> createState() => _ChallengeCardState();
 }
 
 class _ChallengeCardState extends State<ChallengeCard> {

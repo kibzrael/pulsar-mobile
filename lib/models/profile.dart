@@ -16,7 +16,7 @@ class Profile extends StatefulWidget {
   const Profile(this.user, {Key? key, required this.scrollController})
       : super(key: key);
   @override
-  _ProfileState createState() => _ProfileState();
+  State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
@@ -65,7 +65,7 @@ class _ProfileState extends State<Profile> {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleLarge!
                     .copyWith(fontSize: 21),
               ),
               Text(
@@ -73,7 +73,7 @@ class _ProfileState extends State<Profile> {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle2!
+                    .titleSmall!
                     .copyWith(fontSize: 18),
               ),
             ],

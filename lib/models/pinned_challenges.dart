@@ -23,7 +23,7 @@ class PinnedChallenges extends StatefulWidget {
   const PinnedChallenges(this.initial, {Key? key}) : super(key: key);
 
   @override
-  _PinnedChallengesState createState() => _PinnedChallengesState();
+  State<PinnedChallenges> createState() => _PinnedChallengesState();
 }
 
 class _PinnedChallengesState extends State<PinnedChallenges> {
@@ -135,7 +135,7 @@ class _PinnedChallengesState extends State<PinnedChallenges> {
                                           challenge.name,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText1
+                                              .bodyLarge
                                               ?.copyWith(
                                                 fontSize: 21,
                                                 color: Colors.white,

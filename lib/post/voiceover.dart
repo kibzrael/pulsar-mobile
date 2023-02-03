@@ -12,7 +12,7 @@ class Voiceover extends StatefulWidget {
   const Voiceover({Key? key}) : super(key: key);
 
   @override
-  _VoiceoverState createState() => _VoiceoverState();
+  State<Voiceover> createState() => _VoiceoverState();
 }
 
 class _VoiceoverState extends State<Voiceover> {

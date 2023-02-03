@@ -15,7 +15,7 @@ class EditCategory extends StatefulWidget {
       : super(key: key);
 
   @override
-  _EditCategoryState createState() => _EditCategoryState();
+  State<EditCategory> createState() => _EditCategoryState();
 }
 
 class _EditCategoryState extends State<EditCategory> {

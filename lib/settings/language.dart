@@ -5,7 +5,7 @@ class Language extends StatefulWidget {
   const Language({Key? key}) : super(key: key);
 
   @override
-  _LanguageState createState() => _LanguageState();
+  State<Language> createState() => _LanguageState();
 }
 
 class _LanguageState extends State<Language> {
@@ -34,7 +34,7 @@ class _LanguageState extends State<Language> {
         //       title: languages[index],
         //       leading: Icon(
         //         MyIcons.language,
-        //         color: Theme.of(context).textTheme.subtitle2!.color,
+        //         color: Theme.of(context).textTheme.titleSmall!.color,
         //       ),
         //       onPressed: () {
         //         setState(() {

@@ -172,7 +172,7 @@ class _CreateCategoryState extends State<CreateCategory>
                           name ?? "Category Name",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1!
+                              .bodyLarge!
                               .copyWith(fontSize: 21),
                         ),
                         const SizedBox(width: 5),

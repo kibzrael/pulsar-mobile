@@ -12,7 +12,7 @@ class LatestChallenges extends StatefulWidget {
   const LatestChallenges({Key? key}) : super(key: key);
 
   @override
-  _LatestChallengesState createState() => _LatestChallengesState();
+  State<LatestChallenges> createState() => _LatestChallengesState();
 }
 
 class _LatestChallengesState extends State<LatestChallenges> {
@@ -39,7 +39,7 @@ class LatestChallengeCard extends StatefulWidget {
 
   const LatestChallengeCard(this.challenge, {Key? key}) : super(key: key);
   @override
-  _LatestChallengeCardState createState() => _LatestChallengeCardState();
+  State<LatestChallengeCard> createState() => _LatestChallengeCardState();
 }
 
 class _LatestChallengeCardState extends State<LatestChallengeCard> {

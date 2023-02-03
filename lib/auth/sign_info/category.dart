@@ -9,7 +9,7 @@ class ChooseCategory extends StatefulWidget {
   const ChooseCategory({Key? key}) : super(key: key);
 
   @override
-  _ChooseCategoryState createState() => _ChooseCategoryState();
+  State<ChooseCategory> createState() => _ChooseCategoryState();
 }
 
 class _ChooseCategoryState extends State<ChooseCategory>

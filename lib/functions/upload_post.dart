@@ -147,7 +147,7 @@ class UploadPost {
       //   content: Text(e.toString()),
       //   duration: const Duration(seconds: 10),
       // ));
-      debugPrint("Upload post" + e.toString());
+      debugPrint("Upload post$e");
       rethrow;
       // Fluttertoast.showToast(msg: e.toString());
     }

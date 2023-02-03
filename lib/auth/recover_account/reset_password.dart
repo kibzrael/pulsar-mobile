@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -13,7 +12,7 @@ class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
 
   @override
-  _ResetPasswordState createState() => _ResetPasswordState();
+  State<ResetPassword> createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
@@ -41,21 +40,22 @@ class _ResetPasswordState extends State<ResetPassword> {
       );
     } else {
       setState(() => isSubmitting = true);
-      MyResponse response =
-          await recoverAccountProvider.resetPassword(password);
-      setState(() => isSubmitting = false);
-      await openDialog(
-        context,
-        (context) => MyDialog(
-          title: statusCodes[response.statusCode]!,
-          body: response.body!['message'],
-          actions: const ['Ok'],
-        ),
-        dismissible: true,
-      );
-      if (response.statusCode == 200) {
-        Navigator.pop(context);
-      }
+      await recoverAccountProvider.resetPassword(password).then((response) {
+        setState(() => isSubmitting = false);
+        openDialog(
+          context,
+          (context) => MyDialog(
+            title: statusCodes[response.statusCode]!,
+            body: response.body!['message'],
+            actions: const ['Ok'],
+          ),
+          dismissible: true,
+        ).then((_) {
+          if (response.statusCode == 200) {
+            Navigator.pop(context);
+          }
+        });
+      });
     }
   }
 
@@ -88,7 +88,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               Text(
                   'Please enter your new password. Be sure to remember this one.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1),
+                  style: Theme.of(context).textTheme.displayLarge),
               const Spacer(flex: 1),
               MyTextInput(
                   hintText: 'Password',
@@ -106,7 +106,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       'Minimum of 6 characters.',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 12),
                     ),
                   ),
@@ -132,7 +132,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: Text(
                     match ? '' : 'The passwords do not match!',
-                    style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontSize: 12,
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -153,7 +153,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Show Password:',
-                            style: Theme.of(context).textTheme.subtitle1),
+                            style: Theme.of(context).textTheme.titleLarge),
                         Checkbox(
                             value: !obscureText,
                             onChanged: (value) {

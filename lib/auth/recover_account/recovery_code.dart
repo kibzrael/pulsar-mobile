@@ -9,7 +9,7 @@ class RecoveryCode extends StatefulWidget {
   const RecoveryCode({Key? key}) : super(key: key);
 
   @override
-  _RecoveryCodeState createState() => _RecoveryCodeState();
+  State<RecoveryCode> createState() => _RecoveryCodeState();
 }
 
 class _RecoveryCodeState extends State<RecoveryCode> {
@@ -46,7 +46,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
               Text('@${user.username}',
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle1!
+                      .titleLarge!
                       .copyWith(fontSize: 21)),
               const SizedBox(
                 height: 2.5,
@@ -54,7 +54,7 @@ class _RecoveryCodeState extends State<RecoveryCode> {
               Text(user.category,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 18)),
             ])
           ],

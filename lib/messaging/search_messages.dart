@@ -6,7 +6,7 @@ class SearchMessages extends StatefulWidget {
   const SearchMessages({Key? key}) : super(key: key);
 
   @override
-  _SearchMessagesState createState() => _SearchMessagesState();
+  State<SearchMessages> createState() => _SearchMessagesState();
 }
 
 class _SearchMessagesState extends State<SearchMessages> {

@@ -43,7 +43,7 @@ class SlideTemplate extends StatelessWidget {
                 child: DefaultTextStyle(
                   style: Theme.of(context)
                       .textTheme
-                      .headline1!
+                      .displayLarge!
                       .copyWith(fontSize: 24, fontWeight: FontWeight.w800),
                   child: Text(
                     title,
@@ -57,7 +57,7 @@ class SlideTemplate extends StatelessWidget {
                 child: DefaultTextStyle(
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(fontSize: 18, fontWeight: FontWeight.w400),
                   child: Text(
                     description,

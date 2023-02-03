@@ -17,7 +17,8 @@ class MyTextInput extends StatefulWidget {
   final Widget? suffix;
 
   const MyTextInput(
-      {Key? key, this.controller,
+      {Key? key,
+      this.controller,
       this.focusNode,
       this.height = 50,
       this.hintText = '',
@@ -27,9 +28,10 @@ class MyTextInput extends StatefulWidget {
       required this.onSubmitted,
       this.padding = const EdgeInsets.symmetric(horizontal: 12),
       this.prefix,
-      this.suffix}) : super(key: key);
+      this.suffix})
+      : super(key: key);
   @override
-  _MyTextInputState createState() => _MyTextInputState();
+  State<MyTextInput> createState() => _MyTextInputState();
 }
 
 class _MyTextInputState extends State<MyTextInput> {

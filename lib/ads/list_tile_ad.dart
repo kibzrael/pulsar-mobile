@@ -10,7 +10,7 @@ class ListTileAd extends StatefulWidget {
   const ListTileAd({Key? key, this.dark = false}) : super(key: key);
 
   @override
-  _ListTileAdState createState() => _ListTileAdState();
+  State<ListTileAd> createState() => _ListTileAdState();
 }
 
 class _ListTileAdState extends State<ListTileAd>
@@ -94,7 +94,7 @@ class _ListTileAdState extends State<ListTileAd>
                 ? AdWidget(ad: _ad)
                 : Text(
                     'Ad.',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
           ),
         ));

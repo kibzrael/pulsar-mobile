@@ -9,7 +9,7 @@ class Billing extends StatefulWidget {
   const Billing({Key? key}) : super(key: key);
 
   @override
-  _BillingState createState() => _BillingState();
+  State<Billing> createState() => _BillingState();
 }
 
 class _BillingState extends State<Billing> {
@@ -46,21 +46,21 @@ class _BillingState extends State<Billing> {
         //                 '\$',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle2!
+        //                     .titleSmall!
         //                     .copyWith(fontSize: 16.5),
         //               ),
         //               Text(
         //                 '25.7K',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle1!
+        //                     .titleLarge!
         //                     .copyWith(fontSize: 24),
         //               ),
         //               Text(
         //                 'Points',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle2!
+        //                     .titleSmall!
         //                     .copyWith(fontSize: 16.5),
         //               )
         //             ]),
@@ -78,13 +78,13 @@ class _BillingState extends State<Billing> {
         //                 Text('24.3K',
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle1!
+        //                         .titleLarge!
         //                         .copyWith(fontSize: 21)),
         //                 Text('Spent',
         //                     overflow: TextOverflow.ellipsis,
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle2!
+        //                         .titleSmall!
         //                         .copyWith(fontSize: 16.5))
         //               ],
         //             ),
@@ -94,13 +94,13 @@ class _BillingState extends State<Billing> {
         //                 Text('41.6K',
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle1!
+        //                         .titleLarge!
         //                         .copyWith(fontSize: 21)),
         //                 Text('Earned',
         //                     overflow: TextOverflow.ellipsis,
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle2!
+        //                         .titleSmall!
         //                         .copyWith(fontSize: 16.5))
         //               ],
         //             ),
@@ -115,7 +115,7 @@ class _BillingState extends State<Billing> {
         //               title: 'Deposit',
         //               height: 42,
         //               backgroundColor: Theme.of(context).disabledColor,
-        //               titleColor: Theme.of(context).textTheme.bodyText2!.color,
+        //               titleColor: Theme.of(context).textTheme.bodyMedium?.color,
         //             ),
         //           ),
         //           const SizedBox(width: 15),
@@ -221,21 +221,21 @@ class _BillingState extends State<Billing> {
         //                 '\$',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle2!
+        //                     .titleSmall!
         //                     .copyWith(fontSize: 16.5),
         //               ),
         //               Text(
         //                 '25.7K',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle1!
+        //                     .titleLarge!
         //                     .copyWith(fontSize: 24),
         //               ),
         //               Text(
         //                 'Points',
         //                 style: Theme.of(context)
         //                     .textTheme
-        //                     .subtitle2!
+        //                     .titleSmall!
         //                     .copyWith(fontSize: 16.5),
         //               )
         //             ]),
@@ -253,13 +253,13 @@ class _BillingState extends State<Billing> {
         //                 Text('24.3K',
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle1!
+        //                         .titleLarge!
         //                         .copyWith(fontSize: 21)),
         //                 Text('Spent',
         //                     overflow: TextOverflow.ellipsis,
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle2!
+        //                         .titleSmall!
         //                         .copyWith(fontSize: 16.5))
         //               ],
         //             ),
@@ -269,13 +269,13 @@ class _BillingState extends State<Billing> {
         //                 Text('41.6K',
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle1!
+        //                         .titleLarge!
         //                         .copyWith(fontSize: 21)),
         //                 Text('Earned',
         //                     overflow: TextOverflow.ellipsis,
         //                     style: Theme.of(context)
         //                         .textTheme
-        //                         .subtitle2!
+        //                         .titleSmall!
         //                         .copyWith(fontSize: 16.5))
         //               ],
         //             ),
@@ -290,7 +290,7 @@ class _BillingState extends State<Billing> {
         //               title: 'Deposit',
         //               height: 42,
         //               backgroundColor: Theme.of(context).disabledColor,
-        //               titleColor: Theme.of(context).textTheme.bodyText2!.color,
+        //               titleColor: Theme.of(context).textTheme.bodyMedium?.color,
         //             ),
         //           ),
         //           const SizedBox(width: 15),

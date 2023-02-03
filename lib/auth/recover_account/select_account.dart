@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -13,7 +12,7 @@ class SelectAccount extends StatefulWidget {
   const SelectAccount({Key? key}) : super(key: key);
 
   @override
-  _SelectAccountState createState() => _SelectAccountState();
+  State<SelectAccount> createState() => _SelectAccountState();
 }
 
 class _SelectAccountState extends State<SelectAccount> {
@@ -24,27 +23,29 @@ class _SelectAccountState extends State<SelectAccount> {
 
   recover() async {
     setState(() => isSubmitting = true);
-    MyResponse response = await recoverAccountProvider.recoverAccount(info);
-    setState(() => isSubmitting = false);
-    if (response.statusCode == 200) {
-      await openDialog(
-          context,
-          (context) => MyDialog(
-              title: statusCodes[response.statusCode]!,
-              body: response.body.toString(),
-              actions: const ['Ok']));
-      recoverAccountProvider.nextPage();
-      return;
-    }
+    await recoverAccountProvider.recoverAccount(info).then((response) {
+      setState(() => isSubmitting = false);
+      if (response.statusCode == 200) {
+        openDialog(
+            context,
+            (context) => MyDialog(
+                title: statusCodes[response.statusCode]!,
+                body: response.body.toString(),
+                actions: const ['Ok'])).then((_) {
+          recoverAccountProvider.nextPage();
+        });
+        return;
+      }
 
-    openDialog(
-      context,
-      (context) => MyDialog(
-        title: statusCodes[response.statusCode]!,
-        body: response.body!['message'],
-        actions: const ['Ok'],
-      ),
-    );
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode]!,
+          body: response.body!['message'],
+          actions: const ['Ok'],
+        ),
+      );
+    });
   }
 
   @override
@@ -77,7 +78,7 @@ class _SelectAccountState extends State<SelectAccount> {
                   Text(
                     'Select the account to recover. Recover using either email or phone.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const Spacer(flex: 2),
                   MyTextInput(

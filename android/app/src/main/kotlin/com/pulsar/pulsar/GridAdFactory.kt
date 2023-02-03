@@ -36,13 +36,13 @@ class GridAdFactory(val context: Context) : GoogleMobileAdsPlugin.NativeAdFactor
             this.iconView = iconView
 
             val headlineView = findViewById<TextView>(R.id.grid_ad_headline)
-            headlineView.text = nativeAd.headline.trim()
+            headlineView.text = nativeAd.headline?.trim()
             this.headlineView = headlineView
 
             val bodyView = findViewById<TextView>(R.id.grid_ad_body)
             with(bodyView) {
                 text = nativeAd.body
-                visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+                visibility = if (nativeAd.body?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
             }
             this.bodyView = bodyView
 

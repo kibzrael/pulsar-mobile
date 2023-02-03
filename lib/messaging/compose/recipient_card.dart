@@ -23,16 +23,6 @@ class RecipientCard extends StatelessWidget {
       trailing: Container(
         height: 20,
         width: 20,
-        child: isSelected
-            ? FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Icon(
-                  MyIcons.check,
-                  color: Colors.white,
-                  size: 12,
-                ),
-              )
-            : null,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: isSelected ? accentGradient() : null,
@@ -43,6 +33,16 @@ class RecipientCard extends StatelessWidget {
                     color: isSelected
                         ? Theme.of(context).colorScheme.secondary
                         : Theme.of(context).dividerColor)),
+        child: isSelected
+            ? FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Icon(
+                  MyIcons.check,
+                  color: Colors.white,
+                  size: 12,
+                ),
+              )
+            : null,
       ),
     );
 
@@ -67,12 +67,12 @@ class RecipientCard extends StatelessWidget {
     //                 overflow: TextOverflow.ellipsis,
     //                 style: Theme.of(context)
     //                     .textTheme
-    //                     .subtitle1!
+    //                     .titleLarge!
     //                     .copyWith(fontSize: 16.5),
     //               ),
     //               SizedBox(height: 5),
     //               Text('@username',
-    //                   style: Theme.of(context).textTheme.subtitle2)
+    //                   style: Theme.of(context).textTheme.titleSmall)
     //             ],
     //           ),
     //         ),

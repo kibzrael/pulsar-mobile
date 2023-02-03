@@ -10,7 +10,7 @@ class ReportInappropriate extends StatefulWidget {
   const ReportInappropriate({this.user, this.post, Key? key}) : super(key: key);
 
   @override
-  _ReportInappropriateState createState() => _ReportInappropriateState();
+  State<ReportInappropriate> createState() => _ReportInappropriateState();
 }
 
 class _ReportInappropriateState extends State<ReportInappropriate> {
@@ -40,7 +40,7 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               child: Text(
                 'Report a user or post that violated the rules of the app.',
-                style: Theme.of(context).textTheme.headline1,
+                style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
               ),
             ),

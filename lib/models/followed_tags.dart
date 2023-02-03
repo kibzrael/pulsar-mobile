@@ -6,7 +6,7 @@ class FollowedTags extends StatefulWidget {
   const FollowedTags({Key? key}) : super(key: key);
 
   @override
-  _FollowedTagsState createState() => _FollowedTagsState();
+  State<FollowedTags> createState() => _FollowedTagsState();
 }
 
 class _FollowedTagsState extends State<FollowedTags> {
@@ -34,7 +34,8 @@ class _FollowedTagsState extends State<FollowedTags> {
                           builder: (context) => TagPage(tags[index])));
                     },
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       margin: const EdgeInsets.symmetric(vertical: 2),
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -44,7 +45,7 @@ class _FollowedTagsState extends State<FollowedTags> {
                           borderRadius: BorderRadius.circular(15)),
                       child: Text(
                         '#${tags[index]}',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     )
                     // Chip(
@@ -53,7 +54,7 @@ class _FollowedTagsState extends State<FollowedTags> {
                     //   elevation: 1,p
                     //   label: Text(
                     //     '#${tags[index]}',
-                    //     style: Theme.of(context).textTheme.bodyText2,
+                    //     style: Theme.of(context).textTheme.bodyMedium,
                     //   ),
                     // ),
                     ),

@@ -11,7 +11,7 @@ class SelectBirthday extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SelectBirthdayState createState() => _SelectBirthdayState();
+  State<SelectBirthday> createState() => _SelectBirthdayState();
 }
 
 class _SelectBirthdayState extends State<SelectBirthday>
@@ -47,15 +47,17 @@ class _SelectBirthdayState extends State<SelectBirthday>
             Text(
               'For personalized content. This info will be kept private',
               textAlign: TextAlign.center,
-              style:
-                  Theme.of(context).textTheme.headline1!.copyWith(fontSize: 24),
+              style: Theme.of(context)
+                  .textTheme
+                  .displayLarge!
+                  .copyWith(fontSize: 24),
             ),
             const Spacer(
               flex: 2,
             ),
 
             DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyText1!,
+              style: Theme.of(context).textTheme.bodyLarge!,
               child: Row(
                 children: [
                   Expanded(

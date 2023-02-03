@@ -29,7 +29,7 @@ class SearchField extends StatefulWidget {
     this.onTap,
   }) : super(key: key);
   @override
-  _SearchFieldState createState() => _SearchFieldState();
+  State<SearchField> createState() => _SearchFieldState();
 }
 
 class _SearchFieldState extends State<SearchField>

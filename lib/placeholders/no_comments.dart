@@ -28,7 +28,7 @@ class NoComments extends StatelessWidget {
                     'No Comments',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 32, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -38,7 +38,7 @@ class NoComments extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .headline1!
+                    .displayLarge!
                     .copyWith(fontSize: 21, fontWeight: FontWeight.w400),
               )
             ],

@@ -52,7 +52,7 @@ class MyListTile extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleLarge!
                             .copyWith(color: titleColor)),
                     if (subtitle != null)
                       const SizedBox(
@@ -62,7 +62,7 @@ class MyListTile extends StatelessWidget {
                       Text(subtitle!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.subtitle2)
+                          style: Theme.of(context).textTheme.titleSmall)
                   ]),
             ),
             const SizedBox(width: 12),
@@ -73,13 +73,13 @@ class MyListTile extends StatelessWidget {
                     textAlign: TextAlign.end,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.subtitle2),
+                    style: Theme.of(context).textTheme.titleSmall),
               )
             else
               const Spacer(),
             if (trailing != null)
               DefaultTextStyle(
-                  style: Theme.of(context).textTheme.subtitle2!,
+                  style: Theme.of(context).textTheme.titleSmall!,
                   child: trailing!),
             if (trailingArrow) const TraillingArrow()
           ],
@@ -98,7 +98,7 @@ class TraillingArrow extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12),
       child: Icon(
         MyIcons.trailingArrow,
-        color: Theme.of(context).textTheme.subtitle2!.color,
+        color: Theme.of(context).textTheme.titleSmall!.color,
         size: size,
       ),
     );

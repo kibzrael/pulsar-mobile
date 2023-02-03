@@ -8,7 +8,7 @@ class ChangeEmail extends StatefulWidget {
   const ChangeEmail({Key? key}) : super(key: key);
 
   @override
-  _ChangeEmailState createState() => _ChangeEmailState();
+  State<ChangeEmail> createState() => _ChangeEmailState();
 }
 
 class _ChangeEmailState extends State<ChangeEmail> {

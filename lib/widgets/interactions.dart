@@ -20,6 +20,7 @@ class LikeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed as void Function()?,
       child: Container(
         width: size + 16,
         height: size + 16,
@@ -29,7 +30,6 @@ class LikeButton extends StatelessWidget {
             color:
                 liked ? Colors.redAccent : Theme.of(context).iconTheme.color),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }
@@ -49,13 +49,13 @@ class CommentButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed as void Function()?,
       child: Container(
         padding: padding,
         width: size + 16,
         height: size + 16,
         child: Icon(MyIcons.comment, size: size),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }
@@ -77,6 +77,7 @@ class RepostButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed as void Function()?,
       child: Container(
         padding: padding,
         width: size + 16,
@@ -87,7 +88,6 @@ class RepostButton extends StatelessWidget {
                 ? Theme.of(context).colorScheme.primaryContainer
                 : Theme.of(context).iconTheme.color),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }
@@ -107,13 +107,13 @@ class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed as void Function()?,
       child: Container(
         padding: padding,
         width: size + 16,
         height: size + 16,
         child: Icon(MyIcons.share, size: size),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }
@@ -128,13 +128,13 @@ class ReplyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: onPressed as void Function()?,
       child: Container(
         padding: const EdgeInsets.all(8.0),
         width: size + 16,
         height: size + 16,
         child: Icon(MyIcons.reply, size: size),
       ),
-      onTap: onPressed as void Function()?,
     );
   }
 }

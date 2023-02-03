@@ -4,7 +4,7 @@ class ChangePhone extends StatefulWidget {
   const ChangePhone({Key? key}) : super(key: key);
 
   @override
-  _ChangePhoneState createState() => _ChangePhoneState();
+  State<ChangePhone> createState() => _ChangePhoneState();
 }
 
 class _ChangePhoneState extends State<ChangePhone> {

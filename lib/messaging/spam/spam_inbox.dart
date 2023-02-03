@@ -8,7 +8,7 @@ class SpamInbox extends StatefulWidget {
   const SpamInbox({Key? key}) : super(key: key);
 
   @override
-  _SpamInboxState createState() => _SpamInboxState();
+  State<SpamInbox> createState() => _SpamInboxState();
 }
 
 class _SpamInboxState extends State<SpamInbox> {

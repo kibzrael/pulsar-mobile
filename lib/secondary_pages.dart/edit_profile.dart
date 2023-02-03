@@ -30,7 +30,7 @@ class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
@@ -82,7 +82,6 @@ class _EditProfileState extends State<EditProfile> {
           categories.firstWhere((e) => e.user == active || e.users == active);
     } catch (e) {
       // Personal Account
-
     }
   }
 
@@ -110,7 +109,7 @@ class _EditProfileState extends State<EditProfile> {
 
   submit() async {
     FocusScope.of(context).unfocus();
-    MyResponse response = await openDialog(
+    await openDialog(
       context,
       (context) => LoadingDialog(
         (_) async {
@@ -128,20 +127,21 @@ class _EditProfileState extends State<EditProfile> {
         },
         text: 'Submitting',
       ),
-    );
-    if (response.statusCode != 200) {
-      openDialog(
-        context,
-        (context) => MyDialog(
-          title: statusCodes[response.statusCode]!,
-          body: response.body!['message'],
-          actions: const ['Ok'],
-        ),
-        dismissible: true,
-      );
-    } else {
-      Navigator.pop(context);
-    }
+    ).then((response) {
+      if (response.statusCode != 200) {
+        openDialog(
+          context,
+          (context) => MyDialog(
+            title: statusCodes[response.statusCode]!,
+            body: response.body!['message'],
+            actions: const ['Ok'],
+          ),
+          dismissible: true,
+        );
+      } else {
+        Navigator.pop(context);
+      }
+    });
   }
 
   @override
@@ -256,7 +256,7 @@ class _EditProfileState extends State<EditProfile> {
                             //       size: 16.5,
                             //       color: Theme.of(context)
                             //           .textTheme
-                            //           .subtitle2!
+                            //           .titleSmall!
                             //           .color),
                             // ),
                             trailingArrow: true,
@@ -272,16 +272,17 @@ class _EditProfileState extends State<EditProfile> {
                                     textAlign: TextAlign.end,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .titleSmall!
                                         .copyWith(
                                             color: Theme.of(context)
                                                 .textTheme
-                                                .bodyText1!
+                                                .bodyLarge!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
                                       hintText: 'fullname',
-                                      hintStyle:
-                                          Theme.of(context).textTheme.subtitle2,
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ))),
                           MyListTile(
@@ -299,16 +300,17 @@ class _EditProfileState extends State<EditProfile> {
                                     maxLength: 80,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .titleSmall!
                                         .copyWith(
                                             color: Theme.of(context)
                                                 .textTheme
-                                                .bodyText1!
+                                                .bodyLarge!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
                                       hintText: 'Add a bio for your profile',
-                                      hintStyle:
-                                          Theme.of(context).textTheme.subtitle2,
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ))),
                           MyListTile(
@@ -322,16 +324,17 @@ class _EditProfileState extends State<EditProfile> {
                                     textAlign: TextAlign.end,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .subtitle2!
+                                        .titleSmall!
                                         .copyWith(
                                             color: Theme.of(context)
                                                 .textTheme
-                                                .bodyText1!
+                                                .bodyLarge!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
                                       hintText: 'www.example.com',
-                                      hintStyle:
-                                          Theme.of(context).textTheme.subtitle2,
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
                                     ),
                                   ))),
                         ],
@@ -368,7 +371,7 @@ class _EditProfileState extends State<EditProfile> {
                           }),
                       subtitle: interests.isEmpty
                           ? 'None'
-                          : "${interests[0].name}${interests.length > 1 ? ', ' + interests[1].name : ''}${interests.length > 2 ? ', +${interests.length - 2}' : ''}"),
+                          : "${interests[0].name}${interests.length > 1 ? ', ${interests[1].name}' : ''}${interests.length > 2 ? ', +${interests.length - 2}' : ''}"),
                   MyListTile(
                       title: 'Birthday',
                       onPressed: () => Navigator.of(context)

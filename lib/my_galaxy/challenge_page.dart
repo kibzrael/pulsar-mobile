@@ -33,7 +33,7 @@ class ChallengePage extends StatefulWidget {
   final Challenge challenge;
   const ChallengePage(this.challenge, {Key? key}) : super(key: key);
   @override
-  _ChallengePageState createState() => _ChallengePageState();
+  State<ChallengePage> createState() => _ChallengePageState();
 }
 
 class _ChallengePageState extends State<ChallengePage>
@@ -104,7 +104,7 @@ class _ChallengePageState extends State<ChallengePage>
   }
 
   Future<List<Map<String, dynamic>>> fetchPosts(int index, page) async {
-    List<Map<String, dynamic>> _posts = [];
+    List<Map<String, dynamic>> results = [];
 
     String url = getUrl(ChallengeUrls.posts(challenge, page, index));
 
@@ -113,11 +113,11 @@ class _ChallengePageState extends State<ChallengePage>
 
     var body = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      _posts = [...List<Map<String, dynamic>>.from(body['posts'])];
+      results = [...List<Map<String, dynamic>>.from(body['posts'])];
     } else {
       Fluttertoast.showToast(msg: body['message']);
     }
-    return _posts;
+    return results;
   }
 
   @override
@@ -261,7 +261,6 @@ class _ChallengePageState extends State<ChallengePage>
                       ),
                     ),
                   FollowLayout(
-                      child: Icon(MyIcons.insights),
                       isFollowing: isPinned,
                       isPin: true,
                       middle: challenge.isJoined
@@ -288,7 +287,8 @@ class _ChallengePageState extends State<ChallengePage>
                                   : RequestMethod.post,
                               onNotify: () => setState(() {}));
                         });
-                      }),
+                      },
+                      child: Icon(MyIcons.insights)),
                   const SizedBox(height: 3)
                 ],
               ))

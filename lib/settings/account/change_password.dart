@@ -6,7 +6,7 @@ class ChangePassword extends StatefulWidget {
   const ChangePassword({Key? key}) : super(key: key);
 
   @override
-  _ChangePasswordState createState() => _ChangePasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
@@ -40,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               Text(
                   'Please confirm your old password, and enter your new password.',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1),
+                  style: Theme.of(context).textTheme.displayLarge),
               const Spacer(flex: 1),
               MyTextInput(
                   hintText: 'Password',
@@ -70,7 +70,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       'Minimum of 6 characters.',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(fontSize: 12),
                     ),
                   ),
@@ -90,7 +90,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('Show Password:',
-                            style: Theme.of(context).textTheme.subtitle1),
+                            style: Theme.of(context).textTheme.titleLarge),
                         Checkbox(
                             value: !obscureText,
                             onChanged: (value) {

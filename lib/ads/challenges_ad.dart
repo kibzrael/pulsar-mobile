@@ -21,7 +21,7 @@
 //           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
 //           child: Text(
 //             'Ad.',
-//             style: Theme.of(context).textTheme.bodyText1,
+//             style: Theme.of(context).textTheme.bodyLarge,
 //           ),
 //         ),
 //       ),

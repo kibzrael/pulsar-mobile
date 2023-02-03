@@ -64,15 +64,19 @@ class Challenge {
         response = await http.delete(Uri.parse(url),
             headers: {'Authorization': user.token ?? ''});
       }
-      if (response.statusCode == 200) {
-        Fluttertoast.showToast(msg: "Success....");
-      } else {
-        isPinned = !(mode == RequestMethod.post);
-        mode == RequestMethod.post ? pins-- : pins++;
-        syncPin(context);
-        onNotify();
-        Fluttertoast.showToast(msg: 'error');
+      interactionSync() {
+        if (response.statusCode == 200) {
+          Fluttertoast.showToast(msg: "Success....");
+        } else {
+          isPinned = !(mode == RequestMethod.post);
+          mode == RequestMethod.post ? pins-- : pins++;
+          syncPin(context);
+          onNotify();
+          Fluttertoast.showToast(msg: 'error');
+        }
       }
+
+      interactionSync();
     } catch (e) {
       isPinned = !(mode == RequestMethod.post);
       mode == RequestMethod.post ? pins-- : pins++;

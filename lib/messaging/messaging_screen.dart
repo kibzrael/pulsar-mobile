@@ -25,7 +25,7 @@ class MessagingScreen extends StatefulWidget {
   const MessagingScreen(this.chat, {Key? key, this.isNew = false})
       : super(key: key);
   @override
-  _MessagingScreenState createState() => _MessagingScreenState();
+  State<MessagingScreen> createState() => _MessagingScreenState();
 }
 
 class _MessagingScreenState extends State<MessagingScreen>
@@ -94,6 +94,7 @@ class _MessagingScreenState extends State<MessagingScreen>
             time: DateTime.now()
                 .subtract(Duration(days: (messagesList.length / 4).floor())),
             attachment: messagesList.length % 7 == 0
+                // ignore: use_build_context_synchronously
                 ? adventure.cover.photo(context)
                 : null));
       }
@@ -316,16 +317,16 @@ class _MessagingScreenState extends State<MessagingScreen>
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(21)),
                           child: Container(
-                            child: Icon(
-                              MyIcons.send,
-                              color: Colors.white,
-                            ),
                             height: 42,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(21),
                                 gradient: primaryGradient()),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 5),
+                            child: Icon(
+                              MyIcons.send,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -356,13 +357,15 @@ class _MessagingScreenState extends State<MessagingScreen>
         children: [
           Text(
             'Spam Messenger?',
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 5),
           Text(
             'This user is not among your accepted messengers.\nAccept if your interested in chatting.\nBlock if it is a disturbance.',
-            style:
-                Theme.of(context).textTheme.subtitle2!.copyWith(fontSize: 13.5),
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(fontSize: 13.5),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
@@ -375,7 +378,7 @@ class _MessagingScreenState extends State<MessagingScreen>
                     title: 'Block',
                     height: 37.5,
                     backgroundColor: Theme.of(context).disabledColor,
-                    titleColor: Theme.of(context).textTheme.bodyText2!.color,
+                    titleColor: Theme.of(context).textTheme.bodyMedium?.color,
                     onPressed: () {},
                   ),
                 ),

@@ -7,7 +7,7 @@ class VideoProgress extends StatefulWidget {
   const VideoProgress({Key? key}) : super(key: key);
 
   @override
-  _VideoProgressState createState() => _VideoProgressState();
+  State<VideoProgress> createState() => _VideoProgressState();
 }
 
 class _VideoProgressState extends State<VideoProgress> {

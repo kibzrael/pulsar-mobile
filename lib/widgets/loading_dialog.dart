@@ -11,7 +11,7 @@ class LoadingDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _LoadingDialogState createState() => _LoadingDialogState();
+  State<LoadingDialog> createState() => _LoadingDialogState();
 }
 
 class _LoadingDialogState extends State<LoadingDialog> {
@@ -22,8 +22,9 @@ class _LoadingDialogState extends State<LoadingDialog> {
   }
 
   process() async {
-    var response = await widget.process(context);
-    if (widget.pop) Navigator.pop(context, response);
+    await widget.process(context).then((response) {
+      if (widget.pop) Navigator.pop(context, response);
+    });
   }
 
   @override

@@ -66,7 +66,7 @@ class Comment {
         isLiked = mode != RequestMethod.post;
         mode == RequestMethod.post ? likes-- : likes++;
         onNotify();
-        debugPrint("Comment Like" + data.toString());
+        debugPrint("Comment Like$data");
         Fluttertoast.showToast(msg: 'error');
       }
     } catch (e) {

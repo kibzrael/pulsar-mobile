@@ -20,6 +20,7 @@ class MyTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       style: const ButtonStyle(splashFactory: NoSplash.splashFactory),
+      onPressed: enabled ? onPressed as void Function()? : null,
       child: ShaderMask(
         shaderCallback: (rect) {
           return LinearGradient(
@@ -45,7 +46,6 @@ class MyTextButton extends StatelessWidget {
               fontWeight: FontWeight.w600),
         ),
       ),
-      onPressed: enabled ? onPressed as void Function()? : null,
     );
   }
 }

@@ -80,7 +80,7 @@ class PostOptions extends StatelessWidget {
         name: 'Delete',
         icon: MyIcons.delete,
         onPressed: (context) async {
-          var response = await openDialog(
+          await openDialog(
             context,
             (context) => const MyDialog(
               title: 'Delete Post?',
@@ -89,11 +89,12 @@ class PostOptions extends StatelessWidget {
               destructive: 'Delete',
             ),
             dismissible: true,
-          );
-          if (response == 'Delete') {
-            Navigator.pop(context);
-            post.delete(context, onDelete);
-          }
+          ).then((response) {
+            if (response == 'Delete') {
+              Navigator.pop(context);
+              post.delete(context, onDelete);
+            }
+          });
         });
 
     List<Option> options = post.user.id == userProvider.user.id

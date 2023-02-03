@@ -94,14 +94,18 @@ class Post {
         response = await http.delete(Uri.parse(url),
             headers: {'Authorization': user.token ?? ''});
       }
-      if (response.statusCode == 200) {
-      } else {
-        isLiked = mode != RequestMethod.post;
-        mode == RequestMethod.post ? likes-- : likes++;
-        syncLike(context);
-        onNotify();
-        Fluttertoast.showToast(msg: 'error');
+      interactionSync() {
+        if (response.statusCode == 200) {
+        } else {
+          isLiked = mode != RequestMethod.post;
+          mode == RequestMethod.post ? likes-- : likes++;
+          syncLike(context);
+          onNotify();
+          Fluttertoast.showToast(msg: 'error');
+        }
       }
+
+      interactionSync();
     } catch (e) {
       isLiked = mode != RequestMethod.post;
       mode == RequestMethod.post ? likes-- : likes++;
@@ -154,14 +158,18 @@ class Post {
         response = await http.delete(Uri.parse(url),
             headers: {'Authorization': user.token ?? ''});
       }
-      if (response.statusCode == 200) {
-      } else {
-        isReposted = mode != RequestMethod.post;
-        mode == RequestMethod.post ? reposts-- : reposts++;
-        syncRepost(context);
-        onNotify();
-        Fluttertoast.showToast(msg: 'error');
+      interactionSync() {
+        if (response.statusCode == 200) {
+        } else {
+          isReposted = mode != RequestMethod.post;
+          mode == RequestMethod.post ? reposts-- : reposts++;
+          syncRepost(context);
+          onNotify();
+          Fluttertoast.showToast(msg: 'error');
+        }
       }
+
+      interactionSync();
     } catch (e) {
       isReposted = mode != RequestMethod.post;
       mode == RequestMethod.post ? reposts-- : reposts++;

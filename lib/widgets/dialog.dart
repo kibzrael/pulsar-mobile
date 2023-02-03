@@ -8,10 +8,12 @@ class MyDialog extends StatelessWidget {
   final String destructive;
 
   const MyDialog(
-      {Key? key, required this.title,
+      {Key? key,
+      required this.title,
       required this.body,
       required this.actions,
-      this.destructive = ''}) : super(key: key);
+      this.destructive = ''})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +31,11 @@ class MyDialog extends StatelessWidget {
           Container(
             color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
             child: CupertinoDialogAction(
-              child: Text(action),
               isDestructiveAction: action == destructive,
               onPressed: () {
                 Navigator.pop(context, action);
               },
+              child: Text(action),
             ),
           )
       ],

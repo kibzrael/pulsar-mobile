@@ -10,7 +10,7 @@ class Cache extends StatefulWidget {
   const Cache({Key? key}) : super(key: key);
 
   @override
-  _CacheState createState() => _CacheState();
+  State<Cache> createState() => _CacheState();
 }
 
 class _CacheState extends State<Cache> {
@@ -58,7 +58,7 @@ class _CacheState extends State<Cache> {
       title: 'Clear Cache',
       leading: Icon(
         MyIcons.cache,
-        color: Theme.of(context).textTheme.subtitle2!.color,
+        color: Theme.of(context).textTheme.titleSmall!.color,
       ),
       trailingArrow: false,
       trailingText: size,

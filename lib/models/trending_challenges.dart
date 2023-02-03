@@ -14,7 +14,7 @@ class TrendingChallenges extends StatefulWidget {
   const TrendingChallenges(this.challenges, {Key? key}) : super(key: key);
 
   @override
-  _TrendingChallengesState createState() => _TrendingChallengesState();
+  State<TrendingChallenges> createState() => _TrendingChallengesState();
 }
 
 class _TrendingChallengesState extends State<TrendingChallenges> {
@@ -42,7 +42,7 @@ class TrendingChallengeWidget extends StatefulWidget {
   final Challenge challenge;
   const TrendingChallengeWidget(this.challenge, {Key? key}) : super(key: key);
   @override
-  _TrendingChallengeWidgetState createState() =>
+  State<TrendingChallengeWidget> createState() =>
       _TrendingChallengeWidgetState();
 }
 
@@ -89,7 +89,7 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
               challenge.name,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(fontSize: 19.5),
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

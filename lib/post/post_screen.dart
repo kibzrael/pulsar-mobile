@@ -12,7 +12,7 @@ class PostProcess extends StatefulWidget {
   const PostProcess({Key? key, this.challenge, this.tag}) : super(key: key);
 
   @override
-  _PostProcessState createState() => _PostProcessState();
+  State<PostProcess> createState() => _PostProcessState();
 }
 
 class _PostProcessState extends State<PostProcess> {

@@ -5,10 +5,11 @@ class CaptureSpeed extends StatefulWidget {
   final double initial;
   final Function(int index) onPressed;
 
-  const CaptureSpeed({Key? key, required this.initial, required this.onPressed}) : super(key: key);
+  const CaptureSpeed({Key? key, required this.initial, required this.onPressed})
+      : super(key: key);
 
   @override
-  _CaptureSpeedState createState() => _CaptureSpeedState();
+  State<CaptureSpeed> createState() => _CaptureSpeedState();
 }
 
 class _CaptureSpeedState extends State<CaptureSpeed> {

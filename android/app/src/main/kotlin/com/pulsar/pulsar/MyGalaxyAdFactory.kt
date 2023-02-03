@@ -31,12 +31,12 @@ class MyGalaxyAdFactory(val context: Context, val dark: Boolean = false) :
 
 
             val headlineView = findViewById<TextView>(R.id.my_galaxy_ad_headline)
-            headlineView.text = nativeAd.headline.trim()
+            headlineView.text = nativeAd.headline?.trim()
 
             val bodyView = findViewById<TextView>(R.id.my_galaxy_ad_body)
             with(bodyView) {
                 text = nativeAd.body
-                visibility = if (nativeAd.body.isNotEmpty()) View.VISIBLE else View.INVISIBLE
+                visibility = if (nativeAd.body?.isNotEmpty() == true) View.VISIBLE else View.INVISIBLE
             }
 
             val iconView = findViewById<ImageView>(R.id.my_galaxy_ad_icon)

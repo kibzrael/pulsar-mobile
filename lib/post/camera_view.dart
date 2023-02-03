@@ -8,7 +8,7 @@ class CameraView extends StatefulWidget {
   const CameraView(this.provider, {Key? key}) : super(key: key);
 
   @override
-  _CameraViewState createState() => _CameraViewState();
+  State<CameraView> createState() => _CameraViewState();
 }
 
 class _CameraViewState extends State<CameraView> {

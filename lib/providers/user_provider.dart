@@ -92,7 +92,7 @@ class UserProvider extends ChangeNotifier {
         debugPrint("Profile Updated");
       }
     } catch (e) {
-      debugPrint("Update Profile:" + e.toString());
+      debugPrint("Update Profile:$e");
     }
   }
 
@@ -135,7 +135,7 @@ class UserProvider extends ChangeNotifier {
 
     MyResponse response = MyResponse();
     try {
-      Response requestResponse = await dio.post(
+      await dio.post(
         profileUrl,
         options: Options(headers: {
           'Authorization': token ?? '',
@@ -145,42 +145,42 @@ class UserProvider extends ChangeNotifier {
         onSendProgress: (int sent, int total) {
           debugPrint("sent${sent.toString()} total${total.toString()}");
         },
-      );
-
-      if (requestResponse.statusCode == 200 && requestResponse.data is Map) {
-        if (resizedProfilePic != null) {
-          CachedNetworkImage.evictFromCache(user.profilePic?.thumbnail ?? '');
-          CachedNetworkImage.evictFromCache(user.profilePic?.medium ?? '');
-          CachedNetworkImage.evictFromCache(user.profilePic?.high ?? '');
-        }
-        Map<String, dynamic> userJson = user.toJson();
-        requestResponse.data['user'].forEach((key, value) {
-          if (userJson.containsKey(key)) {
-            userJson.update(key, (_) => value);
+      ).then((requestResponse) {
+        if (requestResponse.statusCode == 200 && requestResponse.data is Map) {
+          if (resizedProfilePic != null) {
+            CachedNetworkImage.evictFromCache(user.profilePic?.thumbnail ?? '');
+            CachedNetworkImage.evictFromCache(user.profilePic?.medium ?? '');
+            CachedNetworkImage.evictFromCache(user.profilePic?.high ?? '');
           }
-        });
-        user = User.fromJson(userJson);
-        notifyListeners();
-        await Provider.of<LoginProvider>(context, listen: false)
-            .saveLogin(context, token: token!, user: user.toJson());
-      }
+          Map<String, dynamic> userJson = user.toJson();
+          requestResponse.data['user'].forEach((key, value) {
+            if (userJson.containsKey(key)) {
+              userJson.update(key, (_) => value);
+            }
+          });
+          user = User.fromJson(userJson);
+          notifyListeners();
+          Provider.of<LoginProvider>(context, listen: false)
+              .saveLogin(context, token: token!, user: user.toJson());
+        }
 
-      response.statusCode = requestResponse.statusCode;
-      if (requestResponse.data is Map) {
-        response.body = requestResponse.data;
-      } else {
-        response.body = {
-          'message':
-              'There has been a problem processing your request. Please try again later.'
-        };
-      }
+        response.statusCode = requestResponse.statusCode;
+        if (requestResponse.data is Map) {
+          response.body = requestResponse.data;
+        } else {
+          response.body = {
+            'message':
+                'There has been a problem processing your request. Please try again later.'
+          };
+        }
+      });
     } catch (e) {
       response.statusCode = 503;
       response.body = {
         'message':
             'There has been a problem processing your request. Please try again later.'
       };
-      debugPrint("Edit profile: " + e.toString());
+      debugPrint("Edit profile: $e");
     }
     return response;
   }
@@ -188,25 +188,28 @@ class UserProvider extends ChangeNotifier {
   Future<MyResponse> changeUsername(
       BuildContext context, String username) async {
     String url = getUrl(UserUrls.changeUsername);
-    http.Response requestResponse = await http.post(Uri.parse(url), headers: {
+    MyResponse response = MyResponse();
+    await http.post(Uri.parse(url), headers: {
       'Authorization': token ?? '',
     }, body: {
       'username': username
-    });
-    MyResponse response = MyResponse();
-    response.statusCode = requestResponse.statusCode;
-    //
-    var body = jsonDecode(requestResponse.body);
-    if (body is Map) {
-      response.body = body;
-    }
+    }).then((requestResponse) {
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
+      }
 
-    if (response.statusCode == 200) {
-      user.username = username;
-      await Provider.of<LoginProvider>(context, listen: false)
-          .saveLogin(context, token: token!, user: user.toJson());
-      notifyListeners();
-    }
+      if (response.statusCode == 200) {
+        user.username = username;
+        Provider.of<LoginProvider>(context, listen: false)
+            .saveLogin(context, token: token!, user: user.toJson())
+            .then((_) {
+          notifyListeners();
+        });
+      }
+    });
     return response;
   }
 

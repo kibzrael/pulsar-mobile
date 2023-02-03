@@ -17,7 +17,7 @@ class MessagingRecipients extends StatefulWidget {
       required this.recipientsController})
       : super(key: key);
   @override
-  _MessagingRecipientsState createState() => _MessagingRecipientsState();
+  State<MessagingRecipients> createState() => _MessagingRecipientsState();
 }
 
 class _MessagingRecipientsState extends State<MessagingRecipients> {
@@ -47,7 +47,7 @@ class _MessagingRecipientsState extends State<MessagingRecipients> {
                     'Select users to chat with...',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2!
+                        .titleSmall!
                         .copyWith(fontSize: 18),
                   ),
                 ),

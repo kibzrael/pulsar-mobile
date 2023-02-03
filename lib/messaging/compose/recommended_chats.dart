@@ -15,7 +15,7 @@ class RecommendedChats extends StatefulWidget {
       required this.onRemove})
       : super(key: key);
   @override
-  _RecommendedChatsState createState() => _RecommendedChatsState();
+  State<RecommendedChats> createState() => _RecommendedChatsState();
 }
 
 class _RecommendedChatsState extends State<RecommendedChats> {

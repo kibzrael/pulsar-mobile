@@ -15,7 +15,7 @@ class SelectedAudio extends StatefulWidget {
       {Key? key, required this.onBack, required this.pop})
       : super(key: key);
   @override
-  _SelectedAudioState createState() => _SelectedAudioState();
+  State<SelectedAudio> createState() => _SelectedAudioState();
 }
 
 class _SelectedAudioState extends State<SelectedAudio> {
@@ -81,12 +81,12 @@ class _SelectedAudioState extends State<SelectedAudio> {
         Text(
           audio.name,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subtitle1,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         Text(
           audio.artist,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.subtitle2,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         Visibility(
           visible:
@@ -111,7 +111,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
                   const SizedBox(height: 5),
                   Text(
                     'Remove',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   )
                 ],
               ),
@@ -128,7 +128,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
             children: [
               Text(
                 'Original:',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               SizedBox(
                 height: 30,
@@ -154,7 +154,7 @@ class _SelectedAudioState extends State<SelectedAudio> {
             children: [
               Text(
                 'Audio:',
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               SizedBox(
                 height: 30,

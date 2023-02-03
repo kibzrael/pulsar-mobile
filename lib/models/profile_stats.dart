@@ -42,13 +42,13 @@ class ProfileStats extends StatelessWidget {
                     Text(posts == null ? ' - ' : roundCount(posts!),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleLarge!
                             .copyWith(fontSize: 21)),
                     Text('Post${posts == 1 ? '' : 's'}',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(fontSize: 16.5))
                   ],
                 ),
@@ -68,13 +68,13 @@ class ProfileStats extends StatelessWidget {
                     Text(pins == null ? ' - ' : roundCount(pins!),
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle1!
+                            .titleLarge!
                             .copyWith(fontSize: 21)),
                     Text((isPin ? 'Pin' : 'Follower') + (pins == 1 ? '' : 's'),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
-                            .subtitle2!
+                            .titleSmall!
                             .copyWith(fontSize: 16.5))
                   ],
                 ),

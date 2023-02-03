@@ -12,7 +12,7 @@ class DataSaver extends StatefulWidget {
   const DataSaver({Key? key}) : super(key: key);
 
   @override
-  _DataSaverState createState() => _DataSaverState();
+  State<DataSaver> createState() => _DataSaverState();
 }
 
 class _DataSaverState extends State<DataSaver> {
