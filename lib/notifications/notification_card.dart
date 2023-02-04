@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/activity.dart';
+import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/time.dart';
 import 'package:pulsar/post/filters.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
@@ -23,8 +24,7 @@ class _InteractionNotificationCardState
 
   late InteractionActivity activity;
 
-  // TODO:Implement following
-  bool get isFollowing => false; //interactionsSync.isFollowing(user);
+  bool get isFollowing => interactionsSync.isFollowing(activity.user);
 
   @override
   void initState() {
@@ -37,8 +37,11 @@ class _InteractionNotificationCardState
     interactionsSync = Provider.of<InteractionsSync>(context);
     return Container(
         width: double.infinity,
-        margin: const EdgeInsets.symmetric(vertical: 4),
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        // margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        color: activity.read
+            ? null
+            : Theme.of(context).colorScheme.primary.withAlpha(30),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,7 +49,7 @@ class _InteractionNotificationCardState
               child: Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: ProfilePic(
-                  activity.thumbnail,
+                  activity.user.profilePic?.thumbnail,
                   radius: 24,
                 ),
               ),
@@ -62,7 +65,7 @@ class _InteractionNotificationCardState
                         child: Row(
                           children: [
                             Text(
-                              '@${activity.username}',
+                              '@${activity.user.username}',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge!
@@ -97,16 +100,16 @@ class _InteractionNotificationCardState
                   isFollowing: isFollowing,
                   onPressed: () {
                     setState(() {
-                      // user.follow(context,
-                      //     mode: isFollowing
-                      //         ? RequestMethod.delete
-                      //         : RequestMethod.post,
-                      //     onNotify: () => setState(() {}));
+                      activity.user.follow(context,
+                          mode: isFollowing
+                              ? RequestMethod.delete
+                              : RequestMethod.post,
+                          onNotify: () => setState(() {}));
                     });
                   },
                 ),
               )
-            else if (!['', null].contains(activity.media))
+            else if (activity.media != null)
               Container(
                 width: 60,
                 height: activity.type == Interaction.comment ? 75 : 50,
@@ -122,7 +125,8 @@ class _InteractionNotificationCardState
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         image: DecorationImage(
-                            image: NetworkImage('${activity.media}'),
+                            image: NetworkImage(
+                                activity.media!.photo(context, max: 'medium')),
                             fit: BoxFit.cover)),
                   ),
                 ),

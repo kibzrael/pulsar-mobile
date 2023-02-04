@@ -1,29 +1,30 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pulsar/classes/media.dart';
+import 'package:pulsar/classes/user.dart';
 
 part 'activity.g.dart';
 
 @JsonSerializable()
 class InteractionActivity {
-  String id;
-  int userId;
-  String username;
+  int id;
+  User user;
   DateTime time;
-  String? thumbnail;
   String? description;
-  String? media;
+  Photo? media;
   String? link;
   Interaction type;
 
+  bool read;
+
   InteractionActivity(
       {required this.id,
-      required this.userId,
-      required this.username,
+      required this.user,
       required this.time,
       required this.type,
-      this.thumbnail,
       this.description,
       this.media,
-      this.link});
+      this.link,
+      this.read = false});
 
   factory InteractionActivity.fromJson(Map<String, dynamic> json) =>
       _$InteractionActivityFromJson(json);
@@ -31,3 +32,11 @@ class InteractionActivity {
 }
 
 enum Interaction { follow, like, comment, repost, notification }
+
+Map<String, String> interactionLabels = {
+  'follow': 'Followers',
+  'like': 'Likes',
+  'comment': 'Comments',
+  'repost': 'Reposts',
+  'notification': 'Post Notifications'
+};

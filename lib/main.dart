@@ -35,6 +35,10 @@ void main() async {
   );
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
+  FirebaseMessaging.onMessage.listen((event) {
+    debugPrint("Message Received: ${event.notification?.body}");
+  });
+
   messaging.requestPermission(
     alert: true,
     announcement: false,

@@ -28,8 +28,8 @@ Settings _$SettingsFromJson(Map<String, dynamic> json) => Settings(
 Map<String, dynamic> _$SettingsToJson(Settings instance) => <String, dynamic>{
       'dataSaver': instance.dataSaver,
       'requestTimeout': instance.requestTimeout,
-      'mediaAutoplay': _$AutoplayEnumMap[instance.mediaAutoplay],
-      'mediaQuality': _$MediaQualityEnumMap[instance.mediaQuality],
+      'mediaAutoplay': _$AutoplayEnumMap[instance.mediaAutoplay]!,
+      'mediaQuality': _$MediaQualityEnumMap[instance.mediaQuality]!,
       'searchHistory': instance.searchHistory,
       'drafts': instance.drafts.map((e) => e.toJson()).toList(),
     };

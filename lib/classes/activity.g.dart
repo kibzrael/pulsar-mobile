@@ -8,29 +8,29 @@ part of 'activity.dart';
 
 InteractionActivity _$InteractionActivityFromJson(Map<String, dynamic> json) =>
     InteractionActivity(
-      id: json['id'] as String,
-      userId: json['userId'] as int,
-      username: json['username'] as String,
+      id: json['id'] as int,
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
       time: DateTime.parse(json['time'] as String),
       type: $enumDecode(_$InteractionEnumMap, json['type']),
-      thumbnail: json['thumbnail'] as String?,
       description: json['description'] as String?,
-      media: json['media'] as String?,
+      media: json['media'] == null
+          ? null
+          : Photo.fromJson(json['media'] as Map<String, dynamic>),
       link: json['link'] as String?,
+      read: json['read'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$InteractionActivityToJson(
         InteractionActivity instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.userId,
-      'username': instance.username,
+      'user': instance.user,
       'time': instance.time.toIso8601String(),
-      'thumbnail': instance.thumbnail,
       'description': instance.description,
       'media': instance.media,
       'link': instance.link,
-      'type': _$InteractionEnumMap[instance.type],
+      'type': _$InteractionEnumMap[instance.type]!,
+      'read': instance.read,
     };
 
 const _$InteractionEnumMap = {

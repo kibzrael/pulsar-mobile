@@ -121,8 +121,7 @@ class _PostVideoState extends State<PostVideo> {
                 }
               }
             }
-          }
-          if (info.visibleFraction > 0.5) {
+          } else {
             visible = true;
             if (controller != null && !isPlaying && !isPaused) {
               if (video.video(context) == controller!.dataSource) {

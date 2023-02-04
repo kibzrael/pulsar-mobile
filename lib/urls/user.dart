@@ -3,6 +3,11 @@ class UserUrls {
 
   static String profile(int id) => 'users/$id';
 
+  static String activity(int index) => 'users/activity?offset=$index';
+
+  static String readActivity({int? last}) =>
+      'users/activity/read${last == null ? '' : '?last=$last'}';
+
   /// url to get followers, follow and unfollow
   static String follow(int id, {int? index}) =>
       'users/$id/followers${index == null ? '' : '?offset=$index'}';

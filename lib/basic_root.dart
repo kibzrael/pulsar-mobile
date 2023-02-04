@@ -102,7 +102,7 @@ class _BasicRootState extends State<BasicRoot> {
           ],
           builder: (context, child) {
             return Consumer<ActivityProvider>(
-                builder: (context, provider, child) {
+                builder: (context, activityProvider, child) {
               return Consumer<BasicRootProvider>(
                   builder: (context, provider, child) {
                 basicRootProvider = provider;
@@ -216,13 +216,43 @@ class _BasicRootState extends State<BasicRoot> {
                                 //   onTap: navigationChange,
                                 //   barIsTransparent: barIsTransparent,
                                 // ),
-                                NavigationBarItem(
-                                  3,
-                                  label: 'Activity',
-                                  selected: currentIndex,
-                                  icon: MyIcons.notifications,
-                                  onTap: navigationChange,
-                                  barIsTransparent: barIsTransparent,
+                                Stack(
+                                  children: [
+                                    NavigationBarItem(
+                                      3,
+                                      label: 'Activity',
+                                      selected: currentIndex,
+                                      icon: MyIcons.notifications,
+                                      onTap: navigationChange,
+                                      barIsTransparent: barIsTransparent,
+                                    ),
+                                    if (activityProvider.unread > 0)
+                                      Positioned(
+                                        right: 4,
+                                        top: 0,
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  activityProvider.unread < 10
+                                                      ? 6
+                                                      : 4,
+                                              vertical: 2),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                          child: Text(
+                                            '${activityProvider.unread < 10 ? activityProvider.unread : "9+"}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall
+                                                ?.copyWith(color: Colors.white),
+                                          ),
+                                        ),
+                                      )
+                                  ],
                                 ),
                                 NavigationBarItem(
                                   4,
