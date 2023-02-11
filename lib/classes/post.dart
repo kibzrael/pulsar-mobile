@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/challenge.dart';
-import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/report.dart';
 import 'package:pulsar/classes/user.dart';
@@ -45,7 +44,8 @@ class Post {
 
   double? ratio;
 
-  List<Interest> tags;
+  List<String> tags;
+  List<User> mentions;
 
   String get url => '';
 
@@ -64,6 +64,7 @@ class Post {
     this.reposts = 0,
     this.points = 0,
     this.tags = const [],
+    this.mentions = const [],
     this.filter,
     this.ratio,
     this.time,

@@ -104,6 +104,7 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
           target: fetchChallenges,
           dataLength: 12,
           itemBuilder: (context, snapshot) {
+            // TODO: Change Ad system
             List<Map<String, dynamic>> snapshotData = snapshot.data;
             List<Challenge> challenges = [
               ...snapshotData.map((e) => Challenge.fromJson(e))

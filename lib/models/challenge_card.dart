@@ -11,8 +11,10 @@ import 'package:pulsar/widgets/route.dart';
 
 class ChallengeCard extends StatefulWidget {
   final Challenge challenge;
+  final Function()? onPressed;
 
-  const ChallengeCard(this.challenge, {Key? key}) : super(key: key);
+  const ChallengeCard(this.challenge, {Key? key, this.onPressed})
+      : super(key: key);
 
   @override
   State<ChallengeCard> createState() => _ChallengeCardState();
@@ -39,10 +41,11 @@ class _ChallengeCardState extends State<ChallengeCard> {
         backgroundColor: Theme.of(context).dividerColor,
         backgroundImage: CachedNetworkImageProvider(challenge.cover.thumbnail),
       ),
-      onPressed: () {
-        Navigator.of(context)
-            .push(myPageRoute(builder: (context) => ChallengePage(challenge)));
-      },
+      onPressed: widget.onPressed ??
+          () {
+            Navigator.of(context).push(
+                myPageRoute(builder: (context) => ChallengePage(challenge)));
+          },
       title: challenge.name,
       subtitle: '24K posts',
       trailingArrow: false,

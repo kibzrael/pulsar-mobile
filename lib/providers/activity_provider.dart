@@ -19,13 +19,15 @@ class ActivityProvider extends ChangeNotifier {
   List<InteractionActivity> realtimeUpdates = [];
   List<InteractionActivity> updates = [];
 
+  int readCount = 0;
   int get unread {
     List<InteractionActivity> data = [...realtimeUpdates, ...updates];
     // Remove any duplicates
     Set ids = {};
     data.retainWhere((e) => ids.add(e.id));
     data.sort((a, b) => b.time.compareTo(a.time));
-    return data.where((e) => !e.read).length;
+    int total = data.where((e) => !e.read).length - readCount;
+    return total < 0 ? 0 : total;
   }
 
   ActivityProvider(BuildContext context) {
@@ -95,11 +97,12 @@ class ActivityProvider extends ChangeNotifier {
 
   markAsRead(List<InteractionActivity> activity) async {
     try {
+      readCount += unread;
+      notifyListeners();
       String url = getUrl(UserUrls.readActivity());
-      http.Response response = await http.get(Uri.parse(url), headers: {
+      await http.get(Uri.parse(url), headers: {
         'Authorization': userProvider.token ?? '',
       });
-      print(response.statusCode);
     } catch (e) {
       debugPrint(e.toString());
     }

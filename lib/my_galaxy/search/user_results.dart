@@ -19,7 +19,6 @@ class UserResults extends StatefulWidget {
 class _UserResultsState extends State<UserResults> {
   Future<List<Map<String, dynamic>>?> search(int index) async {
     List<Map<String, dynamic>> results = await widget.target(0, index);
-
     return results;
   }
 

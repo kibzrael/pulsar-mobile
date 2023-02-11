@@ -1,6 +1,5 @@
 import 'package:detectable_text_field/detectable_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
@@ -48,10 +47,13 @@ class _PostLayoutState extends State<PostLayout> {
   bool get isReposted => interactionsSync.isReposted(post);
   bool get isFollowing => interactionsSync.isFollowing(post.user);
 
+  late bool initialFollowing;
+
   @override
   void initState() {
     super.initState();
     post = widget.post;
+    initialFollowing = post.user.isFollowing;
   }
 
   void comment() {
@@ -175,7 +177,8 @@ class _PostLayoutState extends State<PostLayout> {
                                           ),
                                           const SizedBox(width: 5),
                                           if (post.user.id !=
-                                              userProvider.user.id)
+                                                  userProvider.user.id &&
+                                              !initialFollowing)
                                             InkWell(
                                               onTap: () {
                                                 setState(() {
@@ -287,7 +290,19 @@ class _PostLayoutState extends State<PostLayout> {
                                 ?.copyWith(fontWeight: FontWeight.w400),
                             detectedStyle: const TextStyle(color: Colors.blue),
                             onTap: (String text) {
-                              Fluttertoast.showToast(msg: "Open $text");
+                              if (text.startsWith("#")) {
+                                Navigator.of(context).push(myPageRoute(
+                                    builder: (context) =>
+                                        TagPage(text.replaceFirst("#", ''))));
+                              } else if (text.startsWith('@')) {
+                                int index = post.mentions.indexWhere((e) =>
+                                    e.username == text.replaceFirst('@', ''));
+                                if (index != -1) {
+                                  Navigator.of(context).push(myPageRoute(
+                                      builder: (context) =>
+                                          ProfilePage(post.mentions[index])));
+                                }
+                              }
                             },
                           ),
                         ),
@@ -300,7 +315,7 @@ class _PostLayoutState extends State<PostLayout> {
                             runSpacing: 7.5,
                             alignment: WrapAlignment.start,
                             runAlignment: WrapAlignment.start,
-                            children: [...post.tags.map((e) => Tag(e.name))],
+                            children: [...post.tags.map((e) => Tag(e))],
                           ),
                         )
                     ],
@@ -427,7 +442,7 @@ class Tag extends StatelessWidget {
                 width: 1.5, color: Colors.white70, style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(15)),
         child: Text(
-          '#$text',
+          text,
           style: const TextStyle(
             color: Colors.white70,
           ),

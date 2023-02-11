@@ -11,8 +11,11 @@ import 'package:pulsar/widgets/route.dart';
 
 class UserCard extends StatefulWidget {
   final User user;
+  final bool trailing;
+  final Function()? onPressed;
 
-  const UserCard(this.user, {Key? key}) : super(key: key);
+  const UserCard(this.user, {Key? key, this.trailing = true, this.onPressed})
+      : super(key: key);
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -39,14 +42,15 @@ class _UserCardState extends State<UserCard> {
         user.profilePic?.thumbnail,
         radius: 24,
       ),
-      onPressed: () {
-        Navigator.of(context)
-            .push(myPageRoute(builder: (context) => ProfilePage(user)));
-      },
+      onPressed: widget.onPressed ??
+          () {
+            Navigator.of(context)
+                .push(myPageRoute(builder: (context) => ProfilePage(user)));
+          },
       title: '@${user.username}',
       subtitle: user.category,
-      trailingArrow: false,
-      trailing: userProvider.user.id == user.id
+      trailingArrow: !widget.trailing,
+      trailing: userProvider.user.id == user.id || !widget.trailing
           ? null
           : FollowButton(
               height: 30,

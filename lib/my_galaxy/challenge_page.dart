@@ -172,7 +172,8 @@ class _ChallengePageState extends State<ChallengePage>
                           start: 56, bottom: 17.5, end: padding),
                       title: Text(
                         challenge.name,
-                        maxLines: 1,
+                        maxLines:
+                            scrollPosition > (expandedHeight * 0.7) ? 1 : 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       background: Stack(

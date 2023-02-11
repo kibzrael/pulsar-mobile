@@ -6,6 +6,12 @@ class PostUrls {
 
   static String upload = 'posts/';
 
+  static String tag(String tag, int index, int page) =>
+      'posts/tag/$tag?offset=$index&page=$page';
+
+  static String searchTags(String keyword, int index) =>
+      'posts/tags/search?offset=$index&keyword=$keyword';
+
   // get post, edit, and delete
   static String postItem(Post post) => 'posts/${post.id}';
 

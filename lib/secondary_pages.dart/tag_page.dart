@@ -1,15 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
-import 'package:pulsar/data/users.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
-import 'package:pulsar/models/follow_layout.dart';
 import 'package:pulsar/options/tag_options.dart';
-import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/post/post_screen.dart';
-import 'package:pulsar/secondary_pages.dart/photo_view.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
+import 'package:pulsar/urls/get_url.dart';
+import 'package:pulsar/urls/post.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:pulsar/widgets/profile_pic.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 
@@ -28,10 +32,13 @@ class _TagPageState extends State<TagPage>
 
   late String tag;
 
-  bool isFollowing = false;
+  late UserProvider userProvider;
+  int count = 0;
 
   @override
   bool get wantKeepAlive => true;
+
+  bool refreshing = false;
 
   @override
   void initState() {
@@ -61,7 +68,35 @@ class _TagPageState extends State<TagPage>
     openBottomSheet(context, (context) => TagOptions(tag));
   }
 
+  Future<List<Map<String, dynamic>>> fetchPosts(int index, int page) async {
+    List<Map<String, dynamic>> results = [];
+
+    String url = getUrl(PostUrls.tag(tag, index, page));
+
+    http.Response response = await http.get(Uri.parse(url),
+        headers: {'Authorization': userProvider.user.token ?? ''});
+
+    var body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      count = body['count'];
+      setState(() {});
+      results = [...List<Map<String, dynamic>>.from(body['posts'])];
+    } else {
+      Fluttertoast.showToast(msg: body['message']);
+    }
+    return results;
+  }
+
   Future<bool> onRefresh() async {
+    refreshing = true;
+    if (mounted) {
+      setState(() {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          refreshing = false;
+          if (mounted) setState(() {});
+        });
+      });
+    }
     await Future.delayed(const Duration(seconds: 2));
     return true;
   }
@@ -69,6 +104,7 @@ class _TagPageState extends State<TagPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(title: Text('#$tag'), actions: [
         IconButton(
@@ -88,34 +124,6 @@ class _TagPageState extends State<TagPage>
                       [
                         Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 6),
-                              child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context, rootNavigator: true)
-                                        .push(myPageRoute(
-                                            builder: (context) => PhotoView(
-                                                tom.profilePic!.photo(context),
-                                                tag: 'tagPic')));
-                                  },
-                                  child: Hero(
-                                      tag: 'tagPic',
-                                      child: ProfilePic(
-                                          tom.profilePic?.thumbnail,
-                                          radius: 60))
-
-                                  // MyAvatar(user.tagPic, 45.0)
-                                  ),
-                            ),
-                            Text(
-                              '#$tag',
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(fontSize: 21),
-                            ),
-                            const SizedBox(height: 1.5),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -128,32 +136,43 @@ class _TagPageState extends State<TagPage>
                                       .color,
                                 ),
                                 Text(
-                                  '2.7M posts',
+                                  '$count post${count == 1 ? '' : 's'}',
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(fontSize: 18),
                                 ),
+                                const SizedBox(width: 30),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context, rootNavigator: true)
+                                        .push(myPageRoute(
+                                            builder: (context) =>
+                                                PostProcess(tag: tag)));
+                                  },
+                                  child: Card(
+                                    elevation: 4,
+                                    margin: EdgeInsets.zero,
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    child: Container(
+                                      height: 35,
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 5),
+                                      child: const Text(
+                                        'Post',
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(height: 12),
-                            FollowLayout(
-                                isFollowing: isFollowing,
-                                onChildPressed: () {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .push(myPageRoute(
-                                          builder: (context) =>
-                                              PostProcess(tag: tag)));
-                                },
-                                onFollow: () {
-                                  setState(() {
-                                    isFollowing = !isFollowing;
-                                  });
-                                },
-                                child: const Text(
-                                  'Post',
-                                ))
                           ],
                         ),
                       ],
@@ -193,7 +212,22 @@ class _TagPageState extends State<TagPage>
                       constraints: const BoxConstraints(minHeight: 100),
                       child: TabBarView(
                         controller: tabController,
-                        children: const [NoPosts(), NoPosts()],
+                        children: [
+                          GridPosts(
+                            (index) async {
+                              return await fetchPosts(index, 0);
+                            },
+                            title: '#$tag',
+                            refreshing: refreshing,
+                          ),
+                          GridPosts(
+                            (index) async {
+                              return await fetchPosts(index, 1);
+                            },
+                            title: '#$tag',
+                            refreshing: refreshing,
+                          ),
+                        ],
                       ),
                     ),
                   )

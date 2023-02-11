@@ -5,6 +5,7 @@ import 'package:pulsar/providers/theme_provider.dart';
 
 class PostScreen extends StatefulWidget {
   final List<Post> initialPosts;
+  final int initialIndex;
   final int postInView;
   final String title;
   final Future<List<Map<String, dynamic>>> Function(int index) target;
@@ -14,6 +15,7 @@ class PostScreen extends StatefulWidget {
       required this.initialPosts,
       required this.target, // = const [],
       required this.title,
+      this.initialIndex = 0,
       this.postInView = 0})
       : super(key: key);
 
@@ -36,6 +38,7 @@ class _PostScreenState extends State<PostScreen> {
         ),
         body: PostsView(
             initialPosts: widget.initialPosts,
+            initialIndex: widget.initialIndex,
             postInView: widget.postInView,
             target: widget.target),
       ),

@@ -83,6 +83,7 @@ class _GridPostsState extends State<GridPosts>
                                         const RouteSettings(name: 'postView'),
                                     builder: (context) => PostScreen(
                                           initialPosts: posts,
+                                          initialIndex: snapshot.index,
                                           target: fetchPosts,
                                           title: widget.title,
                                           postInView: index,

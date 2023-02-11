@@ -1,9 +1,13 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:detectable_text_field/detector/sample_regular_expressions.dart';
 import 'package:detectable_text_field/widgets/detectable_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/post/caption_suggestions.dart';
+import 'package:pulsar/post/challenge.dart';
 import 'package:pulsar/post/post_preview.dart';
 import 'package:pulsar/post/post_provider.dart';
 import 'package:pulsar/post/tags.dart';
@@ -27,6 +31,10 @@ class _UploadScreenState extends State<UploadScreen> {
   late TextEditingController tagController;
 
   bool location = false;
+
+  String keyword = '';
+  CaptionSuggestion suggestionType = CaptionSuggestion.tags;
+  int cursorPosition = 0;
 
   @override
   void initState() {
@@ -134,14 +142,50 @@ class _UploadScreenState extends State<UploadScreen> {
                                                   ?.copyWith(fontSize: 16.5),
                                               controller: captionController,
                                               onChanged: (text) {
+                                                // if (text.endsWith(' ')) {
+                                                //   keyword = '';
+                                                // }
                                                 setState(() {
                                                   provider.caption =
                                                       text.trim();
                                                 });
                                               },
-                                              onDetectionTyped: (detection) {
+                                              onDetectionTyped: (text) {
+                                                String detection = text.trim();
+                                                if (detection.startsWith('#')) {
+                                                  debugPrint("Hashtag");
+                                                  suggestionType =
+                                                      CaptionSuggestion.tags;
+                                                  keyword = detection
+                                                      .replaceFirst('#', '');
+                                                  cursorPosition =
+                                                      captionController
+                                                          .selection
+                                                          .extent
+                                                          .offset;
+                                                } else if (detection
+                                                    .startsWith('@')) {
+                                                  suggestionType =
+                                                      CaptionSuggestion
+                                                          .mentions;
+                                                  keyword = detection
+                                                      .replaceFirst('@', '');
+                                                  cursorPosition =
+                                                      captionController
+                                                          .selection
+                                                          .extent
+                                                          .offset;
+                                                }
+                                                setState(() {});
                                                 debugPrint(
-                                                    "Detection: $detection");
+                                                    "Detection: $detection\nKeyword: $keyword");
+                                              },
+                                              onDetectionFinished: () {
+                                                setState(() {
+                                                  debugPrint(
+                                                      "Detection Finished");
+                                                  keyword = '';
+                                                });
                                               },
                                               detectionRegExp:
                                                   detectionRegExp()!,
@@ -178,7 +222,43 @@ class _UploadScreenState extends State<UploadScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 6),
+                    if (keyword != '')
+                      CaptionSuggestions(keyword, type: suggestionType,
+                          onSelect: (text) {
+                        int initialOffset =
+                            captionController.selection.extent.offset;
+                        if (cursorPosition == initialOffset) {
+                          String cleanedText = captionController.text
+                              .replaceRange(initialOffset - keyword.length,
+                                  initialOffset, '');
+                          String newText = StringUtils.addCharAtPosition(
+                              cleanedText,
+                              text.trim(),
+                              initialOffset - keyword.length);
+                          captionController.text = newText;
+                          int newPosition =
+                              initialOffset + text.length - keyword.length;
+                          if (newPosition >=
+                              captionController.text.length - 1) {
+                            // End of text
+                            captionController.text =
+                                '${captionController.text} ';
+                            captionController.selection =
+                                TextSelection.fromPosition(TextPosition(
+                                    offset: captionController.text.length - 1));
+                          } else {
+                            captionController.selection =
+                                TextSelection.fromPosition(
+                                    TextPosition(offset: newPosition));
+                          }
+                        }
+                        setState(() {
+                          keyword = '';
+                          provider.caption = captionController.text.trim();
+                        });
+                      }),
+                    const SizedBox(height: 6),
                     MyListTile(
                         title: 'Tags',
                         onPressed: () => Navigator.of(context)
@@ -199,6 +279,18 @@ class _UploadScreenState extends State<UploadScreen> {
                       title: 'Challenge',
                       trailingText: provider.challenge?.name ?? 'None',
                       flexRatio: const [2, 3],
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            myPageRoute(
+                                builder: (context) =>
+                                    const SelectChallenge())).then((value) {
+                          if (value is Challenge) {
+                            provider.challenge = value;
+                            provider.notify();
+                          }
+                        });
+                      },
                     ),
                     MyListTile(
                       title: 'Allow Comments',

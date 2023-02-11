@@ -9,7 +9,9 @@ import 'package:pulsar/widgets/recycler_view.dart';
 
 class ChallengeResults extends StatefulWidget {
   final Future<List<Map<String, dynamic>>> Function(int page, int index) target;
-  const ChallengeResults({required this.target, Key? key}) : super(key: key);
+  final Function(Challenge challenge)? onSelect;
+  const ChallengeResults({required this.target, Key? key, this.onSelect})
+      : super(key: key);
 
   @override
   State<ChallengeResults> createState() => _ChallengeResultsState();
@@ -48,8 +50,16 @@ class _ChallengeResultsState extends State<ChallengeResults> {
                         visibleAds++;
                         return const ListTileAd();
                       }
+                      Challenge challenge =
+                          Challenge.fromJson(data[index - visibleAds]);
                       return ChallengeCard(
-                          Challenge.fromJson(data[index - visibleAds]));
+                        challenge,
+                        onPressed: () {
+                          if (widget.onSelect != null) {
+                            widget.onSelect!(challenge);
+                          }
+                        },
+                      );
                     },
                   ),
                 );

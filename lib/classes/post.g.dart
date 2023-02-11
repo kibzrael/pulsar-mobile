@@ -22,8 +22,11 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       comments: json['comments'] as int? ?? 0,
       reposts: json['reposts'] as int? ?? 0,
       points: json['points'] as int? ?? 0,
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => Interest.fromJson(e as Map<String, dynamic>))
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
+      mentions: (json['mentions'] as List<dynamic>?)
+              ?.map((e) => User.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       filter: json['filter_name'] as String?,
@@ -49,5 +52,6 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'is_reposted': instance.isReposted,
       'filter_name': instance.filter,
       'ratio': instance.ratio,
-      'tags': instance.tags.map((e) => e.toJson()).toList(),
+      'tags': instance.tags,
+      'mentions': instance.mentions.map((e) => e.toJson()).toList(),
     };

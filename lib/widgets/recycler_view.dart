@@ -6,18 +6,23 @@ class RecyclerView extends StatefulWidget {
 
   final Future<List<Map<String, dynamic>>?> Function(int index) target;
 
+  final List<Map<String, dynamic>>? initialData;
+  final int initialIndex;
+
   final bool reversed;
   final int dataLength;
   final double bufferExtent;
-  const RecyclerView(
-      {Key? key,
-      // required this.scrollController,
-      required this.target,
-      required this.itemBuilder,
-      this.reversed = false,
-      this.dataLength = 10,
-      this.bufferExtent = 1})
-      : super(key: key);
+  const RecyclerView({
+    Key? key,
+    // required this.scrollController,
+    required this.target,
+    required this.itemBuilder,
+    this.reversed = false,
+    this.dataLength = 10,
+    this.bufferExtent = 1,
+    this.initialData,
+    this.initialIndex = 0,
+  }) : super(key: key);
   @override
   State<RecyclerView> createState() => _RecyclerViewState();
 }
@@ -39,20 +44,26 @@ class _RecyclerViewState extends State<RecyclerView> {
 
   bool isRefreshing = false;
 
-  int index = 0;
+  late int index;
 
   late Snapshot snapshot;
 
   @override
   void initState() {
     super.initState();
+    index = widget.initialIndex;
     snapshot = Snapshot(
         onRetry: onRetry,
         refreshCallback: refreshCallback,
-        onPageChanged: carouselListener);
+        onPageChanged: carouselListener,
+        data: widget.initialData ?? []);
     // scrollController = widget.scrollController;
     // scrollController.addListener(scrollListener);
-    fetchData();
+    if (widget.initialData == null || (widget.initialData?.isEmpty ?? true)) {
+      fetchData();
+    } else {
+      success();
+    }
   }
 
   fetchData() async {
@@ -92,6 +103,7 @@ class _RecyclerViewState extends State<RecyclerView> {
       snapshot.data = [...snapshot.data, ...data];
 
       index++;
+      snapshot.index = index;
 
       success();
     }
@@ -136,6 +148,7 @@ class _RecyclerViewState extends State<RecyclerView> {
 
   void refreshState() {
     index = 0;
+    snapshot.index = index;
     isRefreshing = false;
   }
 
@@ -210,9 +223,11 @@ typedef RecyclerBuilder = Widget Function(
     BuildContext context, Snapshot snapshot);
 
 class Snapshot {
-  List<Map<String, dynamic>> data = [];
+  List<Map<String, dynamic>> data;
   bool? isLoading;
   ApiError? error;
+
+  int index = 0;
 
   Function onRetry;
   Future<bool> Function() refreshCallback;
@@ -222,7 +237,8 @@ class Snapshot {
   Snapshot(
       {required this.onRetry,
       required this.refreshCallback,
-      required this.onPageChanged});
+      required this.onPageChanged,
+      this.data = const []});
 
   bool get errorLoading => !(isLoading ?? true);
 

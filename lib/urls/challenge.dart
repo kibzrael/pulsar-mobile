@@ -13,7 +13,7 @@ class ChallengeUrls {
       'challenges/${challenge.id}/pins${index == null ? '' : '?offset=$index'}';
 
   static String posts(Challenge challenge, int index, int offset) =>
-      'challenges/${challenge.id}/posts?index=$index';
+      'challenges/${challenge.id}/posts?index=$index&offset=$offset';
 
   static String stats(Challenge challenge) =>
       'challenges/${challenge.id}/stats';
