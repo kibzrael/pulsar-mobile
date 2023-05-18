@@ -16,6 +16,8 @@ class PostProcess extends StatefulWidget {
 }
 
 class _PostProcessState extends State<PostProcess> {
+  GlobalKey<NavigatorState> navigator = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PostProvider>(
@@ -24,17 +26,28 @@ class _PostProcessState extends State<PostProcess> {
               caption: widget.tag == null ? '' : '#${widget.tag}',
             ),
         builder: (context, snapshot) {
-          return Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Navigator(
-                initialRoute: '/',
-                onGenerateRoute: (settings) {
-                  return myPageRoute(
-                      builder: (_) => CameraScreen(onPop: () {
-                            Navigator.pop(context);
-                          }),
-                      settings: settings);
-                }),
+          return WillPopScope(
+            onWillPop: () async {
+              NavigatorState? navigatorState = navigator.currentState;
+              if (navigatorState?.canPop() ?? false) {
+                navigatorState?.pop();
+                return false;
+              }
+              return true;
+            },
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: Navigator(
+                  initialRoute: '/',
+                  key: navigator,
+                  onGenerateRoute: (settings) {
+                    return myPageRoute(
+                        builder: (_) => CameraScreen(onPop: () {
+                              Navigator.pop(context);
+                            }),
+                        settings: settings);
+                  }),
+            ),
           );
         });
   }

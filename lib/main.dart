@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive/hive.dart';
 import 'package:path/path.dart';
@@ -18,6 +19,7 @@ import 'package:pulsar/providers/background_operations.dart';
 import 'package:pulsar/providers/camera_provider.dart';
 import 'package:pulsar/providers/connectivity_provider.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/messages_provider.dart';
 import 'package:pulsar/providers/settings_provider.dart';
@@ -25,7 +27,6 @@ import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/providers/video_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:device_preview/device_preview.dart';
 // import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
@@ -122,7 +123,7 @@ class _PulsarState extends State<Pulsar> {
     //     [SystemUiOverlay.top, SystemUiOverlay.bottom]);
 
     Brightness systemBrightness =
-        SchedulerBinding.instance.window.platformBrightness;
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
 
     Box settingsBox = Hive.box('settings');
     Map settings = settingsBox.toMap();
@@ -164,34 +165,42 @@ class _PulsarState extends State<Pulsar> {
         ChangeNotifierProvider<BackgroundOperations>(
           create: (_) => BackgroundOperations(),
         ),
+        ChangeNotifierProvider<LocalizationProvider>(
+          create: (_) => LocalizationProvider(),
+        ),
       ],
       builder: (context, child) {
-        return Consumer<LoginProvider>(
-            builder: (context, loginProvider, child) {
-          return Consumer<ThemeProvider>(
-              builder: (context, themeProvider, child) {
-            WidgetsBinding.instance.window.onPlatformBrightnessChanged = () {
-              themeProvider.systemBrightness =
-                  WidgetsBinding.instance.window.platformBrightness;
-              themeProvider.onSystemBrightnessChange();
-            };
-            return MaterialApp(
-              useInheritedMediaQuery: true,
-              locale: DevicePreview.locale(context),
-              builder: DevicePreview.appBuilder,
-              title: 'Pulsar',
-              debugShowCheckedModeBanner: false,
-              initialRoute: '/',
-              theme: lightTheme,
-              darkTheme: darkTheme,
-              themeMode: themeProvider.themeMode,
-              scrollBehavior: MyScrollBehavior(),
-              routes: {
-                '/': (context) => loginProvider.loggedIn!
-                    ? const BasicRoot()
-                    : const IntroPage(),
-              },
-            );
+        return Consumer<LocalizationProvider>(
+            builder: (context, localizationProvider, _) {
+          return Consumer<LoginProvider>(builder: (context, loginProvider, _) {
+            return Consumer<ThemeProvider>(
+                builder: (context, themeProvider, _) {
+              View.of(context).platformDispatcher.onPlatformBrightnessChanged =
+                  () {
+                themeProvider.systemBrightness =
+                    View.of(context).platformDispatcher.platformBrightness;
+                themeProvider.onSystemBrightnessChange();
+              };
+              return MaterialApp(
+                // locale: DevicePreview.locale(context),
+                // builder: DevicePreview.appBuilder,
+                title: 'Pulsar',
+                debugShowCheckedModeBanner: false,
+                initialRoute: '/',
+                theme: lightTheme,
+                darkTheme: darkTheme,
+                themeMode: themeProvider.themeMode,
+                scrollBehavior: MyScrollBehavior(),
+                routes: {
+                  '/': (context) => loginProvider.loggedIn!
+                      ? const BasicRoot()
+                      : const IntroPage(),
+                },
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                locale: localizationProvider.locale,
+                supportedLocales: AppLocalizations.supportedLocales,
+              );
+            });
           });
         });
       },

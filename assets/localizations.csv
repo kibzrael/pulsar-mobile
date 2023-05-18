@@ -1,0 +1,147 @@
+key,en,sw
+skip,Skip,Ruka
+next,Next,Ifuatayo
+introTitle1,Enjoy content that matches your interests.,Furahia maudhui yanayolingana na mambo yanayokuvutia.
+introTitle2,Share your skills and talent with the world.,Shiriki ujuzi na talanta yako na ulimwengu.
+introTitle3,Join Challenges to earn points and win prizes.,Jiunge na Changamoto ili kupata pointi na kushinda zawadi.
+username,Username,Jina la mtumiaji
+email,Email,Barua Pepe
+phone,Phone,Simu
+password,Password,Nenosiri
+continueWith,Continue with,Endelea na
+signupWith,Signup with,Jisajili na
+loginWith,Login with,Ingia na
+privacyPolicy,Privacy Policy,Sera ya Faragha
+termsOfUse,Terms of use,Masharti ya matumizi
+and,and,na
+or,or,ama
+policyAgreement,By joining you agree to our,Kwa kujiunga unakubali
+register,Register,Sajili
+show,Show,Onyesha
+hide,Hide,Ficha
+theme,Theme,Mandhari
+language,Language,Lugha
+login,Login,Ingia
+loginToggle,Already have an account?,"Je, tayari una akaunti?"
+signupToggle,Don't have an account?,"Je, huna akaunti?"
+forgotPassword,Forgot Password?,Umesahau Nenosiri?
+recoverAccount,Recover Account,Rejesha Akaunti
+recoverAccountTitle,Select the account to recover. Recover using either email or phone.,Chagua akaunti ya kurejesha. Rejesha kwa kutumia barua pepe au simu.
+confirm,Confirm,Thibitisha
+systemDefault,System Default,Chaguomsingi ya Mfumo
+lightTheme,Light Theme,Mandhari ya Mwanga
+darkTheme,Dark Theme,Mandhari ya Giza
+home,Home,Nyumbani
+challenges,"{count, plural, =0{Challenges} =1{Challenge} other{Challenges}}",Changamoto
+activity,Activity,Shughuli
+account,Account,Akaunti
+following,Following,Kufuatia
+discover,Discover,Gundua
+forYou,For You,Kwa ajili yako
+trending,Trending,Mwelekeo
+recent,Recent,Hivi karibuni
+challengesTitle,Join Challenges And Earn Points,Jiunge na changamoto na upate alama
+searchPulsar,Search Pulsar,Tafuta Pulsar
+searchUsers,Search Users,Tafuta Watumiaji
+searchChallenges,Search Challenges,Tafuta Changamota
+searchCategories,Search Categories,Tafuta Kategoria
+search,Search,Tafuta
+noContent,No Content,Hakuna yaliyomo
+noResults,No results found,Hakuna matokeo yaliyopatikana
+top3Chart,Top 3 Chart,Chati ya juu 3
+newHighlight,New Highlight,Kuonyesha mpya
+pins,"{count, plural, =0{Pins} =1{Pin} other{Pins}}",Pini
+pinned,Pinned,Iliyoandikwa
+join,Join,Jiunge
+posts,"{count, plural, =0{Posts} =1{Post} other{Posts}}","{count, plural, =0{Machapisho} =1{Chapisho} other{Machapisho}}"
+shareChallenge,Share challenge with,Shiriki changamoto na
+message,Message,Ujumbe
+copyLink,Copy link,Nakili kiunga
+more,More,Zaidi
+postNotifications,Posts Notifications,Machapisho arifa
+report,Report,Ripoti
+originalAudio,Original Audio,Sauti ya asili
+makeAComment,Make a comment,Toa maoni
+replyingTo,replying to,Kujibu
+download,Download,Pakua
+notInterested,Not Interested,Sio nia
+block,Block,Block
+leaderboard,Leaderboard,Ubao wa kiongozi
+you,You,Wewe
+points,Points,Vidokezo
+all,All,Zote
+followers,"{count, plural, =0{Followers} =1{Follower} other{Followers}}","{count, plural, =0{Wafuasi} =1{Mfuasi} other{Wafuasi}}"
+likes,"{count, plural, =0{Likes} =1{Like} other{Likes}}",Pendo
+comments,"{count, plural, =0{Comments} =1{Comment} other{Comments}}",Maoni
+reposts,"{count, plural, =0{Reposts} =1{Repost} other{Reposts}}","{count, plural, =0{Reposts} =1{Repost} other{Reposts}}"
+follow,Follow,Fuata
+following,Following,Kufuatia
+followNotification,Followed you,Alikufuata
+commentNotification,Commented on your post,Alitoa maoni juu ya chapisho lako
+likeNotification,Liked your post,Alipenda chapisho lako
+repostNotification,Reposted your post,Ilirudisha chapisho lako
+editProfile,Edit Profile,Hariri wasifu
+promote,Promote,Kuongeza
+notImplemented,Not Implemented,Haijatekelezwa
+notImplementedDescription,This page will be available in the next release,Ukurasa huu utapatikana katika toleo linalofuata
+shareUser,Share user {username} with,Shiriki mtumiaji {username} na
+sharePost,Share post with,Shiriki chapisho na
+fullName,Full Name,Jina kamili
+bio,Bio,Bio
+website,Website,Tovuti
+additionalInfo,Additional Information,Taarifa za ziada
+category,Category,Kategoria
+interests,Interests,Maslahi
+birthday,Birthday,Siku ya kuzaliwa
+interestsTitle,Select the fields you are interested in,Chagua shamba unazopendezwa
+categoryTitle,Who do you consider yourself to be?,Je! Unajiona kuwa nani?
+birthdayTitle,For personalized content. This info will be kept private,Kwa yaliyomo kibinafsi. Maelezo haya yatahifadhiwa faragha
+done,Done,Imekamilika
+update,Update,Sasisha
+usernameTitle,Enter the username you'd like to use.,Ingiza jina la mtumiaji ungependa kutumia.
+changeUsername,Change username,Badilisha jina la mtumiaji
+usernameDescription,"Only letters, numbers, underscores(_) and periods (.) are allowed","Barua tu, nambari, underscores (_) na vipindi (.) Vinaruhusiwa"
+settings,Settings,Mipangilio
+manageAccount,Manage Account,Dhibiti akaunti
+billing,Billing,Bili
+displayAndMedia,Display & Media,Onyesha & Media
+dataSaver,Data Saver,Saver ya data
+drafts,Drafts,Rasimu
+support,Support,Msaada
+privacy,Privacy,Faragha
+policies,Policies,Sera
+clearCache,Clear Cache,Wazi kache
+logOut,Log out,Ingia nje
+changePassword,Change Password,Badilisha neno la siri
+issue,Issue,Suala
+inappropriate,Inappropriate,Haifai
+issueTitle,"Report an error in the app, or a crash.","Ripoti kosa katika programu, au ajali."
+inappropriateTitle,Report a user or post that violated the rules of the app.,Ripoti mtumiaji au chapisho ambalo lilikiuka sheria za programu.
+attachment,Attachment,Kiambatisho
+description,Description,Maelezo
+users,"{count, plural, =0{Users} =1{User} other{Users}}","{count, plural, =0{Watumiaji} =1{Mtumiaji} other{Watumiaji}}"
+issueDescription,"Briefly explain the situation you are facing. If any, suggest a way to fix it to meet your needs.","Fafanua kwa kifupi hali unayokabili. Ikiwa ipo, pendekeza njia ya kurekebisha ili kukidhi mahitaji yako."
+inappropriateDescription,Briefly explain the situation you are facing. Expound on how it affects you and measures to be taken to resolve it.,Fafanua kwa kifupi hali unayokabili. Fafanua jinsi inavyoathiri wewe na hatua za kuchukuliwa ili kuisuluhisha.
+cancel,Cancel,Ghairi
+logoutDescription,Confirm that you want to log out,Thibitisha kuwa unataka kutoka
+flash,Flash,Flash
+on,on,on
+off,off,off
+timer,Timer,Kipima muda
+filters,Filters,Chujio
+sounds,Sounds,Sauti
+upload,Upload,Pakia
+trim,Trim,Punguza
+rotate,Rotate,Zungusha
+voiceover,Voiceover,Sauti
+cover,Cover,Kijipicha
+caption,Caption,Maelezo mafupi
+hashtag,Hashtag,Alama ya reli
+person,Person,Mtumiaji
+tags,"{count, plural, =0{Tags} =1{Tag} other{Tags}}","{count, plural, =0{Vitambulisho} =1{Kitambulisho} other{Vitambulisho}}"
+allowComments,Allow Comments,Ruhusu maoni
+saveVideo,Save video on Device,Hifadhi video kwenye kifaa
+selectTags,Select tags for your post,Chagua vitambulisho kwa chapisho lako
+preview,Preview,Hakikisho
+yesterday,Yesterday,Jana
+now,now,Sasa

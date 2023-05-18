@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
@@ -26,13 +27,13 @@ class _SelectThemeState extends State<SelectTheme> {
     themeProvider = Provider.of<ThemeProvider>(context);
     value = themeProvider.themeValue;
     return Scaffold(
-      appBar: AppBar(title: const Text('Theme')),
+      appBar: AppBar(title: Text(local(context).theme)),
       body: Consumer<ThemeProvider>(
         builder: (context, provider, child) {
           return Column(
             children: [
               MyListTile(
-                title: 'System Default',
+                title: local(context).systemDefault,
                 trailingArrow: false,
                 onPressed: () => themeSwitch(0),
                 trailing: Radio<int>(
@@ -43,7 +44,7 @@ class _SelectThemeState extends State<SelectTheme> {
                     }),
               ),
               MyListTile(
-                title: 'Light Theme',
+                title: local(context).lightTheme,
                 trailingArrow: false,
                 onPressed: () => themeSwitch(1),
                 trailing: Radio<int>(
@@ -54,7 +55,7 @@ class _SelectThemeState extends State<SelectTheme> {
                     }),
               ),
               MyListTile(
-                title: 'Dark Theme',
+                title: local(context).darkTheme,
                 trailingArrow: false,
                 onPressed: () => themeSwitch(2),
                 trailing: Radio<int>(

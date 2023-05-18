@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -83,8 +84,9 @@ class _SignupPageState extends State<SignupPage>
                   token: response.body!['user']['jwtToken'],
                   user: response.body!['user'])
               .then((_) {
-            Navigator.of(context, rootNavigator: true).pushReplacement(
-                myPageRoute(builder: (context) => const SignInfo()));
+            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                myPageRoute(builder: (context) => const SignInfo()),
+                (route) => false);
           });
         });
 
@@ -148,9 +150,9 @@ class _SignupPageState extends State<SignupPage>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Register',
-                          style: TextStyle(
+                        Text(
+                          local(context).register,
+                          style: const TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.w600,
                           ),
@@ -174,7 +176,7 @@ class _SignupPageState extends State<SignupPage>
                         horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
-                        hintText: 'Email',
+                        hintText: local(context).email,
                         controller: emailController,
                         focusNode: emailNode,
                         keyboardType: TextInputType.emailAddress,
@@ -187,7 +189,7 @@ class _SignupPageState extends State<SignupPage>
                       ),
                       const SizedBox(height: 15),
                       LogTextInput(
-                        hintText: 'Username',
+                        hintText: local(context).username,
                         controller: usernameController,
                         focusNode: usernameNode,
                         max: 15,
@@ -200,7 +202,7 @@ class _SignupPageState extends State<SignupPage>
                       ),
                       const SizedBox(height: 15),
                       LogTextInput(
-                        hintText: 'Password',
+                        hintText: local(context).password,
                         isPassword: true,
                         obscureText: true,
                         controller: passwordController,
@@ -223,7 +225,7 @@ class _SignupPageState extends State<SignupPage>
                     margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
-                      title: 'Register',
+                      title: local(context).register,
                       onPressed: signup,
                       inputs: inputs,
                     ),
@@ -231,7 +233,8 @@ class _SignupPageState extends State<SignupPage>
                   // const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: LinkedAccountLogin(loginProvider, text: 'Signup'),
+                    child: LinkedAccountLogin(loginProvider,
+                        text: local(context).signupWith),
                   ),
                   // const Spacer(),
                   ToggleAuthScreen(

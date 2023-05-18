@@ -1,0 +1,1 @@
+flutter pub get && flutter pub run arb_generator && flutter gen-l10n

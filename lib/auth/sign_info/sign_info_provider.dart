@@ -148,8 +148,10 @@ class SignInfoProvider extends ChangeNotifier {
                   loginProvider
                       .signup(context, token: token ?? '', user: data['user'])
                       .then((_) {
-                    Navigator.of(context, rootNavigator: true).pushReplacement(
-                        myPageRoute(builder: (context) => const SignInfo()));
+                    Navigator.of(context, rootNavigator: true)
+                        .pushAndRemoveUntil(
+                            myPageRoute(builder: (context) => const SignInfo()),
+                            (route) => false);
                   });
                 } else if (response.statusCode == 422) {
                   var data = jsonDecode(response.body);

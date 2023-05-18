@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:provider/provider.dart';
+import 'package:pulsar/providers/localization_provider.dart';
+import 'package:pulsar/widgets/list_tile.dart';
 
 class Language extends StatefulWidget {
   const Language({Key? key}) : super(key: key);
@@ -9,43 +11,58 @@ class Language extends StatefulWidget {
 }
 
 class _LanguageState extends State<Language> {
-  List<String> languages = [
-    'English',
-    'French',
-    'German',
-    'Indian',
-    'Italian',
-    'Spanish',
-  ];
-  String language = 'English';
+  late LocalizationProvider provider;
+
+  List<String> flags = ['🇬🇧', '🇰🇪'];
+
+  Map<String, String> languages = {
+    'en': 'English',
+    'sw': 'Swahili',
+  };
+
+  late String language;
+
+  @override
+  void initState() {
+    super.initState();
+    provider = Provider.of<LocalizationProvider>(context, listen: false);
+    language = provider.locale.languageCode;
+  }
+
+  void languageSwitch(int index) {
+    setState(() {
+      language = languages.keys.elementAt(index);
+      provider.setLocale(Locale(language));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<LocalizationProvider>(context);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Select Language'),
-        ),
-        body: const NotImplementedError()
-        //  ListView.builder(
-        //   itemCount: languages.length,
-        //   shrinkWrap: true,
-        //   itemBuilder: (context, index) {
-        //     return MyListTile(
-        //       title: languages[index],
-        //       leading: Icon(
-        //         MyIcons.language,
-        //         color: Theme.of(context).textTheme.titleSmall!.color,
-        //       ),
-        //       onPressed: () {
-        //         setState(() {
-        //           language = languages[index];
-        //         });
-        //       },
-        //       trailingArrow: false,
-        //       trailing: languages[index] == language ? Icon(MyIcons.check) : null,
-        //     );
-        //   },
-        // ),
-        );
+      appBar: AppBar(
+        title: Text(local(context).language),
+      ),
+      body: ListView.builder(
+        itemCount: languages.length,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return MyListTile(
+            title: languages.values.elementAt(index),
+            leading: Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Text(flags[index],
+                  style: Theme.of(context).textTheme.titleLarge),
+            ),
+            onPressed: () => languageSwitch(index),
+            trailingArrow: false,
+            trailing: Radio<String>(
+                value: languages.keys.elementAt(index),
+                groupValue: language,
+                onChanged: (value) => languageSwitch(index)),
+          );
+        },
+      ),
+    );
   }
 }

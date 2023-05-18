@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/divider.dart';
@@ -135,7 +136,10 @@ class _LogTextInputState extends State<LogTextInput> {
                           child: ShaderMask(
                             shaderCallback: (bounds) =>
                                 primaryGradient().createShader(bounds),
-                            child: Text(passwordObscure ? 'Show' : 'Hide',
+                            child: Text(
+                                passwordObscure
+                                    ? local(context).show
+                                    : local(context).hide,
                                 style: const TextStyle(
                                     fontSize: 16.5,
                                     color: Colors.white,
@@ -177,11 +181,11 @@ class ToggleAuthScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            isLogin ? "Don't have an account?" : 'Already have an account?',
+            isLogin ? local(context).loginToggle : local(context).signupToggle,
             style: const TextStyle(fontSize: 16.5),
           ),
           MyTextButton(
-              text: isLogin ? 'Signup' : 'Login',
+              text: isLogin ? local(context).register : local(context).login,
               onPressed: () {
                 onChange(isLogin ? 1 : 0);
               })
@@ -250,7 +254,7 @@ class LinkedAccountLogin extends StatelessWidget {
       {Key? key,
       this.color,
       this.dividerColor,
-      this.text = 'Login',
+      required this.text,
       this.divider = true})
       : super(key: key);
 
@@ -326,7 +330,7 @@ class LinkedAccountWidget extends StatelessWidget {
             const SizedBox(width: 30),
             Expanded(
                 child: Text(
-              '$text with $name',
+              '$text $name',
               style: Theme.of(context)
                   .textTheme
                   .displayLarge!

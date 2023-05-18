@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -67,7 +68,7 @@ class _SelectAccountState extends State<SelectAccount> {
               Navigator.pop(context);
             },
           ),
-          title: const Text('Recover Account'),
+          title: Text(local(context).recoverAccount),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -76,13 +77,14 @@ class _SelectAccountState extends State<SelectAccount> {
               child: Column(
                 children: [
                   Text(
-                    'Select the account to recover. Recover using either email or phone.',
+                    local(context).recoverAccountTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const Spacer(flex: 2),
                   MyTextInput(
-                    hintText: 'Username/Phone/Email',
+                    hintText:
+                        '${local(context).phone} / ${local(context).email}',
                     onChanged: (text) => info = text,
                     onSubmitted: (text) {
                       info = text;
@@ -91,7 +93,7 @@ class _SelectAccountState extends State<SelectAccount> {
                   ),
                   const Spacer(flex: 1),
                   AuthButton(
-                    title: 'Confirm',
+                    title: local(context).confirm,
                     onPressed: recover,
                     isSubmitting: isSubmitting,
                     inputs: [info],

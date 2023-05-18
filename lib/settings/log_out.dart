@@ -37,7 +37,7 @@ class _LogOutState extends State<LogOut> {
           ).then((response) {
             if (response == 'Log out') {
               loginProvider!.logout(context);
-              Navigator.pop(context);
+              // Navigator.pop(context);
             }
           });
         },

@@ -1,8 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/auth.dart';
 import 'package:pulsar/auth/widgets.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
+import 'package:pulsar/settings/policies/privacy_policy.dart';
+import 'package:pulsar/settings/policies/terms_of_use.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/divider.dart';
 import 'package:pulsar/widgets/logo.dart';
@@ -16,6 +20,31 @@ class IntroAuth extends StatefulWidget {
 }
 
 class _IntroAuthState extends State<IntroAuth> {
+  late TapGestureRecognizer privacyPolicyRecognizer;
+  late TapGestureRecognizer termsOfUseRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    privacyPolicyRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        Navigator.of(context)
+            .push(myPageRoute(builder: (context) => const PrivacyPolicy()));
+      };
+    termsOfUseRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        Navigator.of(context)
+            .push(myPageRoute(builder: (context) => const TermsOfUse()));
+      };
+  }
+
+  @override
+  void dispose() {
+    privacyPolicyRecognizer.dispose();
+    termsOfUseRecognizer.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     LoginProvider provider = Provider.of<LoginProvider>(context);
@@ -34,7 +63,8 @@ class _IntroAuthState extends State<IntroAuth> {
                 style: Theme.of(context).textTheme.displayLarge?.copyWith(
                     fontStyle: FontStyle.italic, fontWeight: FontWeight.w500)),
             const Spacer(flex: 2),
-            LinkedAccountLogin(provider, divider: false, text: 'Continue'),
+            LinkedAccountLogin(provider,
+                divider: false, text: local(context).continueWith),
             const Spacer(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
@@ -44,13 +74,16 @@ class _IntroAuthState extends State<IntroAuth> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: ActionButton(
-                title: 'Continue with Email/Phone',
+                title:
+                    '${local(context).continueWith} ${local(context).email}/${local(context).phone}',
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(myPageRoute(
-                    builder: (context) => const AuthScreen(
-                      initialPage: 1,
-                    ),
-                  ));
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                      myPageRoute(
+                        builder: (context) => const AuthScreen(
+                          initialPage: 1,
+                        ),
+                      ),
+                      (route) => false);
                 },
               ),
             ),
@@ -60,17 +93,19 @@ class _IntroAuthState extends State<IntroAuth> {
               child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      text: 'By joining you agree to our ',
+                      text: '${local(context).policyAgreement} ',
                       style: Theme.of(context).textTheme.titleSmall,
                       children: [
                         TextSpan(
-                            text: 'Privacy Policy',
+                            text: local(context).privacyPolicy,
+                            recognizer: privacyPolicyRecognizer,
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 decoration: TextDecoration.underline)),
-                        const TextSpan(text: ' and '),
+                        TextSpan(text: ' ${local(context).and} '),
                         TextSpan(
-                            text: 'Terms of Use.',
+                            text: '${local(context).termsOfUse}.',
+                            recognizer: termsOfUseRecognizer,
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 decoration: TextDecoration.underline))

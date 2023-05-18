@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -101,7 +102,7 @@ class SlideTemplate extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MyTextButton(
-                        text: 'Skip',
+                        text: local(context).skip,
                         color: Theme.of(context).colorScheme.error,
                         onPressed: () {
                           if (onSkip != null) {
@@ -109,7 +110,7 @@ class SlideTemplate extends StatelessWidget {
                           }
                         }),
                     ActionButton(
-                      title: 'Next',
+                      title: local(context).next,
                       width: 100,
                       height: 42,
                       onPressed: () {

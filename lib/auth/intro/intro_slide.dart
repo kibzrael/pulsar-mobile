@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/intro/slide_template.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class IntroSlide extends StatefulWidget {
   final int index;
@@ -23,7 +24,7 @@ class _IntroSlideState extends State<IntroSlide> {
   Widget build(BuildContext context) {
     return SlideTemplate(
       illustration: 'assets/illustrations/music.svg',
-      title: 'Enjoy content that matches your interests.',
+      title: local(context).introTitle1,
       description:
           'Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
       index: widget.index,

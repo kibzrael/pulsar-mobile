@@ -52,7 +52,8 @@ class LoginProvider extends ChangeNotifier {
               user: response.body!['user']);
           Future.delayed(const Duration(milliseconds: 300)).then((value) {
             _loggedIn = true;
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context, rootNavigator: true)
+                .pushNamedAndRemoveUntil('/', (route) => false);
 
             notifyListeners();
           });
@@ -101,7 +102,8 @@ class LoginProvider extends ChangeNotifier {
           saveLogin(context,
               token: data['user']['jwtToken'], user: data['user']);
           _loggedIn = true;
-          Navigator.of(context).pushReplacementNamed('/');
+          Navigator.of(context, rootNavigator: true)
+              .pushNamedAndRemoveUntil('/', (route) => false);
           notifyListeners();
         } else if (response.statusCode == 404) {
           SignInfoProvider provider =
@@ -141,7 +143,8 @@ class LoginProvider extends ChangeNotifier {
             saveLogin(context,
                 token: data['user']['jwtToken'], user: data['user']);
             _loggedIn = true;
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context, rootNavigator: true)
+                .pushNamedAndRemoveUntil('/', (route) => false);
             notifyListeners();
           } else if (response.statusCode == 404) {
             SignInfoProvider provider =
@@ -200,7 +203,10 @@ class LoginProvider extends ChangeNotifier {
     Database db =
         await openDatabase(join(await getDatabasesPath(), 'pulsar.db'));
 
-    await db.delete('users');
+    await db.delete('users').then((_) {
+      Navigator.of(context, rootNavigator: true)
+          .pushNamedAndRemoveUntil('/', (route) => false);
+    });
     notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class TermsOfUse extends StatefulWidget {
   const TermsOfUse({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _TermsOfUseState extends State<TermsOfUse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Terms of Use')),
+        appBar: AppBar(title: Text(local(context).termsOfUse)),
         body: const NotImplementedError());
   }
 }

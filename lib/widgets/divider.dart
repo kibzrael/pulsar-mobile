@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class MyDivider extends StatelessWidget {
   final Color? color;
@@ -17,11 +18,12 @@ class MyDivider extends StatelessWidget {
               height: 1,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
-              'or',
-              style: TextStyle(fontSize: 16.5, fontWeight: FontWeight.w500),
+              local(context).or,
+              style:
+                  const TextStyle(fontSize: 16.5, fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(

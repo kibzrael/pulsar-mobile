@@ -21,11 +21,13 @@ class _WrapperState extends State<Wrapper> {
     if (loggedIn != null) {
       if (loggedIn != provider.loggedIn) {
         if (provider.loggedIn == false) {
-          Navigator.of(context).pushReplacement(
-              myPageRoute(builder: (context) => const IntroPage()));
+          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+              myPageRoute(builder: (context) => const IntroPage()),
+              (route) => false);
         } else if (provider.loggedIn == true) {
-          Navigator.of(context).pushReplacement(
-              myPageRoute(builder: (context) => const BasicRoot()));
+          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+              myPageRoute(builder: (context) => const BasicRoot()),
+              (route) => false);
         }
       }
     }

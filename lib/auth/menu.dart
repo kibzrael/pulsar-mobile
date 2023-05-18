@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/settings/language.dart';
 import 'package:pulsar/settings/policies/privacy_policy.dart';
 import 'package:pulsar/settings/policies/terms_of_use.dart';
@@ -20,7 +21,7 @@ class AuthMenu extends StatelessWidget {
         shrinkWrap: true,
         children: [
           MyListTile(
-            title: 'Language',
+            title: local(context).language,
             leading: Icon(MyIcons.language),
             onPressed: () {
               Navigator.of(context)
@@ -28,7 +29,7 @@ class AuthMenu extends StatelessWidget {
             },
           ),
           MyListTile(
-            title: 'Theme',
+            title: local(context).theme,
             leading: Icon(MyIcons.theme),
             onPressed: () {
               Navigator.of(context)
@@ -36,7 +37,7 @@ class AuthMenu extends StatelessWidget {
             },
           ),
           MyListTile(
-            title: 'Terms of use',
+            title: local(context).termsOfUse,
             leading: Icon(MyIcons.terms),
             onPressed: () {
               Navigator.of(context)
@@ -44,7 +45,7 @@ class AuthMenu extends StatelessWidget {
             },
           ),
           MyListTile(
-            title: 'Privacy Policy',
+            title: local(context).privacyPolicy,
             leading: Icon(MyIcons.policies),
             onPressed: () {
               Navigator.of(context).push(

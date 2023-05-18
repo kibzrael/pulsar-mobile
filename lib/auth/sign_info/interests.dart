@@ -34,7 +34,8 @@ class _InterestsPageState extends State<InterestsPage>
         return;
       }),
     ).then((_) {
-      Navigator.of(context).pushReplacementNamed('/');
+      Navigator.of(context, rootNavigator: true)
+          .pushNamedAndRemoveUntil('/', (route) => false);
     });
     return;
   }

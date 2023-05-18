@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/intro/slide_template.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class SecondSlide extends StatefulWidget {
   final int index;
@@ -23,7 +24,7 @@ class _SecondSlideState extends State<SecondSlide> {
   Widget build(BuildContext context) {
     return SlideTemplate(
       illustration: 'assets/illustrations/art.svg',
-      title: 'Share your skills and talent with the world.',
+      title: local(context).introTitle2,
       description:
           'Lorem Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
       index: widget.index,

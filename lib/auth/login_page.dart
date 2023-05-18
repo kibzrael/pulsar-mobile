@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/menu.dart';
 import 'package:pulsar/auth/recover_account/recover_account.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -113,9 +114,9 @@ class _LoginPageState extends State<LoginPage>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Login',
-                          style: TextStyle(
+                        Text(
+                          local(context).login,
+                          style: const TextStyle(
                             fontSize: 36,
                             fontWeight: FontWeight.w600,
                           ),
@@ -139,7 +140,8 @@ class _LoginPageState extends State<LoginPage>
                         horizontal: 15, vertical: 12),
                     child: Column(children: [
                       LogTextInput(
-                        hintText: 'Username/ Email',
+                        hintText:
+                            '${local(context).username} / ${local(context).email}',
                         controller: userController,
                         focusNode: userNode,
                         onFieldSubmitted: (_) {
@@ -151,7 +153,7 @@ class _LoginPageState extends State<LoginPage>
                       ),
                       const SizedBox(height: 15),
                       LogTextInput(
-                        hintText: 'Password',
+                        hintText: local(context).password,
                         isPassword: true,
                         obscureText: true,
                         controller: passwordController,
@@ -173,7 +175,7 @@ class _LoginPageState extends State<LoginPage>
                             height: 50,
                             alignment: Alignment.topRight,
                             child: MyTextButton(
-                              text: 'Forgot Password?',
+                              text: local(context).forgotPassword,
                               onPressed: onForgotPassword,
                             ),
                           ))
@@ -183,7 +185,7 @@ class _LoginPageState extends State<LoginPage>
                     margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: AuthButton(
                       isSubmitting: isSubmitting,
-                      title: "Login",
+                      title: local(context).login,
                       onPressed: login,
                       inputs: inputs,
                     ),
@@ -191,7 +193,8 @@ class _LoginPageState extends State<LoginPage>
                   // const Spacer(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: LinkedAccountLogin(loginProvider),
+                    child: LinkedAccountLogin(loginProvider,
+                        text: local(context).loginWith),
                   ),
                   // const Spacer(),
                   ToggleAuthScreen(
