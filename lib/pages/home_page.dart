@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/pages/route_observer.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/secondary_pages.dart/discover_posts.dart';
 import 'package:pulsar/secondary_pages.dart/following_posts.dart';
@@ -101,7 +102,7 @@ class _RootHomePageState extends State<RootHomePage>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SegmentObject(
-                    'Following',
+                    local(context).following,
                     0,
                     pageIndex: pageIndex,
                     onPressed: onPageChanged,
@@ -113,7 +114,7 @@ class _RootHomePageState extends State<RootHomePage>
                     color: Colors.white54,
                   ),
                   SegmentObject(
-                    'Discover',
+                    local(context).discover,
                     1,
                     pageIndex: pageIndex,
                     onPressed: onPageChanged,

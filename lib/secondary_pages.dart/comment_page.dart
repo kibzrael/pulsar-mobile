@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/comment.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -10,6 +10,7 @@ import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/models/comment_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -173,10 +174,9 @@ class _CommentPageState extends State<CommentPage> {
                       return data.isEmpty
                           ? snapshot.errorLoading
                               ? snapshot.noData
-                                  ? const NoPosts(
+                                  ? NoPosts(
                                       alignment: Alignment.center,
-                                      message:
-                                          "No comments, be the first to comment below.",
+                                      message: local(context).noComment,
                                     )
                                   : NetworkError(
                                       onRetry: snapshot.refreshCallback)
@@ -237,13 +237,15 @@ class _CommentPageState extends State<CommentPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             RichText(
-                              text: TextSpan(text: 'replying to', children: [
-                                TextSpan(
-                                    text: ' @${replyTo?.user.username}',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16.5))
-                              ]),
+                              text: TextSpan(
+                                  text: local(context).replyingTo,
+                                  children: [
+                                    TextSpan(
+                                        text: ' @${replyTo?.user.username}',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16.5))
+                                  ]),
                             ),
                             Text(
                               replyTo!.comment,
@@ -271,7 +273,7 @@ class _CommentPageState extends State<CommentPage> {
                   children: [
                     Flexible(
                       child: MyTextInput(
-                        hintText: 'Make a comment...',
+                        hintText: '${local(context).makeAComment}...',
                         maxLines: 7,
                         height: null,
                         controller: commentController,

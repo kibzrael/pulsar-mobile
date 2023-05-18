@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
@@ -14,6 +14,7 @@ import 'package:pulsar/options/user_options.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -189,11 +190,11 @@ class _ProfilePageState extends State<ProfilePage>
                               Theme.of(context).unselectedWidgetColor,
                           tabs: <Widget>[
                             CustomTab(
-                              'Posts',
+                              local(context).posts(0),
                               icon: MyIcons.posts,
                             ),
                             CustomTab(
-                              'Reposts',
+                              local(context).reposts(0),
                               icon: MyIcons.repost,
                               divider: false,
                             )

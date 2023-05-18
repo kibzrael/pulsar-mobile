@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class NotImplementedError extends StatelessWidget {
   const NotImplementedError({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class NotImplementedError extends StatelessWidget {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      'Not Implemented',
+                      local(context).notImplemented,
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -35,7 +36,7 @@ class NotImplementedError extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'This page will be available in the next release',
+                  local(context).notImplementedDescription,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

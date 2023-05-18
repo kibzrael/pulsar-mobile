@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_birthday.dart';
 
 class BirthdayPage extends StatefulWidget {
@@ -31,13 +32,12 @@ class _BirthdayPageState extends State<BirthdayPage>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-          appBar: signInfoAppBar(
-              title: 'Birthday',
-              onBack: provider.previousPage,
-              onForward: () {
-                if (selected) provider.user.birthday = selectedDate;
-                provider.nextPage();
-              }),
+          appBar: signInfoAppBar(context,
+              title: local(context).birthday,
+              onBack: provider.previousPage, onForward: () {
+            if (selected) provider.user.birthday = selectedDate;
+            provider.nextPage();
+          }),
           body: SelectBirthday(
               initialDate: provider.user.birthday,
               onSelected: (date) {

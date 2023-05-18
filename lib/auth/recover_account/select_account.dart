@@ -27,14 +27,7 @@ class _SelectAccountState extends State<SelectAccount> {
     await recoverAccountProvider.recoverAccount(info).then((response) {
       setState(() => isSubmitting = false);
       if (response.statusCode == 200) {
-        openDialog(
-            context,
-            (context) => MyDialog(
-                title: statusCodes[response.statusCode]!,
-                body: response.body.toString(),
-                actions: const ['Ok'])).then((_) {
-          recoverAccountProvider.nextPage();
-        });
+        recoverAccountProvider.nextPage();
         return;
       }
 

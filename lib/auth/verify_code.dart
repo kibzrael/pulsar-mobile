@@ -4,6 +4,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
@@ -57,11 +58,10 @@ class _VerifyCodeState extends State<VerifyCode> {
     } else {
       openDialog(
         context,
-        (context) => const MyDialog(
-          title: 'Invalid',
-          body:
-              'The code entered does not match the one sent. Please try again.',
-          actions: ['Ok'],
+        (context) => MyDialog(
+          title: local(context).invalid,
+          body: local(context).codeMatchError,
+          actions: [local(context).ok],
         ),
       );
     }
@@ -95,7 +95,7 @@ class _VerifyCodeState extends State<VerifyCode> {
               }
             },
           ),
-          title: const Text('Recovery Code'),
+          title: Text(local(context).recoveryCode),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -108,7 +108,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                   child: widget.leading!,
                 ),
               Text(
-                'A code has been sent to ${widget.account}. Please enter the code below.',
+                local(context).recoveryCodeTitle(widget.account),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.displayLarge,
               ),
@@ -141,16 +141,14 @@ class _VerifyCodeState extends State<VerifyCode> {
               Align(
                 alignment: Alignment.centerRight,
                 child: MyTextButton(
-                    text: timeCountdown > 0
-                        ? "Resend Code in $timeCountdown"
-                        : "Resend Code",
+                    text: local(context).resendCode(timeCountdown),
                     fontSize: 16.5,
                     enabled: timeCountdown <= 0,
                     onPressed: resend),
               ),
               const Spacer(flex: 1),
               AuthButton(
-                title: 'Confirm',
+                title: local(context).confirm,
                 onPressed: verify,
                 inputs: [code],
               ),

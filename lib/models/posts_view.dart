@@ -65,8 +65,10 @@ class _PostsViewState extends State<PostsView> {
                     )
                   : snapshot.errorLoading
                       ? snapshot.noData
-                          ? widget.noData ?? const NoPosts()
-                          : NetworkError(onRetry: snapshot.refreshCallback)
+                          ? widget.noData ?? const Center(child: NoPosts())
+                          : Center(
+                              child: NetworkError(
+                                  onRetry: snapshot.refreshCallback))
                       : Container()
               : LayoutBuilder(builder: (context, constraints) {
                   double aspectRatio =

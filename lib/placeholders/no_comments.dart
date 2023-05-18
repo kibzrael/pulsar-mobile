@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class NoComments extends StatelessWidget {
   const NoComments({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class NoComments extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'No Comments',
+                    local(context).noComments,
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -34,7 +35,7 @@ class NoComments extends StatelessWidget {
                 ),
               ),
               Text(
-                'Be the first to comment...',
+                '${local(context).commentFirst}...',
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme

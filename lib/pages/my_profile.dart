@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/icons.dart';
@@ -11,6 +11,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/models/profile.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/promotion/promote.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/edit_profile.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
@@ -175,7 +176,7 @@ class _RootProfilePageState extends State<RootProfilePage>
                             children: [
                               Flexible(
                                 child: ActionButton(
-                                  title: 'Edit Profile',
+                                  title: local(context).editProfile,
                                   onPressed: () async {
                                     await Navigator.push(
                                         context,
@@ -209,9 +210,9 @@ class _RootProfilePageState extends State<RootProfilePage>
                                     alignment: Alignment.center,
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 5),
-                                    child: const Text(
-                                      'Promote',
-                                      style: TextStyle(
+                                    child: Text(
+                                      local(context).promote,
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
@@ -243,11 +244,11 @@ class _RootProfilePageState extends State<RootProfilePage>
                           Theme.of(context).unselectedWidgetColor,
                       tabs: <Widget>[
                         CustomTab(
-                          'Posts',
+                          local(context).posts(0),
                           icon: MyIcons.posts,
                         ),
                         CustomTab(
-                          'Reposts',
+                          local(context).reposts(0),
                           icon: MyIcons.repost,
                           divider: false,
                         )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/action_button.dart';
 
 class IntroduceYourself extends StatefulWidget {
@@ -118,7 +119,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Introduce\nYourself',
+                      local(context).introTitle,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
@@ -130,7 +131,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 8),
                       child: ActionButton(
-                        title: 'Solo',
+                        title: local(context).solo,
                         onPressed: () {
                           provider.user.userType = UserType.solo;
                           provider.nextPage();
@@ -141,7 +142,7 @@ class _IntroduceYourselfState extends State<IntroduceYourself> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 8),
                       child: ActionButton(
-                        title: 'Group',
+                        title: local(context).group,
                         onPressed: () {
                           provider.user.userType = UserType.group;
                           provider.nextPage();

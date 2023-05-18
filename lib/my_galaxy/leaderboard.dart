@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
@@ -16,6 +15,7 @@ import 'package:pulsar/info/info.dart';
 import 'package:pulsar/info/leaderboard.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/post_screen.dart';
@@ -78,7 +78,7 @@ class _LeaderboardState extends State<Leaderboard> {
     userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Leaderboard'),
+          title: Text(local(context).leaderboard),
           actions: [
             IconButton(
                 onPressed: () {
@@ -102,9 +102,9 @@ class _LeaderboardState extends State<Leaderboard> {
                         )
                       : snapshot.errorLoading
                           ? snapshot.noData
-                              ? const NoPosts(
+                              ? NoPosts(
                                   alignment: Alignment.center,
-                                  message: "There are no participants")
+                                  message: local(context).noParticipants)
                               : Center(
                                   child: NetworkError(
                                       onRetry: snapshot.refreshCallback))
@@ -175,7 +175,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                       child: SectionTitle(
                                         title: challenge.name,
                                         trailing: Text(
-                                          '${roundCount(challenge.posts)} post${challenge.posts == 1 ? '' : 's'}',
+                                          '${roundCount(challenge.posts)} ${local(context).posts(challenge.posts)}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall,
@@ -193,7 +193,7 @@ class _LeaderboardState extends State<Leaderboard> {
                             body: Column(
                               children: [
                                 MyListTile(
-                                  title: 'You',
+                                  title: local(context).you,
                                   subtitle: you['rank'] == 0
                                       ? 'N/A'
                                       : '${roundCount(you['points'])} points',
@@ -219,7 +219,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                             return MyListTile(
                                               title: '@${user.username}',
                                               subtitle:
-                                                  '${roundCount(post.points)} points',
+                                                  '${roundCount(post.points)} ${local(context).points}',
                                               onPressed: () {
                                                 Navigator.of(context).push(
                                                     myPageRoute(

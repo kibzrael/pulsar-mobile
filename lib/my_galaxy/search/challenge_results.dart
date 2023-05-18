@@ -4,6 +4,7 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/models/challenge_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 
@@ -35,9 +36,9 @@ class _ChallengeResultsState extends State<ChallengeResults> {
           return data.isEmpty
               ? snapshot.errorLoading
                   ? snapshot.noData
-                      ? const NoPosts(
+                      ? NoPosts(
                           alignment: Alignment.center,
-                          message: 'No results found')
+                          message: local(context).noResults)
                       : NetworkError(onRetry: snapshot.refreshCallback)
                   : const Center(child: MyProgressIndicator())
               : RefreshIndicator(

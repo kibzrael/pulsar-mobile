@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/auth/recover_account/recover_account_provider.dart';
+import 'package:pulsar/auth/widgets.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
@@ -31,10 +32,10 @@ class _ResetPasswordState extends State<ResetPassword> {
     if (password != confirmPassword) {
       openDialog(
         context,
-        (context) => const MyDialog(
-          title: 'Warning!',
-          body: "The two passwords you've entered do not match.",
-          actions: ['Ok'],
+        (context) => MyDialog(
+          title: local(context).warning,
+          body: local(context).passwordMatchDescription,
+          actions: [local(context).ok],
         ),
         dismissible: true,
       );
@@ -45,9 +46,11 @@ class _ResetPasswordState extends State<ResetPassword> {
         openDialog(
           context,
           (context) => MyDialog(
+            // TODO: localize titles
             title: statusCodes[response.statusCode]!,
+            // TODO: localize message
             body: response.body!['message'],
-            actions: const ['Ok'],
+            actions: [local(context).ok],
           ),
           dismissible: true,
         ).then((_) {
@@ -78,20 +81,19 @@ class _ResetPasswordState extends State<ResetPassword> {
                 recoverAccountProvider.previousPage();
               },
             ),
-            title: const Text('Reset Password')),
+            title: Text(local(context).resetPassword)),
         body: SingleChildScrollView(
             child: Container(
           height: size,
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Text(
-                  'Please enter your new password. Be sure to remember this one.',
+              Text(local(context).resetPasswordTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge),
               const Spacer(flex: 1),
               MyTextInput(
-                  hintText: 'Password',
+                  hintText: local(context).password,
                   obscureText: obscureText,
                   onChanged: (text) => setState(() => password = text),
                   onSubmitted: (text) {}),
@@ -103,7 +105,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      'Minimum of 6 characters.',
+                      local(context).passwordDescription,
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -116,7 +118,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 height: 15,
               ),
               MyTextInput(
-                  hintText: 'Confirm Password',
+                  hintText: local(context).confirmPassword,
                   obscureText: obscureText,
                   onChanged: (text) {
                     setState(() {
@@ -131,7 +133,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
                   child: Text(
-                    match ? '' : 'The passwords do not match!',
+                    match ? '' : local(context).passwordMatchError,
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           fontSize: 12,
                           color: Theme.of(context).colorScheme.error,
@@ -152,7 +154,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Show Password:',
+                        Text('${local(context).showPassword}:',
                             style: Theme.of(context).textTheme.titleLarge),
                         Checkbox(
                             value: !obscureText,
@@ -169,7 +171,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 flex: 1,
               ),
               AuthButton(
-                title: 'Reset',
+                title: local(context).reset,
                 isSubmitting: isSubmitting,
                 onPressed: onReset,
                 inputs: [password, confirmPassword],

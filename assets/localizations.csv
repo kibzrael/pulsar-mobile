@@ -27,6 +27,15 @@ signupToggle,Don't have an account?,"Je, huna akaunti?"
 forgotPassword,Forgot Password?,Umesahau Nenosiri?
 recoverAccount,Recover Account,Rejesha Akaunti
 recoverAccountTitle,Select the account to recover. Recover using either email or phone.,Chagua akaunti ya kurejesha. Rejesha kwa kutumia barua pepe au simu.
+recoveryCode,Recovery Code,Nambari ya uokoaji
+recoveryCodeTitle,A code has been sent to {email}. Please enter the code below.,Nambari imetumwa kwa {email}. Tafadhali ingiza nambari hapa chini.
+resendCode,"{count, plural, =0{Resend code} other{Resend code in {count}}}","{count, plural, =0{Tuma tena msimbo} other{Tuma tena msimbo baada ya {count}}}"
+resetPassword,Reset Password,Rudisha nywila
+resetPasswordTitle,Please enter your new password. Be sure to remember this one.,Tafadhali ingiza nenosiri yako mpya. Hakikisha kukumbuka hii.
+passwordDescription,Minimum of 6 characters.,Kiwango cha chini cha herufi 6.
+confirmPassword,Confirm Password,Thibitisha Nenosiri
+showPassword,Show Password,Onyesha Nenosiri
+reset,Reset,Rudisha
 confirm,Confirm,Thibitisha
 systemDefault,System Default,Chaguomsingi ya Mfumo
 lightTheme,Light Theme,Mandhari ya Mwanga
@@ -40,7 +49,7 @@ discover,Discover,Gundua
 forYou,For You,Kwa ajili yako
 trending,Trending,Mwelekeo
 recent,Recent,Hivi karibuni
-challengesTitle,Join Challenges And Earn Points,Jiunge na changamoto na upate alama
+challengesTitle,Join Challenges\nAnd Earn Points,Jiunge na changamoto\nna upate alama
 searchPulsar,Search Pulsar,Tafuta Pulsar
 searchUsers,Search Users,Tafuta Watumiaji
 searchChallenges,Search Challenges,Tafuta Changamota
@@ -48,6 +57,11 @@ searchCategories,Search Categories,Tafuta Kategoria
 search,Search,Tafuta
 noContent,No Content,Hakuna yaliyomo
 noResults,No results found,Hakuna matokeo yaliyopatikana
+noVideos,There are no videos here,Hakuna video hapa
+noActivity,You have no Activity,Huna shughuli
+noParticipants,There are no participants,Hakuna washiriki
+noConnection,No connection,Hakuna muunganisho
+tapToRetry,Tap to retry,Bonyeza kujaribu tena
 top3Chart,Top 3 Chart,Chati ya juu 3
 newHighlight,New Highlight,Kuonyesha mpya
 pins,"{count, plural, =0{Pins} =1{Pin} other{Pins}}",Pini
@@ -58,7 +72,7 @@ shareChallenge,Share challenge with,Shiriki changamoto na
 message,Message,Ujumbe
 copyLink,Copy link,Nakili kiunga
 more,More,Zaidi
-postNotifications,Posts Notifications,Machapisho arifa
+postNotifications,Posts Notifications,Arifa za Machapisho
 report,Report,Ripoti
 originalAudio,Original Audio,Sauti ya asili
 makeAComment,Make a comment,Toa maoni
@@ -98,7 +112,7 @@ categoryTitle,Who do you consider yourself to be?,Je! Unajiona kuwa nani?
 birthdayTitle,For personalized content. This info will be kept private,Kwa yaliyomo kibinafsi. Maelezo haya yatahifadhiwa faragha
 done,Done,Imekamilika
 update,Update,Sasisha
-usernameTitle,Enter the username you'd like to use.,Ingiza jina la mtumiaji ungependa kutumia.
+usernameTitle,Enter the username\nyou'd like to use.,Ingiza jina la mtumiaji\nungependa kutumia.
 changeUsername,Change username,Badilisha jina la mtumiaji
 usernameDescription,"Only letters, numbers, underscores(_) and periods (.) are allowed","Barua tu, nambari, underscores (_) na vipindi (.) Vinaruhusiwa"
 settings,Settings,Mipangilio
@@ -145,3 +159,30 @@ selectTags,Select tags for your post,Chagua vitambulisho kwa chapisho lako
 preview,Preview,Hakikisho
 yesterday,Yesterday,Jana
 now,now,Sasa
+selectUsername,Select Username,Loading...
+submitting,Submitting,Loading...
+processing,Processing,Loading...
+introTitle,Introduce\nYourself,Loading...
+solo,Solo,Loading...
+group,Group,Loading...
+selectFromGallery,Select from gallery,Loading...
+takeOnCamera,Take on camera,Loading...
+removePhoto,Remove photo,Loading...
+passwordMatchError,The passwords do not match!,Nenosiri hazilingani!
+warning,Warning!,Loading...
+passwordMatchDescription,The two passwords you've entered do not match.,Nenosiri mbili ambazo umeingiza hazilingani.
+ok,Ok,Loading...
+invalid,Invalid,Loading...
+codeMatchError,The code entered does not match the one sent. Please try again.,Loading...
+date,Date,Loading...
+age,Age,Loading...
+profilePhoto,Profile Photo,Loading...
+noComment,"No comments, be the first to comment below.",Loading...
+bioHint,Add a bio for your profile,Loading...
+noFollowers,@{user} has no followers.,@{user} hana wafuasi.
+noPins,{challenge} has no pins.,{challenge} haina pini.
+edit,Edit,Loading...
+delete,Delete,Loading...
+noComments,No Comments,Loading...
+commentFirst,Be the first to comment,Loading...
+noContentAvailable,No Content\nAvailable,Hakuna\nyaliyomo

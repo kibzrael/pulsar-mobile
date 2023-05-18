@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
@@ -59,7 +60,7 @@ class _SelectInterestsState extends State<SelectInterests>
                   margin:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                   child: Text(
-                    'Select the fields you\nare interested in',
+                    local(context).interestsTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme

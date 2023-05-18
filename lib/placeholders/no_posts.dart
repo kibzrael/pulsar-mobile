@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class NoPosts extends StatelessWidget {
   final AlignmentGeometry alignment;
@@ -28,7 +29,7 @@ class NoPosts extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'No Content',
+                    local(context).noContent,
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
@@ -37,7 +38,7 @@ class NoPosts extends StatelessWidget {
                 ),
               ),
               Text(
-                message ?? 'There are no videos here',
+                message ?? local(context).noVideos,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
@@ -79,7 +80,7 @@ class NoPostsModel extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        'No Content\nAvailable',
+                        local(context).noContentAvailable,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

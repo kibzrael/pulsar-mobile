@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/option.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 import 'package:pulsar/widgets/section.dart';
 import 'package:share_plus/share_plus.dart';
@@ -20,7 +21,7 @@ class Options extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Option message = Option(
-        name: 'Message',
+        name: local(context).message,
         icon: MyIcons.send,
         color: Theme.of(context).colorScheme.primary,
         onPressed: (context) {
@@ -30,7 +31,7 @@ class Options extends StatelessWidget {
         });
 
     Option link = Option(
-        name: 'Copy link',
+        name: local(context).copyLink,
         icon: MyIcons.link,
         color: Theme.of(context).colorScheme.primary,
         onPressed: (context) {
@@ -40,7 +41,7 @@ class Options extends StatelessWidget {
         });
 
     Option more = Option(
-        name: 'More',
+        name: local(context).more,
         icon: MyIcons.more,
         color: Theme.of(context).colorScheme.primary,
         onPressed: (context) {

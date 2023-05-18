@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/notifications/notifications_page.dart';
-import 'package:pulsar/pages/home_page.dart';
 import 'package:pulsar/pages/challenges.dart';
+import 'package:pulsar/pages/home_page.dart';
 import 'package:pulsar/pages/my_profile.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/activity_provider.dart';
 import 'package:pulsar/providers/background_operations.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/upload_progress.dart';
@@ -168,7 +169,7 @@ class _BasicRootState extends State<BasicRoot> {
                               children: [
                                 NavigationBarItem(
                                   0,
-                                  label: 'Home',
+                                  label: local(context).home,
                                   selected: currentIndex,
                                   icon: MyIcons.homeOutline,
                                   activeIcon: MyIcons.home,
@@ -177,7 +178,7 @@ class _BasicRootState extends State<BasicRoot> {
                                 ),
                                 NavigationBarItem(
                                   1,
-                                  label: 'Challenges',
+                                  label: local(context).challenges(0),
                                   selected: currentIndex,
                                   icon: MyIcons.exploreOutline,
                                   activeIcon: MyIcons.explore,
@@ -220,7 +221,7 @@ class _BasicRootState extends State<BasicRoot> {
                                   children: [
                                     NavigationBarItem(
                                       3,
-                                      label: 'Activity',
+                                      label: local(context).activity,
                                       selected: currentIndex,
                                       icon: MyIcons.notifications,
                                       onTap: navigationChange,
@@ -256,7 +257,7 @@ class _BasicRootState extends State<BasicRoot> {
                                 ),
                                 NavigationBarItem(
                                   4,
-                                  label: 'Account',
+                                  label: local(context).account,
                                   selected: currentIndex,
                                   icon: MyIcons.accountOutline,
                                   activeIcon: MyIcons.account,

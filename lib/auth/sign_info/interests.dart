@@ -4,6 +4,7 @@ import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_interests.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
 
@@ -48,8 +49,8 @@ class _InterestsPageState extends State<InterestsPage>
     interests = [...provider.interests];
 
     return Scaffold(
-        appBar: signInfoAppBar(
-            title: 'Interests',
+        appBar: signInfoAppBar(context,
+            title: local(context).interests,
             onBack: provider.previousPage,
             onForward: login),
         body: SelectInterests(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/search_field.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -32,7 +33,7 @@ class _SearchCategoryState extends State<SearchCategory> {
         title: SearchField(
           onChanged: (text) => setState(() => keyword = text),
           onSubmitted: (text) {},
-          hintText: 'Search Categories...',
+          hintText: '${local(context).searchCategories}...',
           autofocus: true,
         ),
         actions: [MyTextButton(text: 'Search', onPressed: () {})],

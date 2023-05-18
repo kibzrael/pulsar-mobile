@@ -1,8 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
@@ -11,6 +11,7 @@ import 'package:pulsar/functions/dynamic_count.dart';
 import 'package:pulsar/models/user_card.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenge.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -84,7 +85,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
       body: Padding(
         padding: const EdgeInsets.only(top: 4),
         child: Section(
-          title: isUser ? 'Followers' : 'Pins',
+          title: isUser ? local(context).followers(0) : local(context).pins(0),
           trailing: Text(
             widget.value == null ? '-' : roundCount(widget.value!),
             style: Theme.of(context).textTheme.titleSmall,
@@ -108,8 +109,9 @@ class _InteractionScreenState extends State<InteractionScreen> {
                               ? NoPosts(
                                   alignment: Alignment.center,
                                   message: isUser
-                                      ? '@${user!.username} has no followers'
-                                      : '${challenge!.name} has no pins')
+                                      ? local(context)
+                                          .noFollowers(user!.username)
+                                      : local(context).noPins(challenge!.name))
                               : NetworkError(onRetry: snapshot.refreshCallback)
                           : const Center(child: MyProgressIndicator())
                       : RefreshIndicator(

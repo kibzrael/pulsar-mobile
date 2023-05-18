@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/auth/sign_info/search_category.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/search_input.dart';
@@ -65,7 +66,7 @@ class _SelectCategoryState extends State<SelectCategory>
                 margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                 alignment: Alignment.center,
                 child: Text(
-                  'Who do you consider yoursel${isSolo ? 'f' : 'ves'} to be?',
+                  local(context).categoryTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -80,7 +81,7 @@ class _SelectCategoryState extends State<SelectCategory>
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: SearchInput(
                     onPressed: search,
-                    text: 'Search Categores',
+                    text: local(context).searchCategories,
                     height: 50,
                   )),
               const SizedBox(

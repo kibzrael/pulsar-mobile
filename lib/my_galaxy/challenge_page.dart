@@ -1,14 +1,13 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart' hide NestedScrollView;
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/list_tile_ad.dart';
-
+import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
@@ -18,16 +17,16 @@ import 'package:pulsar/my_galaxy/leaderboard.dart';
 import 'package:pulsar/options/challenge_options.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
-import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
+import 'package:pulsar/secondary_pages.dart/interaction_screen.dart';
 import 'package:pulsar/urls/challenge.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
-import 'package:pulsar/classes/challenge.dart';
 
 class ChallengePage extends StatefulWidget {
   final Challenge challenge;
@@ -266,9 +265,10 @@ class _ChallengePageState extends State<ChallengePage>
                       isPin: true,
                       middle: challenge.isJoined
                           ? null
-                          : const Text(
-                              'Join',
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                          : Text(
+                              local(context).join,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w600),
                             ),
                       onMiddlePressed: () {
                         Navigator.of(context, rootNavigator: true).push(
@@ -303,10 +303,10 @@ class _ChallengePageState extends State<ChallengePage>
                 indicator: const BoxDecoration(),
                 unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
                 labelPadding: EdgeInsets.zero,
-                tabs: const <Widget>[
-                  CustomTab('Recent'),
+                tabs: <Widget>[
+                  CustomTab(local(context).recent),
                   CustomTab(
-                    'Trending',
+                    local(context).trending,
                     divider: false,
                   )
                 ],

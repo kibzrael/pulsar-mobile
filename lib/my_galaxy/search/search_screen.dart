@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pulsar/my_galaxy/search/challenge_results.dart';
 import 'package:pulsar/my_galaxy/search/search_suggestions.dart';
+import 'package:pulsar/my_galaxy/search/user_results.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
@@ -13,8 +16,6 @@ import 'package:pulsar/urls/user.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
 import 'package:pulsar/widgets/search_field.dart';
 import 'package:pulsar/widgets/text_button.dart';
-import 'package:pulsar/my_galaxy/search/challenge_results.dart';
-import 'package:pulsar/my_galaxy/search/user_results.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -130,8 +131,9 @@ class _SearchScreenState extends State<SearchScreen>
                   pageController.jumpToPage(1);
                   setState(() {});
                 },
-                hintText:
-                    tabIndex == 0 ? 'Search Users...' : 'Search Challenges...',
+                hintText: tabIndex == 0
+                    ? '${local(context).searchUsers}...'
+                    : '${local(context).searchChallenges}...',
                 autofocus: isEditing,
                 focusNode: focusNode,
                 initial: keyword,
@@ -139,7 +141,7 @@ class _SearchScreenState extends State<SearchScreen>
             ),
             actions: [
               MyTextButton(
-                  text: 'Search',
+                  text: local(context).search,
                   onPressed: () {
                     focusNode.unfocus();
                     pageController.jumpToPage(1);
@@ -154,10 +156,10 @@ class _SearchScreenState extends State<SearchScreen>
                         Theme.of(context).unselectedWidgetColor,
                     labelPadding: EdgeInsets.zero,
                     controller: tabController,
-                    tabs: const [
-                        CustomTab('Users'),
+                    tabs: [
+                        CustomTab(local(context).users(0)),
                         CustomTab(
-                          'Challenges',
+                          local(context).challenges(0),
                           divider: false,
                         )
                       ]),

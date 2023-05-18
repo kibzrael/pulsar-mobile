@@ -3,31 +3,31 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/bottom_sheet.dart';
 
 class PickImageSheet extends StatelessWidget {
-  final List<Map> options = [
-    {
-      'label': 'Select from gallery',
-      'icon': MyIcons.gallery,
-      'option': PickImageOptions.gallery
-    },
-    {
-      'label': 'Take on camera',
-      'icon': MyIcons.camera,
-      'option': PickImageOptions.camera
-    },
-    {
-      'label': 'Remove photo',
-      'icon': MyIcons.delete,
-      'option': PickImageOptions.remove
-    }
-  ];
-
-  PickImageSheet({Key? key}) : super(key: key);
+  const PickImageSheet({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<Map> options = [
+      {
+        'label': local(context).selectFromGallery,
+        'icon': MyIcons.gallery,
+        'option': PickImageOptions.gallery
+      },
+      {
+        'label': local(context).takeOnCamera,
+        'icon': MyIcons.camera,
+        'option': PickImageOptions.camera
+      },
+      {
+        'label': local(context).removePhoto,
+        'icon': MyIcons.delete,
+        'option': PickImageOptions.remove
+      }
+    ];
     return MyBottomSheet(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

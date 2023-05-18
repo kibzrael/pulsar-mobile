@@ -7,6 +7,7 @@ import 'package:pulsar/auth/sign_info/introduce_yourself.dart';
 import 'package:pulsar/auth/sign_info/profile_photo.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
@@ -35,7 +36,8 @@ class SignInfo extends StatelessWidget {
 class SignInfoBackButton extends StatelessWidget {
   final void Function() onPressed;
 
-  const SignInfoBackButton({Key? key, required this.onPressed}) : super(key: key);
+  const SignInfoBackButton({Key? key, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,8 @@ class SignInfoBackButton extends StatelessWidget {
 class SignInfoForwardButton extends StatelessWidget {
   final void Function() onPressed;
 
-  const SignInfoForwardButton({Key? key, required this.onPressed}) : super(key: key);
+  const SignInfoForwardButton({Key? key, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +101,7 @@ class SignInfoForwardButton extends StatelessWidget {
   }
 }
 
-AppBar signInfoAppBar(
+AppBar signInfoAppBar(BuildContext context,
     {required String title,
     required Function() onBack,
     required Function() onForward}) {
@@ -108,7 +111,7 @@ AppBar signInfoAppBar(
     actions: [
       Padding(
         padding: const EdgeInsets.only(right: 12),
-        child: MyTextButton(text: 'Next', onPressed: onForward),
+        child: MyTextButton(text: local(context).next, onPressed: onForward),
       ),
     ],
   );

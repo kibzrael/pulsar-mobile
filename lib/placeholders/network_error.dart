@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class NetworkError extends StatelessWidget {
   final double? width;
@@ -30,14 +31,14 @@ class NetworkError extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        'No connection',
+                        local(context).noConnection,
                         style: Theme.of(context).textTheme.titleSmall!.copyWith(
                             fontSize: 32, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ),
                   Text(
-                    'Tap to retry',
+                    local(context).tapToRetry,
                     style: Theme.of(context)
                         .textTheme
                         .displayLarge!
@@ -81,7 +82,7 @@ class NetworkErrorModel extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          'No connection',
+                          local(context).noConnection,
                           style: Theme.of(context)
                               .textTheme
                               .titleSmall!
@@ -91,7 +92,7 @@ class NetworkErrorModel extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Tap to retry',
+                      local(context).tapToRetry,
                       style: Theme.of(context)
                           .textTheme
                           .displayLarge!

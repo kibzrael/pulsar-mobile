@@ -9,6 +9,7 @@ import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
 import 'package:pulsar/providers/activity_provider.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/progress_indicator.dart';
 import 'package:pulsar/widgets/recycler_view.dart';
 import 'package:pulsar/widgets/route.dart';
@@ -60,7 +61,7 @@ class _RootNotificationsPageState extends State<RootNotificationsPage> {
     provider = Provider.of<ActivityProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Activity'),
+        title: Text(local(context).activity),
         actions: [IconButton(icon: Icon(MyIcons.tune), onPressed: () {})],
       ),
       body: VisibilityDetector(
@@ -107,7 +108,7 @@ class _RootNotificationsPageState extends State<RootNotificationsPage> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 String name = index == 0
-                                    ? 'All'
+                                    ? local(context).all
                                     : interactionLabels[Interaction
                                             .values[index - 1].name] ??
                                         '';

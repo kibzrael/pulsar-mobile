@@ -11,6 +11,7 @@ import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/birthday.dart';
@@ -169,8 +170,10 @@ class _EditProfileState extends State<EditProfile> {
               icon: Icon(MyIcons.close),
               onPressed: exit,
             ),
-            title: const Text('Edit Profile'),
-            actions: [MyTextButton(text: 'Update', onPressed: submit)],
+            title: Text(local(context).editProfile),
+            actions: [
+              MyTextButton(text: local(context).update, onPressed: submit)
+            ],
           ),
           body: Container(
             color: Theme.of(context).colorScheme.surface,
@@ -196,8 +199,8 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  File? image = await openBottomSheet(
-                                      context, (context) => PickImageSheet());
+                                  File? image = await openBottomSheet(context,
+                                      (context) => const PickImageSheet());
                                   CroppedFile? croppedImage;
                                   if (image != null) {
                                     croppedImage =
@@ -242,7 +245,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           const SizedBox(height: 30),
                           MyListTile(
-                            title: 'Username',
+                            title: local(context).username,
                             onPressed: () {
                               Navigator.of(context).push(myPageRoute(
                                   builder: (context) =>
@@ -262,7 +265,7 @@ class _EditProfileState extends State<EditProfile> {
                             trailingArrow: true,
                           ),
                           MyListTile(
-                              title: 'Full name',
+                              title: local(context).fullName,
                               flexRatio: const [2, 3],
                               trailingArrow: false,
                               trailing: Expanded(
@@ -279,14 +282,14 @@ class _EditProfileState extends State<EditProfile> {
                                                 .bodyLarge!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
-                                      hintText: 'fullname',
+                                      hintText: local(context).fullName,
                                       hintStyle: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
                                     ),
                                   ))),
                           MyListTile(
-                              title: 'Bio',
+                              title: local(context).bio,
                               flexRatio: const [1, 4],
                               crossAxisAlignment: CrossAxisAlignment.start,
                               trailingArrow: false,
@@ -307,14 +310,14 @@ class _EditProfileState extends State<EditProfile> {
                                                 .bodyLarge!
                                                 .color),
                                     decoration: InputDecoration.collapsed(
-                                      hintText: 'Add a bio for your profile',
+                                      hintText: local(context).bioHint,
                                       hintStyle: Theme.of(context)
                                           .textTheme
                                           .titleSmall,
                                     ),
                                   ))),
                           MyListTile(
-                              title: 'Website',
+                              title: local(context).website,
                               flexRatio: const [2, 3],
                               trailingArrow: false,
                               trailing: Expanded(
@@ -339,9 +342,9 @@ class _EditProfileState extends State<EditProfile> {
                                   ))),
                         ],
                       )),
-                  const SectionTitle(title: 'Additional Information'),
+                  SectionTitle(title: local(context).additionalInfo),
                   MyListTile(
-                    title: 'Category',
+                    title: local(context).category,
                     onPressed: () => Navigator.of(context)
                         .push(myPageRoute(
                             builder: (context) => EditCategory(
@@ -357,7 +360,7 @@ class _EditProfileState extends State<EditProfile> {
                     subtitle: category?.user ?? user.category,
                   ),
                   MyListTile(
-                      title: 'Interests',
+                      title: local(context).interests,
                       onPressed: () => Navigator.of(context)
                               .push(myPageRoute(
                                   builder: (context) => EditInterests(

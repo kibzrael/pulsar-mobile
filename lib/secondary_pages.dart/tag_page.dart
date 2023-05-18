@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart' hide NestedScrollView;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -8,12 +9,12 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/options/tag_options.dart';
 import 'package:pulsar/post/post_screen.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/grid_posts.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/post.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:pulsar/widgets/refresh_indicator.dart';
 import 'package:pulsar/widgets/route.dart';
 
@@ -164,8 +165,8 @@ class _TagPageState extends State<TagPage>
                                       alignment: Alignment.center,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 5),
-                                      child: const Text(
-                                        'Post',
+                                      child: Text(
+                                        local(context).posts(1),
                                       ),
                                     ),
                                   ),
@@ -195,12 +196,12 @@ class _TagPageState extends State<TagPage>
                     labelPadding: EdgeInsets.zero,
                     unselectedLabelColor:
                         Theme.of(context).unselectedWidgetColor,
-                    tabs: const <Widget>[
+                    tabs: <Widget>[
                       CustomTab(
-                        'Recent',
+                        local(context).recent,
                       ),
                       CustomTab(
-                        'Trending',
+                        local(context).trending,
                         divider: false,
                       )
                     ],

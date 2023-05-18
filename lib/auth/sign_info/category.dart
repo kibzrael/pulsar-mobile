@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
 import 'package:pulsar/classes/interest.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_category.dart';
 
 class ChooseCategory extends StatefulWidget {
@@ -32,15 +33,14 @@ class _ChooseCategoryState extends State<ChooseCategory>
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-          appBar: signInfoAppBar(
-              title: 'Category',
-              onBack: provider.previousPage,
-              onForward: () {
-                if (selectedCategory != null) {
-                  provider.user.category = selectedCategory!;
-                }
-                provider.nextPage();
-              }),
+          appBar: signInfoAppBar(context,
+              title: local(context).category,
+              onBack: provider.previousPage, onForward: () {
+            if (selectedCategory != null) {
+              provider.user.category = selectedCategory!;
+            }
+            provider.nextPage();
+          }),
           body: SelectCategory(
               categories: provider.interests,
               selectedCategory: selectedCategory,

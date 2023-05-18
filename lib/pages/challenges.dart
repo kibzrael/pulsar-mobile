@@ -1,13 +1,10 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/my_galaxy_ad.dart';
-
 import 'package:pulsar/basic_root.dart';
 import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/models/discover_challenges.dart';
@@ -17,6 +14,7 @@ import 'package:pulsar/models/trending_challenges.dart';
 import 'package:pulsar/my_galaxy/search/search_screen.dart';
 import 'package:pulsar/pages/route_observer.dart';
 import 'package:pulsar/placeholders/network_error.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -153,9 +151,9 @@ class _RootGalaxyState extends State<RootGalaxy>
                     background: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Join Challenges\nAnd Earn Points',
-                        style: TextStyle(
+                      child: Text(
+                        local(context).challengesTitle,
+                        style: const TextStyle(
                             fontSize: 36, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -176,7 +174,7 @@ class _RootGalaxyState extends State<RootGalaxy>
                             return Hero(
                               tag: 'searchPulsar',
                               child: SearchInput(
-                                text: 'Search Pulsar',
+                                text: local(context).searchPulsar,
                                 onPressed: open,
                                 height: 40 + (barScale * 5),
                               ),

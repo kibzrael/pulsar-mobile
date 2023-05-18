@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class SelectUsername extends StatefulWidget {
@@ -37,10 +38,11 @@ class _SelectUsernameState extends State<SelectUsername> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Select username'),
+          title: Text(local(context).selectUsername),
           actions: [
             MyTextButton(
-                text: 'Done', onPressed: () => widget.onSubmit(context, text))
+                text: local(context).done,
+                onPressed: () => widget.onSubmit(context, text))
           ],
         ),
         body: SingleChildScrollView(
@@ -49,16 +51,15 @@ class _SelectUsernameState extends State<SelectUsername> {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Text('Enter the username\nyou\'d like to use.',
+              Text(local(context).usernameTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge),
               const SizedBox(height: 30),
               TextField(
                   autofocus: true,
-                  decoration: const InputDecoration(
-                      hintText: 'Username',
-                      helperText:
-                          'Only letters, numbers, underscores(_) and periods(.) are allowed',
+                  decoration: InputDecoration(
+                      hintText: local(context).username,
+                      helperText: local(context).usernameDescription,
                       helperMaxLines: 4),
                   onChanged: (value) => setState(() {
                         text = value;

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsar/functions/time.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 
 class SelectBirthday extends StatefulWidget {
@@ -19,14 +20,16 @@ class _SelectBirthdayState extends State<SelectBirthday>
   @override
   bool get wantKeepAlive => true;
 
-  String birthday = 'Date';
-  String age = 'Age';
+  late String birthday;
+  late String age;
 
   late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
+    birthday = local(context).date;
+    age = local(context).age;
     selectedDate = widget.initialDate ?? DateTime.utc(DateTime.now().year - 13);
     if (widget.initialDate != null) {
       birthday = timeBirthday(selectedDate)['birthday']!;
@@ -45,7 +48,7 @@ class _SelectBirthdayState extends State<SelectBirthday>
         child: Column(
           children: [
             Text(
-              'For personalized content. This info will be kept private',
+              local(context).birthdayTitle,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme

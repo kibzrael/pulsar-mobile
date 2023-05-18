@@ -3,6 +3,7 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/option.dart';
 import 'package:pulsar/options/options.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class ChallengeOptions extends StatelessWidget {
   final Challenge challenge;
@@ -12,11 +13,11 @@ class ChallengeOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Option notification = Option(
-        name: 'Post Notifications',
+        name: local(context).postNotifications,
         icon: MyIcons.notifications,
         onPressed: (context) {});
     Option report = Option(
-        name: 'Report',
+        name: local(context).report,
         icon: MyIcons.report,
         color: Theme.of(context).colorScheme.error,
         onPressed: (context) {});
