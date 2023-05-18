@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,32 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB4_GE-3BDHk962PhW7ObAeSnnaizg1_Bw',
-    appId: '1:62932810627:web:18ce81272b449878a8d4b6',
-    messagingSenderId: '62932810627',
-    projectId: 'pulsarinc-dev',
-    authDomain: 'pulsarinc-dev.firebaseapp.com',
-    storageBucket: 'pulsarinc-dev.appspot.com',
-    measurementId: 'G-4WBYB007WT',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB3Jld267wCVlVcyichL_4mb9DTda4CH30',
-    appId: '1:62932810627:android:a1ccda753f4932e0a8d4b6',
-    messagingSenderId: '62932810627',
-    projectId: 'pulsarinc-dev',
-    storageBucket: 'pulsarinc-dev.appspot.com',
+    apiKey: 'AIzaSyByUNl5LXPmXm7e8bXIlJofnf-Lt61iePw',
+    appId: '1:822281553923:android:52bcfa6af20412f94a6636',
+    messagingSenderId: '822281553923',
+    projectId: 'pulsarinc-alpha',
+    storageBucket: 'pulsarinc-alpha.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAjuhyLJ1-KqC_EskW24XQJS-LmpEvhzDs',
-    appId: '1:62932810627:ios:78f4183d24e0cc64a8d4b6',
-    messagingSenderId: '62932810627',
-    projectId: 'pulsarinc-dev',
-    storageBucket: 'pulsarinc-dev.appspot.com',
-    androidClientId: '62932810627-c53reqk25fjftajh1gcuqcmisshp352v.apps.googleusercontent.com',
-    iosClientId: '62932810627-rvkqim1kiq03lrlqtku7c8uca5r9r4et.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCsrrGCneUX_PCJbcOdsMSL1_o75ptp6jQ',
+    appId: '1:822281553923:ios:e979103254f494784a6636',
+    messagingSenderId: '822281553923',
+    projectId: 'pulsarinc-alpha',
+    storageBucket: 'pulsarinc-alpha.appspot.com',
+    iosClientId: '822281553923-on721fcb2g30aje0e9kikj7i84qcvtb6.apps.googleusercontent.com',
     iosBundleId: 'com.pulsar.pulsar',
   );
 }

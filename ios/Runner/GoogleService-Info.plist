@@ -17,9 +17,9 @@
 		<key>BUNDLE_ID</key>
 		<string>com.pulsar.pulsar</string>
 		<key>PROJECT_ID</key>
-		<string>pulsarinc-dev</string>
+		<string>pulsarinc-alpha</string>
 		<key>STORAGE_BUCKET</key>
-		<string>pulsarinc-dev.appspot.com</string>
+		<string>pulsarinc-alpha.appspot.com</string>
 		<key>IS_ADS_ENABLED</key>
 		<false></false>
 		<key>IS_ANALYTICS_ENABLED</key>
