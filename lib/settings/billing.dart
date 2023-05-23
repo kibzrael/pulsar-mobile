@@ -4,6 +4,7 @@ import 'package:pulsar/classes/info.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class Billing extends StatefulWidget {
   const Billing({Key? key}) : super(key: key);
@@ -17,15 +18,17 @@ class _BillingState extends State<Billing> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Billing'),
+          title: Text(local(context).billing),
           actions: [
             IconButton(
                 icon: Icon(MyIcons.info),
                 onPressed: () {
                   openBottomSheet(
                       context,
-                      (context) => InfoSheet(Info(
-                          [InfoSection(title: "Billing", description: "")])));
+                      (context) => InfoSheet(Info([
+                            InfoSection(
+                                title: local(context).billing, description: "")
+                          ])));
                 })
           ],
         ),

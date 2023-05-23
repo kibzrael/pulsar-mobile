@@ -36,7 +36,7 @@ class _SearchCategoryState extends State<SearchCategory> {
           hintText: '${local(context).searchCategories}...',
           autofocus: true,
         ),
-        actions: [MyTextButton(text: 'Search', onPressed: () {})],
+        actions: [MyTextButton(text: local(context).search, onPressed: () {})],
       ),
       body: ListView.builder(
           itemCount: results.length,

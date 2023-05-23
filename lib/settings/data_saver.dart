@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/settings.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/settings_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/navigation_rail.dart';
@@ -24,7 +25,7 @@ class _DataSaverState extends State<DataSaver> {
     settings = provider.settings;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Saver'),
+        title: Text(local(context).dataSaver),
       ),
       body: Column(
         children: [

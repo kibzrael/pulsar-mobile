@@ -30,7 +30,7 @@ recoverAccountTitle,Select the account to recover. Recover using either email or
 recoveryCode,Recovery Code,Nambari ya uokoaji
 recoveryCodeTitle,A code has been sent to {email}. Please enter the code below.,Nambari imetumwa kwa {email}. Tafadhali ingiza nambari hapa chini.
 resendCode,"{count, plural, =0{Resend code} other{Resend code in {count}}}","{count, plural, =0{Tuma tena msimbo} other{Tuma tena msimbo baada ya {count}}}"
-resetPassword,Reset Password,Rudisha nywila
+resetPassword,Reset Password,Rudisha Nenosiri
 resetPasswordTitle,Please enter your new password. Be sure to remember this one.,Tafadhali ingiza nenosiri yako mpya. Hakikisha kukumbuka hii.
 passwordDescription,Minimum of 6 characters.,Kiwango cha chini cha herufi 6.
 confirmPassword,Confirm Password,Thibitisha Nenosiri
@@ -72,7 +72,7 @@ shareChallenge,Share challenge with,Shiriki changamoto na
 message,Message,Ujumbe
 copyLink,Copy link,Nakili kiunga
 more,More,Zaidi
-postNotifications,Posts Notifications,Arifa za Machapisho
+postNotifications,Posts Notifications,Machapisho arifa
 report,Report,Ripoti
 originalAudio,Original Audio,Sauti ya asili
 makeAComment,Make a comment,Toa maoni
@@ -107,7 +107,7 @@ additionalInfo,Additional Information,Taarifa za ziada
 category,Category,Kategoria
 interests,Interests,Maslahi
 birthday,Birthday,Siku ya kuzaliwa
-interestsTitle,Select the fields you are interested in,Chagua shamba unazopendezwa
+interestsTitle,Select the fields you are interested in,Chagua mambo yanayokuvutia
 categoryTitle,Who do you consider yourself to be?,Je! Unajiona kuwa nani?
 birthdayTitle,For personalized content. This info will be kept private,Kwa yaliyomo kibinafsi. Maelezo haya yatahifadhiwa faragha
 done,Done,Imekamilika
@@ -124,7 +124,7 @@ drafts,Drafts,Rasimu
 support,Support,Msaada
 privacy,Privacy,Faragha
 policies,Policies,Sera
-clearCache,Clear Cache,Wazi kache
+clearCache,Clear Cache,Kashe wazi
 logOut,Log out,Ingia nje
 changePassword,Change Password,Badilisha neno la siri
 issue,Issue,Suala
@@ -159,30 +159,35 @@ selectTags,Select tags for your post,Chagua vitambulisho kwa chapisho lako
 preview,Preview,Hakikisho
 yesterday,Yesterday,Jana
 now,now,Sasa
-selectUsername,Select Username,Loading...
-submitting,Submitting,Loading...
-processing,Processing,Loading...
-introTitle,Introduce\nYourself,Loading...
-solo,Solo,Loading...
-group,Group,Loading...
-selectFromGallery,Select from gallery,Loading...
-takeOnCamera,Take on camera,Loading...
-removePhoto,Remove photo,Loading...
+selectUsername,Select Username,Chagua jina la mtumiaji
+submitting,Submitting,Kuwasilisha
+processing,Processing,Usindikaji
+introTitle,Introduce\nYourself,Jitambulishe
+solo,Solo,Solo
+group,Group,Kikundi
+selectFromGallery,Select from gallery,Chagua kutoka kwa Matunzio
+takeOnCamera,Take on camera,Chukua kamera
+removePhoto,Remove photo,Ondoa picha
 passwordMatchError,The passwords do not match!,Nenosiri hazilingani!
-warning,Warning!,Loading...
+warning,Warning!,Onyo!
 passwordMatchDescription,The two passwords you've entered do not match.,Nenosiri mbili ambazo umeingiza hazilingani.
-ok,Ok,Loading...
-invalid,Invalid,Loading...
-codeMatchError,The code entered does not match the one sent. Please try again.,Loading...
-date,Date,Loading...
-age,Age,Loading...
-profilePhoto,Profile Photo,Loading...
-noComment,"No comments, be the first to comment below.",Loading...
-bioHint,Add a bio for your profile,Loading...
+ok,Ok,Sawa
+invalid,Invalid,Batili
+codeMatchError,The code entered does not match the one sent. Please try again.,Nambari iliyoingizwa hailingani na ile iliyotumwa. Tafadhali jaribu tena.
+date,Date,Tarehe
+age,Age,Umri
+profilePhoto,Profile Photo,Picha ya wasifu
+noComment,"No comments, be the first to comment below.","Hakuna maoni, kuwa wa kwanza kutoa maoni hapa chini."
+bioHint,Add a bio for your profile,Ongeza bio kwa wasifu wako
 noFollowers,@{user} has no followers.,@{user} hana wafuasi.
 noPins,{challenge} has no pins.,{challenge} haina pini.
-edit,Edit,Loading...
-delete,Delete,Loading...
-noComments,No Comments,Loading...
-commentFirst,Be the first to comment,Loading...
+edit,Edit,Hariri
+delete,Delete,Futa
+noComments,No Comments,Hakuna maoni
+commentFirst,Be the first to comment,Kuwa wa kwanza kutoa maoni
 noContentAvailable,No Content\nAvailable,Hakuna\nyaliyomo
+caution,Caution!,Tahadhari!
+loseChangesWarning,The changes you've made would be lost if you quit.,Mabadiliko ambayo umefanya yangepotea ikiwa utaacha.
+none,None,Hakuna
+newPassword,New Password,Nenosiri mpya
+submit,Submit,Wasilisha

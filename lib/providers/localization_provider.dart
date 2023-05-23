@@ -9,6 +9,20 @@ List<String> languages =
 
 AppLocalizations local(BuildContext context) => AppLocalizations.of(context)!;
 
+Future<AppLocalizations> get l10n async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? localePref = prefs.getString('locale');
+  List<Locale>? saved;
+  if (localePref != null) {
+    saved = [Locale(localePref)];
+  }
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  List<Locale> preferred = widgetsBinding.platformDispatcher.locales;
+  List<Locale> supported = AppLocalizations.supportedLocales;
+  Locale locale = basicLocaleListResolution(saved ?? preferred, supported);
+  return await AppLocalizations.delegate.load(locale);
+}
+
 class LocalizationProvider extends ChangeNotifier {
   String get defaultLanguage => Platform.localeName.split('_').first;
 

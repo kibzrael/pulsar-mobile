@@ -5,6 +5,7 @@ import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/bottom_sheet.dart';
 import 'package:pulsar/info/info.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/settings/report/inappropriate.dart';
 import 'package:pulsar/settings/report/issue.dart';
 import 'package:pulsar/widgets/custom_tab.dart';
@@ -28,14 +29,16 @@ class _ReportScreenState extends State<ReportScreen> {
       initialIndex: widget.initialIndex,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Report'),
+          title: Text(local(context).report),
           actions: [
             IconButton(
                 onPressed: () {
                   openBottomSheet(
                       context,
-                      (context) => InfoSheet(Info(
-                          [InfoSection(title: "Report", description: "")])));
+                      (context) => InfoSheet(Info([
+                            InfoSection(
+                                title: local(context).report, description: "")
+                          ])));
                 },
                 icon: Icon(MyIcons.info))
           ],
@@ -43,10 +46,10 @@ class _ReportScreenState extends State<ReportScreen> {
             indicator: const BoxDecoration(),
             labelPadding: EdgeInsets.zero,
             unselectedLabelColor: Theme.of(context).unselectedWidgetColor,
-            tabs: const [
-              CustomTab('Issue'),
+            tabs: [
+              CustomTab(local(context).issue),
               CustomTab(
-                'Inappropriate',
+                local(context).inappropriate,
                 divider: false,
               )
             ],

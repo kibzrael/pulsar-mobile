@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/data/categories.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 
@@ -42,9 +43,9 @@ class _DiscoverTagsState extends State<DiscoverTags> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             String name = index == 0
-                ? 'For you'
+                ? local(context).forYou
                 : index == 1
-                    ? 'Trending'
+                    ? local(context).trending
                     : tags[index - 2].name;
             return TagWidget(
                 text: name,

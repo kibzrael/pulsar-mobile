@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class ReportIssue extends StatefulWidget {
@@ -25,14 +26,14 @@ class _ReportIssueState extends State<ReportIssue> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               child: Text(
-                'Report an error in the app, or a crash.',
+                local(context).issueTitle,
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 15),
             MyListTile(
-              title: 'Issue',
+              title: local(context).issue,
               trailingText: issue,
               flexRatio: const [0, 1],
             ),
@@ -45,7 +46,7 @@ class _ReportIssueState extends State<ReportIssue> {
                 maxLines: 4,
                 onChanged: (text) => setState(() => description = text),
                 decoration: InputDecoration(
-                    hintText: 'Description',
+                    hintText: local(context).description,
                     counter: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
@@ -55,12 +56,13 @@ class _ReportIssueState extends State<ReportIssue> {
                       ),
                     ),
                     helperMaxLines: 3,
-                    helperText:
-                        'Briefly explain the situation you are facing. If any, suggest a way to fix it to meet your needs.'),
+                    helperText: local(context).issueDescription),
               ),
             ),
             const SizedBox(height: 15),
-            MyListTile(leading: Icon(MyIcons.attatchment), title: 'Attachment')
+            MyListTile(
+                leading: Icon(MyIcons.attatchment),
+                title: local(context).attachment)
           ],
         ),
       ));

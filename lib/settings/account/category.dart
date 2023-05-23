@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_category.dart';
 import 'package:pulsar/widgets/dialog.dart';
@@ -60,16 +61,18 @@ class _EditCategoryState extends State<EditCategory> {
               if (isEdited) {
                 openDialog(
                         context,
-                        (context) => const MyDialog(
-                              title: 'Caution!',
-                              body:
-                                  'The changes you\'ve made would be lost if you quit.',
-                              actions: ['Cancel', 'Ok'],
-                              destructive: 'Ok',
+                        (context) => MyDialog(
+                              title: local(context).caution,
+                              body: local(context).loseChangesWarning,
+                              actions: [
+                                local(context).cancel,
+                                local(context).ok
+                              ],
+                              destructive: local(context).ok,
                             ),
                         dismissible: true)
                     .then((value) {
-                  if (value == 'Ok') {
+                  if (value == local(context).ok) {
                     Navigator.pop(context);
                   }
                 });
@@ -78,10 +81,10 @@ class _EditCategoryState extends State<EditCategory> {
               }
             },
           ),
-          title: const Text('Category'),
+          title: Text(local(context).category),
           actions: [
             MyTextButton(
-                text: 'Done',
+                text: local(context).done,
                 onPressed: () {
                   Navigator.pop(context, selectedCategory);
                 })

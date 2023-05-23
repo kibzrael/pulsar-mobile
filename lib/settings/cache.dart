@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/files.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class Cache extends StatefulWidget {
@@ -55,7 +56,7 @@ class _CacheState extends State<Cache> {
   @override
   Widget build(BuildContext context) {
     return MyListTile(
-      title: 'Clear Cache',
+      title: local(context).clearCache,
       leading: Icon(
         MyIcons.cache,
         color: Theme.of(context).textTheme.titleSmall!.color,

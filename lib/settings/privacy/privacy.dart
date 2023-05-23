@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 import 'package:pulsar/widgets/section.dart';
 
@@ -17,7 +18,7 @@ class _PrivacyState extends State<Privacy> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Privacy')),
+      appBar: AppBar(title: Text(local(context).privacy)),
       body: SingleChildScrollView(
         child: Column(children: [
           const MyListTile(title: 'Blocked Accounts'),

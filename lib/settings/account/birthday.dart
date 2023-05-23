@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/secondary_pages.dart/select_birthday.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_button.dart';
@@ -30,16 +31,18 @@ class _EditBirthdayState extends State<EditBirthday> {
               if (isEdited) {
                 openDialog(
                         context,
-                        (context) => const MyDialog(
-                              title: 'Caution!',
-                              body:
-                                  'The changes you\'ve made would be lost if you quit.',
-                              actions: ['Cancel', 'Ok'],
-                              destructive: 'Ok',
+                        (context) => MyDialog(
+                              title: local(context).caution,
+                              body: local(context).loseChangesWarning,
+                              actions: [
+                                local(context).cancel,
+                                local(context).ok
+                              ],
+                              destructive: local(context).ok,
                             ),
                         dismissible: true)
                     .then((value) {
-                  if (value == 'Ok') {
+                  if (value == local(context).ok) {
                     Navigator.pop(context);
                   }
                 });
@@ -48,10 +51,10 @@ class _EditBirthdayState extends State<EditBirthday> {
               }
             },
           ),
-          title: const Text('Birthday'),
+          title: Text(local(context).birthday),
           actions: [
             MyTextButton(
-                text: 'Done',
+                text: local(context).done,
                 onPressed: () {
                   DateTime date = selectedDate;
                   Navigator.pop(

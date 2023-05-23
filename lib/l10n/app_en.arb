@@ -371,5 +371,15 @@
   "commentFirst": "Be the first to comment",
   "@commentFirst": {},
   "noContentAvailable": "No Content\nAvailable",
-  "@noContentAvailable": {}
+  "@noContentAvailable": {},
+  "caution": "Caution!",
+  "@caution": {},
+  "loseChangesWarning": "The changes you've made would be lost if you quit.",
+  "@loseChangesWarning": {},
+  "none": "None",
+  "@none": {},
+  "newPassword": "New Password",
+  "@newPassword": {},
+  "submit": "Submit",
+  "@submit": {}
 }

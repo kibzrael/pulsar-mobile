@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/functions/dynamic_count.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 
 class ProfileStats extends StatelessWidget {
   final int? posts;
@@ -44,7 +45,7 @@ class ProfileStats extends StatelessWidget {
                             .textTheme
                             .titleLarge!
                             .copyWith(fontSize: 21)),
-                    Text('Post${posts == 1 ? '' : 's'}',
+                    Text(local(context).posts(posts ?? 0),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
@@ -70,7 +71,10 @@ class ProfileStats extends StatelessWidget {
                             .textTheme
                             .titleLarge!
                             .copyWith(fontSize: 21)),
-                    Text((isPin ? 'Pin' : 'Follower') + (pins == 1 ? '' : 's'),
+                    Text(
+                        (isPin
+                            ? local(context).pins(pins ?? 0)
+                            : local(context).followers(pins ?? 0)),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme

@@ -1,15 +1,15 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-
-import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/challenge.dart';
+import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
 import 'package:pulsar/urls/get_url.dart';
@@ -54,7 +54,7 @@ class _PinnedChallengesState extends State<PinnedChallenges> {
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
     return Section(
-      title: "Challenges",
+      title: local(context).challenges(0),
       child: Container(
         height: 125,
         margin: const EdgeInsets.only(top: 5),

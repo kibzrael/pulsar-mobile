@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/list_tile.dart';
@@ -21,21 +22,21 @@ class _LogOutState extends State<LogOut> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15),
       child: MyListTile(
-        title: 'Log out',
+        title: local(context).logOut,
         trailingArrow: false,
         trailing: Icon(MyIcons.logOut),
         onPressed: () async {
           await openDialog(
             context,
-            (context) => const MyDialog(
-              title: 'Log out?',
-              body: "Confirm that you want to log out",
-              actions: ['Cancel', 'Log out'],
-              destructive: 'Log out',
+            (context) => MyDialog(
+              title: '${local(context).logOut}?',
+              body: local(context).logoutDescription,
+              actions: [local(context).cancel, local(context).logOut],
+              destructive: local(context).logOut,
             ),
             dismissible: true,
           ).then((response) {
-            if (response == 'Log out') {
+            if (response == local(context).logOut) {
               loginProvider!.logout(context);
               // Navigator.pop(context);
             }

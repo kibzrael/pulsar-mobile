@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/post.dart';
 import 'package:pulsar/classes/user.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/list_tile.dart';
 
 class ReportInappropriate extends StatefulWidget {
@@ -14,7 +15,7 @@ class ReportInappropriate extends StatefulWidget {
 }
 
 class _ReportInappropriateState extends State<ReportInappropriate> {
-  String issue = 'None';
+  late String issue;
   late User? user;
   late Post? post;
 
@@ -23,6 +24,7 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
   @override
   void initState() {
     super.initState();
+    issue = local(context).none;
     user = widget.user;
     post = widget.post;
   }
@@ -39,25 +41,25 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               child: Text(
-                'Report a user or post that violated the rules of the app.',
+                local(context).inappropriateTitle,
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 15),
             MyListTile(
-              title: 'Issue',
+              title: local(context).issue,
               trailingText: issue,
               flexRatio: const [0, 1],
             ),
             MyListTile(
-              title: 'User',
-              trailingText: user?.username ?? 'None',
+              title: local(context).users(1),
+              trailingText: user?.username ?? local(context).none,
               flexRatio: const [0, 1],
             ),
             MyListTile(
-              title: 'Post',
-              trailingText: post?.caption ?? 'None',
+              title: local(context).posts(1),
+              trailingText: post?.caption ?? local(context).none,
               flexRatio: const [0, 1],
             ),
             const SizedBox(height: 15),
@@ -69,7 +71,7 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
                 maxLines: 4,
                 onChanged: (text) => setState(() => description = text),
                 decoration: InputDecoration(
-                    hintText: 'Description',
+                    hintText: local(context).description,
                     counter: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
@@ -79,12 +81,13 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
                       ),
                     ),
                     helperMaxLines: 3,
-                    helperText:
-                        'Briefly explain the issue you are facing. Expound on how it affects you and measures to be taken to resolve it.'),
+                    helperText: local(context).inappropriateDescription),
               ),
             ),
             const SizedBox(height: 15),
-            MyListTile(leading: Icon(MyIcons.attatchment), title: 'Attachment')
+            MyListTile(
+                leading: Icon(MyIcons.attatchment),
+                title: local(context).attachment)
           ],
         ),
       ));

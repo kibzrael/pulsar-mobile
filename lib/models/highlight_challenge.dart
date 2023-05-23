@@ -8,6 +8,7 @@ import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/my_galaxy/leaderboard.dart';
 import 'package:pulsar/post/post_screen.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -30,7 +31,7 @@ class _HighlightChallegeState extends State<HighlightChallege> {
   Widget build(BuildContext context) {
     interactionsSync = Provider.of<InteractionsSync>(context);
     return Section(
-      title: 'New Highlight',
+      title: local(context).newHighlight,
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(
@@ -88,7 +89,10 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                     height: 32,
                                     width: width * 0.6,
                                     isFollowing: isPinned,
-                                    text: const {true: "Pinned", false: "Pin"},
+                                    text: {
+                                      true: local(context).pinned,
+                                      false: local(context).pins(1)
+                                    },
                                     onPressed: () => setState(() {
                                       challenge.pin(context,
                                           mode: isPinned
@@ -129,8 +133,8 @@ class _HighlightChallegeState extends State<HighlightChallege> {
                                                       .textTheme
                                                       .bodyLarge!
                                                       .color)
-                                              : const Text('Join',
-                                                  style: TextStyle(
+                                              : Text(local(context).join,
+                                                  style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600))),
                                     ),

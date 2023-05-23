@@ -5,6 +5,7 @@ import 'package:pulsar/classes/challenge.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/providers/interactions_sync.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/follow_button.dart';
 import 'package:pulsar/widgets/route.dart';
 import 'package:pulsar/widgets/section.dart';
@@ -24,7 +25,7 @@ class _TrendingChallengesState extends State<TrendingChallenges> {
       ...widget.challenges.map((e) => Challenge.fromJson(e))
     ];
     return Section(
-      title: 'Top 3 Chart',
+      title: local(context).top3Chart,
       child: ListView.builder(
         itemCount: challenges.length,
         shrinkWrap: true,
@@ -100,7 +101,10 @@ class _TrendingChallengeWidgetState extends State<TrendingChallengeWidget> {
             child: FollowButton(
               height: 32,
               width: 72,
-              text: const {true: 'Pinned', false: 'Pin'},
+              text: {
+                true: local(context).pinned,
+                false: local(context).pins(1)
+              },
               isFollowing: isPinned,
               onPressed: () => setState(() {
                 challenge.pin(context,

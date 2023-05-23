@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pulsar/auth/widgets.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -30,20 +31,19 @@ class _ChangePasswordState extends State<ChangePassword> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Change Password')),
+        appBar: AppBar(title: Text(local(context).changePassword)),
         body: SingleChildScrollView(
             child: Container(
           height: size,
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Text(
-                  'Please confirm your old password, and enter your new password.',
+              Text(local(context).resetPasswordTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge),
               const Spacer(flex: 1),
               MyTextInput(
-                  hintText: 'Password',
+                  hintText: local(context).password,
                   obscureText: obscureText,
                   onChanged: (text) => setState(() => password = text),
                   onSubmitted: (text) {}),
@@ -51,7 +51,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: 15,
               ),
               MyTextInput(
-                  hintText: 'New Password',
+                  hintText: local(context).newPassword,
                   obscureText: obscureText,
                   onChanged: (text) {
                     setState(() {
@@ -67,7 +67,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      'Minimum of 6 characters.',
+                      local(context).passwordDescription,
                       style: Theme.of(context)
                           .textTheme
                           .titleSmall!
@@ -89,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Show Password:',
+                        Text('${local(context).showPassword}:',
                             style: Theme.of(context).textTheme.titleLarge),
                         Checkbox(
                             value: !obscureText,
@@ -106,7 +106,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 flex: 1,
               ),
               AuthButton(
-                title: 'Submit',
+                title: local(context).submit,
                 isSubmitting: isSubmitting,
                 onPressed: onSubmit,
                 inputs: [password, newPassword],

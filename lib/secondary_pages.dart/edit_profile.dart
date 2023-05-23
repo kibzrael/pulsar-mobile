@@ -251,7 +251,7 @@ class _EditProfileState extends State<EditProfile> {
                                   builder: (context) =>
                                       const ChangeUsername()));
                             },
-                            flexRatio: const [2, 3],
+                            flexRatio: const [3, 2],
                             trailingText: '@${user.username}',
                             // trailing: Padding(
                             //   padding: const EdgeInsets.only(left: 8),
@@ -373,10 +373,10 @@ class _EditProfileState extends State<EditProfile> {
                             }
                           }),
                       subtitle: interests.isEmpty
-                          ? 'None'
+                          ? local(context).none
                           : "${interests[0].name}${interests.length > 1 ? ', ${interests[1].name}' : ''}${interests.length > 2 ? ', +${interests.length - 2}' : ''}"),
                   MyListTile(
-                      title: 'Birthday',
+                      title: local(context).birthday,
                       onPressed: () => Navigator.of(context)
                               .push(myPageRoute(
                                   builder: (context) => EditBirthday(

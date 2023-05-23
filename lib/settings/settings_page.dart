@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/icons.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/manage_account.dart';
 import 'package:pulsar/settings/admin/root.dart';
@@ -28,42 +29,73 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Map<String, Map<String, Map<String, dynamic>>> settings = {
-    'Account': {
-      'Manage Account': {
-        'icon': MyIcons.account,
-        'page': const ManageAccount()
+  late Map<String, Map<String, Map<String, dynamic>>> settings;
+
+  @override
+  void didChangeDependencies() {
+    settings = {
+      local(context).account: {
+        local(context).manageAccount: {
+          'icon': MyIcons.account,
+          'page': const ManageAccount()
+        },
+        local(context).billing: {
+          'icon': MyIcons.billing,
+          'page': const Billing()
+        },
       },
-      'Billing': {'icon': MyIcons.billing, 'page': const Billing()},
-    },
 
-    // 'Ads': {
-    //   'Ad activity': {'icon': MyIcons.activity, 'page': null},
-    //   'About Ads': {'icon': MyIcons.ad, 'page': null},
-    // },
+      // 'Ads': {
+      //   'Ad activity': {'icon': MyIcons.activity, 'page': null},
+      //   'About Ads': {'icon': MyIcons.ad, 'page': null},
+      // },
 
-    'Display & Media': {
-      'Data Saver': {'icon': MyIcons.dataSaver, 'page': const DataSaver()},
-      'Drafts': {'icon': MyIcons.drafts, 'page': const Drafts()},
-      'Theme': {'icon': MyIcons.theme, 'page': const SelectTheme()},
-      'Language': {'icon': MyIcons.language, 'page': const Language()},
-    },
-    'Support': {
-      'Privacy': {'icon': MyIcons.privacy, 'page': const Privacy()},
-      'Report': {'icon': MyIcons.report, 'page': const ReportScreen()},
-      'Admin Panel': {'icon': MyIcons.tune, 'page': const PulsarAdmin()},
-    },
-    'About': {
-      'Terms of use': {'icon': MyIcons.terms, 'page': const TermsOfUse()},
-      'Policies': {'icon': MyIcons.policies, 'page': const PrivacyPolicy()},
-    }
-  };
+      local(context).displayAndMedia: {
+        local(context).dataSaver: {
+          'icon': MyIcons.dataSaver,
+          'page': const DataSaver()
+        },
+        local(context).drafts: {'icon': MyIcons.drafts, 'page': const Drafts()},
+        local(context).theme: {
+          'icon': MyIcons.theme,
+          'page': const SelectTheme()
+        },
+        local(context).language: {
+          'icon': MyIcons.language,
+          'page': const Language()
+        },
+      },
+      local(context).support: {
+        local(context).privacy: {
+          'icon': MyIcons.privacy,
+          'page': const Privacy()
+        },
+        local(context).report: {
+          'icon': MyIcons.report,
+          'page': const ReportScreen()
+        },
+        'Admin Panel': {'icon': MyIcons.tune, 'page': const PulsarAdmin()},
+      },
+      'About': {
+        local(context).termsOfUse: {
+          'icon': MyIcons.terms,
+          'page': const TermsOfUse()
+        },
+        local(context).policies: {
+          'icon': MyIcons.policies,
+          'page': const PrivacyPolicy()
+        },
+      }
+    };
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Settings'),
+          title: Text(local(context).settings),
         ),
         body: ListView(children: <Widget>[
           for (String key in settings.keys.toList())

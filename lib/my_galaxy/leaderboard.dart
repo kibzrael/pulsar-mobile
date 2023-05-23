@@ -196,7 +196,7 @@ class _LeaderboardState extends State<Leaderboard> {
                                   title: local(context).you,
                                   subtitle: you['rank'] == 0
                                       ? 'N/A'
-                                      : '${roundCount(you['points'])} points',
+                                      : '${roundCount(you['points'])} ${local(context).points}',
                                   leading: ProfilePic(
                                     userProvider.user.profilePic?.thumbnail,
                                     radius: 21,
@@ -357,7 +357,7 @@ class _LeaderboardState extends State<Leaderboard> {
           if (post != null) const SizedBox(height: 3),
           if (post != null)
             Text(
-              '${roundCount(post.points)} points',
+              '${roundCount(post.points)} ${local(context).points}',
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!

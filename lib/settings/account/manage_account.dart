@@ -4,6 +4,7 @@ import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/classes/user.dart';
 import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/placeholders/not_implemented.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/settings/account/change_password.dart';
 import 'package:pulsar/settings/account/email.dart';
@@ -28,7 +29,7 @@ class _ManageAccountState extends State<ManageAccount> {
     user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Account'),
+        title: Text(local(context).manageAccount),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -67,8 +68,8 @@ class _ManageAccountState extends State<ManageAccount> {
                 height: 30,
               ),
               MyListTile(
-                title: 'Email',
-                trailingText: user.email ?? 'None',
+                title: local(context).email,
+                trailingText: user.email ?? local(context).none,
                 flexRatio: const [0, 1],
                 onPressed: () => Navigator.of(context).push(
                     myPageRoute(builder: (context) => const ChangeEmail())),
@@ -82,7 +83,7 @@ class _ManageAccountState extends State<ManageAccount> {
               // ),
               MyListTile(
                 leading: Icon(MyIcons.password),
-                title: 'Change Password',
+                title: local(context).changePassword,
                 onPressed: () => Navigator.of(context).push(
                     myPageRoute(builder: (context) => const ChangePassword())),
               ),

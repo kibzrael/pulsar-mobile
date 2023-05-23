@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/classes/status_codes.dart';
 import 'package:pulsar/functions/dialog.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/loading_dialog.dart';
@@ -41,14 +42,14 @@ class _ChangeUsernameState extends State<ChangeUsername> {
         context,
         (context) => LoadingDialog(
               (_) async => await provider.changeUsername(context, text),
-              text: 'Submitting',
+              text: local(context).submitting,
             )).then((response) {
       openDialog(
         context,
         (context) => MyDialog(
           title: statusCodes[response.statusCode]!,
           body: response.body!['message'],
-          actions: const ['Ok'],
+          actions: [local(context).ok],
         ),
         dismissible: true,
       ).then((_) {
@@ -71,8 +72,10 @@ class _ChangeUsernameState extends State<ChangeUsername> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Change username'),
-          actions: [MyTextButton(text: 'Done', onPressed: onSubmit)],
+          title: Text(local(context).changeUsername),
+          actions: [
+            MyTextButton(text: local(context).done, onPressed: onSubmit)
+          ],
         ),
         body: SingleChildScrollView(
             child: Container(
@@ -80,23 +83,22 @@ class _ChangeUsernameState extends State<ChangeUsername> {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Text('Enter the username\nyou\'d like to use.',
+              Text(local(context).usernameTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge),
               const SizedBox(height: 30),
               TextField(
                   autofocus: true,
                   controller: controller,
-                  decoration: const InputDecoration(
-                      hintText: 'Username',
+                  decoration: InputDecoration(
+                      hintText: local(context).username,
                       // suffixIcon: isLoading
                       //     ? const MyProgressIndicator(
                       //         size: 20,
                       //         margin: EdgeInsets.zero,
                       //       )
                       //     : Icon(MyIcons.close),
-                      helperText:
-                          'Only letters, numbers, underscores(_) and periods(.) are allowed',
+                      helperText: local(context).usernameDescription,
                       helperMaxLines: 4),
                   onChanged: (value) => setState(() {
                         text = value;

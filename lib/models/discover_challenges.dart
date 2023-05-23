@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:pulsar/ads/discover_challenges_ad.dart';
 import 'package:pulsar/classes/challenge.dart';
@@ -11,6 +11,7 @@ import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/my_galaxy/challenge_page.dart';
 import 'package:pulsar/placeholders/network_error.dart';
 import 'package:pulsar/placeholders/no_posts.dart';
+import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/providers/user_provider.dart';
 import 'package:pulsar/urls/challenges.dart';
@@ -34,24 +35,8 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
   @override
   bool get wantKeepAlive => true;
 
-  List<CategoryTag> tags = [
-    CategoryTag(
-        'For you',
-        Photo(
-          thumbnail: 'assets/categories/for you-48.png',
-          medium: 'assets/categories/for you-96.png',
-          high: 'assets/categories/for you-256.png',
-        )),
-    CategoryTag(
-        'Trending',
-        Photo(
-          thumbnail: 'assets/categories/trending-48.png',
-          medium: 'assets/categories/trending-96.png',
-          high: 'assets/categories/trending-256.png',
-        )),
-  ];
-
-  String tag = 'For you';
+  late List<CategoryTag> tags;
+  late String tag;
 
   String dataTag = '';
 
@@ -60,6 +45,29 @@ class _DiscoverChallengesState extends State<DiscoverChallenges>
     super.initState();
     userProvider = Provider.of<UserProvider>(context, listen: false);
     setTags();
+  }
+
+  @override
+  void didChangeDependencies() {
+    tags = [
+      CategoryTag(
+          local(context).forYou,
+          Photo(
+            thumbnail: 'assets/categories/for you-48.png',
+            medium: 'assets/categories/for you-96.png',
+            high: 'assets/categories/for you-256.png',
+          )),
+      CategoryTag(
+          local(context).trending,
+          Photo(
+            thumbnail: 'assets/categories/trending-48.png',
+            medium: 'assets/categories/trending-96.png',
+            high: 'assets/categories/trending-256.png',
+          )),
+    ];
+
+    tag = local(context).forYou;
+    super.didChangeDependencies();
   }
 
   setTags() async {
