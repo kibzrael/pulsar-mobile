@@ -48,8 +48,8 @@ class _LoginPageState extends State<LoginPage>
 
   void login() async {
     FocusScope.of(context).unfocus();
-    String info = userController.text;
-    String password = passwordController.text;
+    String info = userController.text.trim();
+    String password = passwordController.text.trim();
     setState(() {
       isSubmitting = true;
     });

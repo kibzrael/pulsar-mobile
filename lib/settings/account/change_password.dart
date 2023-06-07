@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pulsar/auth/widgets.dart';
+import 'package:pulsar/classes/status_codes.dart';
+import 'package:pulsar/functions/dialog.dart';
 import 'package:pulsar/providers/localization_provider.dart';
+import 'package:pulsar/providers/user_provider.dart';
+import 'package:pulsar/widgets/dialog.dart';
 import 'package:pulsar/widgets/text_input.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -11,14 +16,42 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  late UserProvider provider;
+
+  String old = '';
   String password = '';
-  String newPassword = '';
 
   bool obscureText = true;
 
   bool isSubmitting = false;
 
-  onSubmit() {}
+  @override
+  void initState() {
+    super.initState();
+    provider = Provider.of<UserProvider>(context, listen: false);
+  }
+
+  onSubmit() async {
+    setState(() => isSubmitting = true);
+    await provider.changePassword(context, old, password).then((response) {
+      openDialog(
+        context,
+        (context) => MyDialog(
+          title: statusCodes[response.statusCode] ?? "Server Error",
+          body: response.body != null
+              ? response.body!['message']
+              : "Something went wrong, Try again later",
+          actions: [local(context).ok],
+        ),
+        dismissible: true,
+      ).then((_) {
+        if (response.statusCode == 200) {
+          Navigator.pop(context);
+        }
+      });
+    });
+    setState(() => isSubmitting = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +71,14 @@ class _ChangePasswordState extends State<ChangePassword> {
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
-              Text(local(context).resetPasswordTitle,
+              Text(local(context).changePasswordTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displayLarge),
               const Spacer(flex: 1),
               MyTextInput(
                   hintText: local(context).password,
                   obscureText: obscureText,
-                  onChanged: (text) => setState(() => password = text),
+                  onChanged: (text) => setState(() => old = text),
                   onSubmitted: (text) {}),
               const SizedBox(
                 height: 15,
@@ -55,7 +88,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   obscureText: obscureText,
                   onChanged: (text) {
                     setState(() {
-                      newPassword = text;
+                      password = text;
                     });
                   },
                   onSubmitted: (text) {}),
@@ -109,7 +142,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 title: local(context).submit,
                 isSubmitting: isSubmitting,
                 onPressed: onSubmit,
-                inputs: [password, newPassword],
+                inputs: [old, password],
               ),
               const Spacer(
                 flex: 2,

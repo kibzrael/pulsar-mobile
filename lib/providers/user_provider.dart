@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
-import 'package:dio/dio.dart';
+import 'package:image/image.dart' as img;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/media.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/user.dart';
-import 'package:image/image.dart' as img;
 import 'package:pulsar/providers/login_provider.dart';
 import 'package:pulsar/urls/get_url.dart';
 import 'package:pulsar/urls/user.dart';
@@ -208,6 +208,53 @@ class UserProvider extends ChangeNotifier {
             .then((_) {
           notifyListeners();
         });
+      }
+    });
+    return response;
+  }
+
+  Future<MyResponse> changeEmail(BuildContext context, String email) async {
+    String url = getUrl(UserUrls.changeEmail);
+    MyResponse response = MyResponse();
+    await http.post(Uri.parse(url), headers: {
+      'Authorization': token ?? '',
+    }, body: {
+      'email': email
+    }).then((requestResponse) {
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
+      }
+
+      if (response.statusCode == 200) {
+        user.email = email;
+        Provider.of<LoginProvider>(context, listen: false)
+            .saveLogin(context, token: token!, user: user.toJson())
+            .then((_) {
+          notifyListeners();
+        });
+      }
+    });
+    return response;
+  }
+
+  Future<MyResponse> changePassword(
+      BuildContext context, String old, String password) async {
+    String url = getUrl(UserUrls.changePassword);
+    MyResponse response = MyResponse();
+    await http.post(Uri.parse(url), headers: {
+      'Authorization': token ?? '',
+    }, body: {
+      'oldPassword': old,
+      'password': password,
+    }).then((requestResponse) {
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
       }
     });
     return response;

@@ -95,7 +95,13 @@ class _ResetPasswordState extends State<ResetPassword> {
               MyTextInput(
                   hintText: local(context).password,
                   obscureText: obscureText,
-                  onChanged: (text) => setState(() => password = text),
+                  onChanged: (text) => setState(() {
+                        if (confirmPassword.isNotEmpty) {
+                          match = text.startsWith(confirmPassword);
+                        }
+
+                        password = text;
+                      }),
                   onSubmitted: (text) {}),
               Align(
                 alignment: Alignment.centerLeft,

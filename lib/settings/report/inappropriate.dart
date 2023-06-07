@@ -24,7 +24,9 @@ class _ReportInappropriateState extends State<ReportInappropriate> {
   @override
   void initState() {
     super.initState();
-    issue = local(context).none;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      issue = local(context).none;
+    });
     user = widget.user;
     post = widget.post;
   }

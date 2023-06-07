@@ -65,7 +65,8 @@ class _PostsViewState extends State<PostsView> {
                     )
                   : snapshot.errorLoading
                       ? snapshot.noData
-                          ? widget.noData ?? const Center(child: NoPosts())
+                          ? widget.noData ??
+                              const NoPosts(alignment: Alignment.center)
                           : Center(
                               child: NetworkError(
                                   onRetry: snapshot.refreshCallback))

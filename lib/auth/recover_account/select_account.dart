@@ -24,7 +24,7 @@ class _SelectAccountState extends State<SelectAccount> {
 
   recover() async {
     setState(() => isSubmitting = true);
-    await recoverAccountProvider.recoverAccount(info).then((response) {
+    await recoverAccountProvider.recoverAccount(info.trim()).then((response) {
       setState(() => isSubmitting = false);
       if (response.statusCode == 200) {
         recoverAccountProvider.nextPage();
@@ -77,7 +77,7 @@ class _SelectAccountState extends State<SelectAccount> {
                   const Spacer(flex: 2),
                   MyTextInput(
                     hintText:
-                        '${local(context).phone} / ${local(context).email}',
+                        '${local(context).username} / ${local(context).email}',
                     onChanged: (text) => info = text,
                     onSubmitted: (text) {
                       info = text;

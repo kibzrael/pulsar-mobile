@@ -6,13 +6,16 @@ import 'package:pulsar/auth/sign_info/interests.dart';
 import 'package:pulsar/auth/sign_info/introduce_yourself.dart';
 import 'package:pulsar/auth/sign_info/profile_photo.dart';
 import 'package:pulsar/auth/sign_info/sign_info_provider.dart';
+import 'package:pulsar/auth/verify_code.dart';
 import 'package:pulsar/classes/icons.dart';
 import 'package:pulsar/providers/localization_provider.dart';
 import 'package:pulsar/providers/theme_provider.dart';
 import 'package:pulsar/widgets/text_button.dart';
 
 class SignInfo extends StatelessWidget {
-  const SignInfo({Key? key}) : super(key: key);
+  final String? verify;
+
+  const SignInfo({Key? key, this.verify}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +24,26 @@ class SignInfo extends StatelessWidget {
         body: PageView(
             controller: provider.pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              IntroduceYourself(),
-              ChooseCategory(),
-              BirthdayPage(),
-              ProfilePhoto(),
-              InterestsPage(),
+            children: [
+              if (verify != null)
+                Scaffold(
+                  appBar: AppBar(
+                      centerTitle: true, title: const Text("Verify Email")),
+                  body: VerifyCode(
+                      account: verify!,
+                      verify: provider.veriyCode,
+                      onDone: () {
+                        provider.nextPage();
+                      },
+                      resend: () {
+                        provider.sendVerificationCode(verify!);
+                      }),
+                ),
+              const IntroduceYourself(),
+              const ChooseCategory(),
+              const BirthdayPage(),
+              const ProfilePhoto(),
+              const InterestsPage(),
             ]),
       );
     });

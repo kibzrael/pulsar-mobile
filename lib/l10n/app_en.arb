@@ -94,7 +94,7 @@
   "@following": {},
   "discover": "Discover",
   "@discover": {},
-  "forYou": "For You",
+  "forYou": "For you",
   "@forYou": {},
   "trending": "Trending",
   "@trending": {},
@@ -254,6 +254,8 @@
   "@logOut": {},
   "changePassword": "Change Password",
   "@changePassword": {},
+  "changePasswordTitle": "Please enter your current password, and create a new one.",
+  "@changePasswordTitle": {},
   "issue": "Issue",
   "@issue": {},
   "inappropriate": "Inappropriate",
@@ -381,5 +383,11 @@
   "newPassword": "New Password",
   "@newPassword": {},
   "submit": "Submit",
-  "@submit": {}
+  "@submit": {},
+  "verifyEmail": "Verify Email",
+  "@verifyEmail": {},
+  "emailTitle": "Enter the email\nyou'd like to use.",
+  "@emailTitle": {},
+  "changeEmail": "Change Email",
+  "@changeEmail": {}
 }

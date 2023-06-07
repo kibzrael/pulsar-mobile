@@ -59,9 +59,9 @@ class _SignupPageState extends State<SignupPage>
 
   void signup() async {
     FocusScope.of(context).unfocus();
-    String email = emailController.text;
-    String username = usernameController.text;
-    String password = passwordController.text;
+    String email = emailController.text.trim();
+    String username = usernameController.text.trim();
+    String password = passwordController.text.trim();
     setState(() {
       isSubmitting = true;
     });
@@ -84,8 +84,9 @@ class _SignupPageState extends State<SignupPage>
                   token: response.body!['user']['jwtToken'],
                   user: response.body!['user'])
               .then((_) {
+            provider.sendVerificationCode(email);
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                myPageRoute(builder: (context) => const SignInfo()),
+                myPageRoute(builder: (context) => SignInfo(verify: email)),
                 (route) => false);
           });
         });

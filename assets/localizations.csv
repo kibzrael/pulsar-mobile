@@ -46,7 +46,7 @@ activity,Activity,Shughuli
 account,Account,Akaunti
 following,Following,Kufuatia
 discover,Discover,Gundua
-forYou,For You,Kwa ajili yako
+forYou,For you,Kwa ajili yako
 trending,Trending,Mwelekeo
 recent,Recent,Hivi karibuni
 challengesTitle,Join Challenges\nAnd Earn Points,Jiunge na changamoto\nna upate alama
@@ -110,7 +110,7 @@ birthday,Birthday,Siku ya kuzaliwa
 interestsTitle,Select the fields you are interested in,Chagua mambo yanayokuvutia
 categoryTitle,Who do you consider yourself to be?,Je! Unajiona kuwa nani?
 birthdayTitle,For personalized content. This info will be kept private,Kwa yaliyomo kibinafsi. Maelezo haya yatahifadhiwa faragha
-done,Done,Imekamilika
+done,Done,Kamilisha
 update,Update,Sasisha
 usernameTitle,Enter the username\nyou'd like to use.,Ingiza jina la mtumiaji\nungependa kutumia.
 changeUsername,Change username,Badilisha jina la mtumiaji
@@ -127,6 +127,7 @@ policies,Policies,Sera
 clearCache,Clear Cache,Kashe wazi
 logOut,Log out,Ingia nje
 changePassword,Change Password,Badilisha neno la siri
+changePasswordTitle,"Please enter your current password, and create a new one.","Tafadhali ingiza nenosiri yako ya sasa, na uunda mpya."
 issue,Issue,Suala
 inappropriate,Inappropriate,Haifai
 issueTitle,"Report an error in the app, or a crash.","Ripoti kosa katika programu, au ajali."
@@ -191,3 +192,6 @@ loseChangesWarning,The changes you've made would be lost if you quit.,Mabadiliko
 none,None,Hakuna
 newPassword,New Password,Nenosiri mpya
 submit,Submit,Wasilisha
+verifyEmail,Verify Email,Thibitisha barua pepe
+emailTitle,Enter the email\nyou'd like to use.,Ingiza barua pepe\nungependa kutumia.
+changeEmail,Change Email,Badilisha barua pepe

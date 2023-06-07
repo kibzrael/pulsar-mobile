@@ -42,7 +42,7 @@ class _SelectUsernameState extends State<SelectUsername> {
           actions: [
             MyTextButton(
                 text: local(context).done,
-                onPressed: () => widget.onSubmit(context, text))
+                onPressed: () => widget.onSubmit(context, text.trim()))
           ],
         ),
         body: SingleChildScrollView(

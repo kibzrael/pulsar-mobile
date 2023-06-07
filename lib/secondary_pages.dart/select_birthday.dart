@@ -20,20 +20,23 @@ class _SelectBirthdayState extends State<SelectBirthday>
   @override
   bool get wantKeepAlive => true;
 
-  late String birthday;
-  late String age;
+  String birthday = 'Date';
+  String age = 'Age';
 
   late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
-    birthday = local(context).date;
-    age = local(context).age;
     selectedDate = widget.initialDate ?? DateTime.utc(DateTime.now().year - 13);
     if (widget.initialDate != null) {
       birthday = timeBirthday(selectedDate)['birthday']!;
       age = timeBirthday(selectedDate)['age']!;
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        birthday = local(context).date;
+        age = local(context).age;
+      });
     }
   }
 

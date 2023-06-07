@@ -19,5 +19,7 @@ class AuthUrls {
 
   static String recoverAccount = 'auth/recover_account';
 
+  static String verifyEmail = 'auth/verify_email';
+
   static String resetPassword = 'auth/reset_password';
 }

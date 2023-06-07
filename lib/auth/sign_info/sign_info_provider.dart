@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as parser;
 import 'package:image/image.dart' as img;
@@ -13,7 +12,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pulsar/auth/sign_info/sign_info.dart';
 import 'package:pulsar/auth/sign_info/username.dart';
-
 import 'package:pulsar/classes/interest.dart';
 import 'package:pulsar/classes/response.dart';
 import 'package:pulsar/classes/status_codes.dart';
@@ -45,10 +43,49 @@ class SignInfoProvider extends ChangeNotifier {
 
   String? deviceToken;
 
+  int? verificationCode;
+
   SignInfoProvider(this.deviceToken) {
     _pageController = PageController();
     _signupUrl = getUrl(AuthUrls.signupUrl);
     user = SignUserInfo();
+  }
+
+  sendVerificationCode(String account) async {
+    String verifyEmailUrl = getUrl(AuthUrls.verifyEmail);
+
+    MyResponse response = MyResponse();
+
+    try {
+      http.Response requestResponse =
+          await http.post(Uri.parse(verifyEmailUrl), body: {'email': account});
+
+      response.statusCode = requestResponse.statusCode;
+      //
+      var body = jsonDecode(requestResponse.body);
+      if (body is Map) {
+        response.body = body;
+        verificationCode = body['code'];
+        token = body['user']['jwtToken'];
+      } else {
+        throw Exception();
+      }
+    } catch (e) {
+      response.statusCode = 503;
+      response.body = {
+        'message':
+            'There has been a problem processing your request. Please try again later.'
+      };
+    }
+    return response;
+  }
+
+  veriyCode(String code) {
+    if (verificationCode.toString() == code) {
+      return 0;
+    } else {
+      return 1;
+    }
   }
 
   fetchInterests(BuildContext context) async {
@@ -195,6 +232,7 @@ class SignInfoProvider extends ChangeNotifier {
       'category': user.category.name,
       'fullname': user.username,
       'DOB': birthday,
+      'email_verified': true,
       'type': '',
       'interests': user.interests?.map((e) => e.name).join(',') ?? '',
       'profilePic': profilePic == null
@@ -204,6 +242,7 @@ class SignInfoProvider extends ChangeNotifier {
               contentType: parser.MediaType('image', 'jpeg'))
     });
 
+    debugPrint(birthday);
     try {
       await dio.post(
         profileUrl,
@@ -216,6 +255,7 @@ class SignInfoProvider extends ChangeNotifier {
           debugPrint("sent${sent.toString()} total${total.toString()}");
         },
       ).then((response) {
+        debugPrint(response.data.toString());
         if (response.statusCode == 200 && response.data is Map) {
           Map<String, dynamic> userJson = {};
           response.data['user'].forEach((key, value) {
@@ -233,7 +273,7 @@ class SignInfoProvider extends ChangeNotifier {
       debugPrint("Sign info provider$e");
       Fluttertoast.showToast(msg: "Sign info provider$e");
     }
-
+    user = SignUserInfo();
     return;
   }
 }

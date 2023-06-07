@@ -23,6 +23,8 @@ class UserUrls {
 
   static String changeUsername = 'auth/change_username';
 
+  static String changeEmail = 'auth/change_email';
+
   static String changePassword = 'auth/change_password';
 
   static String categories = 'users/categories';

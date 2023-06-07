@@ -14,11 +14,6 @@ class RecoverAccountScreen extends StatefulWidget {
 
 class _RecoverAccountScreenState extends State<RecoverAccountScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => RecoverAccountProvider(),

@@ -86,17 +86,17 @@ class _VerifyCodeState extends State<VerifyCode> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(MyIcons.back),
-            onPressed: () {
-              if (widget.onBack != null) {
-                widget.onBack!();
-              }
-            },
-          ),
-          title: Text(local(context).recoveryCode),
-        ),
+        appBar: widget.onBack != null
+            ? AppBar(
+                leading: IconButton(
+                  icon: Icon(MyIcons.back),
+                  onPressed: () {
+                    widget.onBack!();
+                  },
+                ),
+                title: Text(local(context).recoveryCode),
+              )
+            : null,
         body: SingleChildScrollView(
           child: Container(
             height: size,
@@ -106,7 +106,9 @@ class _VerifyCodeState extends State<VerifyCode> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   child: widget.leading!,
-                ),
+                )
+              else
+                const Spacer(),
               Text(
                 local(context).recoveryCodeTitle(widget.account),
                 textAlign: TextAlign.center,

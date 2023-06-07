@@ -220,7 +220,7 @@
   "@categoryTitle": {},
   "birthdayTitle": "Kwa yaliyomo kibinafsi. Maelezo haya yatahifadhiwa faragha",
   "@birthdayTitle": {},
-  "done": "Imekamilika",
+  "done": "Kamilisha",
   "@done": {},
   "update": "Sasisha",
   "@update": {},
@@ -254,6 +254,8 @@
   "@logOut": {},
   "changePassword": "Badilisha neno la siri",
   "@changePassword": {},
+  "changePasswordTitle": "Tafadhali ingiza nenosiri yako ya sasa, na uunda mpya.",
+  "@changePasswordTitle": {},
   "issue": "Suala",
   "@issue": {},
   "inappropriate": "Haifai",
@@ -381,5 +383,11 @@
   "newPassword": "Nenosiri mpya",
   "@newPassword": {},
   "submit": "Wasilisha",
-  "@submit": {}
+  "@submit": {},
+  "verifyEmail": "Thibitisha barua pepe",
+  "@verifyEmail": {},
+  "emailTitle": "Ingiza barua pepe\nungependa kutumia.",
+  "@emailTitle": {},
+  "changeEmail": "Badilisha barua pepe",
+  "@changeEmail": {}
 }
